@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--    계좌 item-->
+    <LinearLayout
+
+        android:layout_marginBottom="22dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nh_light_bg"
+        android:paddingTop="14dp"
+        android:paddingLeft="14dp"
+        android:paddingBottom="18dp"
+        android:orientation="vertical"
+        >
+        <!--    계좌 정보-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/nh_logo"
+                />
+
+            <!--            통장 정보-->
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="입출금"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:textSize="16sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/bank_account_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NH 튼튼 농약 통장"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:textSize="14sp"
+
+                        android:layout_marginLeft="10dp"
+                        />
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/account_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="농협 110-220-785902"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:textSize="14sp"
+                    />
+            </LinearLayout>
+            <!--            통장 정보 finish-->
+
+
+        </LinearLayout>
+
+        <!--        통장 잔액-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp"
+            android:paddingRight="22dp"
+            >
+
+            <TextView
+                android:id="@+id/balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="525 975"
+                android:fontFamily="@font/pretendard_bold"
+                android:textSize="40sp"
+                android:textColor="@color/black"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="원"
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                />
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                />
+
+
+            <ImageView
+                android:id="@+id/btn_retry"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/icon_retry"
+                android:scaleType="centerInside"
+                android:layout_gravity="center"
+
+                />
+
+        </LinearLayout>
+        <!--        통장 잔액 Finish-->
+
+        <!-- 이체, 계좌내역 보기 버튼-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="14dp"
+            >
+            <Button
+                android:id="@+id/btn_send_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이체"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:background="@drawable/nh_light_bg"
+
+                android:layout_weight="1"
+                />
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                />
+
+            <Button
+                android:id="@+id/btn_see_logs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="거래내역 보기"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:background="@drawable/nh_light_bg"
+
+                android:layout_weight="1"
+                />
+
+
+        </LinearLayout>
+        <!-- 이체, 계좌내역 보기 버튼 Finish-->
+        <!--    계좌 정보 Finish-->
+    </LinearLayout>
+
+
+
+</LinearLayout>
