@@ -1,4 +1,4 @@
-FROM gradle:8.3-jdk11 as build
+FROM gradle:8.3.0-jdk11 as build
 WORKDIR /app
 
 COPY ./backend/api_gateway/settings.gradle ./
