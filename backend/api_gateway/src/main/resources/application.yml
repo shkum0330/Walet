@@ -1,13 +1,13 @@
 spring:
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: account
-#          uri: lb://ACCOUNT/
-#          predicates:
-#            - Path=/account/**
-#          filters:
-#            - RewritePath=/account/(?<path>.*),/$\{path}
+  cloud:
+    gateway:
+      routes:
+        - id: notification
+          uri: lb://NOTIFICATION/
+          predicates:
+            - Path=/notification/**
+          filters:
+            - RewritePath=/notification/(?<path>.*),/$\{path}
   application:
     name: API-GATEWAY
 eureka:
