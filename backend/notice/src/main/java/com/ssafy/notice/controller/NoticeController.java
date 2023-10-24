@@ -63,16 +63,20 @@ public class NoticeController {
     }
 
 
-
     @PutMapping("/{id}")
     public NoticeEntity updateNotice(@PathVariable Long id, @RequestBody noticeDTO.request request){
         return noticeService.updateNotice(id, request);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteNotice(@PathVariable Long id) {
+        noticeService.deleteNotice(id);
+    }
+
+
     @PutMapping("/{id}/pop")
     public NoticeEntity setActiveToTrue(@PathVariable Long id) {
         noticeService.setAllActiveToFalse();
-
         return noticeService.setIsActiveToTrue(id);
     }
 

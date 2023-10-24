@@ -52,7 +52,6 @@ public class NoticeService {
     public List<NoticeEntity> getAllNotices() {
         return noticeRepository.findAll();
     }
-
     public void setAllActiveToFalse() {
         List<NoticeEntity> activeNotices = noticeRepository.findByIsActiveTrue();
         for (NoticeEntity notice : activeNotices) {
