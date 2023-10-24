@@ -43,7 +43,7 @@ public class NoticeController {
         return noticeService.createNotice(request);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/detail/{id}")
     public noticeDTO.noticeResponse getNoticeByID(@PathVariable Long id){
         try {
             NoticeEntity notice = noticeService.getNoticeByID(id);
@@ -63,18 +63,18 @@ public class NoticeController {
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public NoticeEntity updateNotice(@PathVariable Long id, @RequestBody noticeDTO.request request){
         return noticeService.updateNotice(id, request);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteNotice(@PathVariable Long id) {
         noticeService.deleteNotice(id);
     }
 
 
-    @PutMapping("/{id}/pop")
+    @PutMapping("/pop/{id}")
     public NoticeEntity setActiveToTrue(@PathVariable Long id) {
         noticeService.setAllActiveToFalse();
         return noticeService.setIsActiveToTrue(id);
