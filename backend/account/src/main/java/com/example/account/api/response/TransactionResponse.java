@@ -26,6 +26,6 @@ public class TransactionResponse {
         this.transactionType = transaction.getTransactionType();
         this.pay = transaction.getPay();
         this.balance = transaction.getBalance();
-        this.transactionDate = transaction.getTransactionDate();
+        this.transactionDate = transaction.getCreatedAt();
     }
 }

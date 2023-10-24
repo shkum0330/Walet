@@ -1,12 +1,14 @@
 package com.example.account.api.response;
 
 import com.example.account.db.entity.Account;
+import com.example.account.db.entity.AccountState;
 import com.example.account.db.entity.Transaction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +18,10 @@ public class AnimalAccountDetailResponse {
     private Long id;
     private String accountNumber; // 계좌번호
     private Long balance; // 잔액
-    private String state; // 상태
-    private LocalDate createdAt; // 등록일
+    private AccountState state; // 상태
+    private LocalDateTime createdAt; // 등록일
     private Long accountLimit; // 인출한도
-    private int type; // 타입
+    private String type; // 타입
 
     private Long linkedAccountId; // 연결된 모계좌 id
 
@@ -44,7 +46,7 @@ public class AnimalAccountDetailResponse {
         this.createdAt = account.getCreatedAt();
         this.accountLimit = account.getAccountLimit();
         this.type = account.getType();
-        this.linkedAccountId = account.getLinkedAccount().getId();
+        this.linkedAccountId = account.getLinkedAccountId();
         this.petName = account.getPetName();
         this.petGender = account.getPetGender();
         this.petBirth = account.getPetBirth();
