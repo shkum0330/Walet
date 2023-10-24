@@ -1,0 +1,18 @@
+spring :
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/notice
+    username: root
+    password: 1234
+  #  config:
+  #    import: env.yml
+  #  application:
+  #    name: ${DOMAIN_NAME}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: ${EUREKA_URL}
