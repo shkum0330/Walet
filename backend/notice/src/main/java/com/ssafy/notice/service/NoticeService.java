@@ -2,11 +2,12 @@ package com.ssafy.notice.service;
 
 
 import com.ssafy.notice.db.NoticeEntity;
-import com.ssafy.notice.api.Request;
+import com.ssafy.notice.api.noticeDTO;
 import com.ssafy.notice.db.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -19,7 +20,7 @@ public class NoticeService {
         this.noticeRepository = noticeRepository;
     }
 
-    public NoticeEntity createNotice (Request.request request){
+    public NoticeEntity createNotice (noticeDTO.request request){
         NoticeEntity notice = new NoticeEntity();
         notice.setTitle(request.getTitle());
         notice.setContent(request.getContent());
@@ -32,7 +33,7 @@ public class NoticeService {
                 .orElseThrow(() -> new NoSuchElementException("No Notice found with id: " + id));
     }
 
-    public NoticeEntity updateNotice(Long id, Request.request request) {
+    public NoticeEntity updateNotice(Long id, noticeDTO.request request) {
         NoticeEntity modifiedNotice = noticeRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("No Notice found with id: " + id));
 
@@ -44,8 +45,26 @@ public class NoticeService {
     }
 
 
-
     public void deleteNotice(Long id){
         noticeRepository.deleteById(id);
     }
+
+    public List<NoticeEntity> getAllNotices() {
+        return noticeRepository.findAll();
+    }
+
+    public void setAllActiveToFalse() {
+        List<NoticeEntity> activeNotices = noticeRepository.findByIsActiveTrue();
+        for (NoticeEntity notice : activeNotices) {
+            notice.setIsActive(false);
+        }
+        noticeRepository.saveAll(activeNotices);
+    }
+
+    public NoticeEntity setIsActiveToTrue(Long id) {
+        NoticeEntity notice = getNoticeByID(id);
+        notice.setIsActive(true);
+        return noticeRepository.save(notice);
+    }
+
 }

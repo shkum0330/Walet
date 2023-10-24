@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Request {
+public class noticeDTO {
 
     @NoArgsConstructor
     @Getter @Setter
@@ -37,5 +37,11 @@ public class Request {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
             return modifyTime != null ? modifyTime.format(formatter) : null;
         }
+    }
+
+    @Getter @Setter
+    public static class noticeResponse{
+        private String message;
+        private Object data;
     }
 }

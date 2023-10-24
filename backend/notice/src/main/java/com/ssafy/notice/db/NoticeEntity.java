@@ -3,20 +3,25 @@ package com.ssafy.notice.db;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @Entity(name = "notice")
 @Getter
 public class NoticeEntity extends BaseTimeEntity {
 
+
+    @Column(name = "notice_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "title")
     private String title;
+
+    @Column(name= "content")
     private String content;
+
+    @Column(name = "is_active")
     private Boolean isActive;
 
     public void setTitle(String title) {

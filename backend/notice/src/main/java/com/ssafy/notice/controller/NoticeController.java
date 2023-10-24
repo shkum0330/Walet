@@ -1,7 +1,6 @@
 package com.ssafy.notice.controller;
 
-import com.ssafy.notice.api.Request;
-import com.ssafy.notice.api.Response;
+import com.ssafy.notice.api.noticeDTO;
 import com.ssafy.notice.db.NoticeEntity;
 import com.ssafy.notice.service.NoticeService;
 import org.springframework.beans.BeanUtils;
@@ -10,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -23,20 +24,34 @@ public class NoticeController {
         this.noticeService = noticeService;
     }
 
-    @PostMapping("/")
-    public NoticeEntity createNotice(@RequestBody Request.request request) {
+    @GetMapping("/list")
+    public List<noticeDTO.request> getAllNotices() {
+        List<NoticeEntity> notices = noticeService.getAllNotices();
+        List<noticeDTO.request> noticeList = new ArrayList<>();
+
+        for (NoticeEntity notice : notices) {
+            noticeDTO.request data = new noticeDTO.request();
+            BeanUtils.copyProperties(notice, data);
+            noticeList.add(data);
+        }
+
+        return noticeList;
+    }
+
+    @PostMapping("/create")
+    public NoticeEntity createNotice(@RequestBody noticeDTO.request request) {
         return noticeService.createNotice(request);
     }
 
     @GetMapping("/{id}")
-    public Response.noticeResponse getNoticeByID(@PathVariable Long id){
+    public noticeDTO.noticeResponse getNoticeByID(@PathVariable Long id){
         try {
             NoticeEntity notice = noticeService.getNoticeByID(id);
 
-            Request.request data = new Request.request();
+            noticeDTO.request data = new noticeDTO.request();
             BeanUtils.copyProperties(notice, data);
 
-            Response.noticeResponse response = new Response.noticeResponse();
+            noticeDTO.noticeResponse response = new noticeDTO.noticeResponse();
             response.setMessage("OK");
             response.setData(data);
 
@@ -50,13 +65,15 @@ public class NoticeController {
 
 
     @PutMapping("/{id}")
-    public NoticeEntity updateNotice(@PathVariable Long id, @RequestBody Request.request request){
+    public NoticeEntity updateNotice(@PathVariable Long id, @RequestBody noticeDTO.request request){
         return noticeService.updateNotice(id, request);
     }
 
+    @PutMapping("/{id}/pop")
+    public NoticeEntity setActiveToTrue(@PathVariable Long id) {
+        noticeService.setAllActiveToFalse();
 
-    @DeleteMapping("/{id}")
-    public void deleteNotice(@PathVariable Long id){
-        noticeService.deleteNotice(id);
+        return noticeService.setIsActiveToTrue(id);
     }
+
 }
