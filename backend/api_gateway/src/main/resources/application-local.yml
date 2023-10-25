@@ -2,6 +2,7 @@ spring:
   config:
     activate:
       on-profile: local
+
 eureka:
   client:
     service-url:

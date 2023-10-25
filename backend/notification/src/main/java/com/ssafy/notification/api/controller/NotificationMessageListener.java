@@ -17,7 +17,7 @@ public class NotificationMessageListener {
     private final ObjectMapper objectMapper;
     private final NotificationService fcmTokenService;
 
-    @RabbitListener(queues = "chat-queue")
+    @RabbitListener(queues = "payment-queue")
     public void notice(Message message) {
         PaymentNotificationRequest paymentNotificationRequest = null;
         try{

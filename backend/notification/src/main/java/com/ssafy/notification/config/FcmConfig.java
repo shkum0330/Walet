@@ -15,7 +15,7 @@ import java.io.InputStream;
 public class FcmConfig {
     @Bean
     FirebaseMessaging firebaseMessaging() throws IOException {
-        ClassPathResource resource = new ClassPathResource("google-services.json");
+        ClassPathResource resource = new ClassPathResource("firebase/allforyou-c535c-firebase-adminsdk-74px8-8d6f821128.json");
         InputStream serviceAccount = resource.getInputStream();
 
         FirebaseOptions options = FirebaseOptions.builder()
