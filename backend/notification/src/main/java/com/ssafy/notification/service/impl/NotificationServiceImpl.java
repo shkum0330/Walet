@@ -29,7 +29,7 @@ public class NotificationServiceImpl implements NotificationService {
                     Notification notification= Notification
                             .builder()
                             .setTitle(paymentNotificationRequest.getSender())
-                            .setBody(paymentNotificationRequest.getContent())
+                            .setBody(String.valueOf(paymentNotificationRequest.getPrice())+"원이 결제되었습니다")
                             .setImage(null)
                             .build();
 

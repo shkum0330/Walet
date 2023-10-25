@@ -1,20 +1,22 @@
 package com.ssafy.notification.api.request;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
 
 @Data
 @ToString
+@NoArgsConstructor
 public class PaymentNotificationRequest implements Serializable {
     Long receiveMemberId;
-    String content;
+    int price;
     String sender; // 결제처
 
-    public PaymentNotificationRequest(Long receiveMemberId, String content, String sender) {
+    public PaymentNotificationRequest(Long receiveMemberId, int price, String sender) {
         this.receiveMemberId = receiveMemberId;
-        this.content = content;
+        this.price = price;
         this.sender = sender;
     }
 }
