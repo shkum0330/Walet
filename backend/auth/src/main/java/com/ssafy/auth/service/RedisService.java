@@ -1,17 +1,19 @@
 package com.ssafy.auth.service;
 
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class TokenRedisService {
-
+public class RedisService {
     private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisBlackListTemplate;
 
-    public TokenRedisService(RedisTemplate<String, Object> redisTemplate) {
+    public RedisService(RedisTemplate<String, Object> redisTemplate, RedisTemplate<String, Object> redisBlackListTemplate) {
         this.redisTemplate = redisTemplate;
+        this.redisBlackListTemplate = redisBlackListTemplate;
     }
 
     public void saveToken(String tokenKey, String tokenValue) {
@@ -28,5 +30,14 @@ public class TokenRedisService {
 
     public void deleteToken(String tokenKey) {
         redisTemplate.delete(tokenKey);
+    }
+
+    public void setBlackList(String key, Object o, Long expiration) {
+        redisBlackListTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(o.getClass()));
+        redisBlackListTemplate.opsForValue().set(key, o, expiration, TimeUnit.MILLISECONDS);
+    }
+
+    public boolean isBlackListed(String tokenKey) {
+        return redisBlackListTemplate.hasKey(tokenKey);
     }
 }

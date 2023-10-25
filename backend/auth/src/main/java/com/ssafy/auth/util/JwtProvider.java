@@ -16,7 +16,6 @@ import java.util.Date;
 @Data
 public class JwtProvider {
 
-    @Autowired
     private MemberRepository memberRepository;
 
     @Value("all4u")
@@ -63,4 +62,9 @@ public class JwtProvider {
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
+    public Long getExpiration(String accessToken){
+        Date expiration = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(accessToken).getExpiresAt();
+        long now = new Date().getTime();
+        return expiration.getTime() - now;
+    }
 }
