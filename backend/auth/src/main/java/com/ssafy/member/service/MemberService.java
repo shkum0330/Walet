@@ -4,7 +4,7 @@ import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.db.MemberRepository;
 import com.ssafy.member.db.Role;
 import com.ssafy.member.error.EmailAlreadyExistsException;
-import com.ssafy.member.util.PasswordEncoder;
+import com.ssafy.global.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
