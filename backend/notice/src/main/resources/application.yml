@@ -2,6 +2,9 @@ server:
   port: 8083
 
 spring :
+  application:
+    name : NOTICE
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/notice

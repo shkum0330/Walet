@@ -80,4 +80,21 @@ public class NoticeController {
         return noticeService.setIsActiveToTrue(id);
     }
 
+    @GetMapping("/pop")
+    public noticeDTO.noticeResponse getPopBanner(){
+        try {
+            NoticeEntity notice = noticeService.getActiveNotice();
+
+            noticeDTO.request data = new noticeDTO.request();
+            BeanUtils.copyProperties(notice, data);
+
+            noticeDTO.noticeResponse response = new noticeDTO.noticeResponse();
+            response.setMessage("OK");
+            response.setData(data);
+            return response;
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "No Active Notice Found", e);
+        }
+    }
 }
