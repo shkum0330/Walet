@@ -3,6 +3,7 @@ package com.example.account.api.request;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class AnimalAccountRequest {
@@ -21,4 +22,5 @@ public class AnimalAccountRequest {
     private Float petWeight; // 몸무게
     private String petPhoto; // 사진
     private String rfidCode;
+    private List<Long> limitTypeIdList;
 }

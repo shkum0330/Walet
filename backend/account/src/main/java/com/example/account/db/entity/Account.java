@@ -49,7 +49,9 @@ public class Account extends BaseTimeEntity {
     private LocalDate petRegistrationDate = null; // 등록일
     private Float petWeight = null; // 몸무게
     private String petPhoto = null; // 사진
-    private String rfidCode = null;
+    private String rfidCode = null; // 강아지 RFID 코드
+//    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+//    private List<LimitType> limitTypes = new ArrayList<>(); // 사용가능 제한업종 목록
 
     // 일반계좌 기본정보 입력
     public Account(AccountRequest accountRequest) {
@@ -75,6 +77,7 @@ public class Account extends BaseTimeEntity {
         this.petWeight = accountRequest.getPetWeight(); // 몸무게
         this.petPhoto = accountRequest.getPetPhoto(); // 사진
         this.rfidCode = accountRequest.getRfidCode();
+//        this.limitTypes = new ArrayList<>(limitTypes);
     }
 
     // 계좌번호 부여
@@ -100,6 +103,24 @@ public class Account extends BaseTimeEntity {
     // 출금 및 이체
     public void minusBalance(Long money) {
         this.balance -= money;
+    }
+
+    // 계좌 상태 변경
+    // 1. ACTIVE
+    public void updateStateToActive() {
+        this.state = ACTIVE;
+    }
+    // 2. LOCKED
+    public void updateStateToLocked() {
+        this.state = LOCKED;
+    }
+    // 3. SUSPENDED
+    public void updateStateToSuspended() {
+        this.state = SUSPENDED;
+    }
+    // 4. CLOSED
+    public void updateStateToClosed() {
+        this.state = CLOSED;
     }
 
 }

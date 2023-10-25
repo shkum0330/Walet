@@ -1,8 +1,6 @@
 package com.example.account.service.impl;
 
-import com.example.account.api.request.AccountRequest;
-import com.example.account.api.request.AnimalAccountRequest;
-import com.example.account.api.request.TransactionRequest;
+import com.example.account.api.request.*;
 import com.example.account.api.response.AnimalAccountDetailResponse;
 import com.example.account.api.response.GeneralAccountDetailResponse;
 import com.example.account.api.response.TransactionResponse;
@@ -16,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -93,6 +93,30 @@ public class AccountServiceImpl {
         List<TransactionResponse> result = transactions.stream().map(transaction -> new TransactionResponse(transaction)).collect(Collectors.toList());
         return result;
     }
+    
+    // 설정한 기간 내의 거래내역 조회
+    public List<TransactionResponse> getSpecificPeriodTransaction(TransactionPeriodRequest request) {
+        Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        List<Transaction> allTransaction = account.getTransactionHistory();
+
+        List<Transaction> transactionsInPeriod = new ArrayList<>();
+        for (Transaction transaction : allTransaction) {
+            LocalDateTime transactionDateTime = transaction.getCreatedAt();
+            LocalDate transactionDate = transactionDateTime.toLocalDate();
+
+            if(transactionDate.isAfter(request.getStart()) && transactionDate.isBefore(request.getEnd())) {
+                transactionsInPeriod.add(transaction);
+            }
+        }
+
+        // 최신 거래부터 보여줌
+        Collections.sort(transactionsInPeriod, (transaction1, transaction2)
+                -> transaction2.getCreatedAt().compareTo(transaction1.getCreatedAt()));
+        List<TransactionResponse> result = transactionsInPeriod.stream().map((transaction ->
+                        new TransactionResponse(transaction)))
+                .collect(Collectors.toList());
+        return result;
+    }
 
     // 일반계좌 발급
     public Long registGeneralAccount(AccountRequest accountRequest) {
@@ -116,8 +140,9 @@ public class AccountServiceImpl {
 
     // 동물계좌 발급
     // 동물계좌 생성 버튼 클릭 -> 모계좌를 연결할 사람은 기존에 있던 농협 계좌 중 선택(필수사항x) -> 내 반려동물 정보 입력 -> 동물계좌 완성
+    // cf) 계좌를 등록하려고 할 때 내가 등록할 비문 사진이 이미 있으면 양도 받는 것이 목적이냐고 물어보기
     public Long registAnimalAccount(AnimalAccountRequest animalAccountRequest) {
-        
+
         Account animalAccount = new Account(animalAccountRequest);
 
         // 우선 랜덤으로 13자리의 계좌번호 부여
@@ -137,9 +162,52 @@ public class AccountServiceImpl {
     }
 
     // 동물계좌 양도
-    // 상대방 반려동물 계좌 생성 -> 이전 주인의 반려동물 계좌에서 돈 전부 이체 -> 이전 주인의 반려동물 계좌 삭제
+    // 상대방 반려동물 계좌 생성 -> 이전 주인의 반려동물 계좌에서 돈 전부 이체 -> 이전 주인의 반려동물 계좌 삭제(폐쇄 상태로 변경)
+    // 잔액을 양도 받은 계좌의 잔액 반환
+    public Long assignAccount(AssignRequest assignRequest) {
+        Account transferAccount = accountRepository.findById(assignRequest.getTransfererAccountId()).orElseThrow(() -> new NotFoundException(NO_TRANSFER_ACCOUNT));
+        Account transfereeAccount = accountRepository.findById(assignRequest.getTransfereeAccountId()).orElseThrow(() -> new NotFoundException(NO_TRANSFEREE_ACCOUNT));
+
+        // 계좌 잔액을 이양
+        Long balance = transferAccount.getBalance();
+        if(balance > 0) {
+            transferAccount.minusBalance(balance);
+            transfereeAccount.addBalance(balance);
+        }
+        
+        // 양도자의 계좌를 폐쇄상태로 변경
+        transferAccount.updateStateToClosed();
+        return transfereeAccount.getBalance();
+    }
 
     // 계좌 상태 변경
+    // 1. 정상
+    public void updateStateToActive(Long accountId) {
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        account.updateStateToActive();
+    }
+
+    // 2. 잠금
+    public void updateStateToLocked(Long accountId) {
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        account.updateStateToLocked();
+    }
+
+    // 3. 정지
+    public void updateStateToSuspended(Long accountId) {
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        account.updateStateToSuspended();
+    }
+
+    // 4. 폐쇄
+    public void updateStateToClosed(Long accountId) {
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        account.updateStateToClosed();
+    }
+
+    // 이번 달 동물계좌 지출내역 표시(제한된 카테고리만)
+
+    // 전체 기간에서 각 카테고리 별 지출 비율
 
     // 추가적으로 제공되는 농협 api
     // 1. 예금주 조회

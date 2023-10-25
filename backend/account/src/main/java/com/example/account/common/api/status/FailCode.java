@@ -15,6 +15,8 @@ public enum FailCode {
     // 계좌
     NO_ACCOUNT(NO_CONTENT, "입력하신 계좌는 존재하지 않습니다."),
     NO_COMPANY_ACCOUNT(NO_CONTENT, "해당 회사의 계좌가 존재하지 않습니다."),
+    NO_TRANSFER_ACCOUNT(NO_CONTENT, "양도할 사람의 계좌가 존재하지 않습니다."),
+    NO_TRANSFEREE_ACCOUNT(NO_CONTENT, "양도받을 사람의 계좌가 존재하지 않습니다."),
     NOT_USABLE_ACCOUNT(BAD_REQUEST, "현재 이 계좌는 사용이 불가합니다."),
     NOT_USABLE_COMPANY_ACCOUNT(BAD_REQUEST, "현재 해당 기업의 계좌는 사용이 불가합니다.");
 

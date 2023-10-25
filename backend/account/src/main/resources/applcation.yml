@@ -9,6 +9,7 @@
 #      defaultZone: ${EUREKA_URL}
 spring:
   application:
+    name: ACCOUNT
     h2:
       console:
         enabled: true
@@ -27,5 +28,5 @@ spring:
       data-locations: classpath*:db/h2/data.sql
 logging:
   level:
-    org.hibernate: DEBUG
+    org.hibernate.SQL: debug
     org.hibernate.type: trace
