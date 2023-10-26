@@ -117,12 +117,12 @@ public class AccountServiceImpl {
     }
 
     // 일반계좌 발급
-    public Long registGeneralAccount(AccountRequest accountRequest) {
-        Account account = new Account(accountRequest);
+    public Long registGeneralAccount(AccountSaveRequest accountSaveRequest) {
+        Account account = new Account(accountSaveRequest);
 
         // 사업자계좌면(accountType이 false라면) 사업유형도 입력
-        if(!accountRequest.isAccountType()) {
-            account.addBusinessType(accountRequest.getBusinessType());
+        if(!accountSaveRequest.isAccountType()) {
+            account.addBusinessType(accountSaveRequest.getBusinessType());
         }
 
         // 우선 랜덤으로 13자리의 계좌번호 부여
