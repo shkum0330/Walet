@@ -18,7 +18,7 @@ public class GeneralAccountDetailResponse {
     private AccountState state; // 상태
     private LocalDateTime createdAt; // 등록일
     private Long accountLimit; // 인출한도
-    private String type; // 타입
+    private boolean accountType; // 타입
 
     private Long linkedAccountId; // 연결된 모계좌 id
 
@@ -32,7 +32,7 @@ public class GeneralAccountDetailResponse {
         this.state = account.getState();
         this.createdAt = account.getCreatedAt();
         this.accountLimit = account.getAccountLimit();
-        this.type = account.getType();
+        this.accountType = account.isAccountType();
         this.linkedAccountId = account.getLinkedAccountId();
         this.recentTransactions = new ArrayList<>(recentTransactions);
     }

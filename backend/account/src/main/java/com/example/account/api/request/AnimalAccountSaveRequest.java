@@ -3,13 +3,14 @@ package com.example.account.api.request;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class AnimalAccountRequest {
+public class AnimalAccountSaveRequest {
     private String depositorName; // 예금주명
     private Long accountLimit; // 인출한도
-    private String type; // 타입(일반 or 동물)
+    private boolean accountType; // 타입(일반 or 동물)
     private Long linkedAccountId = null;
 
     private String petName; // 펫이름
@@ -22,5 +23,5 @@ public class AnimalAccountRequest {
     private Float petWeight; // 몸무게
     private String petPhoto; // 사진
     private String rfidCode;
-    private List<Long> limitTypeIdList;
+    private List<Integer> limitTypeIdList = new ArrayList<>();
 }

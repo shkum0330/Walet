@@ -22,14 +22,16 @@ public class Transaction extends BaseTimeEntity {
     @JoinColumn(name = "account_id")
     private Account myAccount;
     private String companyName; // 거래대상회사
+    private Integer businessCategory; // 거래한 회사의 카테고리
 
     private String transactionType; // 거래 타입
     private Long pay; // 거래 금액
     private Long balance; // 거래 후 잔액
 
-    public Transaction(Account myAccount, String companyName, String transactionType, Long pay, Long balance) {
+    public Transaction(Account myAccount, String companyName, Integer businessCategory, String transactionType, Long pay, Long balance) {
         this.myAccount = myAccount;
         this.companyName = companyName;
+        this.businessCategory = businessCategory;
         this.transactionType = transactionType;
         this.pay = pay;
         this.balance = balance;
