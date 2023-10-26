@@ -4,21 +4,17 @@ import com.ssafy.auth.api.LoginDto;
 import com.ssafy.auth.service.UserServiceImpl;
 import com.ssafy.auth.util.TokenMapping;
 import com.ssafy.global.common.response.EnvelopeResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping
+@RequiredArgsConstructor
 public class AuthController {
-
     private final UserServiceImpl userService;
-
-    @Autowired
-    public AuthController(UserServiceImpl userService) {
-        this.userService = userService;
-    }
 
     @PostMapping("/login")
     public ResponseEntity<EnvelopeResponse<TokenMapping>> login(@RequestBody LoginDto loginRequest) {
