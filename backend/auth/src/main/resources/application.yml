@@ -7,7 +7,7 @@ spring :
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/auth
+    url: jdbc:mysql://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/allforyou
     username: ENC(VNltww21CIXiNmgUXTMPOg==)
     password: ENC(TVzrKXINCXa2FQpT16WX1I3OCgHxPv3c)
 
@@ -57,7 +57,7 @@ spring :
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/notice
+    url: jdbc:mysql://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/allforyou
     username: ENC(VNltww21CIXiNmgUXTMPOg==)
     password: ENC(TVzrKXINCXa2FQpT16WX1I3OCgHxPv3c)
 
