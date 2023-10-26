@@ -1,7 +1,7 @@
 package com.example.account.db.entity;
 
 import com.example.account.api.request.AccountRequest;
-import com.example.account.api.request.AnimalAccountRequest;
+import com.example.account.api.request.AnimalAccountSaveRequest;
 import com.example.account.common.domain.util.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +32,8 @@ public class Account extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private AccountState state = ACTIVE; // 상태
     private Long accountLimit; // 인출한도
-    private String type; // 타입
+    private boolean accountType; // 타입(사업자계좌(false), 펫계좌(true))
+    private Integer businessType = null; // 사업자계좌면 사업유형도 입력
 
     private Long linkedAccountId; // 연결될 충전계좌 아이디(선택사항)
 
@@ -50,22 +51,21 @@ public class Account extends BaseTimeEntity {
     private Float petWeight = null; // 몸무게
     private String petPhoto = null; // 사진
     private String rfidCode = null; // 강아지 RFID 코드
-//    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-//    private List<LimitType> limitTypes = new ArrayList<>(); // 사용가능 제한업종 목록
+    private Integer limitTypes = 0; // 사용가능 제한업종 목록(비트연산으로 추가)
 
     // 일반계좌 기본정보 입력
     public Account(AccountRequest accountRequest) {
         this.depositorName = accountRequest.getDepositorName();
         this.accountLimit = accountRequest.getAccountLimit();
-        this.type = accountRequest.getType();
+        this.accountType = accountRequest.isAccountType();
         this.linkedAccountId = accountRequest.getLinkedAccountId();
     }
 
     // 반려동물계좌 기본정보 입력
-    public Account(AnimalAccountRequest accountRequest) {
+    public Account(AnimalAccountSaveRequest accountRequest) {
         this.depositorName = accountRequest.getDepositorName();
         this.accountLimit = accountRequest.getAccountLimit();
-        this.type = accountRequest.getType();
+        this.accountType = accountRequest.isAccountType();
         this.linkedAccountId = accountRequest.getLinkedAccountId();
         this.petName = accountRequest.getPetName();
         this.petGender = accountRequest.getPetGender(); // 펫성별
@@ -77,7 +77,16 @@ public class Account extends BaseTimeEntity {
         this.petWeight = accountRequest.getPetWeight(); // 몸무게
         this.petPhoto = accountRequest.getPetPhoto(); // 사진
         this.rfidCode = accountRequest.getRfidCode();
-//        this.limitTypes = new ArrayList<>(limitTypes);
+    }
+
+    // 제한업종 추가
+    public void addLimitType(int typeNum) {
+        this.limitTypes |= typeNum;
+    }
+
+    // 사업자계좌에는 사업유형도 입력
+    public void addBusinessType(int type) {
+        this.businessType = type;
     }
 
     // 계좌번호 부여
