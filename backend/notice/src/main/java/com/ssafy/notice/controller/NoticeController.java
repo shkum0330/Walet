@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/api/notice")
+@RequestMapping
 public class NoticeController {
 
     private final NoticeService noticeService;

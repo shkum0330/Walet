@@ -1,9 +1,9 @@
 server:
   port: 8083
 
-spring :
+spring:
   application:
-    name : NOTICE
+    name: NOTICE
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -12,8 +12,6 @@ spring :
     password: ENC(TVzrKXINCXa2FQpT16WX1I3OCgHxPv3c)
   #  config:
   #    import: env.yml
-  #  application:
-  #    name: ${DOMAIN_NAME}
   jpa:
     hibernate:
       ddl-auto: validate
@@ -22,10 +20,10 @@ spring :
     properties:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: ${EUREKA_URL}
+eureka:
+  client:
+    service-url:
+      defaultZone: http://43.201.195.182:8761/eureka
 
 jasypt:
   password: ${PASSWORD}
