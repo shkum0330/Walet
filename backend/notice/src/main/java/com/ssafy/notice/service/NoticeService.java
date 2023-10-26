@@ -66,4 +66,8 @@ public class NoticeService {
         return noticeRepository.save(notice);
     }
 
+    public NoticeEntity getActiveNotice() {
+        return noticeRepository.findFirstByIsActiveTrue();
+    }
+
 }
