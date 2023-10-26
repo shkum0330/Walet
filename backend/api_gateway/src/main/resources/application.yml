@@ -1,16 +1,36 @@
 spring:
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: account
-#          uri: lb://ACCOUNT/
-#          predicates:
-#            - Path=/account/**
-#          filters:
-#            - RewritePath=/account/(?<path>.*),/$\{path}
+  cloud:
+    gateway:
+      routes:
+        - id: notification
+          uri: lb://NOTIFICATION/
+          predicates:
+            - Path=/notification/**
+          filters:
+            - RewritePath=/notification/(?<path>.*),/$\{path}
+        - id: auth
+          uri: lb://AUTH/
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth/(?<path>.*),/$\{path}
+        - id: notice
+          uri: lb://NOTICE/
+          predicates:
+            - Path=/notice/**
+          filters:
+            - RewritePath=/notice/(?<path>.*),/$\{path}
+        - id: account
+          uri: lb://ACCOUNT/
+          predicates:
+            - Path=/account/**
+          filters:
+            - RewritePath=/account/(?<path>.*),/$\{path}
   application:
     name: API-GATEWAY
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://j9a301.p.ssafy.io:8761/euraka
+    fetch-registry: true
+    register-with-eureka: true
