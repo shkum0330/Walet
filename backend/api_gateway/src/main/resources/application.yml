@@ -1,3 +1,6 @@
+server:
+  port: 80
+
 spring:
   cloud:
     gateway:
@@ -31,6 +34,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://j9a301.p.ssafy.io:8761/euraka
+      defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+
