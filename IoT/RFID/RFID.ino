@@ -40,20 +40,7 @@ void loop() {
     }
     Serial.println();
     content.toUpperCase();
-
-    if (content.substring(1) == "FA06F181") {
-      Serial.println("Authorized access");
-
-      BTSerial.print("Authorized access - RFID Tag: ");
-      BTSerial.println(content);
-      BTSerial.println();
-
-      delay(3000);
-    } else {
-      Serial.println("Unauthorized access");
-
-      BTSerial.println("Unauthorized access - RFID Tag: " + content);
-    }
+    BTSerial.println(content);
 
     previousReadTime = currentMillis;
   }
