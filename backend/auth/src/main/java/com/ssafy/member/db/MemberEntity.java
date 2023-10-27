@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Getter @Setter
 public class MemberEntity extends BaseTimeEntity {
 
+
     @Id @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,4 +38,18 @@ public class MemberEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
+
+    @Column(name = "finger_print")
+    private String fingerPrint;
+
+    @Column(name = "pin_number")
+    private String pinNumber;
+
+    @Column(name = "random_member_id", unique = true)
+    private String randomMemberId;
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
 }

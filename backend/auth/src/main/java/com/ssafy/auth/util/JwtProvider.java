@@ -2,11 +2,15 @@ package com.ssafy.auth.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.ssafy.global.common.exception.GlobalRuntimeException;
 import com.ssafy.member.db.MemberRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -35,22 +39,22 @@ public class JwtProvider {
 
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
-    private static final String USERNAME_CLAIM = "username";
+    private static final String USERNAME_CLAIM = "randomMemberId";
     private static final String BEARER = "Bearer ";
 
-    public TokenMapping createToken(String username){
+    public TokenMapping createToken(String randomMemberId){
         return TokenMapping.builder()
-                .accessToken(createAccessToken(username))
+                .accessToken(createAccessToken(randomMemberId))
                 .refreshToken(createRefreshToken())
                 .build();
     }
 
-    public String createAccessToken(String username){
+    public String createAccessToken(String randomMemberId){
         Date now = new Date();
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
-                .withClaim(USERNAME_CLAIM, username)
+                .withClaim(USERNAME_CLAIM, randomMemberId)
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
@@ -66,5 +70,16 @@ public class JwtProvider {
         Date expiration = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(accessToken).getExpiresAt();
         long now = new Date().getTime();
         return expiration.getTime() - now;
+    }
+
+    public String AccessTokenDecoder(String accessToken) {
+        accessToken = accessToken.replace("Bearer ", "");
+        DecodedJWT jwt = JWT.decode(accessToken);
+        Claim randomMemberIdClaim = jwt.getClaim(USERNAME_CLAIM);
+        if (!randomMemberIdClaim.isNull()) {
+            return randomMemberIdClaim.asString();
+        } else {
+            throw new GlobalRuntimeException("토큰에 해당하는 회원이 없습니다.", HttpStatus.BAD_REQUEST);
+        }
     }
 }

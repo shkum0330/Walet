@@ -1,5 +1,8 @@
 package com.ssafy.member.controller;
 
+import com.ssafy.auth.util.JwtProvider;
+import com.ssafy.global.common.redis.RedisService;
+import com.ssafy.global.common.response.EnvelopeResponse;
 import com.ssafy.member.api.MemberDTO;
 import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.service.MemberService;
@@ -13,16 +16,25 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private RedisService redisService;
+    @Autowired
+    private JwtProvider jwtProvider;
 
     @PostMapping("/signup")
-    public ResponseEntity<MemberDTO.noticeResponse> signup(@RequestBody MemberDTO.request request) {
+    public ResponseEntity<EnvelopeResponse<MemberEntity>> signup(@RequestBody MemberDTO.Request request) {
         MemberEntity member = memberService.signup(request.getName(), request.getEmail(),
                 request.getPassword(), request.getPhoneNumber(),
-                request.getBirth());
-        MemberDTO.noticeResponse response = new MemberDTO.noticeResponse();
-        response.setMessage("ok");
-        response.setData(member);
+                request.getBirth(), request.getPinNumber(), request.getFingerPrint());
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new EnvelopeResponse<>(201, "데이터 생성 성공", member), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/unregister")
+    public ResponseEntity<EnvelopeResponse<String>> unregister(@RequestHeader("Authorization") String accessToken) {
+        String randomMemberId = jwtProvider.AccessTokenDecoder(accessToken);
+        memberService.Unregister(randomMemberId);
+
+        return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", ""), HttpStatus.BAD_REQUEST);
     }
 }

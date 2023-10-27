@@ -1,5 +1,6 @@
 package com.ssafy.member.api;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,29 +8,16 @@ import lombok.Setter;
 
 public class MemberDTO {
     @NoArgsConstructor
+    @AllArgsConstructor
     @Getter @Setter
-    public static class request{
+    public static class Request{
         private Long id;
         private String name;
         private String email;
         private String password;
         private String phoneNumber;
         private String birth;
-
-        public request(Long id, String name, String email, String password, String phoneNumber, String birth){
-            this.id = id;
-            this.name = name;
-            this.email = email;
-            this.password = password;
-            this.phoneNumber = phoneNumber;
-            this.birth = birth;
-        }
-
-
-    }
-    @Getter @Setter
-    public static class noticeResponse{
-        private String message;
-        private Object data;
+        private String fingerPrint;
+        private String pinNumber;
     }
 }
