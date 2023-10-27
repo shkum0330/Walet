@@ -5,444 +5,629 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingHorizontal="22dp"
+
     tools:context=".MainActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:adjustViewBounds="true"
 
-        android:src="@drawable/top_bar" />
-
-    <!--회원 이름+ 안녕하세요-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-
-        android:orientation="horizontal">
-        <!--  회원이름-->
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_bold"
-            android:text="유지나"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
-
-        <!--   안녕하세요     -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_medium"
-            android:text="님, 안녕하세요"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
-
-    </LinearLayout>
-
-    <!--    공지사항-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-
-        android:background="@drawable/notice_box"
-
-        android:orientation="horizontal">
-        <!--        공지사항 내용-->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="8"
-
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/notice_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/pretendard_semi_bold"
-                android:text="잃어버린 내 아이"
-                android:textColor="@color/black"
-
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/notice_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/pretendard_regular"
-                android:text="농협은행과 함께 찾아요!"
-                android:textColor="@color/black"
-
-                android:textSize="15sp" />
-
-        </LinearLayout>
-        <!--        공지사항 이미지-->
-        <ImageView
-            android:id="@+id/notice_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-
-            android:src="@drawable/dog1" />
-
-
-    </LinearLayout>
-
-
-    <!--   계좌 종류 탭 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
-
-
-        <!--        한눈에-->
-        <TextView
-            android:id="@+id/cat"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:fontFamily="@font/pretendard_bold"
-            android:paddingHorizontal="10dp"
-            android:text="한눈에"
-            android:textColor="@color/black"
-
-            android:textSize="16sp" />
-        <!--        자산-->
-        <TextView
-            android:id="@+id/dog"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:fontFamily="@font/pretendard_bold"
-            android:paddingHorizontal="10dp"
-            android:text="자산"
-            android:textColor="@color/grey60"
-
-            android:textSize="16sp" />
-
-
-    </LinearLayout>
-
-    <!--    가로선-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5px"
-        android:background="@color/grey30" />
-
-
-    <!--    펫계좌-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/account_box"
-
         android:orientation="vertical"
-        android:paddingHorizontal="22dp">
+
+        android:paddingHorizontal="22dp"
+        >
 
 
-        <Space
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
-        <!--    계좌 헤더-->
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+
+            android:src="@drawable/top_bar" />
+
+        <!--회원 이름+ 안녕하세요-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
 
             android:orientation="horizontal">
+            <!--  회원이름-->
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="유지나"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
 
-            <!--        펫 이미지-->
-            <ImageView
-                android:id="@+id/pet_profile"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/pet_account_dog" />
+            <!--   안녕하세요     -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="님, 안녕하세요"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
 
-            <!--        계좌 정보-->
+        </LinearLayout>
+
+        <!--    공지사항-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+
+            android:background="@drawable/notice_box"
+
+            android:orientation="horizontal">
+            <!--        공지사항 내용-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="8"
 
                 android:orientation="vertical">
 
-                <!--            계좌 타입, 계좌 이름-->
-                <LinearLayout
+                <TextView
+                    android:id="@+id/notice_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:text="잃어버린 내 아이"
+                    android:textColor="@color/black"
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    android:textSize="15sp" />
 
-                        android:fontFamily="@font/pretendard_bold"
-                        android:text="멍계좌"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:layout_marginLeft="10dp"
-
-                        android:fontFamily="@font/pretendard_semi_bold"
-                        android:text="사랑하는 막둥이 조아"
-                        android:textColor="@color/black"
-                        android:textSize="13sp" />
-
-
-                </LinearLayout>
-
-
-                <!--            은행, 계좌 번호-->
-                <LinearLayout
+                <TextView
+                    android:id="@+id/notice_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:fontFamily="@font/pretendard_regular"
+                    android:text="농협은행과 함께 찾아요!"
+                    android:textColor="@color/black"
 
-                    <!--            계좌 번호-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:fontFamily="@font/pretendard_regular"
-                        android:text="농협"
-                        android:textColor="@color/grey80"
-                        android:textSize="11sp" />
-
-                    <!--            계좌 번호-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:layout_marginLeft="8dp"
-                        android:fontFamily="@font/pretendard_regular"
-                        android:text="110-220-785902"
-                        android:textColor="@color/grey80"
-
-                        android:textSize="11sp" />
-
-                </LinearLayout>
-
+                    android:textSize="15sp" />
 
             </LinearLayout>
+            <!--        공지사항 이미지-->
+            <ImageView
+                android:id="@+id/notice_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+
+                android:src="@drawable/dog1" />
 
 
         </LinearLayout>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-        <!--    계좌 잔액-->
+
+        <!--   계좌 종류 탭 -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="bottom"
 
+            android:layout_marginTop="16dp"
             android:orientation="horizontal">
-            <!--잔액-->
-            <TextView
-                android:id="@+id/balance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
+
+            <!--        한눈에-->
+            <TextView
+                android:id="@+id/cat"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="8,201,000"
+                android:paddingHorizontal="10dp"
+                android:text="한눈에"
                 android:textColor="@color/black"
-                android:textSize="28sp" />
-            <!--    원-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:layout_marginLeft="8dp"
-                android:fontFamily="@font/pretendard_regular"
-                android:text="원"
-                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <!--        자산-->
+            <TextView
+                android:id="@+id/dog"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:paddingHorizontal="10dp"
+                android:text="자산"
+                android:textColor="@color/grey60"
 
                 android:textSize="16sp" />
 
 
-            <!--    갱신 버튼-->
-            <ImageView
-                android:id="@+id/btn_retry"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
+        </LinearLayout>
 
-                android:layout_marginLeft="24dp"
-                android:src="@drawable/button_retry" />
+        <!--    가로선-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5px"
+            android:background="@color/grey30" />
+
+
+        <!--    펫계좌-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/account_box"
+
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingBottom="12dp">
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+            <!--    계좌 헤더-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <!--        펫 이미지-->
+                <ImageView
+                    android:id="@+id/pet_profile"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/pet_account_dog" />
+
+                <!--        계좌 정보-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+
+                    android:orientation="vertical">
+
+                    <!--            계좌 타입, 계좌 이름-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:fontFamily="@font/pretendard_bold"
+                            android:text="멍계좌"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginLeft="10dp"
+
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:text="사랑하는 막둥이 조아"
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+
+                    </LinearLayout>
+
+
+                    <!--            은행, 계좌 번호-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!--            계좌 번호-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:fontFamily="@font/pretendard_regular"
+                            android:text="농협"
+                            android:textColor="@color/grey80"
+                            android:textSize="11sp" />
+
+                        <!--            계좌 번호-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="@font/pretendard_regular"
+                            android:text="110-220-785902"
+                            android:textColor="@color/grey80"
+
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+            <!--    계좌 잔액-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:orientation="horizontal">
+                <!--잔액-->
+                <TextView
+                    android:id="@+id/balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:fontFamily="@font/pretendard_bold"
+                    android:text="8,201,000"
+                    android:textColor="@color/black"
+                    android:textSize="28sp" />
+                <!--    원-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="8dp"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:text="원"
+                    android:textColor="@color/black"
+
+                    android:textSize="16sp" />
+
+
+                <!--    갱신 버튼-->
+                <ImageView
+                    android:id="@+id/btn_retry"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+
+                    android:layout_marginLeft="24dp"
+                    android:src="@drawable/button_retry" />
+
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <!--    충전, 거래내역 버튼-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <!--        충전 버튼-->
+                <Button
+                    android:id="@+id/recharge"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="10"
+
+                    android:background="@drawable/account_button"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="충전"
+
+                    android:textSize="14sp" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <!--        거래내역 버튼-->
+                <Button
+                    android:id="@+id/account_log"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="10"
+
+
+                    android:background="@drawable/account_button"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="거래내역"
+
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <!--        최근 거래한 사람들 목록-->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:scrollbars="none"
+                android:layout_marginTop="12dp">
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!--            거래내역_item-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:orientation="horizontal"
+
+                        android:layout_marginRight="12dp"
+                        android:background="@drawable/traansaction_people_item">
+
+                        <ImageView
+                            android:id="@+id/bank_logo"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/bank_nonghyup" />
+
+                        <Space
+                            android:layout_width="10dp"
+                            android:layout_height="1dp" />
+
+                        <!--                사람 이름, 거래금액-->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <!--사람이름-->
+                            <TextView
+                                android:id="@+id/lateset_transaction_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pretendard_regular"
+                                android:text="유지나"
+                                android:textSize="14sp" />
+                            <!--거래금액-->
+                            <TextView
+                                android:id="@+id/lateset_transaction_money"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pretendard_regular"
+                                android:text="45,000"
+                                android:textColor="@color/grey90"
+                                android:textSize="12sp" />
+
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+                    <!--            거래내역_item2-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginRight="12dp"
+
+                        android:background="@drawable/traansaction_people_item">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/bank_nonghyup" />
+
+                        <Space
+                            android:layout_width="10dp"
+                            android:layout_height="1dp" />
+
+                        <!--                사람 이름, 거래금액-->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <!--사람이름-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pretendard_regular"
+                                android:text="유지나"
+                                android:textSize="14sp" />
+                            <!--거래금액-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pretendard_regular"
+                                android:text="45,000"
+                                android:textColor="@color/grey90"
+                                android:textSize="12sp" />
+
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+                    <!--            거래내역_item3-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginRight="12dp"
+
+                        android:background="@drawable/traansaction_people_item">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/bank_nonghyup" />
+
+                        <Space
+                            android:layout_width="10dp"
+                            android:layout_height="1dp" />
+
+                        <!--                사람 이름, 거래금액-->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <!--사람이름-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pretendard_regular"
+                                android:text="유지나"
+                                android:textSize="14sp" />
+                            <!--거래금액-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pretendard_regular"
+                                android:text="45,000"
+                                android:textColor="@color/grey90"
+                                android:textSize="12sp" />
+
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+                    <!--            거래내역_item4-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginRight="12dp"
+
+                        android:background="@drawable/traansaction_people_item">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/bank_nonghyup" />
+
+                        <Space
+                            android:layout_width="10dp"
+                            android:layout_height="1dp" />
+
+                        <!--                사람 이름, 거래금액-->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <!--사람이름-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pretendard_regular"
+                                android:text="유지나"
+                                android:textSize="14sp" />
+                            <!--거래금액-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pretendard_regular"
+                                android:text="45,000"
+                                android:textColor="@color/grey90"
+                                android:textSize="12sp" />
+
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+                    <!--            거래내역_item5-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginRight="12dp"
+
+                        android:background="@drawable/traansaction_people_item">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/bank_nonghyup" />
+
+                        <Space
+                            android:layout_width="10dp"
+                            android:layout_height="1dp" />
+
+                        <!--                사람 이름, 거래금액-->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <!--사람이름-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pretendard_regular"
+                                android:text="유지나"
+                                android:textSize="14sp" />
+                            <!--거래금액-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/pretendard_regular"
+                                android:text="45,000"
+                                android:textColor="@color/grey90"
+                                android:textSize="12sp" />
+
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+
+
+
+
+            </HorizontalScrollView>
 
 
         </LinearLayout>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="25dp"
+            />
 
-        <!--    충전, 거래내역 버튼-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:orientation="horizontal">
-
-            <!--        충전 버튼-->
-            <Button
-                android:id="@+id/recharge"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="10"
-
-                android:background="@drawable/account_button"
-                android:fontFamily="@font/pretendard_medium"
-                android:text="충전"
-
-                android:textSize="14sp" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-            <!--        거래내역 버튼-->
-            <Button
-                android:id="@+id/account_log"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="10"
-
-
-                android:background="@drawable/account_button"
-                android:fontFamily="@font/pretendard_medium"
-                android:text="거래내역"
-
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <!--        최근 거래한 사람들 목록-->
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="12dp">
-
-            <!--            거래내역_item-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-
-
-                android:background="@drawable/traansaction_people_item">
-
-                <ImageView
-                    android:id="@+id/bank_logo"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/bank_nonghyup" />
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="1dp" />
-
-                <!--                사람 이름, 거래금액-->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <!--사람이름-->
-                    <TextView
-                        android:id="@+id/lateset_transaction_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_regular"
-                        android:text="유지나"
-                        android:textSize="14sp" />
-                    <!--거래금액-->
-                    <TextView
-                        android:id="@+id/lateset_transaction_money"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_regular"
-                        android:text="45,000"
-                        android:textColor="@color/grey90"
-                        android:textSize="12sp" />
-
-
-                </LinearLayout>
-
-
-
-
-            </LinearLayout>
-
-
-            <!--            거래내역_item2-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-
-
-                android:background="@drawable/traansaction_people_item">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/bank_nonghyup" />
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="1dp" />
-
-                <!--                사람 이름, 거래금액-->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <!--사람이름-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_regular"
-                        android:text="유지나"
-                        android:textSize="14sp" />
-                    <!--거래금액-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_regular"
-                        android:text="45,000"
-                        android:textColor="@color/grey90"
-                        android:textSize="12sp" />
-
-
-                </LinearLayout>
-
-
-
-
-            </LinearLayout>
-
-
-
-
-        </HorizontalScrollView>
 
 
     </LinearLayout>
+
+<!--    구분선-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+      android:background="@drawable/border_box"
+        />
+
+
 
 
 </LinearLayout>
