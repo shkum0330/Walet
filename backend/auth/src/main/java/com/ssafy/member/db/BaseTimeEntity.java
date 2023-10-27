@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 public class BaseTimeEntity {
 
     @CreatedDate
-    private LocalDateTime registerTime;
+    private LocalDateTime created_date;
 
     @LastModifiedDate
-    private LocalDateTime modifyTime;
+    private LocalDateTime modified_date;
 
     protected  BaseTimeEntity(){}
 

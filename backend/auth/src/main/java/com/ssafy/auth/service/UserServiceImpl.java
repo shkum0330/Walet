@@ -3,6 +3,7 @@ package com.ssafy.auth.service;
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.auth.util.TokenMapping;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
+import com.ssafy.global.common.redis.RedisService;
 import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.db.MemberRepository;
 import com.ssafy.global.PasswordEncoder;
@@ -26,15 +27,19 @@ public class UserServiceImpl implements UserRepository{
     @Override
     public TokenMapping login(String email, String password) {
         MemberEntity member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("No user found with email address: " + email));
+                .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다. " + email));
 
         if (!PasswordEncoder.checkPass(password, member.getPassword())) {
             throw new GlobalRuntimeException("비밀번호가 틀립니다.", HttpStatus.BAD_REQUEST);
         }
 
-        TokenMapping tokenMapping = jwtProvider.createToken(member.getEmail());
-        redisService.saveToken(email, tokenMapping.getAccessToken());
-        redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());  // 리프레시 토큰 저장
+        if (member.isDeleted()) {
+            throw new GlobalRuntimeException("회원 탈퇴된 계정입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        TokenMapping tokenMapping = jwtProvider.createToken(member.getRandomMemberId());
+        redisService.saveToken(member.getRandomMemberId(), tokenMapping.getAccessToken());
+        redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
 
         return tokenMapping;
     }

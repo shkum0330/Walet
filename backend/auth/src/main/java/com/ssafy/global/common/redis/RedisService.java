@@ -1,4 +1,4 @@
-package com.ssafy.auth.service;
+package com.ssafy.global.common.redis;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
