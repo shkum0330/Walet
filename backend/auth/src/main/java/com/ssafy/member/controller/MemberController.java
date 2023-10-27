@@ -3,7 +3,8 @@ package com.ssafy.member.controller;
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.global.common.redis.RedisService;
 import com.ssafy.global.common.response.EnvelopeResponse;
-import com.ssafy.member.api.MemberDTO;
+import com.ssafy.member.api.MemberDto;
+import com.ssafy.member.api.UserDto;
 import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
 public class MemberController {
     @Autowired
     private MemberService memberService;
@@ -22,7 +22,7 @@ public class MemberController {
     private JwtProvider jwtProvider;
 
     @PostMapping("/signup")
-    public ResponseEntity<EnvelopeResponse<MemberEntity>> signup(@RequestBody MemberDTO.Request request) {
+    public ResponseEntity<EnvelopeResponse<MemberEntity>> signup(@RequestBody MemberDto.Request request) {
         MemberEntity member = memberService.signup(request.getName(), request.getEmail(),
                 request.getPassword(), request.getPhoneNumber(),
                 request.getBirth(), request.getPinNumber(), request.getFingerPrint());
@@ -36,5 +36,12 @@ public class MemberController {
         memberService.Unregister(randomMemberId);
 
         return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", ""), HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity<EnvelopeResponse<UserDto.Response>> getUserInfo(@RequestHeader("Authorization") String accessToken) {
+        String randomMemberId = jwtProvider.AccessTokenDecoder(accessToken);
+        UserDto.Response user = memberService.find(randomMemberId);
+        return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", user), HttpStatus.OK);
     }
 }

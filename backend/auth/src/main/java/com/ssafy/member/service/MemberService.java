@@ -1,6 +1,8 @@
 package com.ssafy.member.service;
 
 import com.ssafy.global.common.exception.GlobalRuntimeException;
+import com.ssafy.member.api.MemberDto;
+import com.ssafy.member.api.UserDto;
 import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.db.MemberRepository;
 import com.ssafy.member.db.Role;
@@ -46,6 +48,18 @@ public class MemberService {
 
         member.setIsDeleted(true);
         memberRepository.save(member);
+    }
+
+    public UserDto.Response find(String randomMemberId){
+        MemberEntity member = memberRepository.findByRandomMemberId(randomMemberId);
+
+        UserDto.Response userDto = new UserDto.Response();
+        userDto.setName(member.getName());
+        userDto.setEmail(member.getEmail());
+        userDto.setPhoneNumber(member.getPhoneNumber());
+        userDto.setBirth(member.getBirth());
+        userDto.setCreatedDate(member.getCreated_date());
+        return userDto;
     }
 
 }
