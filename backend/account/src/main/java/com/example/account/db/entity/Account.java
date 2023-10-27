@@ -1,6 +1,6 @@
 package com.example.account.db.entity;
 
-import com.example.account.api.request.AccountRequest;
+import com.example.account.api.request.AccountSaveRequest;
 import com.example.account.api.request.AnimalAccountSaveRequest;
 import com.example.account.common.domain.util.BaseTimeEntity;
 import lombok.AllArgsConstructor;
@@ -25,40 +25,58 @@ public class Account extends BaseTimeEntity {
     @Column(name = "account_id")
     private Long id;
 
+    @Column(name="account_number",length = 20,nullable = false)
     private String accountNumber; // 계좌번호
+    @Column(name="depositor_name",length = 20,nullable = false)
     private String depositorName;// 예금주명
-    private Long balance = (long)0; // 잔액
+    @Column(name="balance", nullable = false)
+    private Long balance = 0L; // 잔액
     
     @Enumerated(EnumType.STRING)
+    @Column(name="state", nullable = false)
     private AccountState state = ACTIVE; // 상태
+    @Column(name="account_limit", nullable = false)
     private Long accountLimit; // 인출한도
-    private boolean accountType; // 타입(사업자계좌(false), 펫계좌(true))
-    private Integer businessType = null; // 사업자계좌면 사업유형도 입력
-
+    @Column(name="account_type", length = 10,nullable = false)
+    private Boolean accountType; // 타입(사업자계좌(false), 펫계좌(true))
+    @Column(name="business_type",nullable = true)
+    private Integer businessType; // 사업자계좌면 사업유형도 입력
+    @Column(name="linked_account_id", length = 20,nullable = true)
     private Long linkedAccountId; // 연결될 충전계좌 아이디(선택사항)
 
     @OneToMany(mappedBy = "myAccount")
     private List<Transaction> transactionHistory = new ArrayList<>(); // 거래내역
 
     // 펫 정보(일반 계좌에서는 이 값들이 null값으로 들어감)
-    private String petName = null; // 펫이름
-    private String petGender = null; // 펫성별
-    private LocalDate petBirth = null; // 펫생년월일
-    private String petType = null; // 펫종류
-    private String petBreed = null; // 품종
-    private Boolean petNeutered = null; // 중성화여부
-    private LocalDate petRegistrationDate = null; // 등록일
-    private Float petWeight = null; // 몸무게
-    private String petPhoto = null; // 사진
-    private String rfidCode = null; // 강아지 RFID 코드
+    @Column(name="pet_name", length = 10)
+    private String petName; // 펫이름
+    @Column(name="pet_gender", length = 3)
+    private String petGender; // 펫성별
+    @Column(name="pet_birth")
+    private LocalDate petBirth; // 펫생년월일
+    @Column(name="pet_type", length = 10)
+    private String petType; // 펫종류
+    @Column(name="pet_breed", length = 30)
+    private String petBreed; // 품종
+    @Column(name="pet_neutered")
+    private Boolean petNeutered; // 중성화여부
+    @Column(name="pet_registration_date")
+    private LocalDate petRegistrationDate; // 등록일
+    @Column(name="pet_weight")
+    private Float petWeight; // 몸무게
+    @Column(name="pet_photo", length = 80)
+    private String petPhoto; // 사진
+    @Column(name="rfid_code", length = 10)
+    private String rfidCode; // 강아지 RFID 코드
+    @Column(name="limit_types")
     private Integer limitTypes = 0; // 사용가능 제한업종 목록(비트연산으로 추가)
 
     // 일반계좌 기본정보 입력
-    public Account(AccountRequest accountRequest) {
-        this.depositorName = accountRequest.getDepositorName();
-        this.accountLimit = accountRequest.getAccountLimit();
-        this.accountType = accountRequest.isAccountType();
-        this.linkedAccountId = accountRequest.getLinkedAccountId();
+    public Account(AccountSaveRequest accountSaveRequest) {
+        this.depositorName = accountSaveRequest.getDepositorName();
+        this.accountLimit = accountSaveRequest.getAccountLimit();
+        this.accountType = accountSaveRequest.isAccountType();
+        this.linkedAccountId = accountSaveRequest.getLinkedAccountId();
     }
 
     // 반려동물계좌 기본정보 입력

@@ -21,11 +21,15 @@ public class Transaction extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account myAccount;
+    @Column(name="company_name",length = 30,nullable = false)
     private String companyName; // 거래대상회사
+    @Column(name="business_category",nullable = false)
     private Integer businessCategory; // 거래한 회사의 카테고리
-
+    @Column(name="transaction_type",length = 10,nullable = false)
     private String transactionType; // 거래 타입
+    @Column(name="pay", nullable = false)
     private Long pay; // 거래 금액
+    @Column(name="balance", nullable = false)
     private Long balance; // 거래 후 잔액
 
     public Transaction(Account myAccount, String companyName, Integer businessCategory, String transactionType, Long pay, Long balance) {

@@ -3,7 +3,7 @@ package com.example.account.api.request;
 import lombok.Data;
 
 @Data
-public class AccountRequest {
+public class AccountSaveRequest {
     private String depositorName; // 예금주명
     private Long accountLimit; // 인출한도
     private boolean accountType; // 타입(사업자 or 동물)

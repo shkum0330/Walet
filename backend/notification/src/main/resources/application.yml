@@ -1,0 +1,38 @@
+spring:
+#  main:
+#    allow-bean-definition-overriding: true
+#  servlet:
+#    multipart:
+#      max-file-size: 10MB
+#      max-request-size: 15MB
+
+  application:
+    name: NOTIFICATION
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/notification
+    username: a301
+    password: ssafyA301!
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+logging:
+  level:
+    com.ssafy.notification: DEBUG
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://k9a301.p.ssafy.io:8761/euraka
+
+fcm:
+  key:
+    path: allforyou-c535c-firebase-adminsdk-74px8-8d6f821128.json
+    scope: https://www.googleapis.com/auth/cloud-platform
