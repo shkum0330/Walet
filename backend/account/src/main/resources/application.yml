@@ -4,12 +4,12 @@ spring:
 
   datasource:
       driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mariadb://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/account
+      url: jdbc:mariadb://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/allforyou
       username: a301
       password: ssafyA301!
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:

@@ -6,6 +6,7 @@ import com.example.account.common.domain.util.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -33,9 +34,11 @@ public class Account extends BaseTimeEntity {
     private Long balance = 0L; // 잔액
     
     @Enumerated(EnumType.STRING)
-    @Column(name="state", nullable = false)
+    @Column(name="state",length=10, nullable = false)
     private AccountState state = ACTIVE; // 상태
-    @Column(name="account_limit", nullable = false)
+
+    @ColumnDefault("50000000")
+    @Column(name="account_limit", nullable = true)
     private Long accountLimit; // 인출한도
     @Column(name="account_type", length = 10,nullable = false)
     private Boolean accountType; // 타입(사업자계좌(false), 펫계좌(true))
@@ -44,7 +47,7 @@ public class Account extends BaseTimeEntity {
     @Column(name="linked_account_id", length = 20,nullable = true)
     private Long linkedAccountId; // 연결될 충전계좌 아이디(선택사항)
 
-    @OneToMany(mappedBy = "myAccount")
+    @OneToMany(mappedBy = "account")
     private List<Transaction> transactionHistory = new ArrayList<>(); // 거래내역
 
     // 펫 정보(일반 계좌에서는 이 값들이 null값으로 들어감)
