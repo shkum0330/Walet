@@ -5,19 +5,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-public class MemberDTO {
-    @NoArgsConstructor
+public class UserDto {
     @AllArgsConstructor
-    @Getter @Setter
-    public static class Request{
-        private Long id;
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class Response{
         private String name;
         private String email;
-        private String password;
         private String phoneNumber;
         private String birth;
-        private String fingerPrint;
-        private String pinNumber;
+        private LocalDateTime createdDate;
     }
 }
