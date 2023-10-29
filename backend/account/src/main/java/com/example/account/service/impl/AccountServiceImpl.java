@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -107,25 +108,30 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<TransactionResponse> getSpecificPeriodTransaction(TransactionPeriodRequest request) {
         Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        List<Transaction> allTransaction = account.getTransactionHistory();
+//        List<Transaction> allTransaction = account.getTransactionHistory();
+//
+//        List<Transaction> transactionsInPeriod = new ArrayList<>();
+//        for (Transaction transaction : allTransaction) {
+//            LocalDateTime transactionDateTime = transaction.getTransactionTime();
+//            LocalDate transactionDate = transactionDateTime.toLocalDate();
+//
+//            if(transactionDate.isAfter(request.getStart()) && transactionDate.isBefore(request.getEnd())) {
+//                transactionsInPeriod.add(transaction);
+//            }
+//        }
+//
+//        // 최신 거래부터 보여줌
+//        Collections.sort(transactionsInPeriod, (transaction1, transaction2)
+//                -> transaction2.getTransactionTime().compareTo(transaction1.getTransactionTime()));
+//        List<TransactionResponse> result = transactionsInPeriod.stream().map((transaction ->
+//                        new TransactionResponse(transaction)))
+//                .collect(Collectors.toList());
+        LocalDateTime startDate = request.getStart().atStartOfDay();
+        LocalDateTime endDate = LocalDateTime.of(request.getEnd(), LocalTime.of(23, 59, 59));
 
-        List<Transaction> transactionsInPeriod = new ArrayList<>();
-        for (Transaction transaction : allTransaction) {
-            LocalDateTime transactionDateTime = transaction.getTransactionTime();
-            LocalDate transactionDate = transactionDateTime.toLocalDate();
-
-            if(transactionDate.isAfter(request.getStart()) && transactionDate.isBefore(request.getEnd())) {
-                transactionsInPeriod.add(transaction);
-            }
-        }
-
-        // 최신 거래부터 보여줌
-        Collections.sort(transactionsInPeriod, (transaction1, transaction2)
-                -> transaction2.getTransactionTime().compareTo(transaction1.getTransactionTime()));
-        List<TransactionResponse> result = transactionsInPeriod.stream().map((transaction ->
-                        new TransactionResponse(transaction)))
-                .collect(Collectors.toList());
-        return result;
+        List<Transaction> transactions=transactionRepository
+                .findByTransactionTimeBetweenOrderByTransactionTimeDesc(startDate,endDate);
+        return transactions.stream().map(TransactionResponse::new).collect(Collectors.toList());
     }
 
     // 일반계좌 발급

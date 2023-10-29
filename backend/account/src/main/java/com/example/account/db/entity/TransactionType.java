@@ -1,7 +1,17 @@
 package com.example.account.db.entity;
 
+import lombok.Getter;
+
+
 public enum TransactionType {
     // 계좌거래종류
-    // 입금, 출금, 이체, 수신(다른 계좌에서 자금을 받음)
-    DEPOSIT, WITHDRAWAL, TRANSFER, RECEIVE
+    DEPOSIT("입금"), WITHDRAWAL("출금");
+    private String name;
+
+    TransactionType(String name) {
+        this.name = name;
+    }
+    public String getName() {
+        return name;
+    }
 }
