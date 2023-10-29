@@ -4,10 +4,12 @@
 
     <corners android:radius="10dp" />
     <padding
-        android:bottom="10dp"
+
         android:left="10dp"
         android:right="10dp"
-        android:top="10dp" />
+        android:top="6dp"
+        android:bottom="6dp"
+        />
 
     <solid android:color="@color/transaction_ligt_green" />
 </shape>
