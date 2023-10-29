@@ -3,6 +3,7 @@ package com.example.account.common.api;
 import com.example.account.common.api.status.FailCode;
 import com.example.account.common.api.status.SuccessCode;
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
 
 // responseEntity 클래스
 @Getter
@@ -33,6 +34,7 @@ public class Response<T> {
     }
 
     public static <T> Response<T> success(SuccessCode code, T resultData) {
+
         return new Response<>(code.getStatus().value(), code.getMessage(), resultData);
     }
 

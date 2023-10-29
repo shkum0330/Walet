@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface AccountService {
-    List<HomeTransactionResponse> getHomeTransactions(Long accountId);
-    GeneralAccountDetailResponse getGeneralAccountDetail(Long accountId);
+
+//    GeneralAccountDetailResponse getGeneralAccountDetail(Long accountId);
     AnimalAccountDetailResponse getAnimalAccountDetail(Long accountId);
     Long addTransaction(TransactionRequest transactionRequest);
     List<TransactionResponse> getTransactionHistory(Long accountId);

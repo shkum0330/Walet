@@ -28,27 +28,29 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
-    @Override
-    public List<HomeTransactionResponse> getHomeTransactions(Long accountId){
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
 
-        List<Transaction> transactions=transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(account);
-        return transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList());
-    }
+    // 메인화면에 최근 5개의 거래내역을 가져옴
+//    @Override
+//    public List<HomeTransactionResponse> getHomeTransactions(Long accountId){
+//        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+//
+//        List<Transaction> transactions=transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(account);
+//        return transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList());
+//    }
     // 일반계좌 상세정보
-    @Override
-    public GeneralAccountDetailResponse getGeneralAccountDetail(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-
-        // 최근 5개의 거래내역을 가져옴
-        List<Transaction> transactionHistory = account.getTransactionHistory();
-        Collections.sort(transactionHistory, (transaction1, transaction2)
-                -> transaction2.getTransactionTime().compareTo(transaction1.getTransactionTime()));
-        List<Transaction> recentTransactions = transactionHistory.subList(0, Math.min(5, transactionHistory.size()));
-
-        GeneralAccountDetailResponse result = new GeneralAccountDetailResponse(account, recentTransactions);
-        return result;
-    }
+//    @Override
+//    public GeneralAccountDetailResponse getGeneralAccountDetail(Long accountId) {
+//        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+//
+//        // 최근 5개의 거래내역을 가져옴
+//        List<Transaction> transactionHistory = account.getTransactionHistory();
+//        Collections.sort(transactionHistory, (transaction1, transaction2)
+//                -> transaction2.getTransactionTime().compareTo(transaction1.getTransactionTime()));
+//        List<Transaction> recentTransactions = transactionHistory.subList(0, Math.min(5, transactionHistory.size()));
+//
+//        GeneralAccountDetailResponse result = new GeneralAccountDetailResponse(account, recentTransactions);
+//        return result;
+//    }
 
     // 반려동물계좌 상세정보
     @Override

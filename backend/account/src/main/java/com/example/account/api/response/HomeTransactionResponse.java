@@ -9,8 +9,8 @@ public class HomeTransactionResponse {
     private String companyName;
     private Long paymentAmount;
 
-    public HomeTransactionResponse(Transaction entity){
-        this.companyName= entity.getCompanyName();
-        this.paymentAmount=entity.getPaymentAmount();
+    public HomeTransactionResponse(Transaction transaction){
+        this.companyName= transaction.getCompanyName();
+        this.paymentAmount=transaction.getPaymentAmount();
     }
 }
