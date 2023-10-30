@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
 
-        tools:context=".MainActivity">
+        tools:context=".NormalAccountActivity">
 
 
         <!--    구분선-->
@@ -122,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_semi_bold"
-                        android:text="잃어버린 내 아이"
+                        android:text="농협은행 단독 펫계좌 출시"
                         android:textColor="@color/black"
 
                         android:textSize="15sp" />
@@ -132,7 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_regular"
-                        android:text="농협은행과 함께 찾아요!"
+                        android:text="간편한 올포유 페이 사용가능!"
                         android:textColor="@color/black"
 
                         android:textSize="15sp" />
@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
 
-                    android:src="@drawable/dog1" />
+                    android:src="@drawable/dog2" />
 
 
             </LinearLayout>
@@ -201,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/box_pet_account"
+                android:background="@drawable/box_account"
 
                 android:orientation="vertical"
                 android:paddingTop="20dp"
@@ -217,17 +217,13 @@
 
                     android:paddingHorizontal="12dp">
 
-                    <!--        펫 이미지-->
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/pet_img"
+                    <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
+                        android:src="@drawable/bank_nonghyup"
+                        android:contentDescription="은행정보"
+                        />
 
-                        android:layout_gravity="center"
-                        android:src="@drawable/zoa"
-                        app:civ_border_color="#FF000000"/>
 
                     <!--        계좌 정보-->
                     <LinearLayout
@@ -248,8 +244,8 @@
                                 android:layout_height="wrap_content"
 
                                 android:fontFamily="@font/pretendard_bold"
-                                android:text="멍계좌"
-                                android:textColor="@color/black"
+                                android:text="입출금"
+                                android:textColor="@color/white"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -259,8 +255,8 @@
                                 android:layout_marginLeft="10dp"
 
                                 android:fontFamily="@font/pretendard_semi_bold"
-                                android:text="사랑하는 막둥이 조아"
-                                android:textColor="@color/black"
+                                android:text="농민건강최고 예금"
+                                android:textColor="@color/white"
                                 android:textSize="16sp" />
 
 
@@ -280,7 +276,7 @@
 
                                 android:fontFamily="@font/pretendard_regular"
                                 android:text="농협"
-                                android:textColor="@color/grey80"
+                                android:textColor="@color/white"
                                 android:textSize="15sp" />
 
                             <!--            계좌 번호-->
@@ -291,7 +287,7 @@
                                 android:layout_marginLeft="8dp"
                                 android:fontFamily="@font/pretendard_regular"
                                 android:text="110-220-785902"
-                                android:textColor="@color/grey80"
+                                android:textColor="@color/white"
 
                                 android:textSize="15sp" />
 
@@ -321,7 +317,7 @@
 
                         android:fontFamily="@font/pretendard_bold"
                         android:text="8,201,000"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="30sp" />
                     <!--    원-->
                     <TextView
@@ -331,7 +327,7 @@
                         android:layout_marginLeft="8dp"
                         android:fontFamily="@font/pretendard_regular"
                         android:text="원"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
 
                         android:textSize="20sp" />
 
@@ -344,6 +340,9 @@
                         android:layout_gravity="center_vertical"
 
                         android:layout_marginLeft="24dp"
+
+                        android:backgroundTint="@color/white"
+
                         android:src="@drawable/baseline_autorenew_24" />
 
 
@@ -370,9 +369,11 @@
                         android:layout_height="48dp"
                         android:layout_weight="10"
 
-                        android:background="@drawable/account_button"
+                        android:background="@drawable/account_button_white"
                         android:fontFamily="@font/pretendard_medium"
                         android:text="충전"
+                        android:textColor="@color/no_green"
+
 
                         android:textSize="18sp" />
 
@@ -388,9 +389,10 @@
                         android:layout_weight="10"
 
 
-                        android:background="@drawable/account_button"
+                        android:background="@drawable/account_button_white"
                         android:fontFamily="@font/pretendard_medium"
                         android:text="거래내역"
+                        android:textColor="@color/no_green"
 
                         android:textSize="18sp" />
 
@@ -723,7 +725,7 @@
                 android:paddingTop="30dp"
                 android:paddingBottom="30dp"
                 >
-<!--반려동물 프로필 이미지-->
+                <!--반려동물 프로필 이미지-->
                 <de.hdodenhof.circleimageview.CircleImageView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/pet_profile2"
@@ -741,7 +743,7 @@
                     android:layout_marginLeft="20dp"
                     android:orientation="vertical">
 
-<!--반려동물 이름, 성별-->
+                    <!--반려동물 이름, 성별-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -771,7 +773,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="8dp"
                         />
-<!--비문, 내장칩 인증 여부-->
+                    <!--비문, 내장칩 인증 여부-->
                     <LinearLayout
 
                         android:layout_width="match_parent"
@@ -916,7 +918,7 @@
                     android:textColor="@color/white"
                     android:fontFamily="@font/pretendard_bold"
                     android:textSize="16sp"
-                />
+                    />
 
                 <ImageView
                     android:layout_width="36dp"
@@ -1101,7 +1103,7 @@
             android:layout_height="12dp"
             />
 
-<!--        광고-->
+        <!--        광고-->
         <LinearLayout
 
             android:layout_width="match_parent"
@@ -1151,7 +1153,7 @@
 
 
 
-<!--        네비게이션바-->
+        <!--        네비게이션바-->
         <FrameLayout
             android:id="@+id/mainFrameLayout"
             android:layout_width="match_parent"
