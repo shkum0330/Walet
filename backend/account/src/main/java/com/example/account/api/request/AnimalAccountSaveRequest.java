@@ -8,9 +8,10 @@ import java.util.List;
 
 @Data
 public class AnimalAccountSaveRequest {
+    private Long memberId;
     private String depositorName; // 예금주명
     private Long accountLimit; // 인출한도
-    private boolean accountType; // 타입(일반 or 동물)
+    private String accountType; // 타입(일반(00) or 사업자(01) or 동물(02))
     private Long linkedAccountId = null;
 
     private String petName; // 펫이름

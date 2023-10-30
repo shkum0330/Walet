@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class TransactionResponse {
 
     private Long id;
-    private String companyName;
+    private String recipient;
 
     private TransactionType transactionType; // 거래 타입
     private Long paymentAmount; // 거래 금액
@@ -21,7 +21,7 @@ public class TransactionResponse {
 
     public TransactionResponse(Transaction transaction) {
         this.id = transaction.getId();
-        this.companyName = transaction.getCompanyName();
+        this.recipient = transaction.getRecipient();
         this.transactionType = transaction.getTransactionType();
         this.paymentAmount = transaction.getPaymentAmount();
         this.balance = transaction.getBalance();

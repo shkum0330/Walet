@@ -7,7 +7,6 @@ import com.example.account.db.entity.Account;
 import com.example.account.db.entity.Transaction;
 import com.example.account.db.repository.AccountRepository;
 import com.example.account.db.repository.TransactionRepository;
-import com.example.account.service.AccountService;
 import com.example.account.service.HomeAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,16 +26,9 @@ public class HomeAccountServiceImpl implements HomeAccountService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    public HomeAccountResponse getHomeAccount(Long accountId) {
+    public HomeAccountResponse getHomeAccountDetail(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        return new HomeAccountResponse(account);
-    }
-
-    public List<HomeTransactionResponse> getHomeTransactions(Long accountId){
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-
         List<Transaction> transactions=transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(account);
-        return transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList());
+        return new HomeAccountResponse(account, transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList()));
     }
-
 }

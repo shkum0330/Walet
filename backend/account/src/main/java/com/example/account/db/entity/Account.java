@@ -25,6 +25,8 @@ public class Account extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
     private Long id;
+    @Column(name = "member_id")
+    private Long memberId;
 
     @Column(name="account_name",length = 20,nullable = false)
     private String accountName; // 계좌명(ex. NH올원e예금)
@@ -43,14 +45,11 @@ public class Account extends BaseTimeEntity {
     @Column(name="account_limit", nullable = true)
     private Long accountLimit; // 인출한도
     @Column(name="account_type", length = 10,nullable = false)
-    private Boolean accountType; // 타입(사업자계좌(false), 펫계좌(true))
+    private String accountType; // 타입(일반계좌(00), 사업자계좌(01), 펫계좌(02))
     @Column(name="business_type",nullable = true)
     private Integer businessType; // 사업자계좌면 사업유형도 입력
     @Column(name="linked_account_id", length = 20,nullable = true)
     private Long linkedAccountId; // 연결될 충전계좌 아이디(선택사항)
-
-    @OneToMany(mappedBy = "account")
-    private List<Transaction> transactionHistory = new ArrayList<>(); // 거래내역
 
     // 펫 정보(일반 계좌에서는 이 값들이 null값으로 들어감)
     @Column(name="pet_name", length = 10)
@@ -78,17 +77,19 @@ public class Account extends BaseTimeEntity {
 
     // 일반계좌 기본정보 입력
     public Account(AccountSaveRequest accountSaveRequest) {
+        this.memberId = accountSaveRequest.getMemberId();
         this.depositorName = accountSaveRequest.getDepositorName();
         this.accountLimit = accountSaveRequest.getAccountLimit();
-        this.accountType = accountSaveRequest.isAccountType();
+        this.accountType = accountSaveRequest.getAccountType();
         this.linkedAccountId = accountSaveRequest.getLinkedAccountId();
     }
 
     // 반려동물계좌 기본정보 입력
     public Account(AnimalAccountSaveRequest accountRequest) {
+        this.memberId = accountRequest.getMemberId();
         this.depositorName = accountRequest.getDepositorName();
         this.accountLimit = accountRequest.getAccountLimit();
-        this.accountType = accountRequest.isAccountType();
+        this.accountType = accountRequest.getAccountType();
         this.linkedAccountId = accountRequest.getLinkedAccountId();
         this.petName = accountRequest.getPetName();
         this.petGender = accountRequest.getPetGender(); // 펫성별
@@ -115,11 +116,6 @@ public class Account extends BaseTimeEntity {
     // 계좌번호 부여
     public void createAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
-    }
-    
-    // 거래내역 추가
-    public void addTransaction(Transaction transaction) {
-        this.transactionHistory.add(transaction);
     }
     
     // 충전계좌 추가
