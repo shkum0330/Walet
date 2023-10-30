@@ -26,6 +26,8 @@ public class Account extends BaseTimeEntity {
     @Column(name = "account_id")
     private Long id;
 
+    @Column(name="account_name",length = 20,nullable = false)
+    private String accountName; // 계좌명(ex. NH올원e예금)
     @Column(name="account_number",length = 20,nullable = false)
     private String accountNumber; // 계좌번호
     @Column(name="depositor_name",length = 20,nullable = false)

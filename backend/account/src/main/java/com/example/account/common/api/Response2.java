@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 // 쓸지 안쓸지 고민중
 @Getter
 public class Response2 {
+    private int code;
     private String message;
     private ConcurrentHashMap<String,Object> data;
 

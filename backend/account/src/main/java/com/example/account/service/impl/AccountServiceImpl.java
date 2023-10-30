@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,27 +29,29 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
-    @Override
-    public List<HomeTransactionResponse> getHomeTransactions(Long accountId){
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
 
-        List<Transaction> transactions=transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(account);
-        return transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList());
-    }
+    // 메인화면에 최근 5개의 거래내역을 가져옴
+//    @Override
+//    public List<HomeTransactionResponse> getHomeTransactions(Long accountId){
+//        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+//
+//        List<Transaction> transactions=transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(account);
+//        return transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList());
+//    }
     // 일반계좌 상세정보
-    @Override
-    public GeneralAccountDetailResponse getGeneralAccountDetail(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-
-        // 최근 5개의 거래내역을 가져옴
-        List<Transaction> transactionHistory = account.getTransactionHistory();
-        Collections.sort(transactionHistory, (transaction1, transaction2)
-                -> transaction2.getTransactionTime().compareTo(transaction1.getTransactionTime()));
-        List<Transaction> recentTransactions = transactionHistory.subList(0, Math.min(5, transactionHistory.size()));
-
-        GeneralAccountDetailResponse result = new GeneralAccountDetailResponse(account, recentTransactions);
-        return result;
-    }
+//    @Override
+//    public GeneralAccountDetailResponse getGeneralAccountDetail(Long accountId) {
+//        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+//
+//        // 최근 5개의 거래내역을 가져옴
+//        List<Transaction> transactionHistory = account.getTransactionHistory();
+//        Collections.sort(transactionHistory, (transaction1, transaction2)
+//                -> transaction2.getTransactionTime().compareTo(transaction1.getTransactionTime()));
+//        List<Transaction> recentTransactions = transactionHistory.subList(0, Math.min(5, transactionHistory.size()));
+//
+//        GeneralAccountDetailResponse result = new GeneralAccountDetailResponse(account, recentTransactions);
+//        return result;
+//    }
 
     // 반려동물계좌 상세정보
     @Override
@@ -105,25 +108,30 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<TransactionResponse> getSpecificPeriodTransaction(TransactionPeriodRequest request) {
         Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        List<Transaction> allTransaction = account.getTransactionHistory();
+//        List<Transaction> allTransaction = account.getTransactionHistory();
+//
+//        List<Transaction> transactionsInPeriod = new ArrayList<>();
+//        for (Transaction transaction : allTransaction) {
+//            LocalDateTime transactionDateTime = transaction.getTransactionTime();
+//            LocalDate transactionDate = transactionDateTime.toLocalDate();
+//
+//            if(transactionDate.isAfter(request.getStart()) && transactionDate.isBefore(request.getEnd())) {
+//                transactionsInPeriod.add(transaction);
+//            }
+//        }
+//
+//        // 최신 거래부터 보여줌
+//        Collections.sort(transactionsInPeriod, (transaction1, transaction2)
+//                -> transaction2.getTransactionTime().compareTo(transaction1.getTransactionTime()));
+//        List<TransactionResponse> result = transactionsInPeriod.stream().map((transaction ->
+//                        new TransactionResponse(transaction)))
+//                .collect(Collectors.toList());
+        LocalDateTime startDate = request.getStart().atStartOfDay();
+        LocalDateTime endDate = LocalDateTime.of(request.getEnd(), LocalTime.of(23, 59, 59));
 
-        List<Transaction> transactionsInPeriod = new ArrayList<>();
-        for (Transaction transaction : allTransaction) {
-            LocalDateTime transactionDateTime = transaction.getTransactionTime();
-            LocalDate transactionDate = transactionDateTime.toLocalDate();
-
-            if(transactionDate.isAfter(request.getStart()) && transactionDate.isBefore(request.getEnd())) {
-                transactionsInPeriod.add(transaction);
-            }
-        }
-
-        // 최신 거래부터 보여줌
-        Collections.sort(transactionsInPeriod, (transaction1, transaction2)
-                -> transaction2.getTransactionTime().compareTo(transaction1.getTransactionTime()));
-        List<TransactionResponse> result = transactionsInPeriod.stream().map((transaction ->
-                        new TransactionResponse(transaction)))
-                .collect(Collectors.toList());
-        return result;
+        List<Transaction> transactions=transactionRepository
+                .findByTransactionTimeBetweenOrderByTransactionTimeDesc(startDate,endDate);
+        return transactions.stream().map(TransactionResponse::new).collect(Collectors.toList());
     }
 
     // 일반계좌 발급
