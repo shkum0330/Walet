@@ -41,15 +41,3 @@ eureka:
       defaultZone: http://43.201.195.182:8761/eureka
     fetch-registry: true
     register-with-eureka: true
-
----
-
-spring:
-  profiles:
-    active: dev
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-    fetch-registry: true
-    register-with-eureka: true
