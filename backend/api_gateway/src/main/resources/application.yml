@@ -4,31 +4,35 @@ server:
 spring:
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
       routes:
         - id: notification
           uri: lb://NOTIFICATION/
           predicates:
-            - Path=/notification/**
+            - Path=/api/notification/**
           filters:
-            - RewritePath=/notification/(?<path>.*),/$\{path}
+            - RewritePath=/api/notification/(?<path>.*),/$\{path}
         - id: auth
           uri: lb://AUTH/
           predicates:
-            - Path=/auth/**
+            - Path=/api/auth/**
           filters:
-            - RewritePath=/auth/(?<path>.*),/$\{path}
+            - RewritePath=/api/auth/(?<path>.*),/$\{path}
         - id: notice
           uri: lb://NOTICE/
           predicates:
-            - Path=/notice/**
+            - Path=/api/notice/**
           filters:
-            - RewritePath=/notice/(?<path>.*),/$\{path}
+            - AuthFilter
+            - RewritePath=/api/notice/(?<path>.*),/$\{path}
         - id: account
           uri: lb://ACCOUNT/
           predicates:
-            - Path=/account/**
+            - Path=/api/account/**
           filters:
-            - RewritePath=/account/(?<path>.*),/$\{path}
+            - RewritePath=/api/account/(?<path>.*),/$\{path}
+
   application:
     name: API-GATEWAY
 eureka:
@@ -38,3 +42,14 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
 
+---
+
+spring:
+  profiles:
+    active: dev
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
