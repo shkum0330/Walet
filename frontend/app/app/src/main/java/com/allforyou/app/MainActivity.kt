@@ -31,13 +31,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
-        binding.recharge.setOnClickListener({
-            val intent = Intent(this, PaymentActivity::class.java)
-            startActivity(intent)
-        })
-
-
         setFragment(TAG_HOME, HomeFragment())
 
         binding.navigationView.setOnItemSelectedListener { item ->

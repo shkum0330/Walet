@@ -1,10 +1,14 @@
 package com.allforyou.app
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.allforyou.app.databinding.FragmentHomeBinding
+import com.allforyou.app.databinding.FragmentPetBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +25,8 @@ class PetFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding: FragmentPetBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -33,8 +39,22 @@ class PetFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pet, container, false)
+        binding = FragmentPetBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.recharge.setOnClickListener {
+            val intent = Intent(requireActivity(), PaymentActivity::class.java)
+            Log.d("버튼 클릭!!!!!!!!!!!","  _______                    \n" +
+                    " / ___/ /  ___ ________ ____ \n" +
+                    "/ /__/ _ \\/ _ `/ __/ _ `/ -_)\n" +
+                    "\\___/_//_/\\_,_/_/  \\_, /\\__/ \n" +
+                    "                  /___/      ")
+            startActivity(intent)
+        }
     }
 
     companion object {
