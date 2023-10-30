@@ -24,6 +24,9 @@ public class NoticeEntity extends BaseTimeEntity {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @Column(name = "banner_img")
+    private String bannerImg;
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -34,6 +37,10 @@ public class NoticeEntity extends BaseTimeEntity {
 
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public void setBannerImg(String bannerImg) {
+        this.bannerImg = bannerImg;
     }
 }
 

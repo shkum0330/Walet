@@ -1,17 +1,19 @@
 package com.ssafy.notice.controller;
 
+import com.ssafy.global.response.EnvelopeResponse;
 import com.ssafy.notice.api.noticeDTO;
 import com.ssafy.notice.db.NoticeEntity;
 import com.ssafy.notice.service.NoticeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping
@@ -25,7 +27,7 @@ public class NoticeController {
     }
 
     @GetMapping("/list")
-    public List<noticeDTO.request> getAllNotices() {
+    public ResponseEntity<EnvelopeResponse<List<noticeDTO.request>>> getAllNotices() {
         List<NoticeEntity> notices = noticeService.getAllNotices();
         List<noticeDTO.request> noticeList = new ArrayList<>();
 
@@ -35,66 +37,74 @@ public class NoticeController {
             noticeList.add(data);
         }
 
-        return noticeList;
+        EnvelopeResponse<List<noticeDTO.request>> response = new EnvelopeResponse<>(200, "데이터 처리 성공", noticeList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+
     @PostMapping("/create")
-    public NoticeEntity createNotice(@RequestBody noticeDTO.request request) {
-        return noticeService.createNotice(request);
+    public ResponseEntity<EnvelopeResponse<NoticeEntity>> createNotice(@RequestPart("data") noticeDTO.request request,
+                                                                       @RequestPart("bannerImg") MultipartFile file) throws IOException {
+        EnvelopeResponse<NoticeEntity> response = new EnvelopeResponse<>(201, "데이터 생성 성공", noticeService.createNotice(request, file));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/detail/{id}")
-    public noticeDTO.noticeResponse getNoticeByID(@PathVariable Long id){
-        try {
-            NoticeEntity notice = noticeService.getNoticeByID(id);
+    public ResponseEntity<EnvelopeResponse<noticeDTO.request>> getNoticeByID(@PathVariable Long id) {
 
-            noticeDTO.request data = new noticeDTO.request();
-            BeanUtils.copyProperties(notice, data);
+        NoticeEntity notice = noticeService.getNoticeByID(id);
+        noticeDTO.request data = new noticeDTO.request();
+        BeanUtils.copyProperties(notice, data);
 
-            noticeDTO.noticeResponse response = new noticeDTO.noticeResponse();
-            response.setMessage("OK");
-            response.setData(data);
-
-            return response;
-        } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "No Notice Found With This Id", e);
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(new EnvelopeResponse<>(200, "데이터 처리 성공", data));
     }
 
 
     @PutMapping("/update/{id}")
-    public NoticeEntity updateNotice(@PathVariable Long id, @RequestBody noticeDTO.request request){
-        return noticeService.updateNotice(id, request);
+    public ResponseEntity<EnvelopeResponse<noticeDTO.request>> updateNotice(@PathVariable Long id,
+                                                                            @RequestPart("notice") noticeDTO.request request,
+                                                                            @RequestPart("file") MultipartFile file) throws IOException {
+        NoticeEntity updatedNotice = noticeService.updateNotice(id, request, file);
+
+        noticeDTO.request data = new noticeDTO.request();
+        BeanUtils.copyProperties(updatedNotice, data);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new EnvelopeResponse<>(200, "OK", data));
     }
 
+
     @DeleteMapping("/delete/{id}")
-    public void deleteNotice(@PathVariable Long id) {
+    public ResponseEntity<EnvelopeResponse<String>> deleteNotice(@PathVariable Long id) {
         noticeService.deleteNotice(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new EnvelopeResponse<>(204, "데이터 삭제 성공", ""));
     }
+
 
 
     @PutMapping("/pop/{id}")
-    public NoticeEntity setActiveToTrue(@PathVariable Long id) {
+    public ResponseEntity<EnvelopeResponse<noticeDTO.request>> setActiveToTrue(@PathVariable Long id) {
         noticeService.setAllActiveToFalse();
-        return noticeService.setIsActiveToTrue(id);
+        NoticeEntity notice = noticeService.setIsActiveToTrue(id);
+
+        noticeDTO.request data = new noticeDTO.request();
+        BeanUtils.copyProperties(notice, data);
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(new EnvelopeResponse<>(200, "데이터 처리 성공", data));
     }
+
 
     @GetMapping("/pop")
-    public noticeDTO.noticeResponse getPopBanner(){
-        try {
-            NoticeEntity notice = noticeService.getActiveNotice();
+    public ResponseEntity<EnvelopeResponse<noticeDTO.request>> getPopBanner() {
+        NoticeEntity notice = noticeService.getActiveNotice();
 
-            noticeDTO.request data = new noticeDTO.request();
-            BeanUtils.copyProperties(notice, data);
+        noticeDTO.request data = new noticeDTO.request();
+        BeanUtils.copyProperties(notice, data);
 
-            noticeDTO.noticeResponse response = new noticeDTO.noticeResponse();
-            response.setMessage("OK");
-            response.setData(data);
-            return response;
-        } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "No Active Notice Found", e);
-        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(new EnvelopeResponse<>(200, "데이터 처리 성공", data));
     }
+
 }
