@@ -23,8 +23,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://43.201.195.182:8761/eureka
-  instance:
-    prefer-ip-address: true
+      defaultZone: http://localhost:8761/eureka
+
 jasypt:
   password: ${PASSWORD}
