@@ -377,6 +377,7 @@
 
 
             <ImageButton
+                android:id="@+id/payment_disabled"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
@@ -404,6 +405,7 @@
                 android:textSize="28sp" />
 
             <TextView
+                android:id="@+id/finish"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"

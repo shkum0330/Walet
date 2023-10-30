@@ -1,5 +1,6 @@
 package com.allforyou.app
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -27,6 +28,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
+
+        binding.recharge.setOnClickListener({
+            val intent = Intent(this, PaymentActivity::class.java)
+            startActivity(intent)
+        })
 
 
         setFragment(TAG_HOME, HomeFragment())

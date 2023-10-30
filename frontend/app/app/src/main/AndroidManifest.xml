@@ -13,13 +13,28 @@
         android:theme="@style/Theme.App"
         tools:targetApi="31">
         <activity
+            android:name=".SelectMethodActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReceiptActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PaymentAbledActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PaymentDisabledActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChipAlertActivity"
+            android:exported="false" />
+        <activity
             android:name=".PaymentActivity"
             android:exported="false" />
         <activity
-            android:name=".SlashActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SlashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

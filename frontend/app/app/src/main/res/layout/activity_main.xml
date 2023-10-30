@@ -175,15 +175,15 @@
                     android:orientation="horizontal"
 
 
-                    android:paddingHorizontal="20dp">
+                    android:paddingHorizontal="12dp">
 
                     <!--        펫 이미지-->
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/pet_img"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
 
                         android:layout_gravity="center"
                         android:src="@drawable/zoa"
@@ -320,7 +320,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
 
-                    android:paddingHorizontal="20dp">
+                    android:paddingHorizontal="12dp">
 
                     <!--        충전 버튼-->
 
@@ -363,7 +363,7 @@
 
                     android:layout_marginTop="12dp"
 
-                    android:paddingLeft="20dp"
+                    android:paddingLeft="12dp"
                     android:scrollbars="none">
 
 
@@ -847,6 +847,12 @@
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:background="@drawable/border_box" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            />
+
 
         <LinearLayout
             android:layout_width="match_parent"
