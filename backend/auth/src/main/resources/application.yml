@@ -57,7 +57,7 @@ spring :
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/auth
+    url: jdbc:mariadb://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/allforyou
     username: ENC(VNltww21CIXiNmgUXTMPOg==)
     password: ENC(TVzrKXINCXa2FQpT16WX1I3OCgHxPv3c)
 
@@ -87,3 +87,9 @@ eureka:
 
 jasypt:
   password: ${PASSWORD}
+
+
+coolsms:
+  api:
+    key: ENC(6cVSU5uI+5mnZP3gayD2UyfIlv+STP8zylbfw7zn9GE=)
+    secret: ENC(bPV+Ny9dyq2vnlSSX1kuiAFk9f0z6MnjdYehGD7jdYfCNKR9Ww49FnnUoIp8F1yL)
