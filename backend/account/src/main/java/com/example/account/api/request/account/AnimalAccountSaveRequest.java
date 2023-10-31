@@ -12,6 +12,7 @@ public class AnimalAccountSaveRequest {
     private String depositorName; // 예금주명
     private Long accountLimit; // 인출한도
     private String accountType; // 타입(일반(00) or 사업자(01) or 동물(02))
+    private String accountPwd; // 계좌 비밀번호
     private Long linkedAccountId = null;
 
     private String petName; // 펫이름

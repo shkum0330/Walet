@@ -4,6 +4,7 @@ import com.example.account.api.request.account.AccountSaveRequest;
 import com.example.account.api.request.account.AnimalAccountSaveRequest;
 import com.example.account.api.request.account.AssignRequest;
 import com.example.account.api.request.account.SelectChargingAccountRequest;
+import com.example.account.api.response.account.AccountResponse;
 import com.example.account.api.response.account.ChargingAccountResponse;
 import com.example.account.api.response.transaction.MonthlyExpenditureDetailResponse;
 import com.example.account.common.api.exception.DuplicatedException;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,6 +44,9 @@ public class AccountServiceImpl implements AccountService {
             account.addBusinessType(accountSaveRequest.getBusinessType());
         }
 
+        String hashPassword = hashPassword(accountSaveRequest.getAccountPwd());
+        account.addHashPwd(hashPassword);
+
         // 우선 랜덤으로 13자리의 계좌번호 부여
         int length = 13;
         Random random = new Random();
@@ -64,6 +70,9 @@ public class AccountServiceImpl implements AccountService {
     public Long registerAnimalAccount(AnimalAccountSaveRequest animalAccountRequest) {
 
         Account animalAccount = new Account(animalAccountRequest);
+
+        String hashRfidCode = hashPassword(animalAccountRequest.getRfidCode());
+        animalAccount.addHashedRfid(hashRfidCode);
         
         // 제한업종 추가
         List<Integer> limitTypeList = animalAccountRequest.getLimitTypeIdList();
@@ -80,7 +89,6 @@ public class AccountServiceImpl implements AccountService {
             }
         }
 
-
         // 우선 랜덤으로 13자리의 계좌번호 부여
         int length = 13;
         Random random = new Random();
@@ -96,6 +104,29 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(animalAccount);
         return animalAccount.getId();
     }
+    
+    public static String hashPassword(String password) {
+        // 비밀번호 해쉬화
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashedBytes = md.digest(password.getBytes());
+
+            StringBuilder hexString = new StringBuilder();
+            for (byte hashedByte : hashedBytes) {
+                String hex = Integer.toHexString(0xff & hashedByte);
+                if(hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 
     // 충전계좌로 등록할 수 있는 계좌 리스트 반환(일반계좌만 반환)
     @Override
@@ -105,6 +136,17 @@ public class AccountServiceImpl implements AccountService {
         List<Account> allAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "00");
         List<ChargingAccountResponse> result = allAccounts.stream().map((account ->
                 new ChargingAccountResponse(account))).collect(Collectors.toList());
+        return result;
+    }
+
+    // 관리자페이지용
+    // 선택된 유저의 모든 계좌 목록을 반환
+    @Override
+    public List<AccountResponse> getAllAccountList(Long memberId) {
+        List<Account> allAccounts = accountRepository.findAccountsByMemberId(memberId);
+        List<AccountResponse> result = allAccounts.stream().map(
+                account -> new AccountResponse(account)
+        ).collect(Collectors.toList());
         return result;
     }
 

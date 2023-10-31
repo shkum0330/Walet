@@ -32,6 +32,8 @@ public class Account extends BaseTimeEntity {
     private String accountNumber; // 계좌번호
     @Column(name="depositor_name",length = 20,nullable = false)
     private String depositorName;// 예금주명
+    @Column(name = "account_password", length = 4, nullable = false)
+    private String accountPwd; // 계좌 비밀번호
     @Column(name="balance", nullable = false)
     private Long balance = 0L; // 잔액
     
@@ -98,7 +100,14 @@ public class Account extends BaseTimeEntity {
         this.petRegistrationDate = accountRequest.getPetRegistrationDate(); // 등록일
         this.petWeight = accountRequest.getPetWeight(); // 몸무게
         this.petPhoto = accountRequest.getPetPhoto(); // 사진
-        this.rfidCode = accountRequest.getRfidCode();
+    }
+
+    public void addHashPwd(String hashAccountPwd) {
+        this.accountPwd = hashAccountPwd;
+    }
+
+    public void addHashedRfid(String rfidCode) {
+        this.rfidCode = rfidCode;
     }
 
     // 제한업종 추가
