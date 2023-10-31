@@ -42,6 +42,11 @@ eureka:
 jasypt:
   password: ${PASSWORD}
 
+coolsms:
+  api:
+    key: ENC(6cVSU5uI+5mnZP3gayD2UyfIlv+STP8zylbfw7zn9GE=)
+    secret: ENC(bPV+Ny9dyq2vnlSSX1kuiAFk9f0z6MnjdYehGD7jdYfCNKR9Ww49FnnUoIp8F1yL)
+    
 ---
 
 server:
