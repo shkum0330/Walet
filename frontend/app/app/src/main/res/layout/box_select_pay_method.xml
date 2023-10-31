@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+
+    android:background="@drawable/box_dialog"
+    android:orientation="vertical">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_close_24"
+        android:background="@color/white"
+        android:layout_gravity="end"
+        android:contentDescription="close button"
+        android:layout_marginHorizontal="14dp"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="결제 아이콘"
+        android:src="@drawable/baseline_payment_24"
+
+        />
+
+    <!--  회원이름-->
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:text="결제수단을 선택하세요"
+
+        android:textColor="@color/black"
+        android:textSize="28sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="14dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/box_chip"
+            android:adjustViewBounds="true"
+            android:orientation="vertical"
+
+            >
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                />
+
+
+            <ImageView
+                android:id="@+id/nose"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:adjustViewBounds="true"
+
+                android:src="@drawable/nn" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+
+
+                android:background="@drawable/box_dialog"
+
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:gravity="center"
+                android:text="비문페이"
+                android:textColor="@color/black"
+                android:textSize="28sp" />
+
+
+        </LinearLayout>
+<Space
+    android:layout_width="12dp"
+    android:layout_height="10dp"
+    />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/box_nose"
+            android:paddingBottom="1dp"
+            android:orientation="vertical"
+            android:adjustViewBounds="true">
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                />
+
+
+            <ImageView
+
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+
+                android:adjustViewBounds="true"
+                android:src="@drawable/cc" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+
+
+                android:background="@drawable/box_dialog"
+
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:gravity="center"
+                android:text="내장칩 페이"
+                android:textColor="@color/black"
+                android:textSize="28sp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        />
+
+</LinearLayout>

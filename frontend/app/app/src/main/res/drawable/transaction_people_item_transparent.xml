@@ -11,5 +11,5 @@
         android:bottom="6dp"
         />
 
-    <solid android:color="@color/transaction_ligt_green" />
+    <solid android:color="#80BFFF97" />
 </shape>
