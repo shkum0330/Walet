@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.homeFragment -> setFragment(TAG_HOME, HomeFragment())
                 R.id.printFragment -> setFragment(TAG_PRINT, PrintFragment())
-
                 R.id.presentFragment-> setFragment(TAG_PRESENT, PresentFragment())
                 R.id.petFragment-> setFragment(TAG_PET, PetFragment())
             }
