@@ -32,6 +32,7 @@
                     android:layout_height="48dp"
                     android:src="@drawable/icon_mypage"
                     android:background="@color/white"
+                    android:contentDescription="마이페이지 버튼"
                     />
                 <Space
                     android:layout_width="0dp"
@@ -44,6 +45,8 @@
                     android:layout_height="48dp"
                     android:src="@drawable/icon_bell"
                     android:background="@color/white"
+
+                    android:contentDescription="알림버튼"
                     />
                 <ImageButton
                     android:id="@+id/search"
@@ -51,6 +54,7 @@
                     android:layout_height="48dp"
                     android:src="@drawable/icon_search"
                     android:background="@color/white"
+                    android:contentDescription="검색버튼"
                     />
                 <ImageButton
                     android:id="@+id/hamburger"
@@ -58,6 +62,7 @@
                     android:layout_height="48dp"
                     android:src="@drawable/icon_hamburger"
                     android:background="@color/white"
+                    android:contentDescription="햄버거 버튼"
                     />
 
 
