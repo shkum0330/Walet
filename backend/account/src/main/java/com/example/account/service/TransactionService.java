@@ -1,9 +1,9 @@
 package com.example.account.service;
 
-import com.example.account.api.request.TransactionPeriodRequest;
-import com.example.account.api.request.TransactionRequest;
-import com.example.account.api.response.TransactionAccountResponse;
-import com.example.account.api.response.TransactionResponse;
+import com.example.account.api.request.transaction.TransactionPeriodRequest;
+import com.example.account.api.request.transaction.TransactionRequest;
+import com.example.account.api.response.transaction.TransactionAccountResponse;
+import com.example.account.api.response.transaction.TransactionResponse;
 
 import java.util.List;
 

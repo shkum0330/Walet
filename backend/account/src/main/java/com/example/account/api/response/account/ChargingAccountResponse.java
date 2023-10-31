@@ -1,6 +1,6 @@
-package com.example.account.api.response;
+package com.example.account.api.response.account;
 
-import com.example.account.db.entity.Account;
+import com.example.account.db.entity.account.Account;
 import lombok.Data;
 
 @Data

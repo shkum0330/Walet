@@ -1,8 +1,8 @@
-package com.example.account.api.response;
+package com.example.account.api.response.account;
 
-import com.example.account.db.entity.Account;
-import com.example.account.db.entity.AccountState;
-import com.example.account.db.entity.Transaction;
+import com.example.account.db.entity.account.Account;
+import com.example.account.db.entity.account.AccountState;
+import com.example.account.db.entity.transaction.Transaction;
 import lombok.Data;
 
 import java.time.LocalDateTime;

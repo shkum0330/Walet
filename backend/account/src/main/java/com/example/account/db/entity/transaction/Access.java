@@ -1,6 +1,6 @@
-package com.example.account.db.entity;
+package com.example.account.db.entity.transaction;
 
-import com.example.account.api.request.AccessRequest;
+import com.example.account.api.request.account.AccessRequest;
 import com.example.account.common.domain.util.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

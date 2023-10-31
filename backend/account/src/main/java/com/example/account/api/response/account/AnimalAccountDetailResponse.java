@@ -1,10 +1,10 @@
-package com.example.account.api.response;
+package com.example.account.api.response.account;
 
-import com.example.account.db.entity.Account;
-import com.example.account.db.entity.AccountState;
+import com.example.account.api.response.transaction.HomeTransactionResponse;
+import com.example.account.db.entity.account.Account;
+import com.example.account.db.entity.account.AccountState;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

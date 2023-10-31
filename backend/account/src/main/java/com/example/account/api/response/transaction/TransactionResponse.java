@@ -1,7 +1,7 @@
-package com.example.account.api.response;
+package com.example.account.api.response.transaction;
 
-import com.example.account.db.entity.Transaction;
-import com.example.account.db.entity.TransactionType;
+import com.example.account.db.entity.transaction.Transaction;
+import com.example.account.db.entity.transaction.TransactionType;
 import lombok.Data;
 
 import java.time.LocalDateTime;

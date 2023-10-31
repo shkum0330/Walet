@@ -1,15 +1,14 @@
 package com.example.account.service.impl;
 
-import com.example.account.api.request.TransactionPeriodRequest;
-import com.example.account.api.request.TransactionRequest;
-import com.example.account.api.response.TransactionAccountResponse;
-import com.example.account.api.response.TransactionResponse;
+import com.example.account.api.request.transaction.TransactionPeriodRequest;
+import com.example.account.api.request.transaction.TransactionRequest;
+import com.example.account.api.response.transaction.TransactionAccountResponse;
+import com.example.account.api.response.transaction.TransactionResponse;
 import com.example.account.common.api.exception.InsufficientBalanceException;
 import com.example.account.common.api.exception.NotFoundException;
-import com.example.account.common.api.status.FailCode;
-import com.example.account.db.entity.Account;
-import com.example.account.db.entity.AccountState;
-import com.example.account.db.entity.Transaction;
+import com.example.account.db.entity.account.Account;
+import com.example.account.db.entity.account.AccountState;
+import com.example.account.db.entity.transaction.Transaction;
 import com.example.account.db.repository.AccountRepository;
 import com.example.account.db.repository.TransactionRepository;
 import com.example.account.service.TransactionService;
