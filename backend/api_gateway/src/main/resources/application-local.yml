@@ -24,7 +24,7 @@ spring:
           predicates:
             - Path=/api/notice/**
           filters:
-            - AuthFilter
+            - NoticeFilter
             - RewritePath=/api/notice/(?<path>.*),/$\{path}
         - id: account
           uri: lb://ACCOUNT/

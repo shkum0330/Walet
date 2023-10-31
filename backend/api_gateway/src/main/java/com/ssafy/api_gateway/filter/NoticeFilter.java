@@ -2,7 +2,6 @@ package com.ssafy.api_gateway.filter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.ssafy.api_gateway.error.ErrorCode;
 import com.ssafy.api_gateway.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -17,38 +16,40 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 
-import java.nio.charset.StandardCharsets;
+import javax.ws.rs.HttpMethod;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
 
 @Slf4j
 @Component
-public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> {
+public class NoticeFilter extends AbstractGatewayFilterFactory<NoticeFilter.Config> {
     private final ObjectMapper objectMapper;
     private final JwtUtil jwtUtil;
-    @Autowired
-    public AuthFilter(JwtUtil jwtUtil , ObjectMapper objectMapper) {
-        super(AuthFilter.Config.class);
-        this.jwtUtil = jwtUtil;
-        this.objectMapper = objectMapper;
-    }
-
-    public static class Config{
-        //config
-    }
 
     @Override
-    public GatewayFilter apply(AuthFilter.Config config) {
+    public GatewayFilter apply(NoticeFilter.Config config) {
         return (exchange, chain) -> {
+            ServerHttpRequest request = exchange.getRequest();
+//            토큰인증
+            ErrorCode errorCode =  jwtUtil.validateToken(request);
+            if(errorCode != null){
+                return onError(exchange, errorCode);
+            }
 
+            String userType = jwtUtil.getUserType(request);
+//          공지사항 조회일경우 USER타입 허용
+            if (request.getMethod() != null && request.getMethod().matches(HttpMethod.GET) && request.getURI().getPath().equals("/api/notice/pop")) {
+                if(userType.equals("\"USER\"")){
+                    return chain.filter(exchange);
+                } else{
+                    onError(exchange, ErrorCode.INVALID_MEMBER_TYPE);
+                }
+            }
+            //관리자가 아니면 거부
+            if(!userType.equals("\"ADMIN\"")){
+                onError(exchange, ErrorCode.INVALID_MEMBER_TYPE);
+            }
             return chain.filter(exchange);
         };
     }
@@ -73,5 +74,16 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
             exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
             return exchange.getResponse().setComplete();
         }
+    }
+
+    @Autowired
+    public NoticeFilter(JwtUtil jwtUtil , ObjectMapper objectMapper) {
+        super(NoticeFilter.Config.class);
+        this.jwtUtil = jwtUtil;
+        this.objectMapper = objectMapper;
+    }
+
+    public static class Config{
+        //config
     }
 }

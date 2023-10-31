@@ -15,15 +15,15 @@ public class ErrorResponse {
 
     public static ErrorResponse of(String errorCode , String errorMessage){
         return ErrorResponse.builder()
-                .errorCode(errorCode)
                 .errorMessage(errorMessage)
+                .errorCode(errorCode)
                 .build();
     }
 
     public static ErrorResponse of(String errorCode , BindingResult bindingResult){
         return ErrorResponse.builder()
-                .errorCode(errorCode)
                 .errorMessage(CreateErrorMessage(bindingResult))
+                .errorCode(errorCode)
                 .build();
     }
 
