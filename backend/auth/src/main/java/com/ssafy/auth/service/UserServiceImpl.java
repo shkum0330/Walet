@@ -37,7 +37,8 @@ public class UserServiceImpl implements UserRepository{
             throw new GlobalRuntimeException("회원 탈퇴된 계정입니다.", HttpStatus.BAD_REQUEST);
         }
 
-        TokenMapping tokenMapping = jwtProvider.createToken(member.getRandomMemberId());
+        String role = member.getRole().name();
+        TokenMapping tokenMapping = jwtProvider.createToken(member.getRandomMemberId(), role);
         redisService.saveToken(member.getRandomMemberId(), tokenMapping.getAccessToken());
         redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
 
@@ -51,4 +52,5 @@ public class UserServiceImpl implements UserRepository{
         Long expiration = jwtProvider.getExpiration(accessToken);
         redisService.setBlackList(accessToken, accessToken, expiration);
     }
+
 }

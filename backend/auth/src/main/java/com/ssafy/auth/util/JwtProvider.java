@@ -6,6 +6,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
 import com.ssafy.member.db.MemberRepository;
+import com.ssafy.member.db.Role;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,22 +40,24 @@ public class JwtProvider {
 
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
-    private static final String USERNAME_CLAIM = "randomMemberId";
+    private static final String ID_CLAIM = "randomMemberId";
+    private static final String ROLE_CLAIM = "role";
     private static final String BEARER = "Bearer ";
 
-    public TokenMapping createToken(String randomMemberId){
+    public TokenMapping createToken(String randomMemberId, String role){
         return TokenMapping.builder()
-                .accessToken(createAccessToken(randomMemberId))
+                .accessToken(createAccessToken(randomMemberId, role))
                 .refreshToken(createRefreshToken())
                 .build();
     }
 
-    public String createAccessToken(String randomMemberId){
+    public String createAccessToken(String randomMemberId, String role){
         Date now = new Date();
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
-                .withClaim(USERNAME_CLAIM, randomMemberId)
+                .withClaim(ID_CLAIM, randomMemberId)
+                .withClaim(ROLE_CLAIM, role)
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
@@ -75,9 +78,20 @@ public class JwtProvider {
     public String AccessTokenDecoder(String accessToken) {
         accessToken = accessToken.replace("Bearer ", "");
         DecodedJWT jwt = JWT.decode(accessToken);
-        Claim randomMemberIdClaim = jwt.getClaim(USERNAME_CLAIM);
+        Claim randomMemberIdClaim = jwt.getClaim(ID_CLAIM);
         if (!randomMemberIdClaim.isNull()) {
             return randomMemberIdClaim.asString();
+        } else {
+            throw new GlobalRuntimeException("토큰에 해당하는 회원이 없습니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public String RoleDecoder(String accessToken) {
+        accessToken = accessToken.replace("Bearer ", "");
+        DecodedJWT jwt = JWT.decode(accessToken);
+        Claim roleClaim = jwt.getClaim(ROLE_CLAIM);
+        if (!roleClaim.isNull()) {
+            return roleClaim.asString();
         } else {
             throw new GlobalRuntimeException("토큰에 해당하는 회원이 없습니다.", HttpStatus.BAD_REQUEST);
         }

@@ -10,7 +10,10 @@ import com.ssafy.global.PasswordEncoder;
 import com.ssafy.member.util.UuidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+
+import java.util.Random;
 
 @Service
 public class MemberService {
@@ -40,7 +43,7 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public void Unregister(String randomMemberId) {
+    public void Signout(String randomMemberId) {
         MemberEntity member = memberRepository.findByRandomMemberId(randomMemberId);
         if (member == null) {
             throw new GlobalRuntimeException("해당 회원을 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
@@ -62,4 +65,26 @@ public class MemberService {
         return userDto;
     }
 
+    public boolean checkEmailExists(String email){
+        boolean emailExists = memberRepository.existsByEmail(email);
+        if(emailExists){
+            throw new GlobalRuntimeException("중복된 이메일 입니다.", HttpStatus.BAD_REQUEST);
+        }
+        return memberRepository.existsByEmail(email);
+    }
+
+    public String createVerificationCode() {
+        Random random = new Random();
+        String verificationCode = "";
+        for (int i = 0; i < 6; i++) {
+            int randomNumber = random.nextInt(10);
+            verificationCode += Integer.toString(randomNumber);
+        }
+        return verificationCode;
+    }
+    public void verificationCode(String code, String savedCode){
+        if(!code.equals(savedCode)){
+            throw new GlobalRuntimeException("인증 번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
