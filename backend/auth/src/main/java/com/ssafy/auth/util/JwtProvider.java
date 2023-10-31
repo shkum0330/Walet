@@ -44,10 +44,11 @@ public class JwtProvider {
     private static final String ROLE_CLAIM = "role";
     private static final String BEARER = "Bearer ";
 
-    public TokenMapping createToken(String randomMemberId, String role){
+    public TokenMapping createToken(String randomMemberId, String role,String name){
         return TokenMapping.builder()
                 .accessToken(createAccessToken(randomMemberId, role))
                 .refreshToken(createRefreshToken())
+                .userName(name)
                 .build();
     }
 

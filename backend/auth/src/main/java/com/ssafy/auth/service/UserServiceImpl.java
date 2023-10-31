@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserRepository{
     @Override
     public TokenMapping login(String email, String password) {
         MemberEntity member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다. " + email));
+                .orElseThrow(() -> new GlobalRuntimeException("가입되지 않은 계정입니다.", HttpStatus.BAD_REQUEST));
 
         if (!PasswordEncoder.checkPass(password, member.getPassword())) {
             throw new GlobalRuntimeException("비밀번호가 틀립니다.", HttpStatus.BAD_REQUEST);
@@ -38,10 +38,9 @@ public class UserServiceImpl implements UserRepository{
         }
 
         String role = member.getRole().name();
-        TokenMapping tokenMapping = jwtProvider.createToken(member.getRandomMemberId(), role);
+        TokenMapping tokenMapping = jwtProvider.createToken(member.getRandomMemberId(), role, member.getName());
         redisService.saveToken(member.getRandomMemberId(), tokenMapping.getAccessToken());
         redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
-
         return tokenMapping;
     }
 
