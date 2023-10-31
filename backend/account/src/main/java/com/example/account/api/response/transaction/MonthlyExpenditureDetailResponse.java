@@ -1,4 +1,4 @@
-package com.example.account.api.response;
+package com.example.account.api.response.transaction;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

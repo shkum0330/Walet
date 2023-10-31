@@ -1,9 +1,6 @@
 package com.example.account.service;
 
-import com.example.account.api.response.AnimalAccountDetailResponse;
-import com.example.account.api.response.HomeTransactionResponse;
-
-import java.util.List;
+import com.example.account.api.response.account.AnimalAccountDetailResponse;
 
 public interface PetHomeAccountService {
     // 반려동물계좌 관련 정보 반환

@@ -1,4 +1,4 @@
-package com.example.account.db.entity;
+package com.example.account.db.entity.transaction;
 
 import lombok.Getter;
 

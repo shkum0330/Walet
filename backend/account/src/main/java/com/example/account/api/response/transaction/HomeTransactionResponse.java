@@ -1,6 +1,6 @@
-package com.example.account.api.response;
+package com.example.account.api.response.transaction;
 
-import com.example.account.db.entity.Transaction;
+import com.example.account.db.entity.transaction.Transaction;
 import lombok.Data;
 
 // 홈 화면에서 최근 5개 거래내역

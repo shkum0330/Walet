@@ -1,5 +1,7 @@
-package com.example.account.db.entity;
+package com.example.account.db.entity.transaction;
 
+import com.example.account.db.entity.account.Account;
+import com.example.account.db.entity.transaction.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

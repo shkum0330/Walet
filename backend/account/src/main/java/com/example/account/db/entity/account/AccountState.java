@@ -1,4 +1,4 @@
-package com.example.account.db.entity;
+package com.example.account.db.entity.account;
 
 public enum AccountState {
     // 계좌상태

@@ -1,11 +1,7 @@
-package com.example.account.api.request;
+package com.example.account.api.request.transaction;
 
-import com.example.account.db.entity.Account;
-import com.example.account.db.entity.TransactionType;
+import com.example.account.db.entity.transaction.TransactionType;
 import lombok.Data;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Data
 public class TransactionRequest {

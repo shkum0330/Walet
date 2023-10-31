@@ -1,7 +1,7 @@
-package com.example.account.db.entity;
+package com.example.account.db.entity.account;
 
-import com.example.account.api.request.AccountSaveRequest;
-import com.example.account.api.request.AnimalAccountSaveRequest;
+import com.example.account.api.request.account.AccountSaveRequest;
+import com.example.account.api.request.account.AnimalAccountSaveRequest;
 import com.example.account.common.domain.util.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,10 +10,8 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-import static com.example.account.db.entity.AccountState.*;
+import static com.example.account.db.entity.account.AccountState.*;
 
 @Entity
 @Getter
