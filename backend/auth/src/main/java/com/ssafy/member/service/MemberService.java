@@ -1,8 +1,8 @@
 package com.ssafy.member.service;
 
+import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
 import com.ssafy.member.api.MemberDto;
-import com.ssafy.member.api.UserDto;
 import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.db.MemberRepository;
 import com.ssafy.member.db.Role;
@@ -10,9 +10,10 @@ import com.ssafy.global.PasswordEncoder;
 import com.ssafy.member.util.UuidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -20,12 +21,13 @@ public class MemberService {
 
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private JwtProvider jwtProvider;
 
     public MemberEntity signup(String name, String email, String password, String phoneNumber, String birth, String pinNumber, String fingerPrint){
         if(memberRepository.existsByEmail(email)){
             throw new GlobalRuntimeException("중복된 이메일 입니다.", HttpStatus.BAD_REQUEST);
         }
-
         MemberEntity member = new MemberEntity();
         member.setName(name);
         member.setEmail(email);
@@ -53,14 +55,15 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public UserDto.Response find(String randomMemberId){
+    public MemberDto.UserResponse find(String randomMemberId){
         MemberEntity member = memberRepository.findByRandomMemberId(randomMemberId);
 
-        UserDto.Response userDto = new UserDto.Response();
+        MemberDto.UserResponse userDto = new MemberDto.UserResponse();
         userDto.setName(member.getName());
         userDto.setEmail(member.getEmail());
         userDto.setPhoneNumber(member.getPhoneNumber());
         userDto.setBirth(member.getBirth());
+        userDto.setRandomMemberId(member.getRandomMemberId());
         userDto.setCreatedDate(member.getCreated_date());
         return userDto;
     }
@@ -86,5 +89,27 @@ public class MemberService {
         if(!code.equals(savedCode)){
             throw new GlobalRuntimeException("인증 번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public List<MemberDto.UsersResponse> getAllUsers(String accessToken) {
+        String role = jwtProvider.RoleDecoder(accessToken);
+        if(role.equals("USER")){
+            throw new GlobalRuntimeException("관리자만 이용 가능한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        List<MemberEntity> members = memberRepository.findByRole(Role.USER);
+
+        List<MemberDto.UsersResponse> userResponses = new ArrayList<>();
+        for (MemberEntity member : members) {
+            MemberDto.UsersResponse usersResponse = new MemberDto.UsersResponse(
+                    member.getName(),
+                    member.getEmail(),
+                    member.getRandomMemberId(),
+                    member.getCreated_date()
+            );
+            userResponses.add(usersResponse);
+        }
+
+        return userResponses;
     }
 }
