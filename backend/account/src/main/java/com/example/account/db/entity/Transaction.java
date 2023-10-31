@@ -21,7 +21,7 @@ public class Transaction {
     @JoinColumn(name = "account_id")
     private Account account;
     @Column(name="company_name",length = 30,nullable = false)
-    private String companyName; // 거래대상회사
+    private String recipient; // 거래대상
     @Column(name="business_category",nullable = false)
     private Integer businessCategory; // 거래한 회사의 카테고리
     @Enumerated(EnumType.STRING)
@@ -33,9 +33,9 @@ public class Transaction {
     private Long balance; // 거래 후 잔액
     @Column(name="transaction_time", updatable = false,nullable = false)
     private LocalDateTime transactionTime;
-    public Transaction(Account account, String companyName, Integer businessCategory, TransactionType transactionType, Long paymentAmount, Long balance) {
+    public Transaction(Account account, String recipient, Integer businessCategory, TransactionType transactionType, Long paymentAmount, Long balance) {
         this.account = account;
-        this.companyName = companyName;
+        this.recipient = recipient;
         this.businessCategory = businessCategory;
         this.transactionType = transactionType;
         this.paymentAmount = paymentAmount;

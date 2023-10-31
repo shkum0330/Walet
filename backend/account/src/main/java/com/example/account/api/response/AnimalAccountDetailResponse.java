@@ -2,8 +2,6 @@ package com.example.account.api.response;
 
 import com.example.account.db.entity.Account;
 import com.example.account.db.entity.AccountState;
-import com.example.account.db.entity.Transaction;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -21,7 +19,7 @@ public class AnimalAccountDetailResponse {
     private AccountState state; // 상태
     private LocalDateTime createdAt; // 등록일
     private Long accountLimit; // 인출한도
-    private boolean accountType; // 타입
+    private String accountType; // 타입
 
     private Long linkedAccountId; // 연결된 모계좌 id
 
@@ -34,11 +32,9 @@ public class AnimalAccountDetailResponse {
     private LocalDate petRegistrationDate; // 등록일
     private Float petWeight; // 몸무게
     private String petPhoto; // 사진
+    private List<HomeTransactionResponse> transactions;
 
-    // 최신 거래 내역 5개
-    private List<Transaction> recentTransactions; // 거래내역
-
-    public AnimalAccountDetailResponse(Account account, List<Transaction> recentTransactions) {
+    public AnimalAccountDetailResponse(Account account, List<HomeTransactionResponse> transactions) {
         this.id = account.getId();
         this.accountNumber = account.getAccountNumber();
         this.balance = account.getBalance();
@@ -56,6 +52,6 @@ public class AnimalAccountDetailResponse {
         this.petRegistrationDate = account.getPetRegistrationDate();
         this.petWeight = account.getPetWeight();
         this.petPhoto = account.getPetPhoto();
-        this.recentTransactions = new ArrayList<>(recentTransactions);
+        this.transactions = new ArrayList<>(transactions);
     }
 }

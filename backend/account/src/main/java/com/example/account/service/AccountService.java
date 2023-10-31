@@ -8,13 +8,11 @@ import java.util.Map;
 
 public interface AccountService {
 
-//    GeneralAccountDetailResponse getGeneralAccountDetail(Long accountId);
-    AnimalAccountDetailResponse getAnimalAccountDetail(Long accountId);
-    Long addTransaction(TransactionRequest transactionRequest);
-    List<TransactionResponse> getTransactionHistory(Long accountId);
-    List<TransactionResponse> getSpecificPeriodTransaction(TransactionPeriodRequest request);
     Long registerGeneralAccount(AccountSaveRequest accountSaveRequest);
     Long registerAnimalAccount(AnimalAccountSaveRequest animalAccountRequest);
+
+    List<ChargingAccountResponse> getChargingAccountList(Long memberId);
+    Long selectChargingAccount(SelectChargingAccountRequest request);
     Long assignAccount(AssignRequest assignRequest);
     void updateStateToActive(Long accountId);
     void updateStateToLocked(Long accountId);

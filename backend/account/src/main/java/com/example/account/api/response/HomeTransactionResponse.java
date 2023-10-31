@@ -6,11 +6,11 @@ import lombok.Data;
 // 홈 화면에서 최근 5개 거래내역
 @Data
 public class HomeTransactionResponse {
-    private String companyName;
+    private String recipient;
     private Long paymentAmount;
 
     public HomeTransactionResponse(Transaction transaction){
-        this.companyName= transaction.getCompanyName();
+        this.recipient = transaction.getRecipient();
         this.paymentAmount=transaction.getPaymentAmount();
     }
 }

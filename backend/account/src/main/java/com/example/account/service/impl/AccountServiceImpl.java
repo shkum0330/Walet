@@ -2,9 +2,10 @@ package com.example.account.service.impl;
 
 import com.example.account.api.request.*;
 import com.example.account.api.response.*;
+import com.example.account.common.api.exception.DuplicatedException;
 import com.example.account.common.api.exception.NotFoundException;
+import com.example.account.common.api.status.FailCode;
 import com.example.account.db.entity.Account;
-import com.example.account.db.entity.AccountState;
 import com.example.account.db.entity.Transaction;
 import com.example.account.db.repository.AccountRepository;
 import com.example.account.db.repository.TransactionRepository;
@@ -14,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,118 +28,13 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
-
-    // 메인화면에 최근 5개의 거래내역을 가져옴
-//    @Override
-//    public List<HomeTransactionResponse> getHomeTransactions(Long accountId){
-//        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-//
-//        List<Transaction> transactions=transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(account);
-//        return transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList());
-//    }
-    // 일반계좌 상세정보
-//    @Override
-//    public GeneralAccountDetailResponse getGeneralAccountDetail(Long accountId) {
-//        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-//
-//        // 최근 5개의 거래내역을 가져옴
-//        List<Transaction> transactionHistory = account.getTransactionHistory();
-//        Collections.sort(transactionHistory, (transaction1, transaction2)
-//                -> transaction2.getTransactionTime().compareTo(transaction1.getTransactionTime()));
-//        List<Transaction> recentTransactions = transactionHistory.subList(0, Math.min(5, transactionHistory.size()));
-//
-//        GeneralAccountDetailResponse result = new GeneralAccountDetailResponse(account, recentTransactions);
-//        return result;
-//    }
-
-    // 반려동물계좌 상세정보
-    @Override
-    public AnimalAccountDetailResponse getAnimalAccountDetail(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-
-        // 최근 5개의 거래내역을 가져옴
-        List<Transaction> transactionHistory = account.getTransactionHistory();
-        Collections.sort(transactionHistory, (transaction1, transaction2)
-                -> transaction2.getTransactionTime().compareTo(transaction1.getTransactionTime()));
-        List<Transaction> recentTransactions = transactionHistory.subList(0, Math.min(5, transactionHistory.size()));
-
-        AnimalAccountDetailResponse result = new AnimalAccountDetailResponse(account, recentTransactions);
-        return result;
-    }
-
-    // 반려동물 용품 구입 관련 거래내역 추가
-    @Override
-    public Long addTransaction(TransactionRequest transactionRequest) {
-        Long myAccountId = transactionRequest.getMyAccountId();
-        Long companyAccountId = transactionRequest.getCompanyAccountId();
-
-        Account myAccount = accountRepository.findById(myAccountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        Account companyAccount = accountRepository.findById(companyAccountId).orElseThrow(() -> new NotFoundException(NO_COMPANY_ACCOUNT));
-
-        // 사용 가능 계좌인지 확인
-        if(myAccount.getState() == AccountState.CLOSED || myAccount.getState() == AccountState.LOCKED || myAccount.getState() == AccountState.SUSPENDED) {
-            throw new NotFoundException(NOT_USABLE_ACCOUNT);
-        }
-        if(companyAccount.getState() == AccountState.CLOSED || companyAccount.getState() == AccountState.LOCKED || myAccount.getState() == AccountState.SUSPENDED) {
-            throw new NotFoundException(NOT_USABLE_COMPANY_ACCOUNT);
-        }
-
-        Long pay = transactionRequest.getPaymentAmount();
-        myAccount.minusBalance(pay);
-        companyAccount.addBalance(pay);
-
-        Transaction transaction = new Transaction(myAccount, companyAccount.getDepositorName(), companyAccount.getBusinessType(), transactionRequest.getTransactionType(), pay, myAccount.getBalance());
-        myAccount.addTransaction(transaction);
-        transactionRepository.save(transaction);
-        return transaction.getId();
-    }
-
-    // 거래내역 조회
-    @Override
-    public List<TransactionResponse> getTransactionHistory(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        List<Transaction> transactions = account.getTransactionHistory();
-        List<TransactionResponse> result = transactions.stream().map(transaction -> new TransactionResponse(transaction)).collect(Collectors.toList());
-        return result;
-    }
-    
-    // 설정한 기간 내의 거래내역 조회
-    @Override
-    public List<TransactionResponse> getSpecificPeriodTransaction(TransactionPeriodRequest request) {
-        Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-//        List<Transaction> allTransaction = account.getTransactionHistory();
-//
-//        List<Transaction> transactionsInPeriod = new ArrayList<>();
-//        for (Transaction transaction : allTransaction) {
-//            LocalDateTime transactionDateTime = transaction.getTransactionTime();
-//            LocalDate transactionDate = transactionDateTime.toLocalDate();
-//
-//            if(transactionDate.isAfter(request.getStart()) && transactionDate.isBefore(request.getEnd())) {
-//                transactionsInPeriod.add(transaction);
-//            }
-//        }
-//
-//        // 최신 거래부터 보여줌
-//        Collections.sort(transactionsInPeriod, (transaction1, transaction2)
-//                -> transaction2.getTransactionTime().compareTo(transaction1.getTransactionTime()));
-//        List<TransactionResponse> result = transactionsInPeriod.stream().map((transaction ->
-//                        new TransactionResponse(transaction)))
-//                .collect(Collectors.toList());
-        LocalDateTime startDate = request.getStart().atStartOfDay();
-        LocalDateTime endDate = LocalDateTime.of(request.getEnd(), LocalTime.of(23, 59, 59));
-
-        List<Transaction> transactions=transactionRepository
-                .findByTransactionTimeBetweenOrderByTransactionTimeDesc(startDate,endDate);
-        return transactions.stream().map(TransactionResponse::new).collect(Collectors.toList());
-    }
-
     // 일반계좌 발급
     @Override
     public Long registerGeneralAccount(AccountSaveRequest accountSaveRequest) {
         Account account = new Account(accountSaveRequest);
 
-        // 사업자계좌면(accountType이 false라면) 사업유형도 입력
-        if(!accountSaveRequest.isAccountType()) {
+        // 사업자계좌면(accountType이 01이라면) 사업유형도 입력
+        if(!accountSaveRequest.getAccountType().equals("01")) {
             account.addBusinessType(accountSaveRequest.getBusinessType());
         }
 
@@ -199,6 +93,37 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(animalAccount);
         return animalAccount.getId();
     }
+
+    // 충전계좌로 등록할 수 있는 계좌 리스트 반환(일반계좌만 반환)
+    @Override
+    public List<ChargingAccountResponse> getChargingAccountList(Long memberId) {
+        // 해당 유저의 계좌 중에
+        // 일반 계좌만 리스트로 가져오자
+        List<Account> allAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "00");
+        List<ChargingAccountResponse> result = allAccounts.stream().map((account ->
+                new ChargingAccountResponse(account))).collect(Collectors.toList());
+        return result;
+    }
+
+    // 충전계좌 선택
+    @Override
+    public Long selectChargingAccount(SelectChargingAccountRequest request) {
+        Account myAccount = accountRepository.findById(request.getMyAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+
+        // 이미 등록돼있는 충전 계좌라면 예외발생
+        Long myLinkedAccountId = myAccount.getLinkedAccountId();
+        Long chargingAccountId = request.getChargingAccountId();
+        if(myLinkedAccountId != null && myLinkedAccountId.equals(chargingAccountId)) {
+            throw new DuplicatedException(DUPLICATED_LINKED_ACCOUNT);
+        }
+        
+        // 아니라면 충전계좌로 연결해주자
+        myAccount.addLinkedAccount(chargingAccountId);
+
+        return chargingAccountId;
+    }
+
+
 
     // 동물계좌 양도
     // 상대방 반려동물 계좌 생성 -> 이전 주인의 반려동물 계좌에서 돈 전부 이체 -> 이전 주인의 반려동물 계좌 삭제(폐쇄 상태로 변경)
@@ -303,7 +228,7 @@ public class AccountServiceImpl implements AccountService {
                 }).collect(Collectors.toList());
         
         // 저번 달의 총 지출액을 구해주자
-        Long lastMonthTotalExpenditure = (long)0;
+        Long lastMonthTotalExpenditure = 0L;
         for (Transaction lastMonthTransaction : lastMonthTransactions) {
             lastMonthTotalExpenditure += lastMonthTransaction.getPaymentAmount();
         }
@@ -322,7 +247,7 @@ public class AccountServiceImpl implements AccountService {
 
         Map<Integer, Long> expenditureRatio = new HashMap<>();
 
-        Long totalExpenditure = (long)0;
+        Long totalExpenditure = 0L;
         for (Transaction transaction : byMyAccountId) {
 
             Integer businessCategory = transaction.getBusinessCategory();
@@ -347,7 +272,4 @@ public class AccountServiceImpl implements AccountService {
         return expenditureRatio;
     }
 
-    // 추가적으로 제공되는 농협 api
-    // 1. 예금주 조회
-    // 2. 예금주 실명확인
 }
