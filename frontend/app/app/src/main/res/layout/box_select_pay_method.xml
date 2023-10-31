@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
 
     android:background="@drawable/box_dialog"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".SelectMethodActivity">
 
     <ImageButton
         android:layout_width="wrap_content"

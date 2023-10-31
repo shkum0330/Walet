@@ -364,9 +364,8 @@
                         android:paddingHorizontal="12dp">
 
                         <!--        충전 버튼-->
-
                         <Button
-                            android:id="@+id/recharge_store"
+                            android:id="@+id/send"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_weight="10"
