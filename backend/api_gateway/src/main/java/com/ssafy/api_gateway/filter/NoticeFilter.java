@@ -31,6 +31,7 @@ public class NoticeFilter extends AbstractGatewayFilterFactory<NoticeFilter.Conf
     public GatewayFilter apply(NoticeFilter.Config config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
+
 //            토큰인증
             ErrorCode errorCode =  jwtUtil.validateToken(request);
             if(errorCode != null){
