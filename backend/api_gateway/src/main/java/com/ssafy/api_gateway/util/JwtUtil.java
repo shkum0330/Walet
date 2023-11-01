@@ -58,7 +58,7 @@ public class JwtUtil {
 
     public String getMemberId(ServerHttpRequest request){
         return String.valueOf(JWT.decode(
-                request.getHeaders().get("Authorization").get(0).split(" ")[1]).getClaim("memberId"));
+                request.getHeaders().get("Authorization").get(0).split(" ")[1]).getClaim("id"));
     }
 
     public String getMemberName(ServerHttpRequest request){
