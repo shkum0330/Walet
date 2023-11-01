@@ -2,6 +2,7 @@ package com.example.account.common.api;
 
 import com.example.account.common.api.exception.DuplicatedException;
 import com.example.account.common.api.exception.InsufficientBalanceException;
+import com.example.account.common.api.exception.NotCorrectException;
 import com.example.account.common.api.exception.NotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,6 +24,11 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(InsufficientBalanceException.class)
     public Response handleInsufficientBalanceException(InsufficientBalanceException exception) {
+        return Response.fail(exception.getFailCode());
+    }
+
+    @ExceptionHandler(NotCorrectException.class)
+    public Response handleNotCorrectException(NotCorrectException exception) {
         return Response.fail(exception.getFailCode());
     }
 }

@@ -24,7 +24,7 @@ public class Transaction {
     private Account account;
     @Column(name="company_name",length = 30,nullable = false)
     private String recipient; // 거래대상
-    @Column(name="business_category",nullable = false)
+    @Column(name="business_category",nullable = true)
     private Integer businessCategory; // 거래한 회사의 카테고리
     @Enumerated(EnumType.STRING)
     @Column(name="transaction_type",length = 10,nullable = false)
@@ -35,10 +35,19 @@ public class Transaction {
     private Long balance; // 거래 후 잔액
     @Column(name="transaction_time", updatable = false,nullable = false)
     private LocalDateTime transactionTime;
+
     public Transaction(Account account, String recipient, Integer businessCategory, TransactionType transactionType, Long paymentAmount, Long balance) {
         this.account = account;
         this.recipient = recipient;
         this.businessCategory = businessCategory;
+        this.transactionType = transactionType;
+        this.paymentAmount = paymentAmount;
+        this.balance = balance;
+    }
+
+    public Transaction(Account account, String recipient, TransactionType transactionType, Long paymentAmount, Long balance) {
+        this.account = account;
+        this.recipient = recipient;
         this.transactionType = transactionType;
         this.paymentAmount = paymentAmount;
         this.balance = balance;

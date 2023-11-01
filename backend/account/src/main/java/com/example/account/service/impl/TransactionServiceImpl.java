@@ -1,10 +1,12 @@
 package com.example.account.service.impl;
 
+import com.example.account.api.request.transaction.RemittanceRequest;
 import com.example.account.api.request.transaction.TransactionPeriodRequest;
 import com.example.account.api.request.transaction.TransactionRequest;
 import com.example.account.api.response.transaction.TransactionAccountResponse;
 import com.example.account.api.response.transaction.TransactionResponse;
 import com.example.account.common.api.exception.InsufficientBalanceException;
+import com.example.account.common.api.exception.NotCorrectException;
 import com.example.account.common.api.exception.NotFoundException;
 import com.example.account.db.entity.account.Account;
 import com.example.account.db.entity.account.AccountState;
@@ -39,12 +41,19 @@ public class TransactionServiceImpl implements TransactionService {
 
     // 반려동물 용품 구입 관련 거래내역 추가
     @Override
-    public Long addTransaction(TransactionRequest transactionRequest) {
+    public Long addPetRelatedTransaction(TransactionRequest transactionRequest) {
+
         Long myAccountId = transactionRequest.getMyAccountId();
         Long companyAccountId = transactionRequest.getCompanyAccountId();
 
         Account myAccount = accountRepository.findById(myAccountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
         Account companyAccount = accountRepository.findById(companyAccountId).orElseThrow(() -> new NotFoundException(NO_COMPANY_ACCOUNT));
+
+        // 입력된 RFID코드가 맞는지 확인
+        String rfidCode = transactionRequest.getRfidCode();
+        if(!myAccount.getRfidCode().equals(AccountServiceImpl.hashPassword(rfidCode))) {
+            throw new NotCorrectException(DIFFERENT_RFID);
+        }
 
         // 사용 가능 계좌인지 확인
         if(myAccount.getState() == AccountState.CLOSED || myAccount.getState() == AccountState.LOCKED || myAccount.getState() == AccountState.SUSPENDED) {
@@ -62,6 +71,43 @@ public class TransactionServiceImpl implements TransactionService {
         companyAccount.addBalance(pay);
 
         Transaction transaction = new Transaction(myAccount, companyAccount.getDepositorName(), companyAccount.getBusinessType(), transactionRequest.getTransactionType(), pay, myAccount.getBalance());
+        transactionRepository.save(transaction);
+        return transaction.getId();
+    }
+
+    @Override
+    public Long addRemittanceTransaction(RemittanceRequest remittanceRequest) {
+        
+        // 입력된 비밀번호가 맞는지 확인
+        
+        Long myAccountId = remittanceRequest.getMyAccountId();
+        Long receiverAccountId = remittanceRequest.getReceiverAccountId();
+
+        Account myAccount = accountRepository.findById(myAccountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account receiverAccount = accountRepository.findById(receiverAccountId).orElseThrow(() -> new NotFoundException(NO_RECEIVER_ACCOUNT));
+
+        // 입력된 비밀번호가 맞는지 확인
+        String password = remittanceRequest.getPassword();
+        if (!myAccount.getAccountPassword().equals(AccountServiceImpl.hashPassword(password))) {
+            throw new NotCorrectException(DIFFERENT_PASSWORD);
+        }
+
+        // 사용 가능 계좌인지 확인
+        if(myAccount.getState() == AccountState.CLOSED || myAccount.getState() == AccountState.LOCKED || myAccount.getState() == AccountState.SUSPENDED) {
+            throw new NotFoundException(NOT_USABLE_ACCOUNT);
+        }
+        if(receiverAccount.getState() == AccountState.CLOSED || receiverAccount.getState() == AccountState.LOCKED || myAccount.getState() == AccountState.SUSPENDED) {
+            throw new NotFoundException(NOT_USABLE_RECEIVER_ACCOUNT);
+        }
+
+        Long remittanceAmount = remittanceRequest.getRemittanceAmount();
+        // 잔액이 결제금액보다 부족하면 예외 발생
+        if(myAccount.getBalance() - remittanceAmount < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_REMITTANCE);
+
+        myAccount.minusBalance(remittanceAmount);
+        receiverAccount.addBalance(remittanceAmount);
+
+        Transaction transaction = new Transaction(myAccount, receiverAccount.getDepositorName(), remittanceRequest.getTransactionType(), remittanceAmount, myAccount.getBalance());
         transactionRepository.save(transaction);
         return transaction.getId();
     }
