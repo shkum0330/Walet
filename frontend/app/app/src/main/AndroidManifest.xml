@@ -13,6 +13,18 @@
         android:theme="@style/Theme.App"
         tools:targetApi="31">
         <activity
+            android:name=".SeeAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterEndActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SendPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SendEndActivity"
+            android:exported="false" />
+        <activity
             android:name=".SendCheckWhoActivity"
             android:exported="false" />
         <activity

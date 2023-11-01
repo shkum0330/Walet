@@ -51,12 +51,24 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recharge.setOnClickListener {
+        binding.petpay.setOnClickListener {
             val intent = Intent(requireActivity(), PaymentActivity::class.java)
             Log.d("버튼 클릭!!!!!!!!!!!","   ____            __\n" +
                     "  / __/__ ___  ___/ /\n" +
                     " _\\ \\/ -_) _ \\/ _  / \n" +
                     "/___/\\__/_//_/\\_,_/  ")
+            startActivity(intent)
+        }
+
+
+        binding.send.setOnClickListener {
+            val intent = Intent(requireActivity(), SendActivity::class.java)
+            Log.d("버튼 클릭!!!!!!!!!!!","사업자계좌의 이체버튼을 클릭했습니다")
+            startActivity(intent)
+        }
+        binding.send2.setOnClickListener {
+            val intent = Intent(requireActivity(), SendActivity::class.java)
+            Log.d("버튼 클릭!!!!!!!!!!!","일반 계좌의 이체버튼을 클릭했습니다")
             startActivity(intent)
         }
     }

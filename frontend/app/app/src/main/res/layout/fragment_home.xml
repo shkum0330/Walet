@@ -690,6 +690,7 @@
                     android:background="@color/no_green" />
 
                 <Button
+                    android:id="@+id/petpay"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/button_pet_pay"
@@ -876,7 +877,7 @@
                         <!--        충전 버튼-->
 
                         <Button
-                            android:id="@+id/recharge"
+                            android:id="@+id/send2"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_weight="10"
