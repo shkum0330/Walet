@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @Slf4j
 @Component
@@ -30,7 +29,7 @@ public class AuthPermissionFilter extends AbstractGatewayFilterFactory<AuthPermi
         return (exchange, chain) -> {
             //ServerHttpRequest
             ServerHttpRequest request = exchange.getRequest();
-
+            request.mutate().build();
 //            String accessToken = jwtUtil.getHeaderToken(request, "Access");
 //            String refreshToken = jwtUtil.getHeaderToken(request, "Refresh");
 
