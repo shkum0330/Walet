@@ -2,6 +2,7 @@ package com.example.account.api;
 
 import com.example.account.api.request.account.AccountSaveRequest;
 import com.example.account.api.request.account.PetAccountSaveRequest;
+import com.example.account.api.request.account.SelectChargingAccountRequest;
 import com.example.account.common.api.Response;
 import com.example.account.common.api.status.SuccessCode;
 import com.example.account.service.*;
@@ -50,7 +51,19 @@ public class AccountController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/charging-account-list/{memberId}")
+    public ResponseEntity<?> getChargingAccountList(@PathVariable Long memberId){ // memberId를 그대로 보낼것인가?
+        Response response=new Response(200, SuccessCode.GENERAL_SUCCESS.getMessage(),
+                accountService.getChargingAccountList(memberId));
+        return ResponseEntity.ok(response);
+    }
 
+    @PostMapping("/select-charging-account")
+    public ResponseEntity<?> selectChargingAccount(@RequestBody SelectChargingAccountRequest request){
+        Response response=new Response(200, SuccessCode.GENERAL_SUCCESS.getMessage(),
+                accountService.selectChargingAccount(request));
+        return ResponseEntity.ok(response);
+    }
 //    // todo: 일단 파라미터에 accountId라 했으나 memberId를 받아와서 거기서 계좌번호를 끌어내야함
 //    @GetMapping("/home/account/{accountId}")
 //
