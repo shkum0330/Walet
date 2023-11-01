@@ -17,16 +17,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 
 @Slf4j
@@ -48,7 +41,18 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
     @Override
     public GatewayFilter apply(AuthFilter.Config config) {
         return (exchange, chain) -> {
+            ServerHttpRequest request = exchange.getRequest();
+//            토큰인증
+            ErrorCode errorCode =  jwtUtil.validateToken(request);
+            if(errorCode != null){
+                return onError(exchange, errorCode);
+            }
 
+            String userType = jwtUtil.getUserType(request);
+            //USER 가 아니면 거부
+            if(!userType.equals("\"USER\"")){
+                onError(exchange, ErrorCode.INVALID_MEMBER_TYPE);
+            }
             return chain.filter(exchange);
         };
     }
