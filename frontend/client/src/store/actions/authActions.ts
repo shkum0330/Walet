@@ -15,19 +15,19 @@ export interface SetTokensAction {
   payload: {
     accessToken: string;
     refreshToken: string;
-    nickname: string;
+    userName: string;
   };
 }
 
 export const setTokens = (
   accessToken: string,
   refreshToken: string,
-  nickname: string,
+  userName: string,
 ): SetTokensAction => ({
   type: SET_TOKENS,
   payload: {
     accessToken,
     refreshToken,
-    nickname,
+    userName,
   },
 });

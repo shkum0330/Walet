@@ -4,7 +4,7 @@ import { ActionTypes, AuthState } from '../types';
 const initialState: AuthState = {
   accessToken: null,
   refreshToken: null,
-  nickname: null,
+  userName: null,
 };
 
 const authReducer = (
@@ -17,7 +17,7 @@ const authReducer = (
         ...state,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
-        nickname: action.payload.nickname,
+        userName: action.payload.userName as string,
       };
     case LOGOUT:
       return {
