@@ -151,7 +151,7 @@ public class AccountServiceImpl implements AccountService {
         return result;
     }
 
-    // 관리자페이지용
+    // 관리자페이지용 - 관리자 페이지용 메소드가 굳이 여기에 있어야할까?
     // 선택된 유저의 모든 계좌 목록을 반환
     @Override
     public List<AccountResponse> getAllAccountList(Long memberId) {
