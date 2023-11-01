@@ -1,7 +1,7 @@
 package com.example.account.service.impl;
 
 import com.example.account.api.request.account.AccountSaveRequest;
-import com.example.account.api.request.account.AnimalAccountSaveRequest;
+import com.example.account.api.request.account.PetAccountSaveRequest;
 import com.example.account.api.request.account.AssignRequest;
 import com.example.account.api.request.account.SelectChargingAccountRequest;
 import com.example.account.api.response.account.AccountResponse;
@@ -15,6 +15,7 @@ import com.example.account.db.repository.AccountRepository;
 import com.example.account.db.repository.TransactionRepository;
 import com.example.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 
 import static com.example.account.common.api.status.FailCode.*;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -40,7 +42,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = new Account(accountSaveRequest);
 
         // 사업자계좌면(accountType이 01이라면) 사업유형도 입력
-        if(!accountSaveRequest.getAccountType().equals("01")) {
+        if(accountSaveRequest.getAccountType().equals("01")) {
             account.addBusinessType(accountSaveRequest.getBusinessType());
         }
 
@@ -57,7 +59,8 @@ public class AccountServiceImpl implements AccountService {
         }
         String accountNumber = sb.toString();
         account.createAccountNumber(accountNumber);
-        
+
+        log.info("게좌 정보: {}",account.toString());
         // 계좌 정보를 DB에 저장
         accountRepository.save(account);
         return account.getId();
@@ -67,7 +70,7 @@ public class AccountServiceImpl implements AccountService {
     // 동물계좌 생성 버튼 클릭 -> 모계좌를 연결할 사람은 기존에 있던 농협 계좌 중 선택(필수사항x) -> 내 반려동물 정보 입력 -> 동물계좌 완성
     // cf) 계좌를 등록하려고 할 때 내가 등록할 비문 사진이 이미 있으면 양도 받는 것이 목적이냐고 물어보기
     @Override
-    public Long registerAnimalAccount(AnimalAccountSaveRequest animalAccountRequest) {
+    public Long registerAnimalAccount(PetAccountSaveRequest animalAccountRequest) {
 
         Account animalAccount = new Account(animalAccountRequest);
 

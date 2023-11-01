@@ -88,7 +88,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         // 입력된 비밀번호가 맞는지 확인
         String password = remittanceRequest.getPassword();
-        if (!myAccount.getAccountPwd().equals(AccountServiceImpl.hashPassword(password))) {
+        if (!myAccount.getAccountPassword().equals(AccountServiceImpl.hashPassword(password))) {
             throw new NotCorrectException(DIFFERENT_PASSWORD);
         }
 

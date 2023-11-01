@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class AnimalAccountSaveRequest {
+public class PetAccountSaveRequest {
     private Long memberId;
     private String depositorName; // 예금주명
     private Long accountLimit; // 인출한도
@@ -26,4 +26,6 @@ public class AnimalAccountSaveRequest {
     private String petPhoto; // 사진
     private String rfidCode;
     private List<Integer> limitTypeIdList = new ArrayList<>();
+
+
 }

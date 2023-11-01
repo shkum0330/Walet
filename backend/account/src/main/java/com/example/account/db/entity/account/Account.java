@@ -1,11 +1,12 @@
 package com.example.account.db.entity.account;
 
 import com.example.account.api.request.account.AccountSaveRequest;
-import com.example.account.api.request.account.AnimalAccountSaveRequest;
+import com.example.account.api.request.account.PetAccountSaveRequest;
 import com.example.account.common.domain.util.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import static com.example.account.db.entity.account.AccountState.*;
 
 @Entity
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account extends BaseTimeEntity {
@@ -32,14 +34,14 @@ public class Account extends BaseTimeEntity {
     private String accountNumber; // 계좌번호
     @Column(name="depositor_name",length = 20,nullable = false)
     private String depositorName;// 예금주명
-    @Column(name = "account_password", length = 4, nullable = false)
-    private String accountPwd; // 계좌 비밀번호
+    @Column(name = "account_password", length = 64, nullable = false)
+    private String accountPassword; // 계좌 비밀번호
     @Column(name="balance", nullable = false)
     private Long balance = 0L; // 잔액
     
     @Enumerated(EnumType.STRING)
     @Column(name="state",length=10, nullable = false)
-    private AccountState state = ACTIVE; // 상태
+    private AccountState state; // 상태
 
     @ColumnDefault("50000000")
     @Column(name="account_limit", nullable = true)
@@ -77,7 +79,9 @@ public class Account extends BaseTimeEntity {
 
     // 일반계좌 기본정보 입력
     public Account(AccountSaveRequest accountSaveRequest) {
+        this.state= ACTIVE;
         this.memberId = accountSaveRequest.getMemberId();
+        this.accountName= accountSaveRequest.getAccountName();
         this.depositorName = accountSaveRequest.getDepositorName();
         this.accountLimit = accountSaveRequest.getAccountLimit();
         this.accountType = accountSaveRequest.getAccountType();
@@ -85,7 +89,7 @@ public class Account extends BaseTimeEntity {
     }
 
     // 반려동물계좌 기본정보 입력
-    public Account(AnimalAccountSaveRequest accountRequest) {
+    public Account(PetAccountSaveRequest accountRequest) {
         this.memberId = accountRequest.getMemberId();
         this.depositorName = accountRequest.getDepositorName();
         this.accountLimit = accountRequest.getAccountLimit();
@@ -103,7 +107,7 @@ public class Account extends BaseTimeEntity {
     }
 
     public void addHashPwd(String hashAccountPwd) {
-        this.accountPwd = hashAccountPwd;
+        this.accountPassword = hashAccountPwd;
     }
 
     public void addHashedRfid(String rfidCode) {

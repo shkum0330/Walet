@@ -1,7 +1,7 @@
 package com.example.account.service;
 
 import com.example.account.api.request.account.AccountSaveRequest;
-import com.example.account.api.request.account.AnimalAccountSaveRequest;
+import com.example.account.api.request.account.PetAccountSaveRequest;
 import com.example.account.api.request.account.AssignRequest;
 import com.example.account.api.request.account.SelectChargingAccountRequest;
 import com.example.account.api.response.account.AccountResponse;
@@ -14,7 +14,7 @@ import java.util.Map;
 public interface AccountService {
 
     Long registerGeneralAccount(AccountSaveRequest accountSaveRequest); // 일반계좌 생성
-    Long registerAnimalAccount(AnimalAccountSaveRequest animalAccountRequest); // 동물계좌 생성
+    Long registerAnimalAccount(PetAccountSaveRequest animalAccountRequest); // 동물계좌 생성
 
     List<ChargingAccountResponse> getChargingAccountList(Long memberId); // 충전계좌로 연결할 수 있는 일반계좌의 목록 반환
 
