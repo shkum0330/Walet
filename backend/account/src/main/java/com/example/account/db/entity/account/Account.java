@@ -118,7 +118,7 @@ public class Account extends BaseTimeEntity {
 
     // 제한업종 추가
     public void addLimitType(int typeNum) {
-        this.limitTypes = typeNum;
+        this.limitTypes |= typeNum;
     }
 
     // 사업자계좌에는 사업유형도 입력
