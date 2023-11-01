@@ -4,14 +4,14 @@ import com.example.account.api.request.account.AccountSaveRequest;
 import com.example.account.api.request.account.PetAccountSaveRequest;
 import com.example.account.common.api.Response;
 import com.example.account.common.api.status.SuccessCode;
-import com.example.account.service.AccountService;
-import com.example.account.service.HomeAccountService;
-import com.example.account.service.PetHomeAccountService;
-import com.example.account.service.TransactionService;
+import com.example.account.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -22,7 +22,7 @@ public class AccountController {
     private final HomeAccountService homeAccountService;
     private final PetHomeAccountService petHomeAccountService;
     private final TransactionService transactionService;
-
+    private final S3Service s3Service;
 
     /*
      1. 동물병원
@@ -34,16 +34,19 @@ public class AccountController {
      */
     @PostMapping("/register/general-account")
     public ResponseEntity<?> registerGeneralAccount(@RequestBody AccountSaveRequest accountSaveRequest){
-        log.info("일반/사업자 펫 생성 요청 dto: {}", accountSaveRequest);
+        log.info("일반/사업자 계좌 생성 요청 dto: {}", accountSaveRequest);
         Response response=new Response<Long>(200, SuccessCode.GENERAL_SUCCESS.getMessage(),
                 accountService.registerGeneralAccount(accountSaveRequest));
         return ResponseEntity.ok(response);
     }
     @PostMapping("/register/pet-account")
-    public ResponseEntity<?> registerAnimalAccount(PetAccountSaveRequest animalAccountRequest){
-        log.info("사업자 계좌 생성 요청 dto: {}", animalAccountRequest);
+    public ResponseEntity<?> registerAnimalAccount(@RequestPart("petAccountRequest") PetAccountSaveRequest petAccountRequest,
+                                                   @RequestPart("petImage") MultipartFile file) throws IOException {
+
+        petAccountRequest.setPetPhoto(s3Service.getS3ImageUrl(s3Service.upload(file)));
+        log.info("펫 계좌 생성 요청 dto: {}", petAccountRequest);
         Response response=new Response<Long>(200, SuccessCode.GENERAL_SUCCESS.getMessage(),
-                accountService.registerAnimalAccount(animalAccountRequest));
+                accountService.registerPetAccount(petAccountRequest));
         return ResponseEntity.ok(response);
     }
 

@@ -11,3 +11,4 @@ public class AccessRequest {
     private String content; // 상대방에게 보낼 메시지
     private String randomMemberId; // 접근요청한 사람의 난수회원ID
 }
+

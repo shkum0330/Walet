@@ -70,12 +70,12 @@ public class Account extends BaseTimeEntity {
     private LocalDate petRegistrationDate; // 등록일
     @Column(name="pet_weight")
     private Float petWeight; // 몸무게
-    @Column(name="pet_photo", length = 80)
+    @Column(name="pet_photo",length = 100)
     private String petPhoto; // 사진
-    @Column(name="rfid_code", length = 10)
+    @Column(name="rfid_code", length = 64)
     private String rfidCode; // 강아지 RFID 코드
     @Column(name="limit_types")
-    private Integer limitTypes = 0; // 사용가능 제한업종 목록(비트연산으로 추가)
+    private Integer limitTypes; // 사용가능 제한업종 목록(비트연산으로 추가)
 
     // 일반계좌 기본정보 입력
     public Account(AccountSaveRequest accountSaveRequest) {
@@ -90,7 +90,9 @@ public class Account extends BaseTimeEntity {
 
     // 반려동물계좌 기본정보 입력
     public Account(PetAccountSaveRequest accountRequest) {
+        this.state=ACTIVE;
         this.memberId = accountRequest.getMemberId();
+        this.accountName=accountRequest.getAccountName();
         this.depositorName = accountRequest.getDepositorName();
         this.accountLimit = accountRequest.getAccountLimit();
         this.accountType = accountRequest.getAccountType();
@@ -98,7 +100,7 @@ public class Account extends BaseTimeEntity {
         this.petName = accountRequest.getPetName();
         this.petGender = accountRequest.getPetGender(); // 펫성별
         this.petBirth = accountRequest.getPetBirth(); // 펫생년월일
-        this.petType = accountRequest.getPetType(); // 펫종류
+//        this.petType = accountRequest.getPetType(); // 펫종류
         this.petBreed = accountRequest.getPetBreed(); // 품종
         this.petNeutered = accountRequest.getPetNeutered(); // 중성화여부
         this.petRegistrationDate = accountRequest.getPetRegistrationDate(); // 등록일
