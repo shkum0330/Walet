@@ -16,6 +16,7 @@ import com.example.account.db.repository.TransactionRepository;
 import com.example.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,9 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
+    @Value("${hash.pepper}")
+    private String pepper;
+
     // 일반계좌 발급
     @Override
     public Long registerGeneralAccount(AccountSaveRequest accountSaveRequest) {
@@ -46,6 +50,7 @@ public class AccountServiceImpl implements AccountService {
             account.addBusinessType(accountSaveRequest.getBusinessType());
         }
 
+        // todo: salt+pepper 추가
         String hashPassword = hashPassword(accountSaveRequest.getAccountPwd());
         account.addHashPwd(hashPassword);
 
@@ -70,25 +75,29 @@ public class AccountServiceImpl implements AccountService {
     // 동물계좌 생성 버튼 클릭 -> 모계좌를 연결할 사람은 기존에 있던 농협 계좌 중 선택(필수사항x) -> 내 반려동물 정보 입력 -> 동물계좌 완성
     // cf) 계좌를 등록하려고 할 때 내가 등록할 비문 사진이 이미 있으면 양도 받는 것이 목적이냐고 물어보기
     @Override
-    public Long registerAnimalAccount(PetAccountSaveRequest animalAccountRequest) {
+    public Long registerPetAccount(PetAccountSaveRequest petAccountRequest) {
 
-        Account animalAccount = new Account(animalAccountRequest);
+        Account petAccount = new Account(petAccountRequest);
 
-        String hashRfidCode = hashPassword(animalAccountRequest.getRfidCode());
-        animalAccount.addHashedRfid(hashRfidCode);
-        
+        String hashRfidCode = hashPassword(petAccountRequest.getRfidCode());
+        petAccount.addHashedRfid(hashRfidCode);
+        // todo: salt+pepper 추가
+        String hashPassword = hashPassword(petAccountRequest.getAccountPwd());
+        petAccount.addHashPwd(hashPassword);
+
         // 제한업종 추가
-        List<Integer> limitTypeList = animalAccountRequest.getLimitTypeIdList();
+        List<Integer> limitTypeList = petAccountRequest.getLimitTypeIdList();
+        log.info("제한업종: {}",limitTypeList);
         // 선택을 안했다면 전부 들어감
         if(limitTypeList.isEmpty()) {
             for(int i = 0; i < 6; i++) {
-                animalAccount.addLimitType(1 << i);
+                petAccount.addLimitType(1 << i);
             }
         }
         // 선택을 했다면 용도 제한
         else {
             for (int limitType : limitTypeList) {
-                animalAccount.addLimitType(1 << (limitType-1));
+                petAccount.addLimitType(1 << (limitType-1));
             }
         }
 
@@ -101,11 +110,11 @@ public class AccountServiceImpl implements AccountService {
             sb.append(digit);
         }
         String accountNumber = sb.toString();
-        animalAccount.createAccountNumber(accountNumber);
+        petAccount.createAccountNumber(accountNumber);
 
         // 계좌 정보를 DB에 저장
-        accountRepository.save(animalAccount);
-        return animalAccount.getId();
+        accountRepository.save(petAccount);
+        return petAccount.getId();
     }
     
     public static String hashPassword(String password) {

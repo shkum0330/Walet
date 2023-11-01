@@ -29,7 +29,10 @@ public enum FailCode {
     
     // 결제
     REJECT_ACCOUNT_REMITTANCE(FORBIDDEN,"잔액 부족으로 송금 실패했습니다."),
-    REJECT_ACCOUNT_PAYMENT(FORBIDDEN,"잔액 부족으로 결제에 실패했습니다.");
+    REJECT_ACCOUNT_PAYMENT(FORBIDDEN,"잔액 부족으로 결제에 실패했습니다."),
+
+    //파일
+    S3_DELETE_FAILURE(NO_CONTENT,"삭제할 파일이 존재하지 않습니다.");
 
     private final HttpStatus status;
     private final String message;
