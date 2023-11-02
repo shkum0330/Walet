@@ -2,6 +2,7 @@ package com.ssafy.member.service;
 
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
+import com.ssafy.global.common.status.FailCode;
 import com.ssafy.member.api.MemberDto;
 import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.db.MemberRepository;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.ssafy.global.common.status.FailCode.*;
+
 @Service
 public class MemberService {
 
@@ -25,7 +28,7 @@ public class MemberService {
 
     public MemberEntity signup(String name, String email, String password, String phoneNumber, String birth, String pinNumber, String fingerPrint){
         if(memberRepository.existsByEmail(email)){
-            throw new GlobalRuntimeException("중복된 이메일 입니다.", HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(EMAIL_EXIST);
         }
         String hashedPassword = PasswordEncoder.hashPassword(password);
         MemberEntity member = new MemberEntity();
@@ -45,7 +48,7 @@ public class MemberService {
     public void Signout(Long id) {
         MemberEntity member = findMember(id);
         if (member == null) {
-            throw new GlobalRuntimeException("해당 회원을 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
+            throw new GlobalRuntimeException(FIND_IMPOSSIBLE);
         }
 
         member.setIsDeleted(true);
@@ -68,7 +71,7 @@ public class MemberService {
     public boolean checkEmailExists(String email){
         boolean emailExists = memberRepository.existsByEmail(email);
         if(emailExists){
-            throw new GlobalRuntimeException("중복된 이메일 입니다.", HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(EMAIL_EXIST);
         }
         return memberRepository.existsByEmail(email);
     }
@@ -84,14 +87,14 @@ public class MemberService {
     }
     public void verificationCode(String code, String savedCode){
         if(!code.equals(savedCode)){
-            throw new GlobalRuntimeException("인증 번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(UNMATCHED_CODE);
         }
     }
 
     public List<MemberDto.UsersResponse> getAllUsers(String accessToken) {
         String role = jwtProvider.RoleDecoder(accessToken);
         if(role.equals("USER")){
-            throw new GlobalRuntimeException("관리자만 이용 가능한 서비스입니다.", HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(STAFF_ONLY);
         }
 
         List<MemberEntity> members = memberRepository.findByRole(Role.USER);
@@ -117,7 +120,7 @@ public class MemberService {
 
     public MemberEntity findMember(Long id){
         MemberEntity member = memberRepository.findById(id)
-                .orElseThrow(() -> new GlobalRuntimeException("해당 회원을 찾을 수 없습니다.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new GlobalRuntimeException(FIND_IMPOSSIBLE));
         return member;
     }
 

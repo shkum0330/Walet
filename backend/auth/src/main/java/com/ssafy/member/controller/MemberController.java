@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.ssafy.global.common.status.SuccessCode.*;
+
 @RestController
 public class MemberController {
     @Autowired
@@ -33,14 +35,14 @@ public class MemberController {
         MemberEntity member = memberService.signup(request.getName(), request.getEmail(),
                 request.getPassword(), request.getPhoneNumber(),
                 request.getBirth(), request.getPinNumber(), request.getFingerPrint());
-        return new ResponseEntity<>(new EnvelopeResponse<>(201, "데이터 생성 성공", member), HttpStatus.OK);
+        return new ResponseEntity<>(new EnvelopeResponse<>(CREATE_SUCCESS, member), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/signout")
-    public ResponseEntity<EnvelopeResponse<String>> unregister(@RequestHeader("Authorization") String accessToken) {
+    public ResponseEntity<EnvelopeResponse<String>> signOut(@RequestHeader("Authorization") String accessToken) {
         Long id = jwtProvider.AccessTokenDecoder(accessToken);
         memberService.Signout(id);
-        return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", ""), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new EnvelopeResponse<>(DELETE_SUCCESS, ""), HttpStatus.NO_CONTENT);
     }
 
     @GetMapping ("/user")
@@ -48,13 +50,13 @@ public class MemberController {
         Long id = jwtProvider.AccessTokenDecoder(accessToken);
         MemberDto.UserResponse user = memberService.find(id);
 
-        return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", user), HttpStatus.OK);
+        return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, user), HttpStatus.OK);
     }
 
     @GetMapping("/users")
     public ResponseEntity<EnvelopeResponse<List<MemberDto.UsersResponse>>> getAllUsers(@RequestHeader("Authorization") String accessToken) {
         List<MemberDto.UsersResponse> allUsers = memberService.getAllUsers(accessToken);
-        return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", allUsers), HttpStatus.OK);
+        return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, allUsers), HttpStatus.OK);
     }
 
 
@@ -62,7 +64,7 @@ public class MemberController {
     public ResponseEntity<EnvelopeResponse<Boolean>> checkEmailExists(@RequestBody Map<String, String> requestData) {
         String email = requestData.get("email");
         boolean emailExists = memberService.checkEmailExists(email);
-        return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", emailExists), HttpStatus.OK);
+        return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, emailExists), HttpStatus.OK);
     }
 
     @PostMapping("/sendcode")
@@ -71,14 +73,14 @@ public class MemberController {
         redisService.saveTokenWithExpiration(request.getPhoneNumber(), verificationCode, 300, TimeUnit.SECONDS);
         smsUtil.sendOne(request.getPhoneNumber(), verificationCode);
 
-        return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", ""), HttpStatus.OK);
+        return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, ""), HttpStatus.OK);
     }
 
     @PostMapping("/checkcode")
     public ResponseEntity<EnvelopeResponse<String>> verifyCode(@RequestBody VerificationDto.CodeRequest request) {
         String savedCode = redisService.getToken(request.getPhoneNumber());
         memberService.verificationCode(request.getCode(), savedCode);
-        return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", ""), HttpStatus.OK);
+        return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, ""), HttpStatus.OK);
     }
 
     @GetMapping("/name/{id}")

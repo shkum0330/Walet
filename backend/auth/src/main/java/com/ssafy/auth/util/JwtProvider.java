@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+import static com.ssafy.global.common.status.FailCode.UNMATCHED_TOKEN;
+
 @Service
 @RequiredArgsConstructor
 @Data
@@ -83,7 +85,7 @@ public class JwtProvider {
         if (!IDCLAIM.isNull()) {
             return IDCLAIM.asLong();
         } else {
-            throw new GlobalRuntimeException("토큰에 해당하는 회원이 없습니다.", HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(UNMATCHED_TOKEN);
         }
     }
 
@@ -94,7 +96,7 @@ public class JwtProvider {
         if (!roleClaim.isNull()) {
             return roleClaim.asString();
         } else {
-            throw new GlobalRuntimeException("토큰에 해당하는 회원이 없습니다.", HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(UNMATCHED_TOKEN);
         }
     }
 }
