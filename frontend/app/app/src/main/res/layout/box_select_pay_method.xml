@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="결제 아이콘"
-        android:src="@drawable/baseline_payment_24"
+        android:src="@drawable/icon_card"
 
         />
 

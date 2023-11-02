@@ -373,7 +373,7 @@
                         android:layout_height="48dp"
                         android:layout_weight="10"
 
-                        android:background="@drawable/account_button"
+                        android:background="@drawable/button_main_dark"
                         android:fontFamily="@font/pretendard_medium"
                         android:text="충전"
 
@@ -391,7 +391,7 @@
                         android:layout_weight="10"
 
 
-                        android:background="@drawable/account_button"
+                        android:background="@drawable/button_main_dark"
                         android:fontFamily="@font/pretendard_medium"
                         android:text="거래내역"
 
@@ -788,7 +788,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
-                            android:background="@drawable/btn_finished_identification"
+                            android:background="@drawable/button_finished_identification"
                             android:fontFamily="@font/pretendard_semi_bold"
                             android:text="비문"
                             android:textColor="@color/white"
@@ -802,7 +802,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
-                            android:background="@drawable/btn_not_finished_identification"
+                            android:background="@drawable/button_grey_sixty"
                             android:fontFamily="@font/pretendard_semi_bold"
                             android:text="내장칩"
                             android:textColor="@color/white"

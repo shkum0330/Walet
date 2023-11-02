@@ -370,7 +370,7 @@
                             android:layout_height="48dp"
                             android:layout_weight="10"
 
-                            android:background="@drawable/account_button_white"
+                            android:background="@drawable/button_white_account"
                             android:fontFamily="@font/pretendard_medium"
                             android:text="이체"
                             android:textColor="@color/no_green"
@@ -390,7 +390,7 @@
                             android:layout_weight="10"
 
 
-                            android:background="@drawable/account_button_white"
+                            android:background="@drawable/button_white_account"
                             android:fontFamily="@font/pretendard_medium"
                             android:text="거래내역"
                             android:textColor="@color/no_green"
@@ -882,7 +882,7 @@
                             android:layout_height="48dp"
                             android:layout_weight="10"
 
-                            android:background="@drawable/account_button_white"
+                            android:background="@drawable/button_white_account"
                             android:fontFamily="@font/pretendard_medium"
                             android:text="이체"
                             android:textColor="@color/no_green"
@@ -902,7 +902,7 @@
                             android:layout_weight="10"
 
 
-                            android:background="@drawable/account_button_white"
+                            android:background="@drawable/button_white_account"
                             android:fontFamily="@font/pretendard_medium"
                             android:text="거래내역"
                             android:textColor="@color/no_green"
