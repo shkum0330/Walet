@@ -34,7 +34,7 @@ class PrintFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_present, container, false)
+        return inflater.inflate(R.layout.fragment_print, container, false)
     }
 
     companion object {

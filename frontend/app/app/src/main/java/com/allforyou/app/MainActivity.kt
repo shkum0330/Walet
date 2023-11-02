@@ -3,6 +3,8 @@ package com.allforyou.app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.MotionEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.allforyou.app.PresentFragment
@@ -37,7 +39,6 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.homeFragment -> setFragment(TAG_HOME, HomeFragment())
                 R.id.printFragment -> setFragment(TAG_PRINT, PrintFragment())
-
                 R.id.presentFragment-> setFragment(TAG_PRESENT, PresentFragment())
                 R.id.petFragment-> setFragment(TAG_PET, PetFragment())
             }
@@ -103,5 +104,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         fragTransaction.commitAllowingStateLoss()
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        when(event?.action){
+            MotionEvent.ACTION_DOWN->{
+                Log.d("터치 이벤트","Touch down event")
+                Log.d("터치 좌표","터치 이벤트 좌표 X: ${event.rawX}, Y: ${event.rawY}")
+            }
+            MotionEvent.ACTION_UP->{
+                Log.d("터치 이벤트","Touch up event")
+            }
+        }
+
+        return super.onTouchEvent(event)
     }
 }

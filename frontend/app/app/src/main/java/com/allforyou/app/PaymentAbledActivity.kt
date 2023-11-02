@@ -18,7 +18,7 @@ class PaymentAbledActivity : AppCompatActivity() {
         binding.goRecipt.setOnClickListener({
             val intent=Intent(this, ReceiptActivity::class.java)
             startActivity(intent)
-        })
+    })
 
 
 

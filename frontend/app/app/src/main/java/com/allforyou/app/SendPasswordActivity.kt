@@ -3,20 +3,21 @@ package com.allforyou.app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.allforyou.app.databinding.ActivitySendBinding
+import com.allforyou.app.databinding.ActivitySendPasswordBinding
 
-class SendActivity : AppCompatActivity() {
-
-    private lateinit var binding:ActivitySendBinding
+class SendPasswordActivity : AppCompatActivity() {
+    private lateinit var binding:ActivitySendPasswordBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivitySendBinding.inflate(layoutInflater)
+       binding=ActivitySendPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
         binding.finish.setOnClickListener({
-            var intent= Intent(this,SendMoneyActivity::class.java )
+            val intent= Intent(this, SendEndActivity::class.java)
             startActivity(intent)
         })
+
+
     }
 }
