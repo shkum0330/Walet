@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import static com.ssafy.global.common.status.FailCode.*;
+
 @Service
 public class UserServiceImpl implements UserRepository{
     private final MemberRepository memberRepository;
@@ -27,14 +29,14 @@ public class UserServiceImpl implements UserRepository{
     @Override
     public TokenMapping login(String email, String password) {
         MemberEntity member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new GlobalRuntimeException("가입되지 않은 계정입니다.", HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new GlobalRuntimeException(UNSIGNED_USER));
 
         if (!PasswordEncoder.checkPass(password, member.getPassword())) {
-            throw new GlobalRuntimeException("비밀번호가 틀립니다.", HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(DIFFERENT_PASSWORD);
         }
 
         if (member.isDeleted()) {
-            throw new GlobalRuntimeException("회원 탈퇴된 계정입니다.", HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(DELETED_USER);
         }
 
         String role = member.getRole().name();
@@ -46,7 +48,7 @@ public class UserServiceImpl implements UserRepository{
 
     public void userLogout(String accessToken){
         if (redisService.isBlackListed(accessToken)) {
-            throw new GlobalRuntimeException("사용할 수 없는 토큰입니다.",HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(BAD_TOKEN);
         }
         Long expiration = jwtProvider.getExpiration(accessToken);
         redisService.setBlackList(accessToken, accessToken, expiration);
