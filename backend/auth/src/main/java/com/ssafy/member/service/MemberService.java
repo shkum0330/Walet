@@ -7,7 +7,6 @@ import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.db.MemberRepository;
 import com.ssafy.member.db.Role;
 import com.ssafy.global.PasswordEncoder;
-import com.ssafy.member.util.UuidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,10 +27,11 @@ public class MemberService {
         if(memberRepository.existsByEmail(email)){
             throw new GlobalRuntimeException("중복된 이메일 입니다.", HttpStatus.BAD_REQUEST);
         }
+        String hashedPassword = PasswordEncoder.hashPassword(password);
         MemberEntity member = new MemberEntity();
+
         member.setName(name);
         member.setEmail(email);
-        String hashedPassword = PasswordEncoder.hashPassword(password);
         member.setPassword(hashedPassword);
         member.setPhoneNumber(phoneNumber);
         member.setBirth(birth);
@@ -39,14 +39,11 @@ public class MemberService {
         member.setPinNumber(pinNumber);
         member.setFingerPrint(fingerPrint);
 
-        String randomMemberId = UuidUtil.generateRandomUUID();
-        member.setRandomMemberId(randomMemberId);
-
         return memberRepository.save(member);
     }
 
-    public void Signout(String randomMemberId) {
-        MemberEntity member = memberRepository.findByRandomMemberId(randomMemberId);
+    public void Signout(Long id) {
+        MemberEntity member = findMember(id);
         if (member == null) {
             throw new GlobalRuntimeException("해당 회원을 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
         }
@@ -55,15 +52,15 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public MemberDto.UserResponse find(String randomMemberId){
-        MemberEntity member = memberRepository.findByRandomMemberId(randomMemberId);
+    public MemberDto.UserResponse find(Long id){
+        MemberEntity member = findMember(id);
 
         MemberDto.UserResponse userDto = new MemberDto.UserResponse();
+        userDto.setId((member.getId()));
         userDto.setName(member.getName());
         userDto.setEmail(member.getEmail());
         userDto.setPhoneNumber(member.getPhoneNumber());
         userDto.setBirth(member.getBirth());
-        userDto.setRandomMemberId(member.getRandomMemberId());
         userDto.setCreatedDate(member.getCreated_date());
         return userDto;
     }
@@ -102,9 +99,9 @@ public class MemberService {
         List<MemberDto.UsersResponse> userResponses = new ArrayList<>();
         for (MemberEntity member : members) {
             MemberDto.UsersResponse usersResponse = new MemberDto.UsersResponse(
+                    member.getId(),
                     member.getName(),
                     member.getEmail(),
-                    member.getRandomMemberId(),
                     member.getCreated_date()
             );
             userResponses.add(usersResponse);
@@ -112,4 +109,16 @@ public class MemberService {
 
         return userResponses;
     }
+
+    public String findNameById(Long id){
+        MemberEntity member = findMember(id);
+        return member.getName();
+    }
+
+    public MemberEntity findMember(Long id){
+        MemberEntity member = memberRepository.findById(id)
+                .orElseThrow(() -> new GlobalRuntimeException("해당 회원을 찾을 수 없습니다.", HttpStatus.NOT_FOUND));
+        return member;
+    }
+
 }

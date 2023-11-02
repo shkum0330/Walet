@@ -40,24 +40,24 @@ public class JwtProvider {
 
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
-    private static final String ID_CLAIM = "randomMemberId";
+    private static final String ID_CLAIM = "id";
     private static final String ROLE_CLAIM = "role";
     private static final String BEARER = "Bearer ";
 
-    public TokenMapping createToken(String randomMemberId, String role,String name){
+    public TokenMapping createToken(Long id, String role,String name){
         return TokenMapping.builder()
-                .accessToken(createAccessToken(randomMemberId, role))
+                .accessToken(createAccessToken(id, role))
                 .refreshToken(createRefreshToken())
                 .userName(name)
                 .build();
     }
 
-    public String createAccessToken(String randomMemberId, String role){
+    public String createAccessToken(Long id, String role){
         Date now = new Date();
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)
                 .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
-                .withClaim(ID_CLAIM, randomMemberId)
+                .withClaim(ID_CLAIM, id)
                 .withClaim(ROLE_CLAIM, role)
                 .sign(Algorithm.HMAC512(secretKey));
     }
@@ -76,12 +76,12 @@ public class JwtProvider {
         return expiration.getTime() - now;
     }
 
-    public String AccessTokenDecoder(String accessToken) {
+    public Long AccessTokenDecoder(String accessToken) {
         accessToken = accessToken.replace("Bearer ", "");
         DecodedJWT jwt = JWT.decode(accessToken);
-        Claim randomMemberIdClaim = jwt.getClaim(ID_CLAIM);
-        if (!randomMemberIdClaim.isNull()) {
-            return randomMemberIdClaim.asString();
+        Claim IDCLAIM = jwt.getClaim(ID_CLAIM);
+        if (!IDCLAIM.isNull()) {
+            return IDCLAIM.asLong();
         } else {
             throw new GlobalRuntimeException("토큰에 해당하는 회원이 없습니다.", HttpStatus.BAD_REQUEST);
         }

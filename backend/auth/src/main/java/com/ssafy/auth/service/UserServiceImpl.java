@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserRepository{
         }
 
         String role = member.getRole().name();
-        TokenMapping tokenMapping = jwtProvider.createToken(member.getRandomMemberId(), role, member.getName());
-        redisService.saveToken(member.getRandomMemberId(), tokenMapping.getAccessToken());
+        TokenMapping tokenMapping = jwtProvider.createToken(member.getId(), role, member.getName());
+        redisService.saveToken(member.getId().toString(), tokenMapping.getAccessToken());
         redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
         return tokenMapping;
     }
