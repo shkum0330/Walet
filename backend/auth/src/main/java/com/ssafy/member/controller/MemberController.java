@@ -38,15 +38,16 @@ public class MemberController {
 
     @DeleteMapping("/signout")
     public ResponseEntity<EnvelopeResponse<String>> unregister(@RequestHeader("Authorization") String accessToken) {
-        String randomMemberId = jwtProvider.AccessTokenDecoder(accessToken);
-        memberService.Signout(randomMemberId);
+        Long id = jwtProvider.AccessTokenDecoder(accessToken);
+        memberService.Signout(id);
         return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", ""), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping ("/user")
     public ResponseEntity<EnvelopeResponse<MemberDto.UserResponse>> getUserInfo(@RequestHeader("Authorization") String accessToken) {
-        String randomMemberId = jwtProvider.AccessTokenDecoder(accessToken);
-        MemberDto.UserResponse user = memberService.find(randomMemberId);
+        Long id = jwtProvider.AccessTokenDecoder(accessToken);
+        MemberDto.UserResponse user = memberService.find(id);
+
         return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", user), HttpStatus.OK);
     }
 
@@ -79,4 +80,11 @@ public class MemberController {
         memberService.verificationCode(request.getCode(), savedCode);
         return new ResponseEntity<>(new EnvelopeResponse<>(200, "데이터 처리 성공", ""), HttpStatus.OK);
     }
+
+    @GetMapping("/name/{id}")
+    public ResponseEntity<String> getUserName(@PathVariable Long id) {
+        String name = memberService.findNameById(id);
+        return new ResponseEntity<>(name, HttpStatus.OK);
+    }
+
 }

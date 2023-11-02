@@ -28,11 +28,11 @@ public class MemberDto {
     @NoArgsConstructor
     @Getter @Setter
     public static class UserResponse{
+        private Long id;
         private String name;
         private String email;
         private String phoneNumber;
         private String birth;
-        private String randomMemberId;
         private LocalDateTime createdDate;
     }
 
@@ -40,9 +40,9 @@ public class MemberDto {
     @NoArgsConstructor
     @Getter @Setter
     public static class UsersResponse{
+        private Long id;
         private String name;
         private String email;
-        private String randomMemberId;
         private LocalDateTime createdDate;
     }
 

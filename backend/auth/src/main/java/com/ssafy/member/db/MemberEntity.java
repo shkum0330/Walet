@@ -1,6 +1,7 @@
 package com.ssafy.member.db;
 
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,8 +46,6 @@ public class MemberEntity extends BaseTimeEntity {
     @Column(name = "pin_number")
     private String pinNumber;
 
-    @Column(name = "random_member_id", unique = true)
-    private String randomMemberId;
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
