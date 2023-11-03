@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { AUTH_URI } from '../apiInfo';
 import {
   LogoutRequest,
@@ -7,7 +7,6 @@ import {
 } from '../../interface/api/memberApiInterface';
 import { logout } from '../../store/actions/authActions';
 import { setTokens } from '../../store/store';
-// import instance from '../../repository/instanceRepository';
 
 export function LoginAPI({ email, password, dispatch }: LoginRequest) {
   const loginURI = `${AUTH_URI}/login`;
@@ -18,12 +17,16 @@ export function LoginAPI({ email, password, dispatch }: LoginRequest) {
         const { accessToken, refreshToken, userName } = response.data.data;
         if (accessToken && refreshToken && userName) {
           dispatch(setTokens(accessToken, refreshToken, userName));
-          // setTimeout(() => {
-          //   window.location.href = '/';
-          // }, 100);
+          setTimeout(() => {
+            window.location.href = '/main';
+          }, 100);
         }
       })
-      .catch(() => {});
+      .catch((error: AxiosError) => {
+        if (error.response) {
+          console.log(error.response.data);
+        }
+      });
   }
 }
 
