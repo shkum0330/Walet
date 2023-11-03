@@ -1,9 +1,14 @@
 package com.ssafy.account.common.domain.util;
 
+import org.springframework.stereotype.Component;
+
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
+@Component
 public class TimeUtil {
     public String dateTypeConverter(LocalDateTime dateTime){
         Duration duration = Duration.between(dateTime, LocalDateTime.now());
@@ -21,6 +26,12 @@ public class TimeUtil {
 
     public String dateTypeFormatter(LocalDateTime dateTime){
         return dateTime.format(DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm분:ss초"));
+    }
+
+    public String calculateAge(LocalDate birthDate) {
+        LocalDate currentDate = LocalDate.now();
+        Period period = Period.between(birthDate, currentDate);
+        return String.valueOf(period.getYears());
     }
 
 }

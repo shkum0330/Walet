@@ -26,12 +26,12 @@ public class AccountController {
     private final S3Service s3Service;
 
     /*
-     1. 동물병원
-     2. 반려동물용품
-     3. 반려동물미용
-     4. 애견카페
-     5. 반려견놀이터
-     6. 반려동물장례
+     1. 동물병원 1
+     2. 반려동물용품 2
+     3. 반려동물미용 4
+     4. 애견카페 8
+     5. 반려견놀이터 16
+     6. 반려동물장례 32
      */
     @PostMapping("/register/general-account")
     public ResponseEntity<?> registerGeneralAccount(@RequestBody AccountSaveRequest accountSaveRequest){

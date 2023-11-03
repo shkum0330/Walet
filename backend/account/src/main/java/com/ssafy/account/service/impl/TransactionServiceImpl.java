@@ -8,6 +8,7 @@ import com.ssafy.account.api.response.transaction.TransactionResponse;
 import com.ssafy.account.common.api.exception.InsufficientBalanceException;
 import com.ssafy.account.common.api.exception.NotCorrectException;
 import com.ssafy.account.common.api.exception.NotFoundException;
+import com.ssafy.account.common.api.exception.RestrictedBusinessException;
 import com.ssafy.account.db.entity.access.Access;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.account.AccountState;
@@ -17,6 +18,7 @@ import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.db.repository.TransactionRepository;
 import com.ssafy.account.service.TransactionService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +30,9 @@ import java.util.stream.Collectors;
 import static com.ssafy.account.common.api.status.FailCode.*;
 import static com.ssafy.account.common.api.status.FailCode.NOT_USABLE_COMPANY_ACCOUNT;
 
+@Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @AllArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
@@ -44,16 +47,26 @@ public class TransactionServiceImpl implements TransactionService {
 
     // 반려동물 용품 구입 관련 거래내역 추가
     @Override
+    @Transactional
     public Long addPetRelatedTransaction(TransactionRequest transactionRequest) {
 
-        Long myAccountId = transactionRequest.getMyAccountId();
-        Long companyAccountId = transactionRequest.getCompanyAccountId();
+        Long myAccountId = transactionRequest.getBuyerId();
+        Long companyId = transactionRequest.getCompanyAccountId();
 
-        Account myAccount = accountRepository.findById(myAccountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        Account companyAccount = accountRepository.findById(companyAccountId).orElseThrow(() -> new NotFoundException(NO_COMPANY_ACCOUNT));
+        Account myAccount = accountRepository.findByMemberIdAndAccountType(myAccountId,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+//        Account companyAccount = accountRepository.findById(companyAccountId).orElseThrow(() -> new NotFoundException(NO_COMPANY_ACCOUNT));
+        Account companyAccount = accountRepository.findByMemberIdAndAccountType(companyId,"01").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        int limitTypes=myAccount.getLimitTypes();
+        int businessType=(int)Math.pow(2,companyAccount.getBusinessType()-1);
+        log.info("{} {}",limitTypes,businessType);
 
+        // 비트 연산으로 제한업종에 걸리는지 확인
+        if((limitTypes & businessType) != 0){
+            throw new RestrictedBusinessException(RESTRICTED_BUSINESS);
+        }
         // 입력된 RFID코드가 맞는지 확인
         String rfidCode = transactionRequest.getRfidCode();
+        log.info("rfid: {} {}",rfidCode,myAccount.getRfidCode());
         if(!myAccount.getRfidCode().equals(AccountServiceImpl.hashPassword(rfidCode))) {
             throw new NotCorrectException(DIFFERENT_RFID);
         }
@@ -69,11 +82,12 @@ public class TransactionServiceImpl implements TransactionService {
         Long pay = transactionRequest.getPaymentAmount();
         // 잔액이 결제금액보다 부족하면 예외 발생
         if(myAccount.getBalance() - pay < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_PAYMENT);
-        
+
         myAccount.minusBalance(pay);
         companyAccount.addBalance(pay);
 
         Transaction transaction = new Transaction(myAccount, companyAccount.getDepositorName(), companyAccount.getBusinessType(), transactionRequest.getTransactionType(), pay, myAccount.getBalance());
+        log.info("{}",transaction);
         transactionRepository.save(transaction);
         return transaction.getId();
     }
