@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-@FeignClient(url = "https://nhopenapi.nonghyup.com/svcapi" , name = "NHClient")
-//@FeignClient(url = "http://smartdev.nonghyup.com:9460/svcapi" , name = "NHClient" , configuration = FeignConfiguration.class)
+//@FeignClient(url = "https://nhopenapi.nonghyup.com/svcapi" , name = "Server1")
+@FeignClient(url = "http://smartdev.nonghyup.com:9460/svcapi" , name = "Server1" , configuration = FeignConfiguration.class)
 public interface NHClient {
     @PostMapping(value = "/oauth/requestToken.nhd" , consumes = "application/x-www-form-urlencoded; charset=UTF-8")
     NHDto.Response getKey(@RequestParam("client_id") String clientId,
