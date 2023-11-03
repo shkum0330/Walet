@@ -42,22 +42,10 @@ public class FeignConfiguration {
     public Retryer retryer(){
         return new Retryer.Default(1000,2000,3);
     }
-//    @Bean
-//    public OkHttpClient client() {
-//        return new OkHttpClient.Builder()
-//                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("프록시서버주소", 프록시포트)))
-//                .build();
-//    }
 
-//    @Bean
-//    public OkHttpClient client() {
-//        return new OkHttpClient.Builder()
-//                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort)))
-//                .build();
-//    }
     @Bean
     public Client feignClient() {
-        HttpHost proxy = new HttpHost("121.162.108.65", 9460);
+        HttpHost proxy = new HttpHost(proxyHost, proxyPort);
         RequestConfig config = RequestConfig.custom()
                 .setProxy(proxy)
                 .build();
