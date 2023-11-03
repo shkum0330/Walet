@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static com.ssafy.global.common.status.SuccessCode.GENERAL_SUCCESS;
 
 @RestController
@@ -21,7 +23,8 @@ public class AuthController {
     private final NHService nhService;
 
     @PostMapping("/login")
-    public ResponseEntity<EnvelopeResponse<TokenMapping>> login(@RequestBody LoginDto loginRequest) {
+    public ResponseEntity<EnvelopeResponse<TokenMapping>> login(@RequestBody LoginDto loginRequest , HttpServletRequest request) {
+        System.out.println(request.getRemoteAddr());
         TokenMapping token = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
 
         return new ResponseEntity<EnvelopeResponse<TokenMapping>>(new EnvelopeResponse<>(GENERAL_SUCCESS, token), HttpStatus.OK);

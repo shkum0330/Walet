@@ -29,8 +29,6 @@ public class FeignConfiguration {
     @Value("${proxy.port}")
     private int proxyPort;
 
-    @Autowired
-    private ObjectFactory<HttpMessageConverters> messageConverters;
     @Bean
     Logger.Level feignLoggerLevel(){
         return Logger.Level.FULL;
@@ -55,7 +53,7 @@ public class FeignConfiguration {
     @Bean
     public OkHttpClient client() {
         return new OkHttpClient.Builder()
-                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("121.162.108.65", 9460)))
+                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort)))
                 .build();
     }
 }
