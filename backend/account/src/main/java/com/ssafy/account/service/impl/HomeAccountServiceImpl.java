@@ -12,10 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.ssafy.account.common.api.status.FailCode.NO_ACCOUNT;
+import static com.ssafy.account.common.api.status.FailCode.NO_NORMAL_ACCOUNT;
 
 @Service
 @Transactional
@@ -25,10 +27,21 @@ public class HomeAccountServiceImpl implements HomeAccountService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
+    // 일반계좌 목록을 가져옴
     @Override
-    public HomeAccountResponse getHomeAccountDetail(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        List<Transaction> transactions=transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(account);
-        return new HomeAccountResponse(account, transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList()));
+    public List<HomeAccountResponse> getHomeAccountDetail(Long memberId) {
+        List<Account> normalAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "00");
+
+        if(normalAccounts.isEmpty()) {
+            throw new NotFoundException(NO_NORMAL_ACCOUNT);
+        }
+
+        List<HomeAccountResponse> result = new ArrayList<>();
+        for (Account normalAccount : normalAccounts) {
+            List<Transaction> transactions = transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(normalAccount);
+            result.add(new HomeAccountResponse(normalAccount, transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList())));
+        }
+
+        return result;
     }
 }
