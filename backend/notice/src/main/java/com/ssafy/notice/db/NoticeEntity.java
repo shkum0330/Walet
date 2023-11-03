@@ -2,12 +2,13 @@ package com.ssafy.notice.db;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
 @Entity(name = "notice")
-@Getter
+@Getter @Setter
 public class NoticeEntity extends BaseTimeEntity {
 
 
@@ -18,6 +19,9 @@ public class NoticeEntity extends BaseTimeEntity {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "sub_title")
+    private String subTitle;
+
     @Column(name= "content")
     private String content;
 
@@ -27,20 +31,6 @@ public class NoticeEntity extends BaseTimeEntity {
     @Column(name = "banner_img")
     private String bannerImg;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public void setBannerImg(String bannerImg) {
-        this.bannerImg = bannerImg;
-    }
 }
 
