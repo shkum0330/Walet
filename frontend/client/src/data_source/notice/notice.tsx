@@ -16,7 +16,7 @@ export async function NoticeListAPI(token: string) {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response.data.data;
+      return response.data.data.reverse();
     } catch (error) {
       console.error(error);
     }

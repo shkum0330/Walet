@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Card from '../components/common/card';
 import { noticedata } from '../interface/api/noticeApiInterface';
 import { noticeListRepository } from '../repository/notice/noticeRepository';
+import NoticeDropdown from '../components/notice/noticeDropdown';
 
 function NoticePage() {
   const [notice, SetNotice] = useState<noticedata[] | null>([]);
@@ -18,8 +19,13 @@ function NoticePage() {
   return (
     <div className="ml-24 pl-4 pt-4 h-[89vh]">
       <p className="text-3xl">공지사항 관리</p>
+
       <Card width="w-[95%]" height="h-[30%]" styling="p-2 flex flex-col ">
-        <p className="text-2xl">배너 미리보기</p>
+        <div className="flex items-center">
+          <p className="text-2xl">배너 미리보기</p>
+          <NoticeDropdown />
+        </div>
+
         <div className="w-full h-full flex justify-center">
           <Card width="w-[70%]" height="h-[50%]" styling="p-2 bg-gray-50">
             {selectedItem && (
