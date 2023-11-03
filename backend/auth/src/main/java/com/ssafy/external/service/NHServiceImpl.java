@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class NHServiceImpl implements NHService{
     private final NHClient nhClient;
+    private final NHClient nhClientDev;
     @Value("${nh.client.id}")
     private String id;
     @Value("${nh.client.secret}")
@@ -24,6 +25,17 @@ public class NHServiceImpl implements NHService{
     @Override
     public NHDto.Response getKey() {
         NHDto.Response response = nhClient.getKey(
+                id,
+                secret,
+                scope,
+                grantType
+        );
+        return response;
+    }
+
+    @Override
+    public NHDto.Response getKeyDev() {
+        NHDto.Response response = nhClientDev.getKey(
                 id,
                 secret,
                 scope,

@@ -5,4 +5,5 @@ import com.ssafy.external.dto.NHDto;
 
 public interface NHService {
     NHDto.Response getKey();
+    NHDto.Response getKeyDev();
 }

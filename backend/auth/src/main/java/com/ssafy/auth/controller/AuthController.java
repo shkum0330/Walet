@@ -41,5 +41,12 @@ public class AuthController {
         System.out.println(response);
         return new ResponseEntity<EnvelopeResponse<NHDto.Response>>(new EnvelopeResponse<>(GENERAL_SUCCESS, response), HttpStatus.OK);
     }
+
+    @GetMapping("/dev")
+    public ResponseEntity<EnvelopeResponse<NHDto.Response>> getKeyDev() {
+        NHDto.Response response = nhService.getKeyDev();
+        System.out.println(response);
+        return new ResponseEntity<EnvelopeResponse<NHDto.Response>>(new EnvelopeResponse<>(GENERAL_SUCCESS, response), HttpStatus.OK);
+    }
 }
 
