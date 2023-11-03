@@ -11,7 +11,7 @@ import {
 import {
   noticeCreateRequest,
   noticeUpdateRequest,
-} from '../../interface/noticeApi';
+} from '../../interface/api/noticeApiInterface';
 
 export function noticeListRepository(): void {
   const accessToken = useAccessToken();

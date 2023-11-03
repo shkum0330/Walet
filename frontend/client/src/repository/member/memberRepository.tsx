@@ -1,6 +1,9 @@
 import { useAccessToken } from '../../data_source/apiInfo';
 import { LoginAPI, LogoutAPI, UsersAPI } from '../../data_source/auth/member';
-import { LogoutRequest, LoginRequest } from '../../interface/memberApi';
+import {
+  LogoutRequest,
+  LoginRequest,
+} from '../../interface/api/memberApiInterface';
 
 export function LoginRepository(request: LoginRequest): void {
   LoginAPI(request);
