@@ -13,5 +13,5 @@ public class NHResponseDto {
     String scope;
     String expireDate;
     String accessToken;
-    String token_type;
+    String token_type;;
 }

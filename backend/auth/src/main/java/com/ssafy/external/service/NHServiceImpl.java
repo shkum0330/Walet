@@ -1,6 +1,7 @@
 package com.ssafy.external.service;
 
 import com.ssafy.external.client.NHClient;
+import com.ssafy.external.dto.NHDto;
 import com.ssafy.external.dto.NHResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +23,22 @@ public class NHServiceImpl implements NHService{
 
     @Override
     public NHResponseDto getKey() {
-        return nhClient.getKey(
-                CONTENT_TYPE,
-                id,
-                secret,
-                "fintechapp",
-                "client_credentials"
-        );
+        NHDto.Request request = NHDto.Request.builder()
+                .client_id(id)
+                .client_secret(secret)
+                .scope("fintechapp")
+                .grant_type("client_credentials")
+                .build();
+
+
+
+        return nhClient.getKey(CONTENT_TYPE, request);
+//        return nhClient.getKey(
+//                CONTENT_TYPE,
+//                id,
+//                secret,
+//                "fintechapp",
+//                "client_credentials"
+//        );
     }
 }
