@@ -3,6 +3,8 @@ package com.ssafy.auth.controller;
 import com.ssafy.auth.api.LoginDto;
 import com.ssafy.auth.service.UserServiceImpl;
 import com.ssafy.auth.util.TokenMapping;
+import com.ssafy.external.dto.NHResponseDto;
+import com.ssafy.external.service.NHService;
 import com.ssafy.global.common.response.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import static com.ssafy.global.common.status.SuccessCode.GENERAL_SUCCESS;
 @RequiredArgsConstructor
 public class AuthController {
     private final UserServiceImpl userService;
+    private final NHService nhService;
 
     @PostMapping("/login")
     public ResponseEntity<EnvelopeResponse<TokenMapping>> login(@RequestBody LoginDto loginRequest) {
@@ -31,6 +34,13 @@ public class AuthController {
         userService.userLogout(token);
 
         return new ResponseEntity<EnvelopeResponse<String>>(new EnvelopeResponse<>(GENERAL_SUCCESS, ""), HttpStatus.OK);
+    }
+
+    @GetMapping("/key")
+    public ResponseEntity<EnvelopeResponse<NHResponseDto>> getKey() {
+        NHResponseDto nhResponseDto = nhService.getKey();
+        System.out.println(nhResponseDto);
+        return new ResponseEntity<EnvelopeResponse<NHResponseDto>>(new EnvelopeResponse<>(200,"데이터 처리 성공", nhResponseDto), HttpStatus.OK);
     }
 }
 
