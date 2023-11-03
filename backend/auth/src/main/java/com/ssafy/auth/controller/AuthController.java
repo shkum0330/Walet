@@ -3,11 +3,10 @@ package com.ssafy.auth.controller;
 import com.ssafy.auth.api.LoginDto;
 import com.ssafy.auth.service.UserServiceImpl;
 import com.ssafy.auth.util.TokenMapping;
-import com.ssafy.external.dto.NHResponseDto;
+import com.ssafy.external.dto.NHDto;
 import com.ssafy.external.service.NHService;
 import com.ssafy.global.common.response.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,10 +36,10 @@ public class AuthController {
     }
 
     @GetMapping("/key")
-    public ResponseEntity<EnvelopeResponse<NHResponseDto>> getKey() {
-        NHResponseDto nhResponseDto = nhService.getKey();
-        System.out.println(nhResponseDto);
-        return new ResponseEntity<EnvelopeResponse<NHResponseDto>>(new EnvelopeResponse<>(GENERAL_SUCCESS, nhResponseDto), HttpStatus.OK);
+    public ResponseEntity<EnvelopeResponse<NHDto.Response>> getKey() {
+        NHDto.Response response = nhService.getKey();
+        System.out.println(response);
+        return new ResponseEntity<EnvelopeResponse<NHDto.Response>>(new EnvelopeResponse<>(GENERAL_SUCCESS, response), HttpStatus.OK);
     }
 }
 

@@ -1,7 +1,7 @@
 package com.ssafy.external.service;
 
 import com.ssafy.external.client.NHClient;
-import com.ssafy.external.dto.NHResponseDto;
+import com.ssafy.external.dto.NHDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,14 +21,16 @@ public class NHServiceImpl implements NHService{
     String secret;
 
     @Override
-    public NHResponseDto getKey() {
-        return nhClient.getKey(
+    public NHDto.Response getKey() {
+        NHDto.Response response = nhClient.getKey(
                 CONTENT_TYPE,
                 id,
                 secret,
                 "fintechapp",
                 "client_credentials"
         );
+        System.out.println(response);
+        return response;
 //        NHDto.Request request = NHDto.Request.builder()
 //                .client_id(id)
 //                .client_secret(secret)
