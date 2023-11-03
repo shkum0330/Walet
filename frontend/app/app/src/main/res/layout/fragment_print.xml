@@ -191,7 +191,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:background="@drawable/btn_finished_identification"
+                        android:background="@drawable/button_finished_identification"
                         android:fontFamily="@font/pretendard_semi_bold"
                         android:text="비문"
                         android:textColor="@color/white"
@@ -206,7 +206,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:background="@drawable/btn_not_finished_identification"
+                        android:background="@drawable/button_grey_sixty"
                         android:fontFamily="@font/pretendard_semi_bold"
                         android:text="내장칩"
                         android:textColor="@color/white"
@@ -302,7 +302,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@drawable/button_identification">
+                        android:background="@drawable/button_sub_green_twenty">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -330,7 +330,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@drawable/button_identification">
+                        android:background="@drawable/button_sub_green_twenty">
 
                         <ImageView
                             android:layout_width="wrap_content"
