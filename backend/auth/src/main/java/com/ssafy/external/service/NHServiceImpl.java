@@ -24,18 +24,18 @@ public class NHServiceImpl implements NHService{
 
     @Override
     public NHDto.Response getKey() {
-//        NHDto.Response response = nhClient.getKey(
-//                id,
-//                secret,
-//                scope,
-//                grantType
-//        );
-//        return response;
+        NHDto.Response response = nhClient.getKey(
+                id,
+                secret,
+                scope,
+                grantType
+        );
+        return response;
 
-        TestDto testDto = new TestDto();
-        testDto.setEmail("emasd.com");
-        testDto.setPassword("000000");
-        System.out.println(nhClient.getKey(testDto));
-        return null;
+//        TestDto testDto = new TestDto();
+//        testDto.setEmail("emasd.com");
+//        testDto.setPassword("000000");
+//        System.out.println(nhClient.getKey(testDto));
+//        return null;
     }
 }
