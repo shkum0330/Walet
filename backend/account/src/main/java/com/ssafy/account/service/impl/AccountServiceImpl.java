@@ -4,13 +4,16 @@ import com.ssafy.account.api.request.account.AccountSaveRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.api.request.account.AssignRequest;
 import com.ssafy.account.api.request.account.SelectChargingAccountRequest;
+import com.ssafy.account.api.response.account.AccessiblePetAccountResponse;
 import com.ssafy.account.api.response.account.AccountResponse;
 import com.ssafy.account.api.response.account.ChargingAccountResponse;
 import com.ssafy.account.api.response.transaction.MonthlyExpenditureDetailResponse;
 import com.ssafy.account.common.api.exception.DuplicatedException;
 import com.ssafy.account.common.api.exception.NotFoundException;
+import com.ssafy.account.db.entity.access.Access;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.transaction.Transaction;
+import com.ssafy.account.db.repository.AccessRepository;
 import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.db.repository.TransactionRepository;
 import com.ssafy.account.service.AccountService;
@@ -36,6 +39,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
+    private final AccessRepository accessRepository;
 
     @Value("${hash.pepper}")
     private String pepper;
@@ -155,6 +159,22 @@ public class AccountServiceImpl implements AccountService {
         List<ChargingAccountResponse> result = allAccounts.stream().map((account ->
                 new ChargingAccountResponse(account))).collect(Collectors.toList());
         return result;
+    }
+
+    // 사용자가 접근 허용된 펫계좌 리스트 반환
+    @Override
+    public List<AccessiblePetAccountResponse> getAccessibleAccountList(Long memberId) {
+        List<Access> myAccessList = accessRepository.findAccessesByRequestMemberIdAndIsConfirmed(memberId, 1);
+
+        List<Account> myAccessiblePetAccount = new ArrayList<>();
+        // 내가 접근 가능한 계좌 목록을 가져옴
+        for (Access access : myAccessList) {
+            Account petAccount = accountRepository.findAccountByPetNameAndAccountNumber(access.getPetName(), access.getAccountNumber());
+            myAccessiblePetAccount.add(petAccount);
+        }
+
+        return myAccessiblePetAccount.stream().map((account) ->
+                new AccessiblePetAccountResponse(account)).collect(Collectors.toList());
     }
 
     // 관리자페이지용 - 관리자 페이지용 메소드가 굳이 여기에 있어야할까?

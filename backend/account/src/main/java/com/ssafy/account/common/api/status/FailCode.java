@@ -29,6 +29,7 @@ public enum FailCode {
     NO_NORMAL_ACCOUNT(NO_CONTENT, "현재 고객님의 일반계좌가 존재하지 않습니다."),
     NO_BUSINESS_ACCOUNT(NO_CONTENT, "현재 고객님의 사업자계좌가 존재하지 않습니다."),
     NO_PET_ACCOUNT(NO_CONTENT, "현재 고객님의 반려동물계좌가 존재하지 않습니다."),
+    INCORRECT_PET_ACCOUNT_INFO(NO_CONTENT, "반려동물의 이름 또는 계좌번호가 잘못 입력되었습니다."),
 
     // 거래내역 접근 요청
     NOT_EXIST_ACCESS_REQUEST(NO_CONTENT, "존재하지 않거나 유효하지 않은 요청입니다."),
