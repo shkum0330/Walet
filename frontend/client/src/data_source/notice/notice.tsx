@@ -7,19 +7,19 @@ import {
   noticelistResponse,
 } from '../../interface/api/noticeApiInterface';
 
-export function NoticeListAPI(token: string) {
+export async function NoticeListAPI(token: string) {
   const noticeListURI = `${NOTICE_URI}/list`;
   if (token) {
-    axios
-      .get<noticelistResponse>(noticeListURI, {
+    try {
+      const response = await axios.get<noticelistResponse>(noticeListURI, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      });
+      return response.data.data.reverse();
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 
