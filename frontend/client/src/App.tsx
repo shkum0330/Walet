@@ -3,6 +3,7 @@ import { AxiosInterceptor } from './repository/instanceRepository';
 import LoginPage from './pages/loginPage';
 import MainPage from './pages/mainPage';
 import Navbar from './components/nav/navbar';
+import NoticePage from './pages/noticePage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
             <Route path="" element={<LoginPage />} />
             <Route path="/" element={<Navbar />}>
               <Route path="main" element={<MainPage />} />
+              <Route path="notice" element={<NoticePage />} />
             </Route>
           </Routes>
         </Router>

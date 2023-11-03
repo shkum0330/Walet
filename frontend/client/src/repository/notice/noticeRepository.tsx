@@ -13,11 +13,13 @@ import {
   noticeUpdateRequest,
 } from '../../interface/api/noticeApiInterface';
 
-export function noticeListRepository(): void {
+export async function noticeListRepository() {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeListAPI(accessToken);
+    const data = await NoticeListAPI(accessToken);
+    return data;
   }
+  return null;
 }
 
 export function noticeCreateRepository(request: noticeCreateRequest): void {

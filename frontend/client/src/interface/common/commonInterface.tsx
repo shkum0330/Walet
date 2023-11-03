@@ -4,4 +4,5 @@ export interface CardProps {
   children: ReactNode;
   width: string;
   height: string;
+  styling: string;
 }

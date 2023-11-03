@@ -3,11 +3,12 @@ import { common } from './commonApiInterface';
 export interface noticedata {
   id: string;
   title: string;
+  subTitle: string;
   content: string;
   isActive: boolean;
   bannerImg: string;
-  registerTime: Date;
-  modifyTime: Date;
+  registerTime: string;
+  modifyTime: string;
 }
 
 export interface noticelistResponse extends common {
@@ -16,6 +17,7 @@ export interface noticelistResponse extends common {
 
 export interface noticeCreateRequest {
   title: string;
+  subTitle: string;
   cotnent: string;
   bannerImg: string;
 }
