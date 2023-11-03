@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(url = "https://nhopenapi.nonghyup.com/svcapi" , name = "NHClient")
 //@FeignClient(url = "http://smartdev.nonghyup.com:9460/svcapi" , name = "NHClient")
 public interface NHClient {
-    @PostMapping(value = "/oauth/requestToken.nhd" , consumes = "application/x-www-form-urlencoded-")
+    @PostMapping(value = "/oauth/requestToken.nhd" , consumes = "application/x-www-form-urlencoded")
     NHResponseDto getKey(@RequestHeader("Content-type") String contentType,
                          @RequestParam("client_id") String clientId,
                          @RequestParam("client_secret") String clientSecret,
