@@ -50,10 +50,10 @@ public class FeignConfiguration {
 //                .build();
 //    }
 
-    @Bean
-    public OkHttpClient client() {
-        return new OkHttpClient.Builder()
-                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort)))
-                .build();
-    }
+//    @Bean
+//    public OkHttpClient client() {
+//        return new OkHttpClient.Builder()
+//                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort)))
+//                .build();
+//    }
 }
