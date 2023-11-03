@@ -2,6 +2,7 @@ package com.ssafy.external.service;
 
 import com.ssafy.external.client.NHClient;
 import com.ssafy.external.dto.NHDto;
+import com.ssafy.external.dto.TestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,12 +24,18 @@ public class NHServiceImpl implements NHService{
 
     @Override
     public NHDto.Response getKey() {
-        NHDto.Response response = nhClient.getKey(
-                id,
-                secret,
-                scope,
-                grantType
-        );
-        return response;
+//        NHDto.Response response = nhClient.getKey(
+//                id,
+//                secret,
+//                scope,
+//                grantType
+//        );
+//        return response;
+
+        TestDto testDto = new TestDto();
+        testDto.setEmail("emasd.com");
+        testDto.setPassword("000000");
+        System.out.println(nhClient.getKey(testDto));
+        return null;
     }
 }
