@@ -50,15 +50,13 @@ public class FeignConfiguration {
         return new Retryer.Default(1000,2000,3);
     }
 
-    @Bean
-    public Client feignClient(){
-        HttpHost httpHost = new HttpHost(proxyHost, proxyPort);
-        CloseableHttpClient httpClient = HttpClientBuilder.create()
-                .setProxy(httpHost)
-                .build();
-
-        return new ApacheHttpClient(httpClient);
-    }
-
-
+//    @Bean
+//    public Client feignClient(){
+//        HttpHost httpHost = new HttpHost(proxyHost, proxyPort);
+//        CloseableHttpClient httpClient = HttpClientBuilder.create()
+//                .setProxy(httpHost)
+//                .build();
+//
+//        return new ApacheHttpClient(httpClient);
+//    }
 }
