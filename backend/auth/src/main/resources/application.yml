@@ -48,8 +48,9 @@ coolsms:
     secret: ENC(bPV+Ny9dyq2vnlSSX1kuiAFk9f0z6MnjdYehGD7jdYfCNKR9Ww49FnnUoIp8F1yL)
 
 nh:
-  client-id: ENC(dDMftFuEktP7Xn7N3L/UElG0Ny0ZfNmVt0CJXzEND4teKt/qlX2tj73nIeN8EhVz)
-  client-secret: ENC(p5Wn5A4yHMu4BGL+XMbzvpPYaTdEx82KK3hiNLdFHG2ODIRqBbIzmIn3UVmN/X7X)
+  client:
+    id: ENC(dDMftFuEktP7Xn7N3L/UElG0Ny0ZfNmVt0CJXzEND4teKt/qlX2tj73nIeN8EhVz)
+    secret: ENC(p5Wn5A4yHMu4BGL+XMbzvpPYaTdEx82KK3hiNLdFHG2ODIRqBbIzmIn3UVmN/X7X)
 
 
 ---
@@ -105,6 +106,7 @@ coolsms:
     secret: ENC(bPV+Ny9dyq2vnlSSX1kuiAFk9f0z6MnjdYehGD7jdYfCNKR9Ww49FnnUoIp8F1yL)
 
 nh:
-  client-id: ENC(dDMftFuEktP7Xn7N3L/UElG0Ny0ZfNmVt0CJXzEND4teKt/qlX2tj73nIeN8EhVz)
-  client-secret: ENC(p5Wn5A4yHMu4BGL+XMbzvpPYaTdEx82KK3hiNLdFHG2ODIRqBbIzmIn3UVmN/X7X)
+  client:
+    id: ENC(dDMftFuEktP7Xn7N3L/UElG0Ny0ZfNmVt0CJXzEND4teKt/qlX2tj73nIeN8EhVz)
+    secret: ENC(p5Wn5A4yHMu4BGL+XMbzvpPYaTdEx82KK3hiNLdFHG2ODIRqBbIzmIn3UVmN/X7X)
 
