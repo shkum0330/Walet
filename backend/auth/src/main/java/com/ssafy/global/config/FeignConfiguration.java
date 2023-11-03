@@ -2,10 +2,12 @@ package com.ssafy.global.config;
 
 import com.ssafy.global.FeignClientExceptionErrorDecoder;
 import feign.Client;
+import feign.Feign;
 import feign.Logger;
 import feign.Retryer;
 import feign.codec.ErrorDecoder;
 import feign.httpclient.ApacheHttpClient;
+import feign.slf4j.Slf4jLogger;
 import org.apache.http.HttpHost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -55,5 +57,12 @@ public class FeignConfiguration {
 
         CloseableHttpClient httpClient = httpClientBuilder.build();
         return new ApacheHttpClient(httpClient);
+    }
+
+    @Bean
+    public Feign.Builder feignBuilder() {
+        return Feign.builder()
+                .logger(new Slf4jLogger())
+                .logLevel(feignLoggerLevel());
     }
 }
