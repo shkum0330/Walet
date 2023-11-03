@@ -333,4 +333,9 @@ public class AccountServiceImpl implements AccountService {
         return expenditureRatio;
     }
 
+    @Override
+    public Account findPetAccount(Long memberId) {
+        return accountRepository.findByMemberIdAndAccountType(memberId,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+    }
+
 }

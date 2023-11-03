@@ -39,6 +39,9 @@ public enum FailCode {
     NO_PERMISSION_TO_TRANSACTION(NO_CONTENT, "해당 계좌의 거래내역에 접근할 수 없습니다."),
 
     // 결제
+    NO_PAYMENT(NO_CONTENT, "해당하는 결제 요청이 존재하지 않습니다."),
+    INVALID_PAYMENT(BAD_REQUEST, "유효하지 않은 결제 요청입니다."),
+    RESTRICTED_BUSINESS(BAD_REQUEST,"사용이 불가능한 업종입니다"),
     REJECT_ACCOUNT_REMITTANCE(FORBIDDEN,"잔액 부족으로 송금 실패했습니다."),
     REJECT_ACCOUNT_PAYMENT(FORBIDDEN,"잔액 부족으로 결제에 실패했습니다."),
 
@@ -47,4 +50,5 @@ public enum FailCode {
 
     private final HttpStatus status;
     private final String message;
+
 }

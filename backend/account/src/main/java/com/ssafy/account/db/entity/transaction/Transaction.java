@@ -21,7 +21,7 @@ public class Transaction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
-    @Column(name="company_name",length = 30,nullable = false)
+    @Column(name="recipient",length = 30,nullable = false)
     private String recipient; // 거래대상
     @Column(name="business_category",nullable = true)
     private Integer businessCategory; // 거래한 회사의 카테고리
@@ -42,6 +42,7 @@ public class Transaction {
         this.transactionType = transactionType;
         this.paymentAmount = paymentAmount;
         this.balance = balance;
+        this.transactionTime=LocalDateTime.now();
     }
 
     public Transaction(Account account, String recipient, TransactionType transactionType, Long paymentAmount, Long balance) {

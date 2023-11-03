@@ -1,9 +1,6 @@
 package com.ssafy.account.common.api;
 
-import com.ssafy.account.common.api.exception.DuplicatedException;
-import com.ssafy.account.common.api.exception.InsufficientBalanceException;
-import com.ssafy.account.common.api.exception.NotCorrectException;
-import com.ssafy.account.common.api.exception.NotFoundException;
+import com.ssafy.account.common.api.exception.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -31,4 +28,15 @@ public class GlobalControllerAdvice {
     public Response handleNotCorrectException(NotCorrectException exception) {
         return Response.fail(exception.getFailCode());
     }
+    @ExceptionHandler(InvalidPaymentException.class)
+    public Response invalidPaymentException(InvalidPaymentException exception) {
+        return Response.fail(exception.getFailCode());
+    }
+
+    @ExceptionHandler(RestrictedBusinessException.class)
+    public Response restrictedBusinessException(RestrictedBusinessException exception) {
+        return Response.fail(exception.getFailCode());
+    }
+
+
 }
