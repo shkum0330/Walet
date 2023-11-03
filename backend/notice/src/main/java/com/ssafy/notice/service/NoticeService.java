@@ -31,6 +31,7 @@ public class NoticeService {
         notice.setTitle(request.getTitle());
         notice.setContent(request.getContent());
         notice.setIsActive(request.getIsActive());
+        notice.setSubTitle(request.getSubTitle());
         notice.setBannerImg(imageUrl);
 
         return noticeRepository.save(notice);
@@ -48,6 +49,7 @@ public class NoticeService {
         modifiedNotice.setTitle(request.getTitle());
         modifiedNotice.setContent(request.getContent());
         modifiedNotice.setIsActive(request.getIsActive());
+        modifiedNotice.setSubTitle(request.getSubTitle());
         modifiedNotice.setBannerImg(imageUrl);
 
         return noticeRepository.save(modifiedNotice);

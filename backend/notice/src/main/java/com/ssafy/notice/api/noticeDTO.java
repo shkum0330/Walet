@@ -11,6 +11,7 @@ public class noticeDTO {
     public static class request{
         private Long id;
         private String title;
+        private String subTitle;
         private String content;
         private Boolean isActive;
         private String bannerImg;
