@@ -26,7 +26,7 @@ public class NHDto {
         String grant_type;
         String scope;
         String expireDate;
-        String access_token;
+        String accessToken;
         String token_type;;
     }
 }

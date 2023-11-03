@@ -39,10 +39,9 @@ public class AuthController {
     }
 
     @GetMapping("/key")
-    public ResponseEntity<EnvelopeResponse<NHDto.Response>> getKey() {
-        NHDto.Response response = nhService.getKey();
-        System.out.println(response);
-        return new ResponseEntity<EnvelopeResponse<NHDto.Response>>(new EnvelopeResponse<>(GENERAL_SUCCESS, response), HttpStatus.OK);
+    public ResponseEntity<EnvelopeResponse<String>> getKey() {
+        String accessToken = nhService.getKey();
+        return new ResponseEntity<EnvelopeResponse<String>>(new EnvelopeResponse<>(GENERAL_SUCCESS, accessToken), HttpStatus.OK);
     }
 }
 
