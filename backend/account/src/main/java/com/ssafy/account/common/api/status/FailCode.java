@@ -26,6 +26,9 @@ public enum FailCode {
     NOT_USABLE_COMPANY_ACCOUNT(BAD_REQUEST, "현재 해당 기업의 계좌는 사용이 불가합니다."),
     NOT_USABLE_RECEIVER_ACCOUNT(BAD_REQUEST, "입력된 계좌는 현재 사용이 불가능한 상태입니다."),
     DUPLICATED_LINKED_ACCOUNT(BAD_REQUEST, "이미 등록돼있는 충전계좌입니다."),
+    NO_NORMAL_ACCOUNT(NO_CONTENT, "현재 고객님의 일반계좌가 존재하지 않습니다."),
+    NO_BUSINESS_ACCOUNT(NO_CONTENT, "현재 고객님의 사업자계좌가 존재하지 않습니다."),
+    NO_PET_ACCOUNT(NO_CONTENT, "현재 고객님의 반려동물계좌가 존재하지 않습니다."),
 
     // 거래내역 접근 요청
     NOT_EXIST_ACCESS_REQUEST(NO_CONTENT, "존재하지 않거나 유효하지 않은 요청입니다."),

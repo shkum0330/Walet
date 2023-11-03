@@ -46,7 +46,6 @@ public class AnimalAccountDetailResponse {
         this.petName = account.getPetName();
         this.petGender = account.getPetGender();
         this.petBirth = account.getPetBirth();
-        this.petType = account.getPetType();
         this.petBreed = account.getPetBreed();
         this.petNeutered = account.getPetNeutered();
         this.petRegistrationDate = account.getPetRegistrationDate();

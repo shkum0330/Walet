@@ -12,10 +12,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.ssafy.account.common.api.status.FailCode.NO_ACCOUNT;
+import static com.ssafy.account.common.api.status.FailCode.NO_PET_ACCOUNT;
 
 @Service
 @Transactional
@@ -26,10 +27,21 @@ public class PetHomeAccountServiceImpl implements PetHomeAccountService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    public AnimalAccountDetailResponse getAnimalAccountDetail(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        List<Transaction> transactions = transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(account);
-        AnimalAccountDetailResponse result = new AnimalAccountDetailResponse(account, transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList()));
+    public List<AnimalAccountDetailResponse> getAnimalAccountDetail(Long memberId) {
+        // 해당 사용자의 펫계좌 목록을 가져옴
+        List<Account> petAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "02");
+
+        if(petAccounts.isEmpty()) {
+            throw new NotFoundException(NO_PET_ACCOUNT);
+        }
+        
+        List<AnimalAccountDetailResponse> result = new ArrayList<>();
+        for (Account petAccount : petAccounts) {
+            // 각 계좌의 거래내역을 가져옴
+            List<Transaction> transactions = transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(petAccount);
+            result.add(new AnimalAccountDetailResponse(petAccount, transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList())));
+        }
+
         return result;
     }
 
