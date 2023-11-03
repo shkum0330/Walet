@@ -15,28 +15,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class NHServiceImpl implements NHService{
     private final NHClient nhClient;
     @Value("${nh.client.id}")
-    String id;
+    private String id;
     @Value("${nh.client.secret}")
-    String secret;
+    private String secret;
+    private final String scope = "fintechapp";
+    private final String grantType = "client_credentials";
 
     @Override
     public NHDto.Response getKey() {
-//        NHDto.Request request = NHDto.Request.builder()
-//                .client_id(id)
-//                .client_secret(secret)
-//                .scope("fintechapp")
-//                .grant_type("client_credentials")
-//                .build();
-//
-//        NHDto.Response response = nhClient.getKey(request);
-//        return response;
         NHDto.Response response = nhClient.getKey(
                 id,
                 secret,
-                "fintechapp",
-                "client_credentials"
+                scope,
+                grantType
         );
-        System.out.println(response);
         return response;
     }
 }

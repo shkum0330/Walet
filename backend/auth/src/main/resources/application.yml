@@ -59,6 +59,10 @@ logging:
         external:
           client:
             NHClient: DEBUG
+
+proxy:
+  host: 121.162.108.65
+  port: 9460
 ---
 
 server:
@@ -123,3 +127,6 @@ logging:
         external:
           client:
             NHClient: DEBUG
+proxy:
+  host: 121.162.108.65
+  port: 9460
