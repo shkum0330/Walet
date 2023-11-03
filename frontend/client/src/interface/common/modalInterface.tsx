@@ -3,7 +3,6 @@ import { ReactNode } from 'react';
 export interface ModalContentInterface {
   content: string;
   okAction: () => void;
-  cancelAction: () => void;
 }
 
 export interface ModalPropsInterface {
@@ -22,4 +21,8 @@ export interface ModalClassTypeInterface {
 
 export interface ModalProviderPropsInterface {
   children: ReactNode;
+}
+
+export interface ErrorModalInterface {
+  content: string | null;
 }

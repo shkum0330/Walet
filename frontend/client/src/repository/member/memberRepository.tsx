@@ -5,8 +5,9 @@ import {
   LoginRequest,
 } from '../../interface/api/memberApiInterface';
 
-export function LoginRepository(request: LoginRequest): void {
-  LoginAPI(request);
+export async function LoginRepository(request: LoginRequest) {
+  const data = await LoginAPI(request);
+  return data;
 }
 
 export function LogoutRepository(request: LogoutRequest): void {
