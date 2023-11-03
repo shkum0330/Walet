@@ -35,6 +35,7 @@ public class NHServiceImpl implements NHService{
                 scope,
                 grantType
         );
+        redisService.saveKey(response.getAccessToken());
         return response.getAccessToken();
     }
 }
