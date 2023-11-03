@@ -9,7 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class AuthApplication {
 
 	public static void main(String[] args) {
-		System.setProperty("121.162.108.65" , "9460");
+		System.setProperty("http.proxyHost", "121.162.108.65");
+		System.setProperty("http.proxyPort", "9460");
 		SpringApplication.run(AuthApplication.class, args);
 	}
 }
