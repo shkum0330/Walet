@@ -5,9 +5,7 @@ import { noticeListRepository } from '../repository/notice/noticeRepository';
 
 function NoticePage() {
   const [notice, SetNotice] = useState<noticedata[] | null>([]);
-  const [selectedBannerImg, setSelectedBannerImg] = useState<string | null>(
-    null,
-  );
+  const [selectedItem, setSelectedItem] = useState<noticedata | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -20,16 +18,27 @@ function NoticePage() {
   return (
     <div className="ml-24 pl-4 pt-4 h-[89vh]">
       <p className="text-3xl">공지사항 관리</p>
-      <Card width="w-[95%]" height="h-[30%]" styling="p-2">
+      <Card width="w-[95%]" height="h-[30%]" styling="p-2 flex flex-col ">
         <p className="text-2xl">배너 미리보기</p>
-        {selectedBannerImg && (
-          <img
-            src={selectedBannerImg}
-            alt="banner"
-            className="w-full h-[80%]"
-          />
-        )}
+        <div className="w-full h-full flex justify-center">
+          <Card width="w-[70%]" height="h-[50%]" styling="p-2 bg-gray-50">
+            {selectedItem && (
+              <div className="flex justify-around">
+                <div>
+                  <div className="text-2xl">{selectedItem.title}</div>
+                  <div className="text-xl mt-1">{selectedItem.subTitle}</div>
+                </div>
+                <img
+                  src={selectedItem.bannerImg}
+                  alt="banner"
+                  className="w-[20%] h-[8vh]"
+                />
+              </div>
+            )}
+          </Card>
+        </div>
       </Card>
+
       <Card width="w-[95%]" height="h-[50%]" styling="overflow-y-auto">
         <table className="table-fixed w-full ">
           <thead className="bg-gray-200">
@@ -46,8 +55,10 @@ function NoticePage() {
               notice.map(item => (
                 <tr
                   key={item.id}
-                  onClick={() => setSelectedBannerImg(item.bannerImg)}
-                  className="cursor-pointer">
+                  onClick={() => setSelectedItem(item)}
+                  className={`cursor-pointer ${
+                    selectedItem?.id === item.id ? 'bg-green-100' : ''
+                  }`}>
                   <td className="border border-gray-300">{item.id}</td>
                   <td className="border border-gray-300">
                     {(item.registerTime as string).substring(0, 14)}
