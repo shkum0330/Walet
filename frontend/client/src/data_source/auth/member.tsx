@@ -4,7 +4,7 @@ import {
   LogoutRequest,
   LoginResponse,
   LoginRequest,
-} from '../../interface/memberApi';
+} from '../../interface/api/memberApiInterface';
 import { logout } from '../../store/actions/authActions';
 import { setTokens } from '../../store/store';
 // import instance from '../../repository/instanceRepository';

@@ -1,4 +1,4 @@
-import { common } from './commonApi';
+import { common } from './commonApiInterface';
 
 export interface AuthRequest {
   dispatch: Function;

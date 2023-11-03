@@ -5,7 +5,7 @@ import {
   noticePopCheckResponse,
   noticeUpdateRequest,
   noticelistResponse,
-} from '../../interface/noticeApi';
+} from '../../interface/api/noticeApiInterface';
 
 export function NoticeListAPI(token: string) {
   const noticeListURI = `${NOTICE_URI}/list`;

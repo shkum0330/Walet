@@ -1,4 +1,4 @@
-import { common } from './commonApi';
+import { common } from './commonApiInterface';
 
 export interface noticedata {
   id: string;
