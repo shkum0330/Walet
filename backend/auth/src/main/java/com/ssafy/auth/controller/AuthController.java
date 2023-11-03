@@ -40,7 +40,7 @@ public class AuthController {
     public ResponseEntity<EnvelopeResponse<NHResponseDto>> getKey() {
         NHResponseDto nhResponseDto = nhService.getKey();
         System.out.println(nhResponseDto);
-        return new ResponseEntity<EnvelopeResponse<NHResponseDto>>(new EnvelopeResponse<>(200,"데이터 처리 성공", nhResponseDto), HttpStatus.OK);
+        return new ResponseEntity<EnvelopeResponse<NHResponseDto>>(new EnvelopeResponse<>(GENERAL_SUCCESS, nhResponseDto), HttpStatus.OK);
     }
 }
 
