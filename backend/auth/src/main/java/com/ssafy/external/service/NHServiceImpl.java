@@ -26,7 +26,7 @@ public class NHServiceImpl implements NHService{
                 CONTENT_TYPE,
                 id,
                 secret,
-                "fintechap",
+                "fintechapp",
                 "client_credentials"
         );
         System.out.println(response);
