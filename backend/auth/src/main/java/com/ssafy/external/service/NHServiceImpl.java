@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class NHServiceImpl implements NHService{
-    private final String CONTENT_TYPE = "application/x-www-form-urlencoded;charset=UTF-8";
     private final NHClient nhClient;
     @Value("${nh.client.id}")
     String id;
@@ -23,7 +22,6 @@ public class NHServiceImpl implements NHService{
     @Override
     public NHDto.Response getKey() {
         NHDto.Response response = nhClient.getKey(
-                CONTENT_TYPE,
                 id,
                 secret,
                 "fintechapp",
