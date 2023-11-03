@@ -4,16 +4,18 @@ import LogIcon from '../Icons/logicon';
 import NoticeIcon from '../Icons/noticeicon';
 import UserIcon from '../Icons/usericon';
 import Logo from '../../assets/Logo.png';
+import { useUsername } from '../../data_source/apiInfo';
 
 function Navbar() {
   const location = useLocation();
+  const name = useUsername();
   return (
     <>
       <nav className="flex items-center py-4 px-6 text-xl shadow-md w-full">
         <img src={Logo} alt="Logo" className="w-[60px] h-[30px] mr-4" />
-        <div className="flex items-center space-x-4 font-do-hyeon">
-          All For You
-        </div>
+        <p className="flex items-center space-x-4 font-do-hyeon">
+          환영합니다! 관리자 {name} 님!
+        </p>
       </nav>
       <aside
         id="default-sidebar"

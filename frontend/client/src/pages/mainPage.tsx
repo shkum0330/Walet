@@ -6,19 +6,16 @@ function MainPage() {
       <p className="text-3xl font-do-hyeon">DashBoard</p>
       <div className="flex h-[12%]">
         <Card width="w-[22%]" height="h-full">
-          보유재산 안넣음
-        </Card>
-        <Card width="w-[22%]" height="h-full">
           신규 계좌 발급
         </Card>
-        <Card width="w-[22%]" height="h-full">
+        <Card width="w-[47%]" height="h-full">
           신규 고객 영업
         </Card>
         <Card width="w-[22%]" height="h-full">
           총 거래량
         </Card>
       </div>
-      <div className="flex h-[38%]">
+      <div className="flex mt-8 h-[38%]">
         <Card width="w-[22%]" height="h-full">
           시스템 개요
         </Card>
@@ -29,7 +26,7 @@ function MainPage() {
           기간 거래량 분석
         </Card>
       </div>
-      <div className="flex h-[28%]">
+      <div className="flex mt-8 h-[28%]">
         <Card width="w-[22%]" height="h-full">
           카테고리별 매출
         </Card>
