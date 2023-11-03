@@ -21,22 +21,22 @@ public class NHServiceImpl implements NHService{
 
     @Override
     public NHDto.Response getKey() {
-        NHDto.Request request = NHDto.Request.builder()
-                .client_id(id)
-                .client_secret(secret)
-                .scope("fintechapp")
-                .grant_type("client_credentials")
-                .build();
-
-        NHDto.Response response = nhClient.getKey(request);
-        return response;
-//        NHDto.Response response = nhClient.getKey(
-//                id,
-//                secret,
-//                "fintechapp",
-//                "client_credentials"
-//        );
-//        System.out.println(response);
+//        NHDto.Request request = NHDto.Request.builder()
+//                .client_id(id)
+//                .client_secret(secret)
+//                .scope("fintechapp")
+//                .grant_type("client_credentials")
+//                .build();
+//
+//        NHDto.Response response = nhClient.getKey(request);
 //        return response;
+        NHDto.Response response = nhClient.getKey(
+                id,
+                secret,
+                "fintechapp",
+                "client_credentials"
+        );
+        System.out.println(response);
+        return response;
     }
 }
