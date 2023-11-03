@@ -8,10 +8,11 @@ import {
 import { logout } from '../../store/actions/authActions';
 import { setTokens } from '../../store/store';
 
-export function LoginAPI({ email, password, dispatch }: LoginRequest) {
+export async function LoginAPI({ email, password, dispatch }: LoginRequest) {
   const loginURI = `${AUTH_URI}/login`;
+  let data = null;
   if (email && password) {
-    axios
+    await axios
       .post<LoginResponse>(loginURI, { email, password })
       .then(response => {
         const { accessToken, refreshToken, userName } = response.data.data;
@@ -24,10 +25,11 @@ export function LoginAPI({ email, password, dispatch }: LoginRequest) {
       })
       .catch((error: AxiosError) => {
         if (error.response) {
-          console.log(error.response.data);
+          data = error.response.data;
         }
       });
   }
+  return data;
 }
 
 export function LogoutAPI(token: string, { dispatch }: LogoutRequest): void {

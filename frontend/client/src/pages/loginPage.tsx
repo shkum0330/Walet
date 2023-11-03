@@ -1,15 +1,29 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { LoginRepository } from '../repository/member/memberRepository';
+import ErrorModal from '../components/modal/ErrorModal';
+import { useModal } from '../components/modal/modalClass';
 
 function LoginPage() {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>('');
+  const { openModal } = useModal();
   const dispatch = useDispatch();
 
   const handleLogin = (event: React.FormEvent) => {
     if (userId && password) {
-      LoginRepository({ email: userId, password, dispatch });
+      (async () => {
+        const data = await LoginRepository({
+          email: userId,
+          password,
+          dispatch,
+        });
+        if (data) {
+          setError(data);
+          openModal('error');
+        }
+      })();
     }
     event.preventDefault();
   };
@@ -26,16 +40,15 @@ function LoginPage() {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
               placeholder="id"
-              value={userId}
               onChange={event => setUserId(event.target.value)}
             />
           </div>
           <div className="mb-6">
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              style={{ fontFamily: 'Arial, sans-serif' }}
               type="password"
               placeholder="password"
-              value={password}
               onChange={event => setPassword(event.target.value)}
             />
           </div>
@@ -48,6 +61,7 @@ function LoginPage() {
           </div>
         </form>
       </div>
+      <ErrorModal content={error} />
     </div>
   );
 }

@@ -6,7 +6,6 @@ import {
   noticeUpdateRequest,
   noticelistResponse,
 } from '../../interface/api/noticeApiInterface';
-import { useModal } from '../../components/modal/modalClass';
 
 export function NoticeListAPI(token: string) {
   const noticeListURI = `${NOTICE_URI}/list`;
