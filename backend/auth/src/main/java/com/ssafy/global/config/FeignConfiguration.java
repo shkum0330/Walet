@@ -1,9 +1,14 @@
 package com.ssafy.global.config;
 
 import com.ssafy.global.FeignClientExceptionErrorDecoder;
+import feign.Client;
 import feign.Logger;
 import feign.Retryer;
 import feign.codec.ErrorDecoder;
+import feign.httpclient.ApacheHttpClient;
+import org.apache.http.HttpHost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,13 +47,13 @@ public class FeignConfiguration {
         return new Retryer.Default(1000,2000,3);
     }
 
-//    @Bean
-//    public Client feignClient(){
-//        HttpHost httpHost = new HttpHost(proxyHost, proxyPort);
-//        CloseableHttpClient httpClient = HttpClientBuilder.create()
-//                .setProxy(httpHost)
-//                .build();
-//
-//        return new ApacheHttpClient(httpClient);
-//    }
+    @Bean
+    public Client feignClient(){
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+        HttpHost proxy = new HttpHost(proxyHost, proxyPort);
+        httpClientBuilder.setProxy(proxy);
+
+        CloseableHttpClient httpClient = httpClientBuilder.build();
+        return new ApacheHttpClient(httpClient);
+    }
 }
