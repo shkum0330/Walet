@@ -1,22 +1,21 @@
 package com.ssafy.global.config;
 
 import com.ssafy.global.FeignClientExceptionErrorDecoder;
+import feign.Client;
 import feign.Logger;
 import feign.Retryer;
 import feign.codec.ErrorDecoder;
-import okhttp3.OkHttpClient;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import feign.httpclient.ApacheHttpClient;
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClientsConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 
 
 @Configuration
@@ -56,4 +55,17 @@ public class FeignConfiguration {
 //                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort)))
 //                .build();
 //    }
+    @Bean
+    public Client feignClient() {
+        HttpHost proxy = new HttpHost("121.162.108.65", 9460);
+        RequestConfig config = RequestConfig.custom()
+                .setProxy(proxy)
+                .build();
+
+        CloseableHttpClient httpClient = HttpClientBuilder.create()
+                .setDefaultRequestConfig(config)
+                .build();
+
+        return new ApacheHttpClient(httpClient);
+    }
 }
