@@ -1,3 +1,6 @@
+server:
+  port: 8082
+
 spring:
   application:
     name: ACCOUNT
@@ -36,5 +39,14 @@ cloud:
       static: ENC(QlXUzkRxQ6pLw7eXrdHQ8cgeucQcmE1f)
     stack:
       auto: false
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://43.201.195.182:8761/eureka
+  instance:
+    prefer-ip-address: true
+
 jasypt:
   password: ${PASSWORD}
