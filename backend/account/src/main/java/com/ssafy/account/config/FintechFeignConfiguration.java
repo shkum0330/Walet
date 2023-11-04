@@ -3,6 +3,7 @@ package com.ssafy.account.config;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import feign.Client;
 import feign.Logger;
+import feign.RequestInterceptor;
 import feign.Retryer;
 import feign.httpclient.ApacheHttpClient;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,9 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableFeignClients(basePackages = "com.ssafy.external")
+@EnableFeignClients(basePackages = "com.ssafy.external.fintech")
 @Import(FeignClientsConfiguration.class)
-public class FeignConfiguration {
+public class FintechFeignConfiguration {
     private final TimeUtil timeUtil;
 
     @Value("${proxy.host}")
@@ -30,19 +31,27 @@ public class FeignConfiguration {
     @Value("${proxy.port}")
     private int proxyPort;
 
-    @Bean
-    Logger.Level feignLoggerLevel(){
-        return Logger.Level.FULL;
-    }
+//    @Bean
+//    Logger.Level feignLoggerLevel(){
+//        return Logger.Level.FULL;
+//    }
 
 //    @Bean
 //    public ErrorDecoder errorDecoder(){
 //        return new FeignClientExceptionErrorDecoder();
 //    }
 
+//    @Bean
+//    public Retryer retryer(){
+//        return new Retryer.Default(1000,2000,3);
+//    }
+
     @Bean
-    public Retryer retryer(){
-        return new Retryer.Default(1000,2000,1);
+    public Client feignClient() {
+        CloseableHttpClient httpClient = HttpClientBuilder.create()
+                .build();
+
+        return new ApacheHttpClient(httpClient);
     }
 
     @Bean
@@ -59,11 +68,18 @@ public class FeignConfiguration {
         return new ApacheHttpClient(httpClient);
     }
 
-    @Bean
-    public Client feignClient() {
-        CloseableHttpClient httpClient = HttpClientBuilder.create()
-                .build();
-
-        return new ApacheHttpClient(httpClient);
-    }
+//    @Bean
+//    public RequestInterceptor requestInterceptor() {
+//        return template -> {
+//            template.header("Tsymd", "Value2");
+//            template.header("Trtm", "Value2");
+//            template.header("Iscd", "Value2");
+//            template.header("FintechApsno", "Value2");
+//            template.header("ApiSvcCd", "Value2");
+//            template.header("IsTuno", "Value2");
+//            template.header("LritCd", "1");
+//
+//            // 다른 공통 헤더를 추가할 수 있습니다.
+//        };
+//    }
 }

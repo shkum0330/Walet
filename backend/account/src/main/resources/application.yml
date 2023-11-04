@@ -4,7 +4,8 @@ server:
 spring:
   application:
     name: ACCOUNT
-
+  main:
+    allow-bean-definition-overriding: true
   datasource:
       driver-class-name: org.mariadb.jdbc.Driver
       url: ENC(9pPcvFQrOmdd8PMOzb5LT2NO8knP5W7K75NVbQGuoMIDmdAnuDw2H6rFrUwwdM1pUQChn1uLuFr631F8gFMDxOlR4sG7I9kfO8F8lmCcdhmdHrTRbSTaHFMeCTZBwe7T)
@@ -25,6 +26,10 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+    com:
+      ssafy:
+        external:
+          client: DEBUG
 
 hash:
   pepper: ENC(tzd30k3PH7Y967FYSUisWhCAoYOGeWCq2U5VWO/ySaWY6vpDbpzTA4k209Jfygb4)
@@ -47,6 +52,10 @@ eureka:
       defaultZone: http://43.201.195.182:8761/eureka
   instance:
     prefer-ip-address: true
+
+proxy:
+  host: 121.162.108.65
+  port: 9460
 
 jasypt:
   password: ${PASSWORD}
