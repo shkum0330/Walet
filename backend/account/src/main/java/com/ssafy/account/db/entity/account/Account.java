@@ -44,13 +44,13 @@ public class Account extends BaseTimeEntity {
     private AccountState state; // 상태
 
     @ColumnDefault("50000000")
-    @Column(name="account_limit", nullable = true)
+    @Column(name="account_limit")
     private Long accountLimit; // 인출한도
     @Column(name="account_type", length = 10,nullable = false)
     private String accountType; // 타입(일반계좌(00), 사업자계좌(01), 펫계좌(02))
-    @Column(name="business_type",nullable = true)
+    @Column(name="business_type")
     private Integer businessType; // 사업자계좌면 사업유형도 입력
-    @Column(name="linked_account_id", length = 20,nullable = true)
+    @Column(name="linked_account_id", length = 20)
     private Long linkedAccountId; // 연결될 충전계좌 아이디(선택사항)
 
     // 펫 정보(일반 계좌에서는 이 값들이 null값으로 들어감)

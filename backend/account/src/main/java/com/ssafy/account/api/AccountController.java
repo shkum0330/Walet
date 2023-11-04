@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import static com.ssafy.account.common.api.status.SuccessCode.*;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class AccountController {
 
     private final AccountService accountService;
     private final HomeAccountService homeAccountService;
+    private final BusinessHomeAccountService businessHomeAccountService;
     private final PetHomeAccountService petHomeAccountService;
     private final TransactionService transactionService;
     private final S3Service s3Service;
@@ -33,10 +36,12 @@ public class AccountController {
      5. 반려견놀이터 16
      6. 반려동물장례 32
      */
+    
+    // 1. 계좌 생성
     @PostMapping("/register/general-account")
     public ResponseEntity<?> registerGeneralAccount(@RequestBody AccountSaveRequest accountSaveRequest){
         log.info("일반/사업자 계좌 생성 요청 dto: {}", accountSaveRequest);
-        Response response=new Response<Long>(200, SuccessCode.GENERAL_SUCCESS.getMessage(),
+        Response response=new Response<Long>(200, GENERAL_SUCCESS.getMessage(),
                 accountService.registerGeneralAccount(accountSaveRequest));
         return ResponseEntity.ok(response);
     }
@@ -46,24 +51,49 @@ public class AccountController {
 
         petAccountRequest.setPetPhoto(s3Service.getS3ImageUrl(s3Service.upload(file)));
         log.info("펫 계좌 생성 요청 dto: {}", petAccountRequest);
-        Response response=new Response<Long>(200, SuccessCode.GENERAL_SUCCESS.getMessage(),
+        Response response=new Response<Long>(200, GENERAL_SUCCESS.getMessage(),
                 accountService.registerPetAccount(petAccountRequest));
         return ResponseEntity.ok(response);
     }
+    
+    // 2 메인페이지 계좌 정보
+    // 2-1. 일반계좌 목록
+    @GetMapping("/list/general-account")
+    public Response getGeneralAccountList(@RequestHeader("id") Long memberId) {
+        return Response.success(GENERAL_SUCCESS, homeAccountService.getHomeAccountDetail(memberId));
+    }
+    // 2-2. 사업자계좌 목록
+    @GetMapping("/list/business-account")
+    public Response getBusinessAccountList(@RequestHeader("id") Long memberId) {
+        return Response.success(GENERAL_SUCCESS, businessHomeAccountService.getBusinessAccountDetail(memberId));
+    }
+    // 2-3. 펫계좌 목록
+    @GetMapping("/list/pet-account")
+    public Response getPetAccountList(@RequestHeader("id") Long memberId) {
+        return Response.success(GENERAL_SUCCESS, petHomeAccountService.getAnimalAccountDetail(memberId));
+    }
 
-    @GetMapping("/charging-account-list/{memberId}")
-    public ResponseEntity<?> getChargingAccountList(@PathVariable Long memberId){ // memberId를 그대로 보낼것인가?
-        Response response=new Response(200, SuccessCode.GENERAL_SUCCESS.getMessage(),
+    // 3. 충전계좌 선택 페이지
+    @GetMapping("/charging-account-list")
+    public ResponseEntity<?> getChargingAccountList(@RequestHeader("id") Long memberId){ // memberId를 그대로 보낼것인가?
+        Response response=new Response(200, GENERAL_SUCCESS.getMessage(),
                 accountService.getChargingAccountList(memberId));
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/select-charging-account")
     public ResponseEntity<?> selectChargingAccount(@RequestBody SelectChargingAccountRequest request){
-        Response response=new Response(200, SuccessCode.GENERAL_SUCCESS.getMessage(),
+        Response response=new Response(200, GENERAL_SUCCESS.getMessage(),
                 accountService.selectChargingAccount(request));
         return ResponseEntity.ok(response);
     }
+    
+    // 마이페이지 - 접근 가능한 타인의 동물계좌 목록 반환
+    @GetMapping("/list/accessible-account")
+    public Response getAccessibleAccountList(@RequestHeader("id") Long memberId) {
+        return Response.success(GENERAL_SUCCESS, accountService.getAccessibleAccountList(memberId));
+    }
+
 //    // todo: 일단 파라미터에 accountId라 했으나 memberId를 받아와서 거기서 계좌번호를 끌어내야함
 //    @GetMapping("/home/account/{accountId}")
 //

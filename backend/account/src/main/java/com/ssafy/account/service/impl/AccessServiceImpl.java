@@ -7,7 +7,9 @@ import com.ssafy.account.common.api.exception.DuplicatedException;
 import com.ssafy.account.common.api.exception.NotFoundException;
 import com.ssafy.account.common.api.status.FailCode;
 import com.ssafy.account.db.entity.access.Access;
+import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.repository.AccessRepository;
+import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.service.AccessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import static com.ssafy.account.common.api.status.FailCode.*;
 public class AccessServiceImpl implements AccessService {
 
     private final AccessRepository accessRepository;
+    private final AccountRepository accountRepository;
 
     @Override
     public Long createAccessRequest(Long requesterId, String requesterName, AccessSaveRequest request) {
@@ -32,6 +35,13 @@ public class AccessServiceImpl implements AccessService {
         Access previousAccessRequest = accessRepository.findAccessByRequestMemberIdAndAccountNumber(requesterId, request.getAccountNumber());
         if(previousAccessRequest != null) {
             throw new DuplicatedException(ALREADY_EXISTED_ACCESS);
+        }
+
+        // 입력된 동물이름과 계좌번호로
+        // 등록된 동물계좌가 없다면 예외발생
+        Account petAccount = accountRepository.findAccountByPetNameAndAccountNumber(request.getPetName(), request.getAccountNumber());
+        if(petAccount == null) {
+            throw new NotFoundException(INCORRECT_PET_ACCOUNT_INFO);
         }
 
         Access access = new Access(requesterId, requesterName, request);

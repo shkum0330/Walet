@@ -17,8 +17,8 @@ public class Access extends BaseTimeEntity { // 계좌 접근 신청 및 권한 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "access_id")
     private Long id;
-    @Column(name = "animal_name", nullable = false)
-    private String animalName; // 상대방 반려동물 이름
+    @Column(name = "pet_name", nullable = false)
+    private String petName; // 상대방 반려동물 이름
     @Column(name = "content", nullable = false)
     private String content; // 상대방에게 보낼 메시지
     @Column(name = "request_member_id", nullable = false)
@@ -31,7 +31,7 @@ public class Access extends BaseTimeEntity { // 계좌 접근 신청 및 권한 
     private int isConfirmed; // 수락여부 -> 수락이 됐으면 권한이 생성된 것(0: 아직 수락되지 않은 상태 / 1: 수락된 상태)
 
     public Access(Long memberId, String memberName, AccessSaveRequest request) {
-        this.animalName = request.getAnimalName();
+        this.petName = request.getPetName();
         this.content = request.getContent();
         this.requestMemberId = memberId;
         this.requestMemberName = memberName;

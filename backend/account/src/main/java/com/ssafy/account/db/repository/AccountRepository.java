@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findAccountsByMemberIdAndAccountType(Long memberId, String accountType);
 
+    Account findAccountByPetNameAndAccountNumber(String petName, String accountNumber);
+
     List<Account> findAccountsByMemberId(Long memberId);
 
     Optional<Account> findByMemberIdAndAccountType(Long memberId, String accountType);

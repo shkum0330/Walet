@@ -4,6 +4,7 @@ import com.ssafy.account.api.request.account.AccountSaveRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.api.request.account.AssignRequest;
 import com.ssafy.account.api.request.account.SelectChargingAccountRequest;
+import com.ssafy.account.api.response.account.AccessiblePetAccountResponse;
 import com.ssafy.account.api.response.account.AccountResponse;
 import com.ssafy.account.api.response.account.ChargingAccountResponse;
 import com.ssafy.account.api.response.transaction.MonthlyExpenditureDetailResponse;
@@ -19,6 +20,7 @@ public interface AccountService {
 
     List<ChargingAccountResponse> getChargingAccountList(Long memberId); // 충전계좌로 연결할 수 있는 일반계좌의 목록 반환
 
+    List<AccessiblePetAccountResponse> getAccessibleAccountList(Long memberId); // 사용자가 접근 허용된 펫계좌 리스트 반환
     List<AccountResponse> getAllAccountList(Long memberId); // 관리자 페이지에 선택된 유저의 모든 계좌 목록을 보내줌
     Long selectChargingAccount(SelectChargingAccountRequest request); // 사용자가 가지고 있는 일반 계좌 중 하나를 반려동물 계좌의 충전계좌로 선택
     Long assignAccount(AssignRequest assignRequest); // 반려동물계좌 양도

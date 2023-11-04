@@ -14,6 +14,7 @@ import java.util.List;
 public class AnimalAccountDetailResponse {
 
     private Long id;
+    private String accountName;
     private String accountNumber; // 계좌번호
     private Long balance; // 잔액
     private AccountState state; // 상태
@@ -36,6 +37,7 @@ public class AnimalAccountDetailResponse {
 
     public AnimalAccountDetailResponse(Account account, List<HomeTransactionResponse> transactions) {
         this.id = account.getId();
+        this.accountName = account.getAccountName();
         this.accountNumber = account.getAccountNumber();
         this.balance = account.getBalance();
         this.state = account.getState();
