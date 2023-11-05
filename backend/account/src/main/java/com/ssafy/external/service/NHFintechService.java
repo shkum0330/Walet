@@ -6,8 +6,10 @@ public interface NHFintechService {
     String CheckOpenFinAccount(String Rgno ,String BrdtBrno , String Tlno); //핀-어카운트 ARS발급 확인
     void CloseFinAccount(String FinAcno , String Tlno , String BrdtBrno); //핀-어카운트 해지
     String InquireFinAccountStatus(String FinAcno , String Tlno , String BrdtBrno); //핀-어카운트 상태조회
-//    void DrawingTransfer2(); //실시간 출금이체
-//    void CheckOnDrawingTransfer2(); //실시간 출금이체 결과확인
+    void DrawingTransfer2(String FinAcno , String Tram , String Vran , String DractOtlt , String MractOtlt); //실시간 출금이체
+
+    String CheckOnDrawingTransfer2(String FinAcno , String Tram , String Vran , String OrtrYmd , String OrtrIsTuno); //실시간 출금이체 결과확인
+
 //    void ReceivedTransferFinAccount(); //농협입금이체(핀-어카운트)
 //    void CheckOnReceivedTransfer(); //입금이체 결과확인
 //    void CheckDepositorFinAccount(); //예금주 실명확인(핀-어카운트)

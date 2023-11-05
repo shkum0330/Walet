@@ -1,9 +1,7 @@
 package com.ssafy.external.service;
 
 import com.ssafy.external.client.NHFintechClient;
-import com.ssafy.external.dto.CheckOpenFinAccountDto;
-import com.ssafy.external.dto.FinAccountDto;
-import com.ssafy.external.dto.OpenFinAccountARSDto;
+import com.ssafy.external.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -46,5 +44,29 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .BrdtBrno(BrdtBrno)
                 .build();
         return nhFintechClient.InquireFinAccountStatus(request).getFinAcnoStts();
+    }
+
+    @Override
+    public void DrawingTransfer2(String FinAcno, String Tram, String Vran, String DractOtlt, String MractOtlt) {
+        DrawingTransfer2Dto.Request request = DrawingTransfer2Dto.Request.builder()
+                .FinAcno(FinAcno)
+                .Tram(Tram)
+                .Vran(Vran)
+                .DractOtlt(DractOtlt)
+                .MractOtlt(MractOtlt)
+                .build();
+        nhFintechClient.DrawingTransfer2(request);
+    }
+
+    @Override
+    public String CheckOnDrawingTransfer2(String FinAcno, String Tram, String Vran, String OrtrYmd, String OrtrIsTuno) {
+        CheckOnDrawingTransfer2Dto.Request request = CheckOnDrawingTransfer2Dto.Request.builder()
+                .FinAcno(FinAcno)
+                .Tram(Tram)
+                .Vran(Vran)
+                .OrltYmd(OrtrYmd)
+                .OrtrIsTuno(OrtrIsTuno)
+                .build();
+        return nhFintechClient.CheckOnDrawingTransfer2(request).getPcrs();
     }
 }
