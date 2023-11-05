@@ -69,4 +69,28 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .build();
         return nhFintechClient.CheckOnDrawingTransfer2(request).getPcrs();
     }
+
+    @Override
+    public void ReceivedTransferFinAccount(String FinAcno, String Tram, String DractOtlt, String MractOtlt) {
+        ReceivedTransferFinAccountDto.Request request = ReceivedTransferFinAccountDto.Request.builder()
+                .FinAcno(FinAcno)
+                .Tram(Tram)
+                .DractOtlt(DractOtlt)
+                .MractOtlt(MractOtlt)
+                .build();
+        nhFintechClient.ReceivedTransferFinAccount(request);
+    }
+
+    @Override
+    public String CheckOnReceivedTransfer(String FinAcno, String Bncd, String Acno, String Tram, String OrtrYmd, String OrtrIsTuno) {
+        CheckOnReceivedTransferDto.Request request = CheckOnReceivedTransferDto.Request.builder()
+                .FinAcno(FinAcno)
+                .Bncd(Bncd)
+                .Acno(Acno)
+                .Tram(Tram)
+                .OrtrYmd(OrtrYmd)
+                .OrtrIsTuno(OrtrIsTuno)
+                .build();
+        return nhFintechClient.CheckOnReceivedTransfer(request).getPcrs();
+    }
 }
