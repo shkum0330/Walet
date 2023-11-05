@@ -18,9 +18,8 @@ public class ClientProxyConfig {
     private final OauthClient oauthClient;
     @Bean
     public RequestInterceptor requestInterceptor() {
-//        timeUtil.getDay()
         return template -> {
-            template.header("Auth", oauthClient.getKey().getData());
+            template.header("Auth", "Basic" + oauthClient.getKey().getData());
             template.header("Tsymd", timeUtil.YMD(LocalDateTime.now()));
             template.header("Trtm", timeUtil.HMS(LocalDateTime.now()));
             template.header("Iscd", "000449");

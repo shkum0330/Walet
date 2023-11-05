@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(url = "http://smartdev.nonghyup.com:9460/svcapi" , name = "Server1" , configuration = ClientProxyConfig.class)
 public interface NHFintechClient {
-    @PostMapping(value = "/OpenFinAccountARS.nhd" , headers = "ApiNm=OpenFinAccountARS" , consumes = "application/octet-stream")
+    @PostMapping(value = "/OpenFinAccountARS.nhd" , headers = "ApiNm=OpenFinAccountARS")
     OpenFinAccountARSDto.Response OpenFinAccountARS(@RequestBody OpenFinAccountARSDto.Request request);
 
     @PostMapping(value = "/CheckOpenFinAccount.nhd" , headers = "ApiNm=CheckOpenFinAccount")
