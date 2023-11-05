@@ -25,8 +25,8 @@ public class ClientProxyConfig {
             template.header("Trtm", timeUtil.HMS(LocalDateTime.now()));
             template.header("Iscd", "000449");
             template.header("FintechApsno", "001");
-//            template.header("ApiSvcCd", "Value2");
-//            template.header("IsTuno", "Value2");
+            template.header("ApiSvcCd", "01E_024_00");
+            template.header("IsTuno", "123");
 //            template.header("LritCd", "1");
         };
     }

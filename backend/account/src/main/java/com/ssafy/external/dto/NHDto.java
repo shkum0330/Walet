@@ -17,4 +17,6 @@ public class NHDto {
         String RgsnYmd;
         String Acno;
     }
+
+
 }
