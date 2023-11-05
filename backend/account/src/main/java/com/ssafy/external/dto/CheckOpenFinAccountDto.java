@@ -5,22 +5,22 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-public class OpenFinAccountARSDto {
+public class CheckOpenFinAccountDto {
     @Getter
     @Setter
     @Builder
     @AllArgsConstructor
     public static class Request{
-        String Csnm;
+        String Rgno;
         String BrdtBrno;
         String Tlno;
-        String Acno;
-        String DrtrRgyn;
     }
 
     @Getter
     @Setter
     public static class Response{
-        String Rgno;
+        String FinAcno;
+        String RgsnYmd;
+        String Acno;
     }
 }

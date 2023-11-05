@@ -1,6 +1,7 @@
 package com.ssafy.external.client;
 
 import com.ssafy.account.config.ClientProxyConfig;
+import com.ssafy.external.dto.CheckOpenFinAccountDto;
 import com.ssafy.external.dto.OpenFinAccountARSDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,7 @@ public interface NHFintechClient {
     OpenFinAccountARSDto.Response OpenFinAccountARS(@RequestBody OpenFinAccountARSDto.Request request);
 
     @PostMapping(value = "/CheckOpenFinAccount.nhd" , headers = "ApiNm=CheckOpenFinAccount")
-    String CheckOpenFinAccount();
+    CheckOpenFinAccountDto.Response CheckOpenFinAccount(@RequestBody CheckOpenFinAccountDto.Request request);
 
     @PostMapping(value = "/InquireFinAccountStatus.nhd" , headers = "ApiNm=InquireFinAccountStatus")
     String InquireFinAccountStatus();
