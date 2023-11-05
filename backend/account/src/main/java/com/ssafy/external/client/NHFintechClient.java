@@ -32,22 +32,19 @@ public interface NHFintechClient {
     @PostMapping(value = "/CheckOnReceivedTransfer.nhd" , headers = "ApiNm=CheckOnReceivedTransfer")
     CheckOnReceivedTransferDto.Response CheckOnReceivedTransfer(@RequestBody CheckOnReceivedTransferDto.Request request);
 
+    @PostMapping(value = "/CheckDepositorFinAccount.nhd" , headers = "ApiNm=CheckDepositorFinAccount")
+    CheckDepositorFinAccountDto.Response CheckDepositorFinAccount(@RequestBody CheckDepositorFinAccountDto.Request request);
+
+    @PostMapping(value = "/InquireDepositorFinAccount.nhd" , headers = "ApiNm=InquireDepositorFinAccount")
+    InquireDepositorFinAccountDto.Response InquireDepositorFinAccount(@RequestBody InquireDepositorFinAccountDto.Request request);
+
+
+
     @PostMapping(value = "/InquireTransactionHistory.nhd" , headers = "ApiNm=InquireTransactionHistory")
-    String InquireTransactionHistory();
+    void InquireTransactionHistory();
 
     @PostMapping(value = "/InquireBalance.nhd" , headers = "ApiNm=InquireBalance")
     String InquireBalance();
-
-    @PostMapping(value = "/InquireDepositorFinAccount.nhd" , headers = "ApiNm=InquireDepositorFinAccount")
-    String InquireDepositorFinAccount();
-
-    @PostMapping(value = "/CheckDepositorFinAccount.nhd" , headers = "ApiNm=CheckDepositorFinAccount")
-    String CheckDepositorFinAccount();
-
-
-
-
-
 
     @PostMapping(value = "/P2PNVirtualAccountNumberRequest.nhd" , headers = "ApiNm=P2PNVirtualAccountNumberRequest")
     String P2PNVirtualAccountNumberRequest();

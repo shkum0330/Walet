@@ -93,4 +93,21 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .build();
         return nhFintechClient.CheckOnReceivedTransfer(request).getPcrs();
     }
+
+    @Override
+    public String CheckDepositorFinAccount(String FinAcno, String BrdtBrno) {
+        CheckDepositorFinAccountDto.Request request = CheckDepositorFinAccountDto.Request.builder()
+                .FinAcno(FinAcno)
+                .BrdtBrno(BrdtBrno)
+                .build();
+        return nhFintechClient.CheckDepositorFinAccount(request).getDpnm();
+    }
+
+    @Override
+    public String InquireDepositorFinAccount(String FinAcno) {
+        InquireDepositorFinAccountDto.Request request = InquireDepositorFinAccountDto.Request.builder()
+                .FinAcno(FinAcno)
+                .build();
+        return nhFintechClient.InquireDepositorFinAccount(request).getDpnm();
+    }
 }
