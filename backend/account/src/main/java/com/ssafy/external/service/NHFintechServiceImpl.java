@@ -2,7 +2,7 @@ package com.ssafy.external.service;
 
 import com.ssafy.external.client.NHFintechClient;
 import com.ssafy.external.dto.CheckOpenFinAccountDto;
-import com.ssafy.external.dto.CloseFinAccountDto;
+import com.ssafy.external.dto.FinAccountDto;
 import com.ssafy.external.dto.OpenFinAccountARSDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,21 @@ public class NHFintechServiceImpl implements NHFintechService{
 
     @Override
     public void CloseFinAccount(String FinAcno, String Tlno, String BrdtBrno) {
-        CloseFinAccountDto.Request request = CloseFinAccountDto.Request.builder().build();
+        FinAccountDto.Request request = FinAccountDto.Request.builder()
+                .FinAcno(FinAcno)
+                .Tlno(Tlno)
+                .BrdtBrno(BrdtBrno)
+                .build();
         nhFintechClient.CloseFinAccount(request);
+    }
+
+    @Override
+    public String InquireFinAccountStatus(String FinAcno, String Tlno, String BrdtBrno) {
+        FinAccountDto.Request request = FinAccountDto.Request.builder()
+                .FinAcno(FinAcno)
+                .Tlno(Tlno)
+                .BrdtBrno(BrdtBrno)
+                .build();
+        return nhFintechClient.InquireFinAccountStatus(request).getFinAcnoStts();
     }
 }

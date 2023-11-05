@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-public class CloseFinAccountDto {
+public class FinAccountDto {
     @Getter
     @Setter
     @Builder
@@ -14,5 +14,13 @@ public class CloseFinAccountDto {
         String FinAcno;
         String BrdtBrno;
         String Tlno;
+    }
+
+    @Setter
+    @Getter
+    public static class Response{
+        String FinAcnoStts;
+        String RgsnYmd;
+        String Trymd;
     }
 }
