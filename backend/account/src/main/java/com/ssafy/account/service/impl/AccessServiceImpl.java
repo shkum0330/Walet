@@ -31,17 +31,18 @@ public class AccessServiceImpl implements AccessService {
     @Override
     public Long createAccessRequest(Long requesterId, String requesterName, AccessSaveRequest request) {
 
-        // 이미 접근요청이 있다면 예외발생
-        Access previousAccessRequest = accessRepository.findAccessByRequestMemberIdAndAccountNumber(requesterId, request.getAccountNumber());
-        if(previousAccessRequest != null) {
-            throw new DuplicatedException(ALREADY_EXISTED_ACCESS);
-        }
 
         // 입력된 동물이름과 계좌번호로
         // 등록된 동물계좌가 없다면 예외발생
         Account petAccount = accountRepository.findAccountByPetNameAndAccountNumber(request.getPetName(), request.getAccountNumber());
         if(petAccount == null) {
             throw new NotFoundException(INCORRECT_PET_ACCOUNT_INFO);
+        }
+
+        // 이미 접근요청이 있다면 예외발생
+        Access previousAccessRequest = accessRepository.findAccessByRequestMemberIdAndAccountNumber(requesterId, request.getAccountNumber());
+        if(previousAccessRequest != null) {
+            throw new DuplicatedException(ALREADY_EXISTED_ACCESS);
         }
 
         Access access = new Access(requesterId, requesterName, request);
@@ -64,7 +65,8 @@ public class AccessServiceImpl implements AccessService {
 
     @Override
     public Long rejectAccessRequest(Long accessId) {
-        accessRepository.deleteById(accessId);
+        Access access = accessRepository.findById(accessId).orElseThrow(() -> new NotFoundException(NOT_EXIST_ACCESS_REQUEST));
+        accessRepository.delete(access);
         return accessId;
     }
 
@@ -75,7 +77,7 @@ public class AccessServiceImpl implements AccessService {
         List<Access> accesses = accessRepository.findAccessesByAccountNumberAndIsConfirmed(access.getAccountNumber(), 0);
         
         // 요청 내용이 없으면 예외 발생
-        if(accesses == null || accesses.isEmpty()) {
+        if(accesses.isEmpty()) {
             throw new NotFoundException(EMPTY_ACCESS_REQUEST);
         }
 
@@ -91,7 +93,7 @@ public class AccessServiceImpl implements AccessService {
         List<Access> accesses = accessRepository.findAccessesByRequestMemberIdAndIsConfirmed(memberId, 0);
         
         // 요청 내용이 없으면 예외 발생
-        if(accesses == null || accesses.isEmpty()) {
+        if(accesses.isEmpty()) {
             throw new NotFoundException(EMPTY_ACCESS_REQUEST);
         }
 

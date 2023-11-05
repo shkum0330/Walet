@@ -28,13 +28,14 @@ public enum FailCode {
     DUPLICATED_LINKED_ACCOUNT(BAD_REQUEST, "이미 등록돼있는 충전계좌입니다."),
     NO_NORMAL_ACCOUNT(NO_CONTENT, "현재 고객님의 일반계좌가 존재하지 않습니다."),
     NO_BUSINESS_ACCOUNT(NO_CONTENT, "현재 고객님의 사업자계좌가 존재하지 않습니다."),
-    NO_PET_ACCOUNT(NO_CONTENT, "현재 고객님의 반려동물계좌가 존재하지 않습니다."),
+    NO_PET_ACCOUNT(NO_CONTENT, "현재 고객님의 펫계좌가 존재하지 않습니다."),
     INCORRECT_PET_ACCOUNT_INFO(NO_CONTENT, "반려동물의 이름 또는 계좌번호가 잘못 입력되었습니다."),
 
     // 거래내역 접근 요청
     NOT_EXIST_ACCESS_REQUEST(NO_CONTENT, "존재하지 않거나 유효하지 않은 요청입니다."),
     EMPTY_ACCESS_REQUEST(NO_CONTENT, "요청내역이 존재하지 않습니다"),
     ALREADY_EXISTED_ACCESS(BAD_REQUEST, "이미 허용되었거나 현재 요청 중입니다."),
+    NO_ACCESSIBLE_PET_ACCOUNT(NO_CONTENT, "접근이 허용된 펫계좌가 존재하지 않습니다."),
 
     // 거래내역 접근 가능 여부
     NO_PERMISSION_TO_TRANSACTION(NO_CONTENT, "해당 계좌의 거래내역에 접근할 수 없습니다."),
