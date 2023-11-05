@@ -42,4 +42,8 @@ public class TimeUtil {
         return dateTime.format(DateTimeFormatter.ofPattern("HHmmss"));
     }
 
+    public String YMDHMS(LocalDateTime dateTime){
+        return dateTime.format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss"));
+    }
+
 }
