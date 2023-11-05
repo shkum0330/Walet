@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -109,5 +111,27 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .FinAcno(FinAcno)
                 .build();
         return nhFintechClient.InquireDepositorFinAccount(request).getDpnm();
+    }
+
+    @Override
+    public Long InquireBalance(String FinAcno) {
+        InquireBalanceDto.Request request = InquireBalanceDto.Request.builder()
+                .FinAcno(FinAcno)
+                .build();
+        return Long.parseLong(nhFintechClient.InquireBalance(request).getLdbl());
+    }
+
+    @Override
+    public List<InquireTransactionHistoryDto.Response.REC> InquireTransactionHistory(String FinAcno, String Insymd, String Ineymd, String TrnsDsnc, String Lnsq, String PageNo, String Dmcnt) {
+        InquireTransactionHistoryDto.Request request = InquireTransactionHistoryDto.Request.builder()
+                .FinAcno(FinAcno)
+                .Insymd(Insymd)
+                .Ineymd(Ineymd)
+                .TrnsDsnc(TrnsDsnc)
+                .Lnsq(Lnsq)
+                .PageNo(PageNo)
+                .Dmcnt(Dmcnt)
+                .build();
+        return nhFintechClient.InquireTransactionHistory(request).getREC();
     }
 }

@@ -38,13 +38,11 @@ public interface NHFintechClient {
     @PostMapping(value = "/InquireDepositorFinAccount.nhd" , headers = "ApiNm=InquireDepositorFinAccount")
     InquireDepositorFinAccountDto.Response InquireDepositorFinAccount(@RequestBody InquireDepositorFinAccountDto.Request request);
 
-
+    @PostMapping(value = "/InquireBalance.nhd" , headers = "ApiNm=InquireBalance")
+    InquireBalanceDto.Response InquireBalance(@RequestBody InquireBalanceDto.Request request);
 
     @PostMapping(value = "/InquireTransactionHistory.nhd" , headers = "ApiNm=InquireTransactionHistory")
-    void InquireTransactionHistory();
-
-    @PostMapping(value = "/InquireBalance.nhd" , headers = "ApiNm=InquireBalance")
-    String InquireBalance();
+    InquireTransactionHistoryDto.Response InquireTransactionHistory(@RequestBody InquireTransactionHistoryDto.Request request);
 
     @PostMapping(value = "/P2PNVirtualAccountNumberRequest.nhd" , headers = "ApiNm=P2PNVirtualAccountNumberRequest")
     String P2PNVirtualAccountNumberRequest();
