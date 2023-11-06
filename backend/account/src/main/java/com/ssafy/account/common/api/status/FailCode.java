@@ -30,6 +30,8 @@ public enum FailCode {
     NO_BUSINESS_ACCOUNT(NO_CONTENT, "현재 고객님의 사업자계좌가 존재하지 않습니다."),
     NO_PET_ACCOUNT(NO_CONTENT, "현재 고객님의 펫계좌가 존재하지 않습니다."),
     INCORRECT_PET_ACCOUNT_INFO(NO_CONTENT, "반려동물의 이름 또는 계좌번호가 잘못 입력되었습니다."),
+    NO_PET_ACCOUNT_WITH_AUTH_INFO(NO_CONTENT, "입력한 인증정보에 해당하는 펫 계좌가 없거나 해당 계좌는 현재 거래가 불가능합니다."),
+    NO_ACCOUNT_WITH_ACCOUNT_NUMBER(NO_CONTENT, "계좌번호가 잘못 입력되었거나 해당 계좌는 현재 거래가 불가합니다."),
 
     // 거래내역 접근 요청
     NOT_EXIST_ACCESS_REQUEST(NO_CONTENT, "존재하지 않거나 유효하지 않은 요청입니다."),
