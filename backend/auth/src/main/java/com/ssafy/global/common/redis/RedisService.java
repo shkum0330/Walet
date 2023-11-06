@@ -46,6 +46,6 @@ public class RedisService {
     }
 
     public void saveKey(String key){
-        redisTemplate.opsForValue().set("nhKey",key,90,TimeUnit.DAYS);
+        redisTemplate.opsForValue().set("nhKey",key,7_000_000_000L,TimeUnit.MILLISECONDS);
     }
 }
