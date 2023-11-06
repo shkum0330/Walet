@@ -14,7 +14,7 @@ function Modal({
   return (
     <Transition.Root show={OpenModal} as={Fragment}>
       <Dialog as="div" initialFocus={cancelButtonRef} onClose={closeModal}>
-        <div className="fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-brightness-50 overflow-y-scroll">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-brightness-50 overflow-y-scroll">
           <div className="flex min-h-full justify-center text-center items-center">
             <Transition.Child
               as={Fragment}

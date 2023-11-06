@@ -20,9 +20,21 @@ function NoticePage() {
     window.location.href = `/notice/${id}`;
   };
 
+  const handleCreate = () => {
+    window.location.href = '/notice/create';
+  };
+
   return (
     <div className="ml-24 pl-4 pt-4 h-[89vh]">
-      <p className="text-3xl">공지사항 관리</p>
+      <div className="flex">
+        <p className="text-3xl">공지사항 관리</p>
+        <button
+          type="button"
+          className="ml-4 p-2 bg-gray-300 rounded-lg"
+          onClick={handleCreate}>
+          작성하기
+        </button>
+      </div>
 
       <Card width="w-[95%]" height="h-[30%]" styling="p-2 flex flex-col ">
         <div className="flex items-center">

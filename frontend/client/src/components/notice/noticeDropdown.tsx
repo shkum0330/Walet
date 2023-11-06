@@ -1,7 +1,11 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
-function NoticeDropdown() {
+function NoticeDropdown({ pageid }: { pageid: string }) {
+  const handleUpdate = (id: string) => {
+    window.location.href = `/notice/update/${id}`;
+  };
+
   return (
     <Menu as="div" className="relative w-8 ml-2 inline-block text-left">
       <div>
@@ -23,7 +27,8 @@ function NoticeDropdown() {
             <Menu.Item>
               <button
                 type="button"
-                className="w-full bg-gray-100 text-gray-900 block px-4 py-2 text-sm hover:bg-green-100">
+                className="w-full bg-gray-100 text-gray-900 block px-4 py-2 text-sm hover:bg-green-100"
+                onClick={() => handleUpdate(pageid)}>
                 수정하기
               </button>
             </Menu.Item>

@@ -24,7 +24,7 @@ function NoticeDetailPage() {
     <div className="ml-24 pl-4 pt-4 h-[89vh]">
       <div className="flex">
         <p className="text-3xl">공지사항 상세보기</p>
-        <NoticeDropdown />
+        <NoticeDropdown pageid={id || ''} />
       </div>
       <div className="flex w-full h-full">
         <div className="w-[50%]">
@@ -52,6 +52,11 @@ function NoticeDetailPage() {
 
           <Card width="w-[95%]" height="h-[50%]" styling="overflow-y-auto">
             <p className="text-2xl">작성 상세 내용</p>
+            <img
+              src={notice?.bannerImg}
+              alt="banner"
+              className="w-[40%] h-[8vh]"
+            />
             <div className="text-2xl mt-2"> {notice?.title}</div>
             <div className="text-xl mt-1"> {notice?.subTitle}</div>
             <div className="mt-2">{notice?.content}</div>

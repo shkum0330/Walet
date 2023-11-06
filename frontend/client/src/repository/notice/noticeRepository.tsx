@@ -1,6 +1,6 @@
 import { useAccessToken } from '../../data_source/apiInfo';
 import {
-  NoticeCreate,
+  NoticeCreateAPI,
   NoticeDelete,
   NoticeDetailAPI,
   NoticeListAPI,
@@ -8,10 +8,6 @@ import {
   NoticeSetPop,
   NoticeUpdate,
 } from '../../data_source/notice/notice';
-import {
-  noticeCreateRequest,
-  noticeUpdateRequest,
-} from '../../interface/api/noticeApiInterface';
 
 export async function noticeListRepository() {
   const accessToken = useAccessToken();
@@ -22,11 +18,14 @@ export async function noticeListRepository() {
   return null;
 }
 
-export function noticeCreateRepository(request: noticeCreateRequest): void {
+export async function noticeCreateRepository(request: FormData) {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeCreate(accessToken, request);
+    const data = await NoticeCreateAPI(accessToken, request);
+    console.log(data);
+    return data;
   }
+  return null;
 }
 
 export async function noticeDetailRepository(id: string) {
@@ -38,14 +37,13 @@ export async function noticeDetailRepository(id: string) {
   return null;
 }
 
-export function noticeUpdateRepository(
-  request: noticeUpdateRequest,
-  id: number,
-): void {
+export function noticeUpdateRepository(request: FormData, id: number) {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeUpdate(accessToken, request, id);
+    const data = NoticeUpdate(accessToken, request, id);
+    return data;
   }
+  return null;
 }
 
 export function noticeDeleteRepository(id: number): void {

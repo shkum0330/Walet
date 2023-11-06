@@ -1,11 +1,8 @@
 import axios from 'axios';
 import { NOTICE_URI } from '../apiInfo';
 import {
-  noticeCreateRequest,
   noticeDetailResponse,
   noticePopCheckResponse,
-  noticeUpdateRequest,
-  noticedata,
   noticelistResponse,
 } from '../../interface/api/noticeApiInterface';
 
@@ -25,22 +22,20 @@ export async function NoticeListAPI(token: string) {
   }
 }
 
-export function NoticeCreate(token: string, request: noticeCreateRequest) {
+export async function NoticeCreateAPI(token: string, request: FormData) {
   const noticeCreateURI = `${NOTICE_URI}/create`;
   if (token) {
-    axios
-      .post(noticeCreateURI, request, {
+    try {
+      const response = await axios.post(noticeCreateURI, request, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
       });
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 
@@ -61,11 +56,7 @@ export async function NoticeDetailAPI(token: string, id: string) {
   }
 }
 
-export function NoticeUpdate(
-  token: string,
-  request: noticeUpdateRequest,
-  id: number,
-) {
+export function NoticeUpdate(token: string, request: FormData, id: number) {
   const noticeDetailURI = `${NOTICE_URI}/update/${id}`;
   if (token) {
     axios

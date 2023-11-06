@@ -5,6 +5,12 @@ export interface ModalContentInterface {
   okAction: () => void;
 }
 
+export interface ModalSelectInterface {
+  content: string;
+  okAction: () => void;
+  cancelAction: () => void;
+}
+
 export interface ModalPropsInterface {
   closeModal: () => void;
   OpenModal: boolean;
@@ -25,4 +31,13 @@ export interface ModalProviderPropsInterface {
 
 export interface ErrorModalInterface {
   content: string | null;
+}
+
+export interface ConfirmModalInterface {
+  content: string | null;
+}
+
+export interface createModalInterface {
+  content: string | null;
+  request: FormData;
 }
