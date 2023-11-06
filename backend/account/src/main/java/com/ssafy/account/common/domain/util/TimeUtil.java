@@ -34,4 +34,16 @@ public class TimeUtil {
         return String.valueOf(period.getYears());
     }
 
+    public String YMD(LocalDateTime dateTime){
+        return dateTime.format(DateTimeFormatter.ofPattern("YYYYMMdd"));
+    }
+
+    public String HMS(LocalDateTime dateTime){
+        return dateTime.format(DateTimeFormatter.ofPattern("HHmmss"));
+    }
+
+    public String YMDHMS(LocalDateTime dateTime){
+        return dateTime.format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss"));
+    }
+
 }

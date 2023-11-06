@@ -21,3 +21,6 @@ spring:
     init:
       data-locations: classpath*:db/h2/data.sql
 
+eureka:
+  client:
+    register-with-eureka: false
