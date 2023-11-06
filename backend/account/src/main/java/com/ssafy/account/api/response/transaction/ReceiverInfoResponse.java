@@ -4,16 +4,16 @@ import com.ssafy.account.db.entity.account.Account;
 import lombok.Data;
 
 @Data
-public class TransactionAccountResponse {
+public class ReceiverInfoResponse {
     private Long accountId;
-    private String accountName;
+    private String receiverName;
     private String accountNumber;
-    private Long balance;
+    private Long paymentAmount;
 
-    public TransactionAccountResponse(Account account) {
+    public ReceiverInfoResponse(Account account, Long paymentAmount) {
         this.accountId = account.getId();
-        this.accountName = account.getAccountName();
+        this.receiverName = account.getDepositorName();
         this.accountNumber = account.getAccountNumber();
-        this.balance = account.getBalance();
+        this.paymentAmount = paymentAmount;
     }
 }

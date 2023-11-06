@@ -11,7 +11,6 @@ import com.ssafy.account.common.api.status.SuccessCode;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.payment.Payment;
-import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.service.AccountService;
 import com.ssafy.account.service.PaymentService;
 import com.ssafy.account.service.TransactionService;
@@ -50,8 +49,8 @@ public class PaymentController {
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
         Account account=accountService.findPetAccount(request.getBuyerId());
-        transactionService.addPetRelatedTransaction(new TransactionRequest(request.getRfidCode(), request.getBuyerId(),
-                payment.getSellerId(), TransactionType.WITHDRAWAL,payment.getPaymentAmount()));
+//        transactionService.addPetRelatedTransaction(new TransactionRequest(request.getRfidCode(), request.getBuyerId(),
+//                payment.getSellerId(), TransactionType.WITHDRAWAL,payment.getPaymentAmount()));
         paymentService.completePayment(payment);
         PaymentCheckResponse response=PaymentCheckResponse.builder()
                 .petImage(account.getPetPhoto())
