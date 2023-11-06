@@ -2,6 +2,8 @@ server:
   port: 8084
 
 spring :
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: AUTH
 
@@ -51,6 +53,19 @@ nh:
   client:
     id: ENC(dDMftFuEktP7Xn7N3L/UElG0Ny0ZfNmVt0CJXzEND4teKt/qlX2tj73nIeN8EhVz)
     secret: ENC(p5Wn5A4yHMu4BGL+XMbzvpPYaTdEx82KK3hiNLdFHG2ODIRqBbIzmIn3UVmN/X7X)
+
+logging:
+  level:
+    com:
+      ssafy:
+        external:
+          client:
+            NHClient: DEBUG
+
+proxy:
+  host: 121.162.108.65
+  port: 9460
+
 
 
 ---
@@ -110,3 +125,13 @@ nh:
     id: ENC(dDMftFuEktP7Xn7N3L/UElG0Ny0ZfNmVt0CJXzEND4teKt/qlX2tj73nIeN8EhVz)
     secret: ENC(p5Wn5A4yHMu4BGL+XMbzvpPYaTdEx82KK3hiNLdFHG2ODIRqBbIzmIn3UVmN/X7X)
 
+logging:
+  level:
+    com:
+      ssafy:
+        external:
+          client:
+            NHClient: DEBUG
+proxy:
+  host: 121.162.108.65
+  port: 9460

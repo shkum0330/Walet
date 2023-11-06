@@ -1,7 +1,8 @@
 package com.ssafy.external.service;
 
 import com.ssafy.external.client.NHClient;
-import com.ssafy.external.dto.NHResponseDto;
+import com.ssafy.external.dto.NHDto;
+import com.ssafy.global.common.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,21 +14,28 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class NHServiceImpl implements NHService{
-    private final String CONTENT_TYPE = "application/x-www-form-urlencoded;charset=utf8";
+    private final RedisService redisService;
     private final NHClient nhClient;
     @Value("${nh.client.id}")
-    String id;
+    private String id;
     @Value("${nh.client.secret}")
-    String secret;
+    private String secret;
+    private final String scope = "fintechapp";
+    private final String grantType = "client_credentials";
 
     @Override
-    public NHResponseDto getKey() {
-        return nhClient.getKey(
-                CONTENT_TYPE,
+    public String getKey() {
+        String key = redisService.getKey();
+        if(key != null){
+            return key;
+        }
+        NHDto.Response response = nhClient.getKey(
                 id,
                 secret,
-                "fintechapp",
-                "client_credentials"
+                scope,
+                grantType
         );
+        redisService.saveKey(response.getAccessToken());
+        return response.getAccessToken();
     }
 }
