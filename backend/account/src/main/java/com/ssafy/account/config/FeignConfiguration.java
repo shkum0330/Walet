@@ -1,9 +1,11 @@
 package com.ssafy.account.config;
 
+import com.ssafy.account.common.api.exception.FeignClientExceptionErrorDecoder;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import feign.Client;
 import feign.Logger;
 import feign.Retryer;
+import feign.codec.ErrorDecoder;
 import feign.httpclient.ApacheHttpClient;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpHost;
@@ -19,7 +21,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableFeignClients(basePackages = "com.ssafy.external")
+@EnableFeignClients(basePackages = "com.ssafy")
 @Import(FeignClientsConfiguration.class)
 public class FeignConfiguration {
     private final TimeUtil timeUtil;
@@ -35,10 +37,10 @@ public class FeignConfiguration {
         return Logger.Level.FULL;
     }
 
-//    @Bean
-//    public ErrorDecoder errorDecoder(){
-//        return new FeignClientExceptionErrorDecoder();
-//    }
+    @Bean
+    public ErrorDecoder errorDecoder(){
+        return new FeignClientExceptionErrorDecoder();
+    }
 
     @Bean
     public Retryer retryer(){
