@@ -77,27 +77,24 @@ export async function NoticeUpdateAPI(
   }
 }
 
-export function NoticeDelete(token: string, id: number) {
+export async function NoticeDeleteAPI(token: string, id: string) {
   const noticeDeleteURI = `${NOTICE_URI}/delete/${id}`;
   if (token) {
-    axios
-      .delete(noticeDeleteURI, {
+    try {
+      const response = await axios.delete(noticeDeleteURI, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      });
+    } catch (error) {}
   }
 }
 
-export function NoticeSetPop(token: string, id: number) {
+export async function NoticeSetPopAPI(token: string, id: string) {
   const noticeSetPopURI = `${NOTICE_URI}/pop/${id}`;
   if (token) {
-    axios
-      .put(
+    try {
+      const response = await axios.put(
         noticeSetPopURI,
         {},
         {
@@ -105,26 +102,26 @@ export function NoticeSetPop(token: string, id: number) {
             Authorization: `Bearer ${token}`,
           },
         },
-      )
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      );
+    } catch (error) {}
   }
 }
 
-export function NoticePopCheck(token: string) {
+export async function NoticePopCheck(token: string) {
   const noticePopCheckURI = `${NOTICE_URI}/pop`;
   if (token) {
-    axios
-      .get<noticePopCheckResponse>(noticePopCheckURI, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+    try {
+      const response = await axios.get<noticePopCheckResponse>(
+        noticePopCheckURI,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      );
+      return response.data.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

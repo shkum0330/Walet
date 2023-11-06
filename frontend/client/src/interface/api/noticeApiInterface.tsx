@@ -27,4 +27,6 @@ export interface noticeDetailResponse extends common {
   data: noticedata;
 }
 
-export interface noticePopCheckResponse extends noticedata {}
+export interface noticePopCheckResponse {
+  data: noticedata;
+}

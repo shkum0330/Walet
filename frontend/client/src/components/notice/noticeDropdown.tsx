@@ -1,9 +1,21 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
+import {
+  noticeDeleteRepository,
+  noticeSetPopRepository,
+} from '../../repository/notice/noticeRepository';
 
 function NoticeDropdown({ pageid }: { pageid: string }) {
   const handleUpdate = (id: string) => {
     window.location.href = `/notice/update/${id}`;
+  };
+
+  const handleActive = (id: string) => {
+    noticeSetPopRepository(id);
+  };
+
+  const handleDelete = (id: string) => {
+    noticeDeleteRepository(id);
   };
 
   return (
@@ -35,7 +47,16 @@ function NoticeDropdown({ pageid }: { pageid: string }) {
             <Menu.Item>
               <button
                 type="button"
-                className="w-full bg-gray-100 text-gray-900 block px-4 py-2 text-sm hover:bg-green-100">
+                className="w-full bg-gray-100 text-gray-900 block px-4 py-2 text-sm hover:bg-green-100"
+                onClick={() => handleActive(pageid)}>
+                활성화하기
+              </button>
+            </Menu.Item>
+            <Menu.Item>
+              <button
+                type="button"
+                className="w-full bg-gray-100 text-gray-900 block px-4 py-2 text-sm hover:bg-green-100"
+                onClick={() => handleDelete(pageid)}>
                 삭제하기
               </button>
             </Menu.Item>

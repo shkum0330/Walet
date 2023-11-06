@@ -1,11 +1,11 @@
 import { useAccessToken } from '../../data_source/apiInfo';
 import {
   NoticeCreateAPI,
-  NoticeDelete,
+  NoticeDeleteAPI,
   NoticeDetailAPI,
   NoticeListAPI,
   NoticePopCheck,
-  NoticeSetPop,
+  NoticeSetPopAPI,
   NoticeUpdateAPI,
 } from '../../data_source/notice/notice';
 
@@ -45,23 +45,25 @@ export async function noticeUpdateRepository(request: FormData, id: string) {
   return null;
 }
 
-export function noticeDeleteRepository(id: number): void {
+export function noticeDeleteRepository(id: string): void {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeDelete(accessToken, id);
+    NoticeDeleteAPI(accessToken, id);
   }
 }
 
-export function noticeSetPopRepository(id: number): void {
+export function noticeSetPopRepository(id: string): void {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeSetPop(accessToken, id);
+    NoticeSetPopAPI(accessToken, id);
   }
 }
 
-export function noticePopCheckRepository(): void {
+export async function noticePopCheckRepository() {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticePopCheck(accessToken);
+    const data = await NoticePopCheck(accessToken);
+    return data;
   }
+  return null;
 }

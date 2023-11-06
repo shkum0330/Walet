@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import Card from '../../components/common/card';
 import { noticedata } from '../../interface/api/noticeApiInterface';
-import { noticeListRepository } from '../../repository/notice/noticeRepository';
+import {
+  noticeListRepository,
+  noticePopCheckRepository,
+} from '../../repository/notice/noticeRepository';
 
 function NoticePage() {
   const [notice, SetNotice] = useState<noticedata[] | null>([]);
@@ -12,6 +15,12 @@ function NoticePage() {
       const data = await noticeListRepository();
       if (data) {
         SetNotice(data);
+      }
+    })();
+    (async () => {
+      const data = await noticePopCheckRepository();
+      if (data) {
+        setSelectedItem(data);
       }
     })();
   }, []);
@@ -69,6 +78,7 @@ function NoticePage() {
               <th className="w-[20%] border border-gray-300">제목</th>
               <th className="w-[25%] border border-gray-300">소제목</th>
               <th className="w-[15%] border border-gray-300">내용</th>
+              <th className="w-[10%] border border-gray-300">활성화상태</th>
             </tr>
           </thead>
           <tbody className="text-center">
@@ -79,7 +89,7 @@ function NoticePage() {
                   onClick={() => setSelectedItem(item)}
                   className={`cursor-pointer ${
                     selectedItem?.id === item.id ? 'bg-green-100' : ''
-                  }`}>
+                  }  ${item.isActive ? 'text-red-500' : ''}`}>
                   <td className="border border-gray-300">{item.id}</td>
                   <td className="border border-gray-300">
                     {item.registerTime.substring(0, 14)}
@@ -90,6 +100,9 @@ function NoticePage() {
                     <button type="button" onClick={() => handleDetail(item.id)}>
                       상세보기
                     </button>
+                  </td>
+                  <td className="border border-gray-300">
+                    {item.isActive ? 'V' : ''}
                   </td>
                 </tr>
               ))}
