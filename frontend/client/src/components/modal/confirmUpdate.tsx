@@ -1,26 +1,26 @@
-import { ConfirmModalInterface } from '../../interface/common/modalInterface';
+import { UpdateConfirmInterface } from '../../interface/common/modalInterface';
 import ConfirmContents from './confirmContent';
 import Modal from './modal';
 import { useModal } from './modalClass';
 
-function ConfirmModal({ content }: ConfirmModalInterface) {
+function ConfirmUpdate({ content, id }: UpdateConfirmInterface) {
   const { modalOpen, closeModal } = useModal();
-  const confirmModal = 'confirm';
+  const updateModal = 'updateconfirm';
 
   return (
     <div>
       <Modal
         closeModal={() => {
-          closeModal(confirmModal);
+          closeModal(updateModal);
         }}
-        OpenModal={modalOpen[confirmModal]}
+        OpenModal={modalOpen[updateModal]}
         width="w-[20%] bg-color-white"
         height="h-200px">
         <ConfirmContents
           content={content as string}
           okAction={() => {
-            closeModal(confirmModal);
-            window.location.href = '/notice';
+            closeModal(updateModal);
+            window.location.href = `/notice/${id}`;
           }}
         />
       </Modal>
@@ -28,4 +28,4 @@ function ConfirmModal({ content }: ConfirmModalInterface) {
   );
 }
 
-export default ConfirmModal;
+export default ConfirmUpdate;

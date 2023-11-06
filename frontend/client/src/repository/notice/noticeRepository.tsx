@@ -6,7 +6,7 @@ import {
   NoticeListAPI,
   NoticePopCheck,
   NoticeSetPop,
-  NoticeUpdate,
+  NoticeUpdateAPI,
 } from '../../data_source/notice/notice';
 
 export async function noticeListRepository() {
@@ -22,7 +22,6 @@ export async function noticeCreateRepository(request: FormData) {
   const accessToken = useAccessToken();
   if (accessToken) {
     const data = await NoticeCreateAPI(accessToken, request);
-    console.log(data);
     return data;
   }
   return null;
@@ -37,10 +36,10 @@ export async function noticeDetailRepository(id: string) {
   return null;
 }
 
-export function noticeUpdateRepository(request: FormData, id: number) {
+export async function noticeUpdateRepository(request: FormData, id: string) {
   const accessToken = useAccessToken();
   if (accessToken) {
-    const data = NoticeUpdate(accessToken, request, id);
+    const data = await NoticeUpdateAPI(accessToken, request, id);
     return data;
   }
   return null;

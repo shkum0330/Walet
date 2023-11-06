@@ -37,6 +37,14 @@ export interface ConfirmModalInterface {
   content: string | null;
 }
 
+export interface UpdateConfirmInterface {
+  content: string | null;
+  id: string;
+}
+export interface UpdateModalInterface extends UpdateConfirmInterface {
+  request: FormData;
+}
+
 export interface createModalInterface {
   content: string | null;
   request: FormData;

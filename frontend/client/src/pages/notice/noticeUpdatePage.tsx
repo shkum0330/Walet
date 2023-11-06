@@ -1,33 +1,83 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Card from '../../components/common/card';
 import Basic from '../../assets/imgs/basic.png';
+import { useModal } from '../../components/modal/modalClass';
+import { noticeDetailRepository } from '../../repository/notice/noticeRepository';
+import UpdateModal from '../../components/modal/updateModal';
 
 function NoticeUpdatePage() {
+  const { id } = useParams();
   const [title, setTitle] = useState<string>('');
   const [subTitle, setSubTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
-  const [previewUrl, setPreviewUrl] = useState<string | null>();
-  const [ProfileImage, setProfileImage] = useState<File | null>(null);
-  const [Url, setUrl] = useState<string>();
+  const [previewImg, setPrevieImg] = useState<string | null>();
+  const [bannerImg, setBannerImg] = useState<File | null>(null);
+  const [request, setRequest] = useState<FormData>(new FormData());
+  const { openModal } = useModal();
+
+  useEffect(() => {
+    if (id) {
+      (async () => {
+        const data = await noticeDetailRepository(id);
+        if (data) {
+          setTitle(data.title);
+          setSubTitle(data.title);
+          setContent(data.content);
+          setPrevieImg(data.bannerImg);
+        }
+      })();
+    }
+  }, []);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      setProfileImage(file);
-
+      setBannerImg(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewUrl(reader.result as string);
+        setPrevieImg(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const handleBack = () => {
+    window.location.href = `/notice/${id as string}`;
+  };
+
+  const handleUpdate = () => {
+    const data = {
+      title,
+      subTitle,
+      content,
+    };
+    const dataJson = JSON.stringify(data);
+    const reqeustData = new FormData();
+    reqeustData.append(
+      'data',
+      new Blob([dataJson], { type: 'application/json' }),
+    );
+    if (previewImg && bannerImg) {
+      reqeustData.append('bannerImg', bannerImg);
+    }
+    reqeustData.append('bannerImg', '');
+    setRequest(reqeustData);
+    openModal('update');
+  };
+
   return (
     <div className="ml-24 pl-4 pt-4 h-[89vh]">
       <div className="flex">
-        <p className="text-3xl">공지사항 상세보기</p>
+        <p className="text-3xl">공지사항 수정하기</p>
+        <button
+          type="button"
+          className="ml-4 p-2 bg-gray-300 rounded-lg"
+          onClick={handleBack}>
+          돌아가기
+        </button>
       </div>
+
       <div className="flex w-full h-full">
         <div className="w-[50%]">
           <Card width="w-[95%]" height="h-[30%]" styling="p-2 flex flex-col ">
@@ -43,9 +93,9 @@ function NoticeUpdatePage() {
                       <div className="text-2xl mt-2">{title}</div>
                       <div className="text-xl mt-1">{subTitle}</div>
                     </div>
-                    {previewUrl && (
+                    {previewImg && (
                       <img
-                        src={previewUrl}
+                        src={previewImg}
                         alt="banner"
                         className="w-[40%] h-[8vh]"
                       />
@@ -57,13 +107,13 @@ function NoticeUpdatePage() {
           </Card>
 
           <Card width="w-[95%]" height="h-[50%]" styling="">
-            <div className="h-[80%]">
-              <p className="text-2xl">작성 내용</p>
-              <div className="flex">
+            <p className="text-2xl ml-2 mt-2">작성 내용</p>
+            <div className="h-[80%] ml-4 mt-4">
+              <div className="flex h-[80%]">
                 <label htmlFor="fileInput" className="w-[50%]">
-                  {previewUrl ? (
+                  {previewImg ? (
                     <img
-                      src={previewUrl}
+                      src={previewImg}
                       alt="ImagePreview"
                       className="w-full h-full"
                     />
@@ -71,7 +121,7 @@ function NoticeUpdatePage() {
                     <img
                       src={Basic}
                       alt="기본 이미지"
-                      className="m-1 ring-1 w-full h-full"
+                      className="m-1 ring-1 w-[90%] h-[90%]"
                     />
                   )}
                 </label>
@@ -109,10 +159,18 @@ function NoticeUpdatePage() {
                       placeholder="내용을 입력하세요"
                       value={content}
                       onChange={e => setContent(e.target.value)}
-                      className="h-[60%] w-full"
+                      className="h-[50%] w-full"
                     />
                   </div>
                 </div>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  className="ml-4 p-2 bg-gray-300 rounded-lg mr-8"
+                  onClick={handleUpdate}>
+                  수정하기
+                </button>
               </div>
             </div>
           </Card>
@@ -125,9 +183,9 @@ function NoticeUpdatePage() {
               width="w-[360px]"
               height="h-[800px]"
               styling=" bg-gray-50 overflow-y-auto scrollbar-hide">
-              {previewUrl && (
+              {previewImg && (
                 <img
-                  src={previewUrl}
+                  src={previewImg}
                   alt="banner"
                   className="w-full h-[30%] bg-[#FFEB7A]"
                 />
@@ -136,12 +194,22 @@ function NoticeUpdatePage() {
               <p className="text-2xl text-center mt-8">{title}</p>
               <p className="text-lx text-center mt-1">{subTitle}</p>
               <div className="h-full">
-                <p className="mt-3"> {content}</p>
+                <div
+                  className="mt-3"
+                  dangerouslySetInnerHTML={{
+                    __html: content.replace(/\n/g, '<br/>'),
+                  }}
+                />
               </div>
             </Card>
           </div>
         </Card>
       </div>
+      <UpdateModal
+        content="공지사항을 수정하겠습니까?"
+        request={request}
+        id={id as string}
+      />
     </div>
   );
 }

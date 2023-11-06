@@ -56,20 +56,24 @@ export async function NoticeDetailAPI(token: string, id: string) {
   }
 }
 
-export function NoticeUpdate(token: string, request: FormData, id: number) {
+export async function NoticeUpdateAPI(
+  token: string,
+  request: FormData,
+  id: string,
+) {
   const noticeDetailURI = `${NOTICE_URI}/update/${id}`;
   if (token) {
-    axios
-      .put(noticeDetailURI, request, {
+    try {
+      const response = await axios.put(noticeDetailURI, request, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 
