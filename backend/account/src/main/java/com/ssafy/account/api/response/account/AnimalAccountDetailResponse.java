@@ -14,20 +14,19 @@ import java.util.List;
 public class AnimalAccountDetailResponse {
 
     private Long id;
-    private String accountName;
+    private String accountName; // 계좌명(ex. NH올원e예금)
     private String accountNumber; // 계좌번호
     private Long balance; // 잔액
     private AccountState state; // 상태
-    private LocalDateTime createdAt; // 등록일
+    private LocalDateTime createdAt; // 계좌생성일
     private Long accountLimit; // 인출한도
-    private String accountType; // 타입
+    private String accountType; // 계좌타입
 
     private Long linkedAccountId; // 연결된 모계좌 id
 
     private String petName; // 펫이름
     private String petGender; // 펫성별
     private LocalDate petBirth; // 펫생년월일
-    private String petType; // 펫종류
     private String petBreed; // 품종
     private Boolean petNeutered; // 중성화여부
     private LocalDate petRegistrationDate; // 등록일

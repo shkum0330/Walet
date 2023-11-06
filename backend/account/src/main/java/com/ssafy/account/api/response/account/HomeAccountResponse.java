@@ -13,7 +13,7 @@ public class HomeAccountResponse { // 홈 화면의 계좌 정보를 나타내�
     private String accountName;
     private String accountNumber;
     private Long balance;
-    private List<HomeTransactionResponse> transactions;
+    private List<HomeTransactionResponse> transactions; // 최근 5개 거래목록
 
     public HomeAccountResponse(Account account, List<HomeTransactionResponse> transactions) {
         this.accountId = account.getId();

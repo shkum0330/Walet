@@ -100,7 +100,7 @@ public class AccountServiceImpl implements AccountService {
         log.info("제한업종: {}",limitTypeList);
         // 선택을 안했다면 전부 들어감
         if(limitTypeList.isEmpty()) {
-            for(int i = 0; i < 6; i++) {
+            for(int i = 0; i < 5; i++) {
                 petAccount.addLimitType(1 << i);
             }
         }
@@ -165,7 +165,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccessiblePetAccountResponse> getAccessibleAccountList(Long memberId) {
         List<Access> myAccessList = accessRepository.findAccessesByRequestMemberIdAndIsConfirmed(memberId, 1);
-
+        // 접근이 허용된 펫계좌가 없다면 예외 발생
+        if(myAccessList.isEmpty()) {
+            throw new NotFoundException(NO_ACCESSIBLE_PET_ACCOUNT);
+        }
+        
         List<Account> myAccessiblePetAccount = new ArrayList<>();
         // 내가 접근 가능한 계좌 목록을 가져옴
         for (Access access : myAccessList) {
