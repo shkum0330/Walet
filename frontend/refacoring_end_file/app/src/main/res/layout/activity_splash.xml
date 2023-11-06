@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+
+    tools:context=".SplashActivity">
+
+
+    <!--    NH 스마트 뱅킹 로고-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+
+        android:layout_marginTop="220dp"
+        >
+        <!--  NH-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nong_hyup"
+            android:text="NH "
+            android:textColor="@color/logo_blue"
+            android:textSize="24sp"
+            />
+
+        <!--   스마트 뱅킹     -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nong_hyup"
+            android:text="스마트뱅킹"
+            android:textColor="@color/logo_blue"
+            android:textSize="20sp"
+            />
+
+    </LinearLayout>
+
+
+    <!--    금융의 모든 순간-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nong_hyup"
+        android:text="금융의 모든순간"
+        android:textColor="@color/logo_blue"
+        android:textSize="30sp"
+
+        android:layout_marginTop="14dp"
+        android:gravity="center"
+        />
+
+    <!--    물결 이미지-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/slash_water"
+        android:layout_marginTop="170dp"
+        android:adjustViewBounds="true"
+        />
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+
+    <!--    NH농협-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="36dp"
+        >
+        <!--  NH-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nong_hyup"
+            android:text="NH"
+            android:textColor="@color/logo_blue"
+            android:textSize="20sp"
+            />
+
+        <!--   스마트 뱅킹     -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nong_hyup"
+            android:text="농협"
+            android:textColor="@color/logo_blue"
+            android:textSize="20sp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
