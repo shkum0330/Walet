@@ -72,10 +72,10 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         // 사용 가능 계좌인지 확인
-        if(myAccount.getState() == AccountState.CLOSED || myAccount.getState() == AccountState.LOCKED || myAccount.getState() == AccountState.SUSPENDED) {
+        if(myAccount.getAccountState().equals("01") || myAccount.getAccountState().equals("10") || myAccount.getAccountState().equals("11")) {
             throw new NotFoundException(NOT_USABLE_ACCOUNT);
         }
-        if(companyAccount.getState() == AccountState.CLOSED || companyAccount.getState() == AccountState.LOCKED || myAccount.getState() == AccountState.SUSPENDED) {
+        if(companyAccount.getAccountState().equals("01") || companyAccount.getAccountState().equals("10") || companyAccount.getAccountState().equals("11")) {
             throw new NotFoundException(NOT_USABLE_COMPANY_ACCOUNT);
         }
 
@@ -110,10 +110,10 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         // 사용 가능 계좌인지 확인
-        if(myAccount.getState() == AccountState.CLOSED || myAccount.getState() == AccountState.LOCKED || myAccount.getState() == AccountState.SUSPENDED) {
+        if(myAccount.getAccountState().equals("01") || myAccount.getAccountState().equals("10") || myAccount.getAccountState().equals("11")) {
             throw new NotFoundException(NOT_USABLE_ACCOUNT);
         }
-        if(receiverAccount.getState() == AccountState.CLOSED || receiverAccount.getState() == AccountState.LOCKED || myAccount.getState() == AccountState.SUSPENDED) {
+        if(receiverAccount.getAccountState().equals("01") || receiverAccount.getAccountState().equals("10") || receiverAccount.getAccountState().equals("11")) {
             throw new NotFoundException(NOT_USABLE_RECEIVER_ACCOUNT);
         }
 

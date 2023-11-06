@@ -38,10 +38,9 @@ public class Account extends BaseTimeEntity {
     private String accountPassword; // 계좌 비밀번호
     @Column(name="balance", nullable = false)
     private Long balance = 0L; // 잔액
-    
-    @Enumerated(EnumType.STRING)
-    @Column(name="state",length=10, nullable = false)
-    private AccountState state; // 상태
+
+    @Column(name="account_state",length=10, nullable = false)
+    private String accountState; // 상태 => 정상(00), 잠금(01), 정지(10), 폐쇄(11)
 
     @ColumnDefault("50000000")
     @Column(name="account_limit")
@@ -77,7 +76,7 @@ public class Account extends BaseTimeEntity {
 
     // 일반계좌 기본정보 입력
     public Account(AccountSaveRequest accountSaveRequest) {
-        this.state= ACTIVE;
+        this.accountState = "00";
         this.memberId = accountSaveRequest.getMemberId();
         this.accountName= accountSaveRequest.getAccountName();
         this.depositorName = accountSaveRequest.getDepositorName();
@@ -88,7 +87,7 @@ public class Account extends BaseTimeEntity {
 
     // 반려동물계좌 기본정보 입력
     public Account(PetAccountSaveRequest accountRequest) {
-        this.state=ACTIVE;
+        this.accountState = "00";
         this.memberId = accountRequest.getMemberId();
         this.accountName=accountRequest.getAccountName();
         this.depositorName = accountRequest.getDepositorName();
@@ -146,19 +145,19 @@ public class Account extends BaseTimeEntity {
     // 계좌 상태 변경
     // 1. ACTIVE
     public void updateStateToActive() {
-        this.state = ACTIVE;
+        this.accountState = "00";
     }
     // 2. LOCKED
     public void updateStateToLocked() {
-        this.state = LOCKED;
+        this.accountState = "01";
     }
     // 3. SUSPENDED
     public void updateStateToSuspended() {
-        this.state = SUSPENDED;
+        this.accountState = "10";
     }
     // 4. CLOSED
     public void updateStateToClosed() {
-        this.state = CLOSED;
+        this.accountState = "11";
     }
 
 }

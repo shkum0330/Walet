@@ -15,7 +15,7 @@ public class GeneralAccountDetailResponse {
     private Long id;
     private String accountNumber; // 계좌번호
     private Long balance; // 잔액
-    private AccountState state; // 상태
+    private String accountState; // 상태
     private LocalDateTime createdAt; // 등록일
     private Long accountLimit; // 인출한도
     private String accountType; // 타입
@@ -29,7 +29,7 @@ public class GeneralAccountDetailResponse {
         this.id = account.getId();
         this.accountNumber = account.getAccountNumber();
         this.balance = account.getBalance();
-        this.state = account.getState();
+        this.accountState = account.getAccountState();
         this.createdAt = account.getCreatedAt();
         this.accountLimit = account.getAccountLimit();
         this.accountType = account.getAccountType();

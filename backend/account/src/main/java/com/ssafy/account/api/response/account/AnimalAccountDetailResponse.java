@@ -17,7 +17,7 @@ public class AnimalAccountDetailResponse {
     private String accountName; // 계좌명(ex. NH올원e예금)
     private String accountNumber; // 계좌번호
     private Long balance; // 잔액
-    private AccountState state; // 상태
+    private String accountState; // 상태
     private LocalDateTime createdAt; // 계좌생성일
     private Long accountLimit; // 인출한도
     private String accountType; // 계좌타입
@@ -39,7 +39,7 @@ public class AnimalAccountDetailResponse {
         this.accountName = account.getAccountName();
         this.accountNumber = account.getAccountNumber();
         this.balance = account.getBalance();
-        this.state = account.getState();
+        this.accountState = account.getAccountState();
         this.createdAt = account.getCreatedAt();
         this.accountLimit = account.getAccountLimit();
         this.accountType = account.getAccountType();
