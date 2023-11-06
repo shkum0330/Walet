@@ -34,7 +34,6 @@ public class AccountController {
      3. 반려동물미용 4
      4. 애견카페 8
      5. 반려견놀이터 16
-     6. 반려동물장례 32
      */
     
     // 1. 계좌 생성
@@ -89,7 +88,7 @@ public class AccountController {
     }
     
     // 마이페이지 - 접근 가능한 타인의 동물계좌 목록 반환
-    @GetMapping("/list/accessible-account")
+    @GetMapping("/list/accessible-pet-account")
     public Response getAccessibleAccountList(@RequestHeader("id") Long memberId) {
         return Response.success(GENERAL_SUCCESS, accountService.getAccessibleAccountList(memberId));
     }

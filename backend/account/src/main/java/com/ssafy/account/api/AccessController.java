@@ -1,5 +1,6 @@
 package com.ssafy.account.api;
 
+import com.ssafy.account.api.request.AccessStatusChangeRequest;
 import com.ssafy.account.api.request.access.AccessSaveRequest;
 import com.ssafy.account.api.request.access.AccountNumberForAccess;
 import com.ssafy.account.common.api.Response;
@@ -21,14 +22,14 @@ public class AccessController {
         return Response.success(GENERAL_SUCCESS, accessRequest);
     }
 
-    @PutMapping("/accept/{accessId}")
-    public Response acceptAccessRequest(@PathVariable Long accessId) {
-        return Response.success(GENERAL_SUCCESS, accessService.acceptAccessRequest(accessId));
+    @PutMapping("/accept")
+    public Response acceptAccessRequest(@RequestBody AccessStatusChangeRequest request) {
+        return Response.success(GENERAL_SUCCESS, accessService.acceptAccessRequest(request.getAccessId()));
     }
 
-    @DeleteMapping("/reject/{accessId}")
-    public Response rejectAccessRequest(@PathVariable Long accessId) {
-        return Response.success(GENERAL_SUCCESS, accessService.rejectAccessRequest(accessId));
+    @DeleteMapping("/reject")
+    public Response rejectAccessRequest(@RequestBody AccessStatusChangeRequest request) {
+        return Response.success(GENERAL_SUCCESS, accessService.rejectAccessRequest(request.getAccessId()));
     }
 
     @GetMapping("/receive/list")
