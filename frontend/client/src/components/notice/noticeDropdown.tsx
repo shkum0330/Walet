@@ -18,7 +18,7 @@ function NoticeDropdown() {
         leave="transition ease-in duration-75"
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95">
-        <Menu.Items className="absolute rounded-lg left-0 right-0 z-10  w-28 origin-top-right rounded-b-md bg-BACKGROUND-50 shadow-lg ring-2 ring-black">
+        <Menu.Items className="absolute rounded-lg left-0 right-0 z-10  w-28 origin-top-right rounded-b-md bg-BACKGROUND-50 shadow-lg">
           <div>
             <Menu.Item>
               <button

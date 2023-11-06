@@ -7,5 +7,5 @@ module.exports = {
       'do-hyeon': ['Do Hyeon', 'Do Hyeon'],
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 };

@@ -2,7 +2,7 @@ import { useAccessToken } from '../../data_source/apiInfo';
 import {
   NoticeCreate,
   NoticeDelete,
-  NoticeDetail,
+  NoticeDetailAPI,
   NoticeListAPI,
   NoticePopCheck,
   NoticeSetPop,
@@ -29,11 +29,13 @@ export function noticeCreateRepository(request: noticeCreateRequest): void {
   }
 }
 
-export function noticeDetailRepository(id: number): void {
+export async function noticeDetailRepository(id: string) {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeDetail(accessToken, id);
+    const data = await NoticeDetailAPI(accessToken, id);
+    return data;
   }
+  return null;
 }
 
 export function noticeUpdateRepository(

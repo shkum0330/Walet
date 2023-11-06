@@ -2,8 +2,10 @@ import axios from 'axios';
 import { NOTICE_URI } from '../apiInfo';
 import {
   noticeCreateRequest,
+  noticeDetailResponse,
   noticePopCheckResponse,
   noticeUpdateRequest,
+  noticedata,
   noticelistResponse,
 } from '../../interface/api/noticeApiInterface';
 
@@ -42,19 +44,20 @@ export function NoticeCreate(token: string, request: noticeCreateRequest) {
   }
 }
 
-export function NoticeDetail(token: string, id: number) {
+export async function NoticeDetailAPI(token: string, id: string) {
   const noticeDetailURI = `${NOTICE_URI}/detail/${id}`;
   if (token) {
-    axios
-      .get(noticeDetailURI, {
+    try {
+      const response = await axios.get<noticeDetailResponse>(noticeDetailURI, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      });
+
+      return response.data.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 

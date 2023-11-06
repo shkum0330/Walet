@@ -15,6 +15,8 @@ export interface noticelistResponse extends common {
   data: noticedata[];
 }
 
+export interface noticelistResponse extends common {}
+
 export interface noticeCreateRequest {
   title: string;
   subTitle: string;
@@ -22,7 +24,9 @@ export interface noticeCreateRequest {
   bannerImg: string;
 }
 
-export interface noticeDetailResponse extends noticedata {}
+export interface noticeDetailResponse extends common {
+  data: noticedata;
+}
 
 export interface noticeUpdateRequest extends noticeCreateRequest {}
 
