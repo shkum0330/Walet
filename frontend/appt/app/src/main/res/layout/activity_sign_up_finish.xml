@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_medium"
+        android:text="금융의 모든순간 함께하는"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:layout_marginTop="500dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_bold"
+        android:text="농협은행"
+        android:textColor="@color/black"
+        android:textSize="36sp"
+        android:textAlignment="center"
+
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="농협과 함께 시작하기"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:layout_marginTop="30dp"/>
+</LinearLayout>
