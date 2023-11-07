@@ -96,15 +96,22 @@ public class NHFintechServiceImpl implements NHFintechService{
     }
 
     @Override
-    public void DrawingTransfer2(String FinAcno, String Tram, String Vran, String DractOtlt, String MractOtlt) {
+    public DrawingTransfer2Dto.Response DrawingTransfer2(DrawingTransfer2Dto.Request data) {
+        HeaderDto header = getHeader("DrawingTransfer2");
         DrawingTransfer2Dto.Request request = DrawingTransfer2Dto.Request.builder()
-                .FinAcno(FinAcno)
-                .Tram(Tram)
-                .Vran(Vran)
-                .DractOtlt(DractOtlt)
-                .MractOtlt(MractOtlt)
+                .Header(header)
+                .FinAcno(data.getFinAcno())
+                .Tram(data.getTram())
+                .Vran(data.getVran())
+                .DractOtlt(data.getDractOtlt())
+                .MractOtlt(data.getMractOtlt())
                 .build();
-        nhFintechClient.DrawingTransfer2(request);
+        String jsonString = nhFintechClient.DrawingTransfer2("Basic " + oauthService.getOauthKey() , request);
+        try {
+            return objectMapper.readValue(jsonString , DrawingTransfer2Dto.Response.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

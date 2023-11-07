@@ -1,6 +1,7 @@
 package com.ssafy.service.api;
 
 import com.ssafy.service.external.dto.CheckOpenFinAccountDto;
+import com.ssafy.service.external.dto.DrawingTransfer2Dto;
 import com.ssafy.service.external.dto.FinAccountDto;
 import com.ssafy.service.external.dto.OpenFinAccountARSDto;
 import com.ssafy.service.external.service.NHFintechService;
@@ -32,9 +33,15 @@ public class ServiceController {
         return ResponseEntity.ok(nhFintechService.CloseFinAccount(request));
     }
 
-
+// 핀어카운트 상태확인
     @PostMapping("/InquireFinAccountStatus")
     public ResponseEntity<FinAccountDto.Response> InquireFinAccountStatus(@RequestBody FinAccountDto.Request request){
         return ResponseEntity.ok(nhFintechService.InquireFinAccountStatus(request));
     }
+
+    @PostMapping("/DrawingTransfer2")
+    public ResponseEntity<DrawingTransfer2Dto.Response> DrawingTransfer2(@RequestBody DrawingTransfer2Dto.Request request){
+        return ResponseEntity.ok(nhFintechService.DrawingTransfer2(request));
+    }
+
 }
