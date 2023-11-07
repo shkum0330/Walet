@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Card from '../../components/common/card';
 import Basic from '../../assets/imgs/basic.png';
 import { useModal } from '../../components/modal/modalClass';
-import CreateModal from '../../components/modal/createModal';
+import { CreateModal } from '../../components/modal/customModal';
 
 function NoticeCreatePage() {
   const [title, setTitle] = useState<string>('');

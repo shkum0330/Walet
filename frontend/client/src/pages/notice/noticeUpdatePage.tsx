@@ -4,7 +4,7 @@ import Card from '../../components/common/card';
 import Basic from '../../assets/imgs/basic.png';
 import { useModal } from '../../components/modal/modalClass';
 import { noticeDetailRepository } from '../../repository/notice/noticeRepository';
-import UpdateModal from '../../components/modal/updateModal';
+import { UpdateModal } from '../../components/modal/customModal';
 
 function NoticeUpdatePage() {
   const { id } = useParams();
