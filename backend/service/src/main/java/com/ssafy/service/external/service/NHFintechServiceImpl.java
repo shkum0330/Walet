@@ -79,13 +79,20 @@ public class NHFintechServiceImpl implements NHFintechService{
     }
 
     @Override
-    public String InquireFinAccountStatus(String FinAcno, String Tlno, String BrdtBrno) {
+    public FinAccountDto.Response InquireFinAccountStatus(FinAccountDto.Request data) {
+        HeaderDto header = getHeader("InquireFinAccountStatus");
         FinAccountDto.Request request = FinAccountDto.Request.builder()
-                .FinAcno(FinAcno)
-                .Tlno(Tlno)
-                .BrdtBrno(BrdtBrno)
+                .Header(header)
+                .FinAcno(data.getFinAcno())
+                .Tlno(data.getTlno())
+                .BrdtBrno(data.getBrdtBrno())
                 .build();
-        return nhFintechClient.InquireFinAccountStatus(request).getFinAcnoStts();
+        String jsonString = nhFintechClient.InquireFinAccountStatus("Basic " + oauthService.getOauthKey() , request);
+        try {
+            return objectMapper.readValue(jsonString , FinAccountDto.Response.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

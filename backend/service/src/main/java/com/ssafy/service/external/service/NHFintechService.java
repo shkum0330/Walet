@@ -12,7 +12,7 @@ public interface NHFintechService {
 //                           고객명         생년월일 yyyymmdd ,  전화번호        계좌번호         출금이체등록여부 Y , N
     CheckOpenFinAccountDto.Response CheckOpenFinAccount(CheckOpenFinAccountDto.Request request); //핀-어카운트 ARS발급 확인
     FinAccountDto.Response CloseFinAccount(FinAccountDto.Request request); //핀-어카운트 해지
-    String InquireFinAccountStatus(String FinAcno , String Tlno , String BrdtBrno); //핀-어카운트 상태조회
+    FinAccountDto.Response InquireFinAccountStatus(FinAccountDto.Request request); //핀-어카운트 상태조회
     void DrawingTransfer2(String FinAcno , String Tram , String Vran , String DractOtlt , String MractOtlt); //실시간 출금이체
     String CheckOnDrawingTransfer2(String FinAcno , String Tram , String Vran , String OrtrYmd , String OrtrIsTuno); //실시간 출금이체 결과확인
     void ReceivedTransferFinAccount(String FinAcno , String Tram , String DractOtlt , String MractOtlt); //농협입금이체(핀-어카운트)

@@ -32,4 +32,9 @@ public class ServiceController {
         return ResponseEntity.ok(nhFintechService.CloseFinAccount(request));
     }
 
+
+    @PostMapping("/InquireFinAccountStatus")
+    public ResponseEntity<FinAccountDto.Response> InquireFinAccountStatus(@RequestBody FinAccountDto.Request request){
+        return ResponseEntity.ok(nhFintechService.InquireFinAccountStatus(request));
+    }
 }

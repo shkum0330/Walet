@@ -25,8 +25,10 @@ public interface NHFintechClient {
             @RequestHeader("Auth") String key,
             @RequestBody FinAccountDto.Request data);
 
-    @PostMapping(value = "/InquireFinAccountStatus.nhd" , headers = "ApiNm=InquireFinAccountStatus")
-    FinAccountDto.Response InquireFinAccountStatus(@RequestBody FinAccountDto.Request request);
+    @PostMapping(value = "/InquireFinAccountStatus.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    String InquireFinAccountStatus(
+            @RequestHeader("Auth") String key,
+            @RequestBody FinAccountDto.Request request);
 
     @PostMapping(value = "/DrawingTransfer2.nhd" , headers = "ApiNm=DrawingTransfer2")
     void DrawingTransfer2(@RequestBody DrawingTransfer2Dto.Request request);
