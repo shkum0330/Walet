@@ -18,6 +18,7 @@ import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.repository.AccessRepository;
 import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.db.repository.TransactionRepository;
+import com.ssafy.account.service.MessageSenderService;
 import com.ssafy.account.service.TransactionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,8 @@ public class TransactionServiceImpl implements TransactionService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
     private final AccessRepository accessRepository;
+    private final MessageSenderService messageSenderService;
+
     @Override
     public TransactionAccountResponse getTransactionAccountDetail(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
@@ -58,7 +61,7 @@ public class TransactionServiceImpl implements TransactionService {
         return new ReceiverInfoResponse(receiverAccount, paymentAmount);
     }
 
-    // 반려동물 용품 구입 관련 거래내역 추가
+    // 반려동물 용품 구입 관련 결제 및 거래내역 추가
     @Override
     @Transactional
     public Long addPetRelatedTransaction(TransactionRequest transactionRequest) {
@@ -99,6 +102,10 @@ public class TransactionServiceImpl implements TransactionService {
         log.info("{}",companyTransaction);
         transactionRepository.save(myTransaction);
         transactionRepository.save(companyTransaction);
+
+        // 거래가 완료되면 메시지를 알림 서버에 보내자.
+//        messageSenderService.sendPaymentMessage(String.valueOf(myAccountId)
+//                ,String.valueOf(transactionRequest.getPaymentAmount()),companyAccount.getDepositorName());
         return myTransaction.getId();
     }
 

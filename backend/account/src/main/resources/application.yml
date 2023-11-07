@@ -22,6 +22,11 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
+  rabbitmq:
+    host: ENC(V1yH8VdVITBAyCighnck2oAZg/TjvbaE)
+    port: ENC(bOzbL6GUJuiQn0hlBJAVrQ==)
+    username: ENC(S7hh+SiqAZ0CsQoFx3YhuQ==)
+    password: ENC(FYqHK9yka2U1D6d/3hdwHvz/xSrQ+ylK)
 logging:
   level:
     org.hibernate.SQL: debug
