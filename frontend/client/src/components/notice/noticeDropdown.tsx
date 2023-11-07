@@ -1,21 +1,27 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import {
-  noticeDeleteRepository,
-  noticeSetPopRepository,
-} from '../../repository/notice/noticeRepository';
+import { useModal } from '../modal/modalClass';
+import { ActiveModal, DeleteModal } from '../modal/customModal';
 
 function NoticeDropdown({ pageid }: { pageid: string }) {
+  const { openModal } = useModal();
+  const [active, setActive] = useState(0);
+  const [deleted, setDeleted] = useState(0);
+
   const handleUpdate = (id: string) => {
     window.location.href = `/notice/update/${id}`;
   };
 
-  const handleActive = (id: string) => {
-    noticeSetPopRepository(id);
+  const handleActive = () => {
+    setDeleted(0);
+    setActive(1);
+    openModal('active');
   };
 
-  const handleDelete = (id: string) => {
-    noticeDeleteRepository(id);
+  const handleDelete = () => {
+    setActive(0);
+    setDeleted(1);
+    openModal('delete');
   };
 
   return (
@@ -48,7 +54,7 @@ function NoticeDropdown({ pageid }: { pageid: string }) {
               <button
                 type="button"
                 className="w-full bg-gray-100 text-gray-900 block px-4 py-2 text-sm hover:bg-green-100"
-                onClick={() => handleActive(pageid)}>
+                onClick={() => handleActive()}>
                 활성화하기
               </button>
             </Menu.Item>
@@ -56,13 +62,21 @@ function NoticeDropdown({ pageid }: { pageid: string }) {
               <button
                 type="button"
                 className="w-full bg-gray-100 text-gray-900 block px-4 py-2 text-sm hover:bg-green-100"
-                onClick={() => handleDelete(pageid)}>
+                onClick={() => handleDelete()}>
                 삭제하기
               </button>
             </Menu.Item>
           </div>
         </Menu.Items>
       </Transition>
+
+      {deleted === 1 && (
+        <DeleteModal content="정말로 삭제하시겠습니까?" id={pageid} />
+      )}
+
+      {active === 1 && (
+        <ActiveModal content="메인 공지사항으로 설정하겠습니까?" id={pageid} />
+      )}
     </Menu>
   );
 }

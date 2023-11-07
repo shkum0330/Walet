@@ -49,3 +49,13 @@ export interface createModalInterface {
   content: string | null;
   request: FormData;
 }
+
+export interface DeleteModalInterface {
+  content: string | null;
+  id: string;
+}
+
+export interface ActiveModalInterface {
+  content: string | null;
+  id: string;
+}

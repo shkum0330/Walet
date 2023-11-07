@@ -4,9 +4,13 @@ import {
   createModalInterface,
   ErrorModalInterface,
   UpdateModalInterface,
+  DeleteModalInterface,
+  ActiveModalInterface,
 } from '../../interface/common/modalInterface';
 import {
   noticeCreateRepository,
+  noticeDeleteRepository,
+  noticeSetPopRepository,
   noticeUpdateRepository,
 } from '../../repository/notice/noticeRepository';
 import { ConfirmContents, ConfirmSelect } from './modalContent';
@@ -96,6 +100,81 @@ export function CreateModal({ content, request }: createModalInterface) {
       </Modal>
 
       <ConfirmModal content="정상적으로 등록됐습니다." />
+    </div>
+  );
+}
+
+export function DeleteModal({ content, id }: DeleteModalInterface) {
+  const { openModal, modalOpen, closeModal } = useModal();
+  const deleteModal = 'delete';
+
+  const responseHandle = async () => {
+    const data = await noticeDeleteRepository(id);
+    if (data) {
+      closeModal(deleteModal);
+      console.log('ㅇㅇㅇㅇ');
+      openModal('confirm');
+    }
+  };
+
+  return (
+    <div>
+      <Modal
+        closeModal={() => {
+          closeModal(deleteModal);
+        }}
+        OpenModal={modalOpen[deleteModal]}
+        width="w-[25%] bg-color-white"
+        height="h-200px">
+        <ConfirmSelect
+          content={content as string}
+          cancelAction={() => {
+            closeModal(deleteModal);
+          }}
+          okAction={() => {
+            responseHandle();
+          }}
+        />
+      </Modal>
+
+      <ConfirmModal content="정상적으로 삭제됐습니다." />
+    </div>
+  );
+}
+
+export function ActiveModal({ content, id }: ActiveModalInterface) {
+  const { openModal, modalOpen, closeModal } = useModal();
+  const activeModal = 'active';
+
+  const responseHandle = async () => {
+    const data = await noticeSetPopRepository(id);
+    if (data) {
+      closeModal(activeModal);
+      openModal('confirm');
+    }
+  };
+
+  return (
+    <div>
+      <Modal
+        closeModal={() => {
+          closeModal(activeModal);
+        }}
+        OpenModal={modalOpen[activeModal]}
+        width="w-[25%] bg-color-white"
+        height="h-200px">
+        <ConfirmSelect
+          content={content as string}
+          cancelAction={() => {
+            closeModal(activeModal);
+          }}
+          okAction={() => {
+            responseHandle();
+          }}
+        />
+      </Modal>
+
+      <ConfirmModal content="메인 공지사항으로 설정했습니다." />
     </div>
   );
 }

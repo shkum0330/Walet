@@ -45,18 +45,22 @@ export async function noticeUpdateRepository(request: FormData, id: string) {
   return null;
 }
 
-export function noticeDeleteRepository(id: string): void {
+export async function noticeDeleteRepository(id: string) {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeDeleteAPI(accessToken, id);
+    const data = await NoticeDeleteAPI(accessToken, id);
+    return data;
   }
+  return null;
 }
 
-export function noticeSetPopRepository(id: string): void {
+export async function noticeSetPopRepository(id: string) {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeSetPopAPI(accessToken, id);
+    const data = await NoticeSetPopAPI(accessToken, id);
+    return data;
   }
+  return null;
 }
 
 export async function noticePopCheckRepository() {

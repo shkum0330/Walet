@@ -86,7 +86,10 @@ export async function NoticeDeleteAPI(token: string, id: string) {
           Authorization: `Bearer ${token}`,
         },
       });
-    } catch (error) {}
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 
@@ -94,7 +97,7 @@ export async function NoticeSetPopAPI(token: string, id: string) {
   const noticeSetPopURI = `${NOTICE_URI}/pop/${id}`;
   if (token) {
     try {
-      const response = await axios.put(
+      await axios.put(
         noticeSetPopURI,
         {},
         {
@@ -103,7 +106,10 @@ export async function NoticeSetPopAPI(token: string, id: string) {
           },
         },
       );
-    } catch (error) {}
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 
