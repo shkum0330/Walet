@@ -32,6 +32,12 @@ spring:
             - Path=/api/account/**
           filters:
             - RewritePath=/api/account/(?<path>.*),/$\{path}
+        - id: service
+          uri: lb://SERVICE/
+          predicates:
+            - Path=/api/service/**
+          filters:
+            - RewritePath=/api/service/(?<path>.*),/$\{path}
 
   application:
     name: API-GATEWAY
