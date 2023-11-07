@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @FeignClient(url = "http://smartdev.nonghyup.com:9460/svcapi" , name = "Server1" , configuration = ClientProxyConfig.class)
 public interface NHFintechClient {
     @PostMapping(value = "/OpenFinAccountARS.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    OpenFinAccountARSDto.Response OpenFinAccountARS(
+    String OpenFinAccountARS(
             @RequestHeader("Auth") String key,
             @RequestBody OpenFinAccountARSDto.Request data);
 
