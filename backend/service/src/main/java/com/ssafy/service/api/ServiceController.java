@@ -1,6 +1,5 @@
 package com.ssafy.service.api;
 
-import com.ssafy.service.api.dto.FinAccountServiceDto;
 import com.ssafy.service.external.dto.OpenFinAccountARSDto;
 import com.ssafy.service.external.service.NHFintechService;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ServiceController {
     private final NHFintechService nhFintechService;
+    
+//    핀어카운트 발급
     @PostMapping("/OpenFinAccountARS")
     public ResponseEntity<OpenFinAccountARSDto.Response> OpenFinAccountARS(@RequestBody OpenFinAccountARSDto.Request request){
         return ResponseEntity.ok(nhFintechService.OpenFinAccountARS(request));
     }
+
+
+    
+    
 }

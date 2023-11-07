@@ -2,7 +2,6 @@ package com.ssafy.service.external.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.service.api.dto.FinAccountServiceDto;
 import com.ssafy.service.external.client.NHFintechClient;
 import com.ssafy.service.external.dto.*;
 import com.ssafy.service.util.TimeUtil;
