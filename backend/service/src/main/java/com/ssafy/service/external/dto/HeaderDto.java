@@ -1,0 +1,32 @@
+package com.ssafy.service.external.dto;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+
+@Builder
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+public class HeaderDto {
+    @JsonProperty("ApiNm")
+    String ApiNm;
+    @JsonProperty("Tsymd")
+    String Tsymd;
+    @JsonProperty("Trtm")
+    String Trtm;
+    @JsonProperty("Iscd")
+    String Iscd;
+    @JsonProperty("FintechApsno")
+    String FintechApsno;
+    @JsonProperty("ApiSvcCd")
+    String ApiSvcCd;
+    @JsonProperty("IsTuno")
+    String IsTuno;
+    @JsonProperty("LritCd")
+    String LritCd;
+    @JsonProperty("Rpcd")
+    String Rpcd;
+    @JsonProperty("Rsms")
+    String Rsms;
+}
