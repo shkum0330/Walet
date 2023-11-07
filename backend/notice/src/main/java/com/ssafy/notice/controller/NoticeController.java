@@ -63,9 +63,16 @@ public class NoticeController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<EnvelopeResponse<noticeDTO.request>> updateNotice(@PathVariable Long id,
-                                                                            @RequestPart("notice") noticeDTO.request request,
-                                                                            @RequestPart("file") MultipartFile file) throws IOException {
-        NoticeEntity updatedNotice = noticeService.updateNotice(id, request, file);
+                                                                            @RequestPart("data") noticeDTO.request request,
+                                                                            @RequestPart(value = "bannerImg", required = false) MultipartFile file) throws IOException {
+        NoticeEntity updatedNotice;
+        if(file != null){
+            updatedNotice = noticeService.updateNotice(id, request, file);
+        }
+        else{
+            updatedNotice = noticeService.updateNoticetext(id, request);
+        }
+
 
         noticeDTO.request data = new noticeDTO.request();
         BeanUtils.copyProperties(updatedNotice, data);
