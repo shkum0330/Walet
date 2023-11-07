@@ -48,6 +48,7 @@ public enum FailCode {
     RESTRICTED_BUSINESS(BAD_REQUEST,"사용이 불가능한 업종입니다"),
     REJECT_ACCOUNT_REMITTANCE(FORBIDDEN,"잔액 부족으로 송금 실패했습니다."),
     REJECT_ACCOUNT_PAYMENT(FORBIDDEN,"잔액 부족으로 결제에 실패했습니다."),
+    NO_TRANSACTION_DATA(NO_CONTENT, "해당 거래내역의 정보가 존재하지 않습니다."),
 
     //파일
     S3_DELETE_FAILURE(NO_CONTENT,"삭제할 파일이 존재하지 않습니다.");

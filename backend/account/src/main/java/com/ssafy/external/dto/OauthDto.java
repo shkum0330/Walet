@@ -7,7 +7,7 @@ public class OauthDto {
     @Setter
     @Getter
     public static class Response{
-        String massage;
+        String message;
         String code;
         String data;
     }

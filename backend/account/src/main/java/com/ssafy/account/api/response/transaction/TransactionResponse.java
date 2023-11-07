@@ -16,8 +16,6 @@ public class TransactionResponse {
     private Long balance; // 거래 후 잔액
     private LocalDateTime transactionDate; // 거래일자
 
-    private String desc; // 거래 메모
-
     public TransactionResponse(Transaction transaction) {
         this.id = transaction.getId();
         this.recipient = transaction.getRecipient();

@@ -111,13 +111,4 @@ public class AccountController {
 //        return ResponseEntity.ok(response);
 //    }
 //
-//    @GetMapping("/tx-history/{accountId}")
-//    public ResponseEntity<?> getTransactionsByDateRange(@PathVariable Long accountId,
-//                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-//                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-//
-//        TransactionPeriodRequest request = new TransactionPeriodRequest(accountId, startDate, endDate);
-//        Response response = new Response(200, "데이터 처리 성공", accountService.getSpecificPeriodTransaction(request));
-//        return ResponseEntity.ok(response);
-//    }
 }
