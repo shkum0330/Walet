@@ -1,9 +1,6 @@
 package com.ssafy.service.api;
 
-import com.ssafy.service.external.dto.CheckOpenFinAccountDto;
-import com.ssafy.service.external.dto.DrawingTransfer2Dto;
-import com.ssafy.service.external.dto.FinAccountDto;
-import com.ssafy.service.external.dto.OpenFinAccountARSDto;
+import com.ssafy.service.external.dto.*;
 import com.ssafy.service.external.service.NHFintechService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,9 +36,17 @@ public class ServiceController {
         return ResponseEntity.ok(nhFintechService.InquireFinAccountStatus(request));
     }
 
+//    출금이체
     @PostMapping("/DrawingTransfer2")
     public ResponseEntity<DrawingTransfer2Dto.Response> DrawingTransfer2(@RequestBody DrawingTransfer2Dto.Request request){
         return ResponseEntity.ok(nhFintechService.DrawingTransfer2(request));
     }
+    
+//    출금이체 결과확인
+    @PostMapping("/CheckOnDrawingTransfer2")
+    public ResponseEntity<CheckOnDrawingTransfer2Dto.Response> DrawingTransfer2(@RequestBody CheckOnDrawingTransfer2Dto.Request request){
+        return ResponseEntity.ok(nhFintechService.CheckOnDrawingTransfer2(request));
+    }
+    
 
 }

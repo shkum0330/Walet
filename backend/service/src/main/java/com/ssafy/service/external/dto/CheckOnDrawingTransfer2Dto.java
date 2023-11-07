@@ -1,5 +1,6 @@
 package com.ssafy.service.external.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,17 +12,28 @@ public class CheckOnDrawingTransfer2Dto {
     @Builder
     @AllArgsConstructor
     public static class Request{
+        @JsonProperty("Header")
+        HeaderDto Header;
+        @JsonProperty("FinAcno")
         String FinAcno;
+        @JsonProperty("Tram")
         String Tram;
+        @JsonProperty("Vran")
         String Vran;
+        @JsonProperty("OrltYmd")
         String OrltYmd;
+        @JsonProperty("OrtrIsTuno")
         String OrtrIsTuno;
     }
 
     @Setter
     @Getter
     public static class Response{
+        @JsonProperty("Header")
+        HeaderDto Header;
+        @JsonProperty("Pcrs")
         String Pcrs;
+        @JsonProperty("Prtm")
         String Prtm;
     }
 }

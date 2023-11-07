@@ -35,8 +35,10 @@ public interface NHFintechClient {
             @RequestHeader("Auth") String key,
             @RequestBody DrawingTransfer2Dto.Request request);
 
-    @PostMapping(value = "/CheckOnDrawingTransfer2.nhd" , headers = "ApiNm=CheckOnDrawingTransfer2")
-    CheckOnDrawingTransfer2Dto.Response CheckOnDrawingTransfer2(@RequestBody CheckOnDrawingTransfer2Dto.Request request);
+    @PostMapping(value = "/CheckOnDrawingTransfer2.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    String CheckOnDrawingTransfer2(
+            @RequestHeader("Auth") String key,
+            @RequestBody CheckOnDrawingTransfer2Dto.Request request);
 
     @PostMapping(value = "/ReceivedTransferFinAccount.nhd" , headers = "ApiNm=ReceivedTransferFinAccount")
     void ReceivedTransferFinAccount(@RequestBody ReceivedTransferFinAccountDto.Request request);

@@ -115,15 +115,21 @@ public class NHFintechServiceImpl implements NHFintechService{
     }
 
     @Override
-    public String CheckOnDrawingTransfer2(String FinAcno, String Tram, String Vran, String OrtrYmd, String OrtrIsTuno) {
+    public CheckOnDrawingTransfer2Dto.Response CheckOnDrawingTransfer2(CheckOnDrawingTransfer2Dto.Request data) {
+        HeaderDto header = getHeader("CheckOnDrawingTransfer2Dto");
         CheckOnDrawingTransfer2Dto.Request request = CheckOnDrawingTransfer2Dto.Request.builder()
-                .FinAcno(FinAcno)
-                .Tram(Tram)
-                .Vran(Vran)
-                .OrltYmd(OrtrYmd)
-                .OrtrIsTuno(OrtrIsTuno)
+                .FinAcno(data.getFinAcno())
+                .Tram(data.getTram())
+                .Vran(data.getVran())
+                .OrltYmd(data.getOrltYmd())
+                .OrtrIsTuno(data.getOrtrIsTuno())
                 .build();
-        return nhFintechClient.CheckOnDrawingTransfer2(request).getPcrs();
+        String jsonString = nhFintechClient.CheckOnDrawingTransfer2("Basic " + oauthService.getOauthKey(),request);
+        try {
+            return objectMapper.readValue(jsonString , CheckOnDrawingTransfer2Dto.Response.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
