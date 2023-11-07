@@ -1,10 +1,7 @@
 package com.ssafy.service.external.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 public class CheckOpenFinAccountDto {
     @Getter
@@ -24,6 +21,7 @@ public class CheckOpenFinAccountDto {
 
     @Getter
     @Setter
+    @ToString
     public static class Response{
         @JsonProperty("Header")
         HeaderDto Header;
