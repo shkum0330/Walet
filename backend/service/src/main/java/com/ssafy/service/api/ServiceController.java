@@ -47,6 +47,12 @@ public class ServiceController {
     public ResponseEntity<CheckOnDrawingTransfer2Dto.Response> CheckOnDrawingTransfer2(@RequestBody CheckOnDrawingTransfer2Dto.Request request){
         return ResponseEntity.ok(nhFintechService.CheckOnDrawingTransfer2(request));
     }
+
+//    임금이체
+    @PostMapping("/ReceivedTransferFinAccount")
+    public ResponseEntity<ReceivedTransferFinAccountDto.Response> ReceivedTransferFinAccount(@RequestBody ReceivedTransferFinAccountDto.Request request){
+        return ResponseEntity.ok(nhFintechService.ReceivedTransferFinAccount(request));
+    }
     
 
 }

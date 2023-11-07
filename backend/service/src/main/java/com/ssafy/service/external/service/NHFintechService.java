@@ -12,7 +12,7 @@ public interface NHFintechService {
     FinAccountDto.Response InquireFinAccountStatus(FinAccountDto.Request request); //핀-어카운트 상태조회
     DrawingTransfer2Dto.Response DrawingTransfer2(DrawingTransfer2Dto.Request request); //실시간 출금이체
     CheckOnDrawingTransfer2Dto.Response CheckOnDrawingTransfer2(CheckOnDrawingTransfer2Dto.Request request); //실시간 출금이체 결과확인
-    void ReceivedTransferFinAccount(String FinAcno , String Tram , String DractOtlt , String MractOtlt); //농협입금이체(핀-어카운트)
+    ReceivedTransferFinAccountDto.Response ReceivedTransferFinAccount(ReceivedTransferFinAccountDto.Request request); //농협입금이체(핀-어카운트)
     String CheckOnReceivedTransfer(String FinAcno , String Bncd , String Acno , String Tram , String OrtrYmd , String OrtrIsTuno); //입금이체 결과확인
     String CheckDepositorFinAccount(String FinAcno , String BrdtBrno); //예금주 실명확인(핀-어카운트)
     String InquireDepositorFinAccount(String FinAcno); //예금주 조회(핀-어카운트)

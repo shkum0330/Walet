@@ -134,14 +134,21 @@ public class NHFintechServiceImpl implements NHFintechService{
     }
 
     @Override
-    public void ReceivedTransferFinAccount(String FinAcno, String Tram, String DractOtlt, String MractOtlt) {
+    public ReceivedTransferFinAccountDto.Response ReceivedTransferFinAccount(ReceivedTransferFinAccountDto.Request data) {
+        HeaderDto header = getHeader("ReceivedTransferFinAccount");
         ReceivedTransferFinAccountDto.Request request = ReceivedTransferFinAccountDto.Request.builder()
-                .FinAcno(FinAcno)
-                .Tram(Tram)
-                .DractOtlt(DractOtlt)
-                .MractOtlt(MractOtlt)
+                .Header(header)
+                .FinAcno(data.getFinAcno())
+                .Tram(data.getTram())
+                .DractOtlt(data.getDractOtlt())
+                .MractOtlt(data.getMractOtlt())
                 .build();
-        nhFintechClient.ReceivedTransferFinAccount(request);
+        String jsonString = nhFintechClient.ReceivedTransferFinAccount("Basic " + oauthService.getOauthKey(),request);
+        try {
+            return objectMapper.readValue(jsonString , ReceivedTransferFinAccountDto.Response.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
