@@ -1,0 +1,30 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: SERVICE
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    com:
+      ssafy: Debug
+
+eureka:
+  client:
+#    register-with-eureka: false
+    service-url:
+      defaultZone: http://43.201.195.182:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+proxy:
+  host: 121.162.108.65
+  port: 9460
+
+jasypt:
+  password: ${PASSWORD}
