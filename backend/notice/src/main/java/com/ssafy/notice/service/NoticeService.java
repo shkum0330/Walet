@@ -51,10 +51,18 @@ public class NoticeService {
         modifiedNotice.setIsActive(request.getIsActive());
         modifiedNotice.setSubTitle(request.getSubTitle());
         modifiedNotice.setBannerImg(imageUrl);
-
         return noticeRepository.save(modifiedNotice);
     }
 
+    public NoticeEntity updateNoticetext(Long id, noticeDTO.request request) throws IOException {
+
+        NoticeEntity modifiedNotice = getNoticeByID(id);
+        modifiedNotice.setTitle(request.getTitle());
+        modifiedNotice.setContent(request.getContent());
+        modifiedNotice.setIsActive(request.getIsActive());
+        modifiedNotice.setSubTitle(request.getSubTitle());
+        return noticeRepository.save(modifiedNotice);
+    }
 
     public void deleteNotice(Long id){
         noticeRepository.deleteById(id);
