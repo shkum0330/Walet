@@ -31,7 +31,5 @@ public class CheckOpenFinAccountDto {
         String RgsnYmd;
         @JsonProperty("Acno")
         String Acno;
-        @JsonProperty("Rpcd")
-        String Rpcd;
     }
 }

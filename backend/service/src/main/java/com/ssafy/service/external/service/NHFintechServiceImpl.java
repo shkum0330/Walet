@@ -43,14 +43,10 @@ public class NHFintechServiceImpl implements NHFintechService{
             String CheckOpenFinAccountJsonString = CheckOpenFinAccount(OpenFinAccountARSResponse.getRgno() , data.getBrdtBrno() , data.getTlno() , key);
 
             CheckOpenFinAccountDto.Response CheckOpenFinAccountResponse = objectMapper.readValue(CheckOpenFinAccountJsonString , CheckOpenFinAccountDto.Response.class);
-            log.debug(CheckOpenFinAccountResponse.toString());
-            log.debug(CheckOpenFinAccountResponse.getRpcd());
-            System.out.println(CheckOpenFinAccountResponse.getRpcd().equals("A0017"));
 
-            while(CheckOpenFinAccountResponse.getRpcd() != null && CheckOpenFinAccountResponse.getRpcd().equals("A0017")){
+            while(CheckOpenFinAccountResponse.getHeader().getRpcd() != null && CheckOpenFinAccountResponse.getHeader().getRpcd().equals("A0017")){
                 CheckOpenFinAccountJsonString = CheckOpenFinAccount(OpenFinAccountARSResponse.getRgno() , data.getBrdtBrno() , data.getTlno() , key);
                 CheckOpenFinAccountResponse = objectMapper.readValue(CheckOpenFinAccountJsonString , CheckOpenFinAccountDto.Response.class);
-                System.out.println(CheckOpenFinAccountResponse.toString());
             }
 
 
