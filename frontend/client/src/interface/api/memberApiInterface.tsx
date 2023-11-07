@@ -23,9 +23,14 @@ export interface Usersdata {
   id: string;
   name: string;
   email: string;
-  createdDate: Date;
+  phoneNumber: String;
+  createdDate: String;
 }
 
 export interface UsersResponse extends common {
+  data: Usersdata[];
+}
+
+export interface UserSerachResponse extends common {
   data: Usersdata[];
 }

@@ -4,6 +4,8 @@ import {
   LogoutRequest,
   LoginResponse,
   LoginRequest,
+  UsersResponse,
+  UserSerachResponse,
 } from '../../interface/api/memberApiInterface';
 import { logout } from '../../store/actions/authActions';
 import { setTokens } from '../../store/store';
@@ -55,18 +57,32 @@ export function LogoutAPI(token: string, { dispatch }: LogoutRequest): void {
   }
 }
 
-export function UsersAPI(token: string): void {
+export async function UsersAPI(token: string) {
   const UsersURI = `${AUTH_URI}/users`;
   if (token) {
-    axios
-      .get(UsersURI, {
+    try {
+      const response = await axios.get<UsersResponse>(UsersURI, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      });
+      return response.data.data;
+    } catch (error) {}
+  }
+}
+
+export async function UserSearchAPI(token: string, keyword: string) {
+  const UserSearchURI = `${AUTH_URI}/user/search?keyword=${encodeURIComponent(
+    keyword,
+  )}`;
+  if (token) {
+    try {
+      const response = await axios.get<UserSerachResponse>(UserSearchURI, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data.data;
+    } catch (error) {}
   }
 }

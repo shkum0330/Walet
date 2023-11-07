@@ -1,5 +1,10 @@
 import { useAccessToken } from '../../data_source/apiInfo';
-import { LoginAPI, LogoutAPI, UsersAPI } from '../../data_source/auth/member';
+import {
+  LoginAPI,
+  LogoutAPI,
+  UserSearchAPI,
+  UsersAPI,
+} from '../../data_source/auth/member';
 import {
   LogoutRequest,
   LoginRequest,
@@ -17,9 +22,20 @@ export function LogoutRepository(request: LogoutRequest): void {
   }
 }
 
-export function UsersRepository(): void {
+export async function UsersRepository() {
   const accessToken = useAccessToken();
   if (accessToken) {
-    UsersAPI(accessToken);
+    const data = await UsersAPI(accessToken);
+    return data;
   }
+  return null;
+}
+
+export async function UserSearchRepository(keyword: string) {
+  const accessToken = useAccessToken();
+  if (accessToken) {
+    const data = await UserSearchAPI(accessToken, keyword);
+    return data;
+  }
+  return null;
 }
