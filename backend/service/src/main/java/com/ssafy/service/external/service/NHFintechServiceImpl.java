@@ -41,16 +41,17 @@ public class NHFintechServiceImpl implements NHFintechService{
             String OpenFinAccountARSJsonString = nhFintechClient.OpenFinAccountARS(key , request);
             OpenFinAccountARSDto.Response OpenFinAccountARSResponse = objectMapper.readValue(OpenFinAccountARSJsonString , OpenFinAccountARSDto.Response.class);
             String CheckOpenFinAccountJsonString = CheckOpenFinAccount(OpenFinAccountARSResponse.getRgno() , data.getBrdtBrno() , data.getTlno() , key);
-            Thread.sleep(10000);
+
             CheckOpenFinAccountDto.Response CheckOpenFinAccountResponse = objectMapper.readValue(CheckOpenFinAccountJsonString , CheckOpenFinAccountDto.Response.class);
-            System.out.println(CheckOpenFinAccountResponse.toString());
+            log.debug(CheckOpenFinAccountResponse.toString());
+            log.debug(CheckOpenFinAccountResponse.getRpcd());
+            System.out.println(CheckOpenFinAccountResponse.getRpcd().equals("A0017"));
 
-
-//            while(CheckOpenFinAccountResponse.getRpcd() != null && CheckOpenFinAccountResponse.getRpcd().equals("A0017")){
-//                CheckOpenFinAccountJsonString = CheckOpenFinAccount(OpenFinAccountARSResponse.getRgno() , data.getBrdtBrno() , data.getTlno() , key);
-//                CheckOpenFinAccountResponse = objectMapper.readValue(CheckOpenFinAccountJsonString , CheckOpenFinAccountDto.Response.class);
-//                System.out.println(CheckOpenFinAccountResponse.toString());
-//            }
+            while(CheckOpenFinAccountResponse.getRpcd() != null && CheckOpenFinAccountResponse.getRpcd().equals("A0017")){
+                CheckOpenFinAccountJsonString = CheckOpenFinAccount(OpenFinAccountARSResponse.getRgno() , data.getBrdtBrno() , data.getTlno() , key);
+                CheckOpenFinAccountResponse = objectMapper.readValue(CheckOpenFinAccountJsonString , CheckOpenFinAccountDto.Response.class);
+                System.out.println(CheckOpenFinAccountResponse.toString());
+            }
 
 
             FinAccountServiceDto.Response response = FinAccountServiceDto.Response.builder()
@@ -58,8 +59,6 @@ public class NHFintechServiceImpl implements NHFintechService{
                     .build();
             return response;
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
