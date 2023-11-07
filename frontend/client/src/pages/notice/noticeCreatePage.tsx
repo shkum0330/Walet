@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Card from '../../components/common/card';
 import Basic from '../../assets/imgs/basic.png';
 import { useModal } from '../../components/modal/modalClass';
-import { CreateModal } from '../../components/modal/customModal';
+import { CreateModal, ErrorModal } from '../../components/modal/customModal';
 
 function NoticeCreatePage() {
   const [title, setTitle] = useState<string>('');
@@ -11,6 +11,8 @@ function NoticeCreatePage() {
   const [previewImg, setPrevieImg] = useState<string | null>();
   const [bannerImg, setBannerImg] = useState<File | null>(null);
   const [request, setRequest] = useState<FormData>(new FormData());
+  const [error, setError] = useState<string>('');
+  const [active, setActive] = useState(1);
   const { openModal } = useModal();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +31,26 @@ function NoticeCreatePage() {
     window.location.href = '/notice';
   };
 
+  const handleError = (msg: string) => {
+    setError(msg);
+    setActive(0);
+    openModal('error');
+  };
+
   const handleCreate = () => {
+    setActive(1);
+    if (title === '') {
+      handleError('제목을 입력해주세요');
+    } else if (subTitle === '') {
+      handleError('부제목을 입력해주세요.');
+      return;
+    } else if (content === '') {
+      handleError('내용을 입력해주세요.');
+      return;
+    } else if (bannerImg === null) {
+      handleError('사진을 등록해주세요');
+      return;
+    }
     const data = {
       title,
       subTitle,
@@ -183,7 +204,10 @@ function NoticeCreatePage() {
           </div>
         </Card>
       </div>
-      <CreateModal content="공지사항을 작성하겠습니까?" request={request} />
+      {active === 1 && (
+        <CreateModal content="공지사항을 작성하겠습니까?" request={request} />
+      )}
+      <ErrorModal content={error} />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import Card from '../../components/common/card';
 import Basic from '../../assets/imgs/basic.png';
 import { useModal } from '../../components/modal/modalClass';
 import { noticeDetailRepository } from '../../repository/notice/noticeRepository';
-import { UpdateModal } from '../../components/modal/customModal';
+import { ErrorModal, UpdateModal } from '../../components/modal/customModal';
 
 function NoticeUpdatePage() {
   const { id } = useParams();
@@ -14,6 +14,8 @@ function NoticeUpdatePage() {
   const [previewImg, setPrevieImg] = useState<string | null>();
   const [bannerImg, setBannerImg] = useState<File | null>(null);
   const [request, setRequest] = useState<FormData>(new FormData());
+  const [error, setError] = useState<string>('');
+  const [active, setActive] = useState(1);
   const { openModal } = useModal();
 
   useEffect(() => {
@@ -46,7 +48,23 @@ function NoticeUpdatePage() {
     window.location.href = `/notice/${id as string}`;
   };
 
+  const handleError = (msg: string) => {
+    setError(msg);
+    setActive(0);
+    openModal('error');
+  };
+
   const handleUpdate = () => {
+    setActive(1);
+    if (title === '') {
+      handleError('제목을 입력해주세요');
+    } else if (subTitle === '') {
+      handleError('부제목을 입력해주세요.');
+      return;
+    } else if (content === '') {
+      handleError('내용을 입력해주세요.');
+      return;
+    }
     const data = {
       title,
       subTitle,
@@ -202,11 +220,15 @@ function NoticeUpdatePage() {
           </div>
         </Card>
       </div>
-      <UpdateModal
-        content="공지사항을 수정하겠습니까?"
-        request={request}
-        id={id as string}
-      />
+      {active === 1 && (
+        <UpdateModal
+          content="공지사항을 수정하겠습니까?"
+          request={request}
+          id={id as string}
+        />
+      )}
+
+      <ErrorModal content={error} />
     </div>
   );
 }
