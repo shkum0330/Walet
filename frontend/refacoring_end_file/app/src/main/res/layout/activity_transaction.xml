@@ -137,6 +137,7 @@
             android:paddingBottom="10dp">
 
             <Button
+                android:id="@+id/charge_payment"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
@@ -152,6 +153,7 @@
                 android:background="@color/grey90" />
 
             <Button
+                android:id="@+id/transaction"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:fontFamily="@font/pretendard_regular"

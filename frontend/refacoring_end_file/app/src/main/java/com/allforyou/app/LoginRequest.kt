@@ -5,5 +5,18 @@ package com.allforyou.app
  */
 data class LoginRequest(
     val email: String,
-    val password: String
+    val password: String,
 )
+object LoginRequestManager {
+    private var data: LoginRequest? = null
+    fun initData(request: LoginRequest) {
+        data = request
+    }
+
+    fun getInstance(): LoginRequest {
+        if (data == null) {
+            data = LoginRequest("", "")
+        }
+        return data!!
+    }
+}

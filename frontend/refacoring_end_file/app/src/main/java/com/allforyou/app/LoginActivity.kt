@@ -58,8 +58,9 @@ class LoginActivity : AppCompatActivity() {
                         val accessToken = loginResponse.accessToken
                         val refreshToken = loginResponse.refreshToken
 
-                        val intent = Intent(this@LoginActivity, PinLockActivity::class.java)
-                        // 다음 activity로 넘어감
+                        val intent = Intent(this@LoginActivity, PasscodeActivity::class.java)
+                        intent.putExtra("enroll",false);
+                        intent.putExtra("destination", "com.allforyou.app.MainActivity");
                         startActivity(intent)
                         finish()
 

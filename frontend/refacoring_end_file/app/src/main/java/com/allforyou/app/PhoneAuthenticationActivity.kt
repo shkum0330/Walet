@@ -37,14 +37,6 @@ class PhoneAuthenticationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_phone_authentication)
 
-//        val jsonString = intent.getStringExtra("registerRequest")
-//        if (jsonString != null) {
-//            val gson = Gson()
-//            registerRequest = gson.fromJson(jsonString, RegisterRequest::class.java)
-//
-//            Log.d("myTag", "I am passed on: " + registerRequest.toString());
-//        }
-
         goBackButton = findViewById(R.id.goBack)
 
         phoneNumberForm = findViewById(R.id.phoneNumber)
@@ -145,6 +137,8 @@ class PhoneAuthenticationActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     // 다음으로 넘어가기
                     val intent = Intent(this@PhoneAuthenticationActivity, PasscodeActivity::class.java)
+                    intent.putExtra("enroll",true);
+                    intent.putExtra("destination", "com.allforyou.app.SignUpFinishActivity");
                     startActivity(intent)
                 } else {
                     // Handle unsuccessful response

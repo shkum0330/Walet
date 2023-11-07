@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -65,6 +68,9 @@
             android:name=".ChargePaymentActivity"
             android:exported="false" />
         <activity
+            android:name=".ChipAlertActivity"
+            android:exported="false" />
+        <activity
             android:name=".PetAccountTransactionActivity"
             android:exported="false" />
         <activity
@@ -115,9 +121,36 @@
         <activity
             android:name=".TransactionActivity"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".SplashActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PasscodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PinLockActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginAuthenticationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpFinishActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PhoneAuthenticationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginFaceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TermsOfServiceActivity"
+            android:exported="false" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">

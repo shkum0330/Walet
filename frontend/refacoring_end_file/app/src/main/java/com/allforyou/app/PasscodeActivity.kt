@@ -1,7 +1,6 @@
 package com.allforyou.app
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +11,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
 
 class PasscodeActivity : AppCompatActivity() {
     private lateinit var message : TextView
@@ -20,10 +21,12 @@ class PasscodeActivity : AppCompatActivity() {
     private var passCode: String = ""
     private lateinit var passcodeDigits : Array<EditText>
     private lateinit var goBackButton : Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_passcode)
+
+        val bundle = intent.extras
+        enroll = bundle!!.getBoolean("enroll")
 
         goBackButton = findViewById(R.id.goBack)
         goBackButton.setOnClickListener {
@@ -96,13 +99,17 @@ class PasscodeActivity : AppCompatActivity() {
                 confirm = true
                 message.setText("PIN 입력 확인")
             }else{
-                goNext()
+                val destination = intent.getStringExtra("destination")
+                val destinationClass = Class.forName(destination)
+                val dynamicIntent = Intent(this, destinationClass)
+                startActivity(dynamicIntent)
             }
         }else{
             // 등록 완료
             // 일치하지 않느냐를 본다
             if(passCodeConfirm == passCode){
-                goNext()
+                RegisterRequestManager.getInstance().pinNumber = passCode
+                RegisterRequestManager.performRegister(this@PasscodeActivity);
             }else{
                 // 일치하지 않습니다
                 
@@ -111,12 +118,5 @@ class PasscodeActivity : AppCompatActivity() {
 //        message
         passcodeDigits[0].requestFocus()
         Log.d("my_tag",passCode)
-    }
-    fun goNext(){
-        RegisterRequestManager.getInstance().pinNumber = passCode
-        RegisterRequestManager.performRegister(this@PasscodeActivity);
-
-//        val intent = Intent(this, PhoneAuthenticationActivity::class.java)
-//        startActivity(intent)
     }
 }
