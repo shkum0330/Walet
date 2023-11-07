@@ -1,6 +1,8 @@
 package com.ssafy.service.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,5 +20,14 @@ public class FinAccountServiceDto {
         String Acno;
         @JsonProperty("DrtrRgyn")
         String DrtrRgyn;
+    }
+
+    @Getter
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    public static class Response{
+        @JsonProperty("FinAcno")
+        String FinAcno;
     }
 }

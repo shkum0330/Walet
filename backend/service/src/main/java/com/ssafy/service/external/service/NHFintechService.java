@@ -6,9 +6,9 @@ import com.ssafy.service.external.dto.InquireTransactionHistoryDto;
 import java.util.List;
 
 public interface NHFintechService {
-    String OpenFinAccountARS(FinAccountServiceDto.Request request); //핀어카운트 ARS 발급
+    FinAccountServiceDto.Response OpenFinAccountARS(FinAccountServiceDto.Request request); //핀어카운트 ARS 발급
 //                           고객명         생년월일 yyyymmdd ,  전화번호        계좌번호         출금이체등록여부 Y , N
-    String CheckOpenFinAccount(String Rgno ,String BrdtBrno , String Tlno); //핀-어카운트 ARS발급 확인
+    String CheckOpenFinAccount(String Rgno, String BrdtBrno, String Tlno , String key); //핀-어카운트 ARS발급 확인
     void CloseFinAccount(String FinAcno , String Tlno , String BrdtBrno); //핀-어카운트 해지
     String InquireFinAccountStatus(String FinAcno , String Tlno , String BrdtBrno); //핀-어카운트 상태조회
     void DrawingTransfer2(String FinAcno , String Tram , String Vran , String DractOtlt , String MractOtlt); //실시간 출금이체

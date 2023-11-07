@@ -25,7 +25,7 @@ public class NHFintechServiceImpl implements NHFintechService{
     private final TimeUtil timeUtil;
 
     @Override
-    public String OpenFinAccountARS(FinAccountServiceDto.Request data) {
+    public FinAccountServiceDto.Response OpenFinAccountARS(FinAccountServiceDto.Request data) {
         HeaderDto header = getHeader("OpenFinAccountARS");
         OpenFinAccountARSDto.Request request = OpenFinAccountARSDto.Request.builder()
                 .Header(header)
@@ -35,25 +35,29 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .Acno(data.getAcno())
                 .DrtrRgyn(data.getDrtrRgyn())
                 .build();
-        System.out.println(request.toString());
-
-        String jsonString = nhFintechClient.OpenFinAccountARS("Basic " + oauthService.getOauthKey() , request);
-        System.out.println(jsonString);
         try {
-            OpenFinAccountARSDto.Response response = objectMapper.readValue(jsonString , OpenFinAccountARSDto.Response.class);
-            System.out.println(response);
-            return response.getRgno();
+//          핀어카운트 발급
+            String key = "Basic " + oauthService.getOauthKey();
+            String OpenFinAccountARSJsonString = nhFintechClient.OpenFinAccountARS(key , request);
+            OpenFinAccountARSDto.Response OpenFinAccountARSResponse = objectMapper.readValue(OpenFinAccountARSJsonString , OpenFinAccountARSDto.Response.class);
+            String CheckOpenFinAccountJsonString = CheckOpenFinAccount(OpenFinAccountARSResponse.getRgno() , data.getBrdtBrno() , data.getTlno() , key);
+            CheckOpenFinAccountDto.Response CheckOpenFinAccountResponse = objectMapper.readValue(CheckOpenFinAccountJsonString , CheckOpenFinAccountDto.Response.class);
+
+            FinAccountServiceDto.Response response = FinAccountServiceDto.Response.builder()
+                    .FinAcno(CheckOpenFinAccountResponse.getFinAcno())
+                    .build();
+            return response;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
 
-
     @Override
-    public String CheckOpenFinAccount(String Rgno, String BrdtBrno, String Tlno) {
+    public String CheckOpenFinAccount(String Rgno, String BrdtBrno, String Tlno , String key) {
+        HeaderDto header = getHeader("CheckOpenFinAccount");
         CheckOpenFinAccountDto.Request request = new CheckOpenFinAccountDto.Request(Rgno, BrdtBrno, Tlno);
-        return nhFintechClient.CheckOpenFinAccount(request).getFinAcno();
+        return nhFintechClient.CheckOpenFinAccount(key, request);
     }
 
     @Override
