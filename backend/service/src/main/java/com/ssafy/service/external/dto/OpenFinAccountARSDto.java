@@ -27,7 +27,9 @@ public class OpenFinAccountARSDto {
     @Getter
     @Setter
     public static class Response{
+        @JsonProperty("Header")
         HeaderDto Header;
+        @JsonProperty("Rgno")
         String Rgno;
     }
 }
