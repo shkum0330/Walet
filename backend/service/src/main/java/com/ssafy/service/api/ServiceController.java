@@ -53,6 +53,12 @@ public class ServiceController {
     public ResponseEntity<ReceivedTransferFinAccountDto.Response> ReceivedTransferFinAccount(@RequestBody ReceivedTransferFinAccountDto.Request request){
         return ResponseEntity.ok(nhFintechService.ReceivedTransferFinAccount(request));
     }
+
+//    입금이체 확인
+    @PostMapping("/CheckOnReceivedTransfer")
+    public ResponseEntity<CheckOnReceivedTransferDto.Response> CheckOnReceivedTransfer(@RequestBody CheckOnReceivedTransferDto.Request request){
+        return ResponseEntity.ok(nhFintechService.CheckOnReceivedTransfer(request));
+    }
     
 
 }

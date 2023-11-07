@@ -152,16 +152,23 @@ public class NHFintechServiceImpl implements NHFintechService{
     }
 
     @Override
-    public String CheckOnReceivedTransfer(String FinAcno, String Bncd, String Acno, String Tram, String OrtrYmd, String OrtrIsTuno) {
+    public CheckOnReceivedTransferDto.Response CheckOnReceivedTransfer(CheckOnReceivedTransferDto.Request data) {
+        HeaderDto header = getHeader("CheckOnReceivedTransfer");
         CheckOnReceivedTransferDto.Request request = CheckOnReceivedTransferDto.Request.builder()
-                .FinAcno(FinAcno)
-                .Bncd(Bncd)
-                .Acno(Acno)
-                .Tram(Tram)
-                .OrtrYmd(OrtrYmd)
-                .OrtrIsTuno(OrtrIsTuno)
+                .Header(header)
+                .FinAcno(data.getFinAcno())
+                .Bncd(data.getBncd())
+                .Acno(data.getAcno())
+                .Tram(data.getTram())
+                .OrtrYmd(data.getOrtrYmd())
+                .OrtrIsTuno(data.getOrtrIsTuno())
                 .build();
-        return nhFintechClient.CheckOnReceivedTransfer(request).getPcrs();
+        String jsonString = nhFintechClient.CheckOnReceivedTransfer("Basic " + oauthService.getOauthKey(),request);
+        try {
+            return objectMapper.readValue(jsonString , CheckOnReceivedTransferDto.Response.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
