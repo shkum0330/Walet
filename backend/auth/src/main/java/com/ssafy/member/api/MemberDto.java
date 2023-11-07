@@ -1,9 +1,6 @@
 package com.ssafy.member.api;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -47,4 +44,14 @@ public class MemberDto {
     }
 
 
+    @Data
+    public static class NameResponse{
+        private String name;
+    }
+
+
+    @Data
+    public static class PhoneResponse{
+        private String phoneNumber;
+    }
 }

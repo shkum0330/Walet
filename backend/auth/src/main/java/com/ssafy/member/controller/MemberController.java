@@ -84,9 +84,15 @@ public class MemberController {
     }
 
     @GetMapping("/name/{id}")
-    public ResponseEntity<String> getUserName(@PathVariable Long id) {
-        String name = memberService.findNameById(id);
-        return new ResponseEntity<>(name, HttpStatus.OK);
+    public ResponseEntity<EnvelopeResponse<MemberDto.NameResponse>> getUserName(@PathVariable Long id) {
+        MemberDto.NameResponse name = memberService.findNameById(id);
+        return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, name), HttpStatus.OK);
+    }
+
+    @GetMapping("/phone-number/{id}")
+    public ResponseEntity<EnvelopeResponse<MemberDto.PhoneResponse>> getUserPhone(@PathVariable Long id) {
+        MemberDto.PhoneResponse phone = memberService.findPhoneById(id);
+        return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, phone), HttpStatus.OK);
     }
 
 }

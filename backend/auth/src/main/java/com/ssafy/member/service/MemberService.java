@@ -113,9 +113,20 @@ public class MemberService {
         return userResponses;
     }
 
-    public String findNameById(Long id){
+    public MemberDto.NameResponse findNameById(Long id){
+
         MemberEntity member = findMember(id);
-        return member.getName();
+        MemberDto.NameResponse name = new MemberDto.NameResponse();
+        name.setName(member.getName());
+        return name;
+    }
+
+    public MemberDto.PhoneResponse findPhoneById(Long id){
+
+        MemberEntity member = findMember(id);
+        MemberDto.PhoneResponse phone = new MemberDto.PhoneResponse();
+        phone.setPhoneNumber(member.getPhoneNumber());
+        return phone;
     }
 
     public MemberEntity findMember(Long id){
