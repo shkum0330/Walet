@@ -37,7 +37,14 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .build();
         System.out.println(request.toString());
 
-        return nhFintechClient.OpenFinAccountARS("Basic " + oauthService.getOauthKey() , request);
+        String jsonString = nhFintechClient.OpenFinAccountARS("Basic " + oauthService.getOauthKey() , request);
+
+        try {
+            OpenFinAccountARSDto.Response response = objectMapper.readValue(jsonString , OpenFinAccountARSDto.Response.class);
+            return response.getRgno();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
