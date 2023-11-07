@@ -14,7 +14,7 @@ public interface NHFintechService {
     CheckOnDrawingTransfer2Dto.Response CheckOnDrawingTransfer2(CheckOnDrawingTransfer2Dto.Request request); //실시간 출금이체 결과확인
     ReceivedTransferFinAccountDto.Response ReceivedTransferFinAccount(ReceivedTransferFinAccountDto.Request request); //농협입금이체(핀-어카운트)
     CheckOnReceivedTransferDto.Response CheckOnReceivedTransfer(CheckOnReceivedTransferDto.Request request); //입금이체 결과확인
-    String CheckDepositorFinAccount(String FinAcno , String BrdtBrno); //예금주 실명확인(핀-어카운트)
+    CheckDepositorFinAccountDto.Response CheckDepositorFinAccount(CheckDepositorFinAccountDto.Request request); //예금주 실명확인(핀-어카운트)
     String InquireDepositorFinAccount(String FinAcno); //예금주 조회(핀-어카운트)
     Long InquireBalance(String FinAcno); //잔액조회
     List<InquireTransactionHistoryDto.Response.REC> InquireTransactionHistory(String FinAcno , String Insymd , String Ineymd , String TrnsDsnc , String Lnsq , String PageNo , String Dmcnt); //거래내역조회

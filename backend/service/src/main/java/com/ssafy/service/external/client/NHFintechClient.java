@@ -50,8 +50,10 @@ public interface NHFintechClient {
             @RequestHeader("Auth") String key,
             @RequestBody CheckOnReceivedTransferDto.Request request);
 
-    @PostMapping(value = "/CheckDepositorFinAccount.nhd" , headers = "ApiNm=CheckDepositorFinAccount")
-    CheckDepositorFinAccountDto.Response CheckDepositorFinAccount(@RequestBody CheckDepositorFinAccountDto.Request request);
+    @PostMapping(value = "/CheckDepositorFinAccount.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    String CheckDepositorFinAccount(
+            @RequestHeader("Auth") String key,
+            @RequestBody CheckDepositorFinAccountDto.Request request);
 
     @PostMapping(value = "/InquireDepositorFinAccount.nhd" , headers = "ApiNm=InquireDepositorFinAccount")
     InquireDepositorFinAccountDto.Response InquireDepositorFinAccount(@RequestBody InquireDepositorFinAccountDto.Request request);
