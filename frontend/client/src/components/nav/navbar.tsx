@@ -3,7 +3,7 @@ import Homeicon from '../Icons/homeicon';
 import LogIcon from '../Icons/logicon';
 import NoticeIcon from '../Icons/noticeicon';
 import UserIcon from '../Icons/usericon';
-import Logo from '../../assets/Logo.png';
+import Logo from '../../assets/imgs/Logo.png';
 import { useUsername } from '../../data_source/apiInfo';
 
 function Navbar() {

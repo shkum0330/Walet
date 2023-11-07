@@ -1,17 +1,13 @@
 import { useAccessToken } from '../../data_source/apiInfo';
 import {
-  NoticeCreate,
-  NoticeDelete,
-  NoticeDetail,
+  NoticeCreateAPI,
+  NoticeDeleteAPI,
+  NoticeDetailAPI,
   NoticeListAPI,
   NoticePopCheck,
-  NoticeSetPop,
-  NoticeUpdate,
+  NoticeSetPopAPI,
+  NoticeUpdateAPI,
 } from '../../data_source/notice/notice';
-import {
-  noticeCreateRequest,
-  noticeUpdateRequest,
-} from '../../interface/api/noticeApiInterface';
 
 export async function noticeListRepository() {
   const accessToken = useAccessToken();
@@ -22,47 +18,56 @@ export async function noticeListRepository() {
   return null;
 }
 
-export function noticeCreateRepository(request: noticeCreateRequest): void {
+export async function noticeCreateRepository(request: FormData) {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeCreate(accessToken, request);
+    const data = await NoticeCreateAPI(accessToken, request);
+    return data;
   }
+  return null;
 }
 
-export function noticeDetailRepository(id: number): void {
+export async function noticeDetailRepository(id: string) {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeDetail(accessToken, id);
+    const data = await NoticeDetailAPI(accessToken, id);
+    return data;
   }
+  return null;
 }
 
-export function noticeUpdateRepository(
-  request: noticeUpdateRequest,
-  id: number,
-): void {
+export async function noticeUpdateRepository(request: FormData, id: string) {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeUpdate(accessToken, request, id);
+    const data = await NoticeUpdateAPI(accessToken, request, id);
+    return data;
   }
+  return null;
 }
 
-export function noticeDeleteRepository(id: number): void {
+export async function noticeDeleteRepository(id: string) {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeDelete(accessToken, id);
+    const data = await NoticeDeleteAPI(accessToken, id);
+    return data;
   }
+  return null;
 }
 
-export function noticeSetPopRepository(id: number): void {
+export async function noticeSetPopRepository(id: string) {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticeSetPop(accessToken, id);
+    const data = await NoticeSetPopAPI(accessToken, id);
+    return data;
   }
+  return null;
 }
 
-export function noticePopCheckRepository(): void {
+export async function noticePopCheckRepository() {
   const accessToken = useAccessToken();
   if (accessToken) {
-    NoticePopCheck(accessToken);
+    const data = await NoticePopCheck(accessToken);
+    return data;
   }
+  return null;
 }

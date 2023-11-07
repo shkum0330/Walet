@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { NOTICE_URI } from '../apiInfo';
 import {
-  noticeCreateRequest,
+  noticeDetailResponse,
   noticePopCheckResponse,
-  noticeUpdateRequest,
   noticelistResponse,
 } from '../../interface/api/noticeApiInterface';
 
@@ -17,89 +16,84 @@ export async function NoticeListAPI(token: string) {
         },
       });
       return response.data.data.reverse();
+    } catch (error) {}
+  }
+}
+
+export async function NoticeCreateAPI(token: string, request: FormData) {
+  const noticeCreateURI = `${NOTICE_URI}/create`;
+  if (token) {
+    try {
+      await axios.post(noticeCreateURI, request, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return true;
     } catch (error) {
-      console.error(error);
+      return false;
     }
   }
 }
 
-export function NoticeCreate(token: string, request: noticeCreateRequest) {
-  const noticeCreateURI = `${NOTICE_URI}/create`;
-  if (token) {
-    axios
-      .post(noticeCreateURI, request, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-}
-
-export function NoticeDetail(token: string, id: number) {
+export async function NoticeDetailAPI(token: string, id: string) {
   const noticeDetailURI = `${NOTICE_URI}/detail/${id}`;
   if (token) {
-    axios
-      .get(noticeDetailURI, {
+    try {
+      const response = await axios.get<noticeDetailResponse>(noticeDetailURI, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      });
+
+      return response.data.data;
+    } catch (error) {}
   }
 }
 
-export function NoticeUpdate(
+export async function NoticeUpdateAPI(
   token: string,
-  request: noticeUpdateRequest,
-  id: number,
+  request: FormData,
+  id: string,
 ) {
   const noticeDetailURI = `${NOTICE_URI}/update/${id}`;
   if (token) {
-    axios
-      .put(noticeDetailURI, request, {
+    try {
+      await axios.put(noticeDetailURI, request, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 
-export function NoticeDelete(token: string, id: number) {
+export async function NoticeDeleteAPI(token: string, id: string) {
   const noticeDeleteURI = `${NOTICE_URI}/delete/${id}`;
   if (token) {
-    axios
-      .delete(noticeDeleteURI, {
+    try {
+      await axios.delete(noticeDeleteURI, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 
-export function NoticeSetPop(token: string, id: number) {
+export async function NoticeSetPopAPI(token: string, id: string) {
   const noticeSetPopURI = `${NOTICE_URI}/pop/${id}`;
   if (token) {
-    axios
-      .put(
+    try {
+      await axios.put(
         noticeSetPopURI,
         {},
         {
@@ -107,26 +101,27 @@ export function NoticeSetPop(token: string, id: number) {
             Authorization: `Bearer ${token}`,
           },
         },
-      )
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      );
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 
-export function NoticePopCheck(token: string) {
+export async function NoticePopCheck(token: string) {
   const noticePopCheckURI = `${NOTICE_URI}/pop`;
   if (token) {
-    axios
-      .get<noticePopCheckResponse>(noticePopCheckURI, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+    try {
+      const response = await axios.get<noticePopCheckResponse>(
+        noticePopCheckURI,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+      );
+      return response.data.data;
+    } catch (error) {}
   }
 }
