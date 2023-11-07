@@ -34,8 +34,8 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .Acno(data.getAcno())
                 .DrtrRgyn(data.getDrtrRgyn())
                 .build();
+        String jsonString = nhFintechClient.OpenFinAccountARS("Basic " + oauthService.getOauthKey() , request);
         try {
-            String jsonString = nhFintechClient.OpenFinAccountARS("Basic " + oauthService.getOauthKey() , request);
             OpenFinAccountARSDto.Response response = objectMapper.readValue(jsonString , OpenFinAccountARSDto.Response.class);
             return response;
         } catch (JsonProcessingException e) {
@@ -45,15 +45,20 @@ public class NHFintechServiceImpl implements NHFintechService{
 
 
     @Override
-    public String CheckOpenFinAccount(String Rgno, String BrdtBrno, String Tlno , String key) {
+    public CheckOpenFinAccountDto.Response CheckOpenFinAccount(CheckOpenFinAccountDto.Request data) {
         HeaderDto header = getHeader("CheckOpenFinAccount");
         CheckOpenFinAccountDto.Request request = CheckOpenFinAccountDto.Request.builder()
                 .Header(header)
-                .Rgno(Rgno)
-                .BrdtBrno(BrdtBrno)
-                .Tlno(Tlno)
+                .Rgno(data.getRgno())
+                .BrdtBrno(data.getBrdtBrno())
+                .Tlno(data.getTlno())
                 .build();
-        return nhFintechClient.CheckOpenFinAccount(key, request);
+        String jsonString = nhFintechClient.CheckOpenFinAccount("Basic " + oauthService.getOauthKey(), request);
+        try {
+            return objectMapper.readValue(jsonString , CheckOpenFinAccountDto.Response.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

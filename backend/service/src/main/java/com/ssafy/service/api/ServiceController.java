@@ -1,5 +1,6 @@
 package com.ssafy.service.api;
 
+import com.ssafy.service.external.dto.CheckOpenFinAccountDto;
 import com.ssafy.service.external.dto.OpenFinAccountARSDto;
 import com.ssafy.service.external.service.NHFintechService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,10 @@ public class ServiceController {
         return ResponseEntity.ok(nhFintechService.OpenFinAccountARS(request));
     }
 
+    @PostMapping("/CheckOpenFinAccount")
+    public ResponseEntity<CheckOpenFinAccountDto.Response> OpenFinAccountARS(@RequestBody CheckOpenFinAccountDto.Request request){
+        return ResponseEntity.ok(nhFintechService.CheckOpenFinAccount(request));
+    }
 
-    
     
 }
