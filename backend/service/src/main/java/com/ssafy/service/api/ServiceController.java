@@ -1,6 +1,7 @@
 package com.ssafy.service.api;
 
 import com.ssafy.service.api.dto.FinAccountServiceDto;
+import com.ssafy.service.external.dto.OpenFinAccountARSDto;
 import com.ssafy.service.external.service.NHFintechService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServiceController {
     private final NHFintechService nhFintechService;
     @PostMapping("/OpenFinAccountARS")
-    public ResponseEntity<FinAccountServiceDto.Response> OpenFinAccountARS(@RequestBody FinAccountServiceDto.Request request){
+    public ResponseEntity<OpenFinAccountARSDto.Response> OpenFinAccountARS(@RequestBody OpenFinAccountARSDto.Request request){
         return ResponseEntity.ok(nhFintechService.OpenFinAccountARS(request));
     }
 }

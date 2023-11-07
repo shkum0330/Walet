@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -26,7 +25,7 @@ public class NHFintechServiceImpl implements NHFintechService{
     private final TimeUtil timeUtil;
 
     @Override
-    public FinAccountServiceDto.Response OpenFinAccountARS(FinAccountServiceDto.Request data) {
+    public OpenFinAccountARSDto.Response OpenFinAccountARS(OpenFinAccountARSDto.Request data) {
         HeaderDto header = getHeader("OpenFinAccountARS");
         OpenFinAccountARSDto.Request request = OpenFinAccountARSDto.Request.builder()
                 .Header(header)
@@ -37,28 +36,10 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .DrtrRgyn(data.getDrtrRgyn())
                 .build();
         try {
-//          핀어카운트 발급
-            String key = "Basic " + oauthService.getOauthKey();
-            String OpenFinAccountARSJsonString = nhFintechClient.OpenFinAccountARS(key , request);
-            OpenFinAccountARSDto.Response OpenFinAccountARSResponse = objectMapper.readValue(OpenFinAccountARSJsonString , OpenFinAccountARSDto.Response.class);
-            String CheckOpenFinAccountJsonString = CheckOpenFinAccount(OpenFinAccountARSResponse.getRgno() , data.getBrdtBrno() , data.getTlno() , key);
-
-            CheckOpenFinAccountDto.Response CheckOpenFinAccountResponse = objectMapper.readValue(CheckOpenFinAccountJsonString , CheckOpenFinAccountDto.Response.class);
-
-
-            while(CheckOpenFinAccountResponse.getHeader().getRpcd() != null && CheckOpenFinAccountResponse.getHeader().getRpcd().equals("A0017")){
-                Thread.sleep(1000);
-                CheckOpenFinAccountJsonString = CheckOpenFinAccount(OpenFinAccountARSResponse.getRgno() , data.getBrdtBrno() , data.getTlno() , key);
-                CheckOpenFinAccountResponse = objectMapper.readValue(CheckOpenFinAccountJsonString , CheckOpenFinAccountDto.Response.class);
-            }
-
-            FinAccountServiceDto.Response response = FinAccountServiceDto.Response.builder()
-                    .FinAcno(CheckOpenFinAccountResponse.getFinAcno())
-                    .build();
+            String jsonString = nhFintechClient.OpenFinAccountARS("Basic " + oauthService.getOauthKey() , request);
+            OpenFinAccountARSDto.Response response = objectMapper.readValue(jsonString , OpenFinAccountARSDto.Response.class);
             return response;
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

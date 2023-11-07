@@ -1,12 +1,12 @@
 package com.ssafy.service.external.service;
 
-import com.ssafy.service.api.dto.FinAccountServiceDto;
 import com.ssafy.service.external.dto.InquireTransactionHistoryDto;
+import com.ssafy.service.external.dto.OpenFinAccountARSDto;
 
 import java.util.List;
 
 public interface NHFintechService {
-    FinAccountServiceDto.Response OpenFinAccountARS(FinAccountServiceDto.Request request); //핀어카운트 ARS 발급
+    OpenFinAccountARSDto.Response OpenFinAccountARS(OpenFinAccountARSDto.Request request); //핀어카운트 ARS 발급
 //                           고객명         생년월일 yyyymmdd ,  전화번호        계좌번호         출금이체등록여부 Y , N
     String CheckOpenFinAccount(String Rgno, String BrdtBrno, String Tlno , String key); //핀-어카운트 ARS발급 확인
     void CloseFinAccount(String FinAcno , String Tlno , String BrdtBrno); //핀-어카운트 해지
