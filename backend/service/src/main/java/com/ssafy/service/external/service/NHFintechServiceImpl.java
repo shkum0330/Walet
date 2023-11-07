@@ -56,7 +56,12 @@ public class NHFintechServiceImpl implements NHFintechService{
     @Override
     public String CheckOpenFinAccount(String Rgno, String BrdtBrno, String Tlno , String key) {
         HeaderDto header = getHeader("CheckOpenFinAccount");
-        CheckOpenFinAccountDto.Request request = new CheckOpenFinAccountDto.Request(Rgno, BrdtBrno, Tlno);
+        CheckOpenFinAccountDto.Request request = CheckOpenFinAccountDto.Request.builder()
+                .Header(header)
+                .Rgno(Rgno)
+                .BrdtBrno(BrdtBrno)
+                .Tlno(Tlno)
+                .build();
         return nhFintechClient.CheckOpenFinAccount(key, request);
     }
 
