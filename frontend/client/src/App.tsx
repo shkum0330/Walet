@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AxiosInterceptor } from './repository/instanceRepository';
+import { AxiosInterceptor } from './repository/axios/instanceRepository';
 import LoginPage from './pages/loginPage';
 import MainPage from './pages/mainPage';
 import Navbar from './components/nav/navbar';

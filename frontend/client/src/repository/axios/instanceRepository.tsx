@@ -7,8 +7,8 @@ import {
   useRefreshToken,
   useUsername,
   AUTH_URI,
-} from '../data_source/apiInfo';
-import { setTokens } from '../store/store';
+} from '../../data_source/apiInfo';
+import { setTokens } from '../../store/store';
 
 const instance = axios.create({
   timeout: 300,

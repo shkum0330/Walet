@@ -16,9 +16,7 @@ export async function NoticeListAPI(token: string) {
         },
       });
       return response.data.data.reverse();
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   }
 }
 
@@ -26,7 +24,7 @@ export async function NoticeCreateAPI(token: string, request: FormData) {
   const noticeCreateURI = `${NOTICE_URI}/create`;
   if (token) {
     try {
-      const response = await axios.post(noticeCreateURI, request, {
+      await axios.post(noticeCreateURI, request, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -50,9 +48,7 @@ export async function NoticeDetailAPI(token: string, id: string) {
       });
 
       return response.data.data;
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   }
 }
 
@@ -64,7 +60,7 @@ export async function NoticeUpdateAPI(
   const noticeDetailURI = `${NOTICE_URI}/update/${id}`;
   if (token) {
     try {
-      const response = await axios.put(noticeDetailURI, request, {
+      await axios.put(noticeDetailURI, request, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -81,7 +77,7 @@ export async function NoticeDeleteAPI(token: string, id: string) {
   const noticeDeleteURI = `${NOTICE_URI}/delete/${id}`;
   if (token) {
     try {
-      const response = await axios.delete(noticeDeleteURI, {
+      await axios.delete(noticeDeleteURI, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -126,8 +122,6 @@ export async function NoticePopCheck(token: string) {
         },
       );
       return response.data.data;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 }

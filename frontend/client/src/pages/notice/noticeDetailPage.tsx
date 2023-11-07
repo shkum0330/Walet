@@ -50,16 +50,35 @@ function NoticeDetailPage() {
             </div>
           </Card>
 
-          <Card width="w-[95%]" height="h-[50%]" styling="overflow-y-auto">
+          <Card width="w-[95%]" height="h-[50%]" styling="">
             <p className="text-2xl">작성 상세 내용</p>
-            <img
-              src={notice?.bannerImg}
-              alt="banner"
-              className="w-[40%] h-[8vh]"
-            />
-            <div className="text-2xl mt-2"> {notice?.title}</div>
-            <div className="text-xl mt-1"> {notice?.subTitle}</div>
-            <div className="mt-2">{notice?.content}</div>
+            <div className="flex h-[80%]">
+              <div className="w-[50%]">
+                <img
+                  src={notice?.bannerImg}
+                  alt="banner"
+                  className="w-full h-full"
+                />
+              </div>
+              <div>
+                <div>
+                  <p className="text-2xl mt-2"> 제목</p>
+                  <div className="mt-2"> {notice?.title}</div>
+                </div>
+                <div>
+                  <p className="text-2xl mt-2"> 소제목</p>
+                  <div className="mt-1"> {notice?.subTitle}</div>
+                </div>
+                <div>
+                  <p className="text-2xl mt-2"> 내용</p>
+                  <div className="h-full">
+                    {notice?.content
+                      .split('\n')
+                      .map(line => <p key={1}>{line}</p>)}
+                  </div>
+                </div>
+              </div>
+            </div>
           </Card>
         </div>
 
@@ -78,7 +97,7 @@ function NoticeDetailPage() {
               <p className="text-2xl text-center mt-8">{notice?.title}</p>
               <p className="text-lx text-center mt-1">{notice?.subTitle}</p>
               <div className="h-full">
-                <p className="mt-3"> {notice?.content}</p>
+                {notice?.content.split('\n').map(line => <p key={1}>{line}</p>)}
               </div>
             </Card>
           </div>

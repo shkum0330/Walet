@@ -194,12 +194,9 @@ function NoticeUpdatePage() {
               <p className="text-2xl text-center mt-8">{title}</p>
               <p className="text-lx text-center mt-1">{subTitle}</p>
               <div className="h-full">
-                <div
-                  className="mt-3"
-                  dangerouslySetInnerHTML={{
-                    __html: content.replace(/\n/g, '<br/>'),
-                  }}
-                />
+                {content.split('\n').map(line => (
+                  <p key={1}>{line}</p>
+                ))}
               </div>
             </Card>
           </div>

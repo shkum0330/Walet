@@ -112,7 +112,6 @@ export function DeleteModal({ content, id }: DeleteModalInterface) {
     const data = await noticeDeleteRepository(id);
     if (data) {
       closeModal(deleteModal);
-      console.log('ㅇㅇㅇㅇ');
       openModal('confirm');
     }
   };
@@ -179,30 +178,6 @@ export function ActiveModal({ content, id }: ActiveModalInterface) {
   );
 }
 
-export function ErrorModal({ content }: ErrorModalInterface) {
-  const { modalOpen, closeModal } = useModal();
-  const errorModal = 'error';
-
-  return (
-    <div>
-      <Modal
-        closeModal={() => {
-          closeModal(errorModal);
-        }}
-        OpenModal={modalOpen[errorModal]}
-        width="w-[20%] bg-color-white"
-        height="h-200px">
-        <ConfirmContents
-          content={content as string}
-          okAction={() => {
-            closeModal(errorModal);
-          }}
-        />
-      </Modal>
-    </div>
-  );
-}
-
 export function UpdateModal({ content, id, request }: UpdateModalInterface) {
   const { openModal, modalOpen, closeModal } = useModal();
   const updateModal = 'update';
@@ -236,6 +211,30 @@ export function UpdateModal({ content, id, request }: UpdateModalInterface) {
       </Modal>
 
       <ConfirmUpdate content="정상적으로 수정됐습니다." id={id} />
+    </div>
+  );
+}
+
+export function ErrorModal({ content }: ErrorModalInterface) {
+  const { modalOpen, closeModal } = useModal();
+  const errorModal = 'error';
+
+  return (
+    <div>
+      <Modal
+        closeModal={() => {
+          closeModal(errorModal);
+        }}
+        OpenModal={modalOpen[errorModal]}
+        width="w-[20%] bg-color-white"
+        height="h-200px">
+        <ConfirmContents
+          content={content as string}
+          okAction={() => {
+            closeModal(errorModal);
+          }}
+        />
+      </Modal>
     </div>
   );
 }

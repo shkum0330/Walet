@@ -46,16 +46,16 @@ function NoticeDropdown({ pageid }: { pageid: string }) {
               <button
                 type="button"
                 className="w-full bg-gray-100 text-gray-900 block px-4 py-2 text-sm hover:bg-green-100"
-                onClick={() => handleUpdate(pageid)}>
-                수정하기
+                onClick={() => handleActive()}>
+                활성화하기
               </button>
             </Menu.Item>
             <Menu.Item>
               <button
                 type="button"
                 className="w-full bg-gray-100 text-gray-900 block px-4 py-2 text-sm hover:bg-green-100"
-                onClick={() => handleActive()}>
-                활성화하기
+                onClick={() => handleUpdate(pageid)}>
+                수정하기
               </button>
             </Menu.Item>
             <Menu.Item>
