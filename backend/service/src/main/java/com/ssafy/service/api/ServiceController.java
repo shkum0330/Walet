@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServiceController {
     private final NHFintechService nhFintechService;
     @PostMapping("/OpenFinAccountARS")
-    public ResponseEntity<String> OpenFinAccountARS(@RequestBody FinAccountServiceDto.Request request){
+    public ResponseEntity<FinAccountServiceDto.Response> OpenFinAccountARS(@RequestBody FinAccountServiceDto.Request request){
         return ResponseEntity.ok(nhFintechService.OpenFinAccountARS(request));
     }
 }
