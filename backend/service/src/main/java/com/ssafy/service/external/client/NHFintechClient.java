@@ -20,8 +20,10 @@ public interface NHFintechClient {
             @RequestHeader("Auth") String key,
             @RequestBody CheckOpenFinAccountDto.Request data);
 
-    @PostMapping(value = "/CloseFinAccount.nhd" , headers = "ApiNm=CloseFinAccount")
-    void CloseFinAccount(@RequestBody FinAccountDto.Request request);
+    @PostMapping(value = "/CloseFinAccount.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    String CloseFinAccount(
+            @RequestHeader("Auth") String key,
+            @RequestBody FinAccountDto.Request data);
 
     @PostMapping(value = "/InquireFinAccountStatus.nhd" , headers = "ApiNm=InquireFinAccountStatus")
     FinAccountDto.Response InquireFinAccountStatus(@RequestBody FinAccountDto.Request request);

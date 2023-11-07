@@ -1,6 +1,7 @@
 package com.ssafy.service.external.service;
 
 import com.ssafy.service.external.dto.CheckOpenFinAccountDto;
+import com.ssafy.service.external.dto.FinAccountDto;
 import com.ssafy.service.external.dto.InquireTransactionHistoryDto;
 import com.ssafy.service.external.dto.OpenFinAccountARSDto;
 
@@ -10,7 +11,7 @@ public interface NHFintechService {
     OpenFinAccountARSDto.Response OpenFinAccountARS(OpenFinAccountARSDto.Request request); //핀어카운트 ARS 발급
 //                           고객명         생년월일 yyyymmdd ,  전화번호        계좌번호         출금이체등록여부 Y , N
     CheckOpenFinAccountDto.Response CheckOpenFinAccount(CheckOpenFinAccountDto.Request request); //핀-어카운트 ARS발급 확인
-    void CloseFinAccount(String FinAcno , String Tlno , String BrdtBrno); //핀-어카운트 해지
+    FinAccountDto.Response CloseFinAccount(FinAccountDto.Request request); //핀-어카운트 해지
     String InquireFinAccountStatus(String FinAcno , String Tlno , String BrdtBrno); //핀-어카운트 상태조회
     void DrawingTransfer2(String FinAcno , String Tram , String Vran , String DractOtlt , String MractOtlt); //실시간 출금이체
     String CheckOnDrawingTransfer2(String FinAcno , String Tram , String Vran , String OrtrYmd , String OrtrIsTuno); //실시간 출금이체 결과확인

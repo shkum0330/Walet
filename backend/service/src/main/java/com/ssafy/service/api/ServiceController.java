@@ -1,6 +1,7 @@
 package com.ssafy.service.api;
 
 import com.ssafy.service.external.dto.CheckOpenFinAccountDto;
+import com.ssafy.service.external.dto.FinAccountDto;
 import com.ssafy.service.external.dto.OpenFinAccountARSDto;
 import com.ssafy.service.external.service.NHFintechService;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +21,15 @@ public class ServiceController {
         return ResponseEntity.ok(nhFintechService.OpenFinAccountARS(request));
     }
 
+//    핀어카운트 발급 확인 
     @PostMapping("/CheckOpenFinAccount")
-    public ResponseEntity<CheckOpenFinAccountDto.Response> OpenFinAccountARS(@RequestBody CheckOpenFinAccountDto.Request request){
+    public ResponseEntity<CheckOpenFinAccountDto.Response> CheckOpenFinAccount(@RequestBody CheckOpenFinAccountDto.Request request){
         return ResponseEntity.ok(nhFintechService.CheckOpenFinAccount(request));
     }
+//    핀어카운트 해제
+    @PostMapping("/CloseFinAccount")
+    public ResponseEntity<FinAccountDto.Response> CloseFinAccount(@RequestBody FinAccountDto.Request request){
+        return ResponseEntity.ok(nhFintechService.CloseFinAccount(request));
+    }
 
-    
 }

@@ -62,13 +62,20 @@ public class NHFintechServiceImpl implements NHFintechService{
     }
 
     @Override
-    public void CloseFinAccount(String FinAcno, String Tlno, String BrdtBrno) {
+    public FinAccountDto.Response CloseFinAccount(FinAccountDto.Request data) {
+        HeaderDto header = getHeader("CloseFinAccount");
         FinAccountDto.Request request = FinAccountDto.Request.builder()
-                .FinAcno(FinAcno)
-                .Tlno(Tlno)
-                .BrdtBrno(BrdtBrno)
+                .Header(header)
+                .FinAcno(data.getFinAcno())
+                .Tlno(data.getTlno())
+                .BrdtBrno(data.getBrdtBrno())
                 .build();
-        nhFintechClient.CloseFinAccount(request);
+        String jsonString = nhFintechClient.CloseFinAccount("Basic " + oauthService.getOauthKey(), request);
+        try {
+            return objectMapper.readValue(jsonString , FinAccountDto.Response.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
