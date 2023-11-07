@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -44,17 +45,20 @@ public class NHFintechServiceImpl implements NHFintechService{
 
             CheckOpenFinAccountDto.Response CheckOpenFinAccountResponse = objectMapper.readValue(CheckOpenFinAccountJsonString , CheckOpenFinAccountDto.Response.class);
 
+
             while(CheckOpenFinAccountResponse.getHeader().getRpcd() != null && CheckOpenFinAccountResponse.getHeader().getRpcd().equals("A0017")){
+                Thread.sleep(1000);
                 CheckOpenFinAccountJsonString = CheckOpenFinAccount(OpenFinAccountARSResponse.getRgno() , data.getBrdtBrno() , data.getTlno() , key);
                 CheckOpenFinAccountResponse = objectMapper.readValue(CheckOpenFinAccountJsonString , CheckOpenFinAccountDto.Response.class);
             }
-
 
             FinAccountServiceDto.Response response = FinAccountServiceDto.Response.builder()
                     .FinAcno(CheckOpenFinAccountResponse.getFinAcno())
                     .build();
             return response;
         } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
