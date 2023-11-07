@@ -118,6 +118,7 @@ public class NHFintechServiceImpl implements NHFintechService{
     public CheckOnDrawingTransfer2Dto.Response CheckOnDrawingTransfer2(CheckOnDrawingTransfer2Dto.Request data) {
         HeaderDto header = getHeader("CheckOnDrawingTransfer2Dto");
         CheckOnDrawingTransfer2Dto.Request request = CheckOnDrawingTransfer2Dto.Request.builder()
+                .Header(header)
                 .FinAcno(data.getFinAcno())
                 .Tram(data.getTram())
                 .Vran(data.getVran())

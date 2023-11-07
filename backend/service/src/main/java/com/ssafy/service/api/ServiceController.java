@@ -44,7 +44,7 @@ public class ServiceController {
     
 //    출금이체 결과확인
     @PostMapping("/CheckOnDrawingTransfer2")
-    public ResponseEntity<CheckOnDrawingTransfer2Dto.Response> DrawingTransfer2(@RequestBody CheckOnDrawingTransfer2Dto.Request request){
+    public ResponseEntity<CheckOnDrawingTransfer2Dto.Response> CheckOnDrawingTransfer2(@RequestBody CheckOnDrawingTransfer2Dto.Request request){
         return ResponseEntity.ok(nhFintechService.CheckOnDrawingTransfer2(request));
     }
     
