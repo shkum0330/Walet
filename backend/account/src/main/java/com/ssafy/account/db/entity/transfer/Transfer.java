@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
@@ -41,9 +42,11 @@ public class Transfer extends BaseTimeEntity {
         this.status = PENDING;
     }
 
+
     public void setTransferorId(Long transferorId) {
         this.transferorId = transferorId;
     }
+
 
     public void setTransfereeId(Long transfereeId) {
         this.transfereeId = transfereeId;

@@ -47,7 +47,7 @@ public class PaymentController {
         if(payment.getStatus() != Payment.PaymentStatus.PENDING){
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
-        Account account=accountService.findPetAccountByAccountId(request.getBuyerId());
+        Account account=accountService.findPetAccountByAccountId(request.getSenderId());
 //        transactionService.addPetRelatedTransaction(new TransactionRequest(request.getRfidCode(), request.getBuyerId(),
 //                payment.getSellerId(), TransactionType.WITHDRAWAL,payment.getPaymentAmount()));
         paymentService.completePayment(payment);

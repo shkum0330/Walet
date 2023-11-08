@@ -16,9 +16,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    private static final String EXCHANGE_NAME = "app-exchange";
-    private static final String QUEUE_NAME = "app-queue";
-    private static final String ROUTING_KEY = "app-id.*";
+//    private static final String EXCHANGE_NAME = "app-exchange";
+//    private static final String QUEUE_NAME = "app-queue";
+//    private static final String ROUTING_KEY = "app-id.*";
     @Value("${spring.rabbitmq.host}")
     private String host;
 
@@ -31,23 +31,23 @@ public class RabbitConfig {
     @Value("${spring.rabbitmq.port}")
     private int port;
 
-    @Bean
-    public Queue queue() {
-        return new Queue(QUEUE_NAME, true);
-    }
-
-    @Bean
-    public DirectExchange directExchange() {
-        return new DirectExchange(EXCHANGE_NAME);
-    }
-
-    @Bean
-    public Binding binding(Queue queue, DirectExchange directExchange){
-        return BindingBuilder
-                .bind(queue)
-                .to(directExchange)
-                .with(ROUTING_KEY);
-    }
+//    @Bean
+//    public Queue queue() {
+//        return new Queue(QUEUE_NAME, true);
+//    }
+//
+//    @Bean
+//    public DirectExchange directExchange() {
+//        return new DirectExchange(EXCHANGE_NAME);
+//    }
+//
+//    @Bean
+//    public Binding binding(Queue queue, DirectExchange directExchange){
+//        return BindingBuilder
+//                .bind(queue)
+//                .to(directExchange)
+//                .with(ROUTING_KEY);
+//    }
 
     @Bean
     public ConnectionFactory connectionFactory() {

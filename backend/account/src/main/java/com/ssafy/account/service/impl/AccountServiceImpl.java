@@ -416,7 +416,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account findPetAccountByAccountNumber(String accountNumber) {
-        return accountRepository.findByAccountNumberAndAccountState(accountNumber,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+
+        return accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
     }
 
     @Override
