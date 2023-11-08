@@ -44,3 +44,5 @@ cloud:
     stack:
       auto: false
 
+cors:
+  origins: http://localhost:3000, http://k9a301.p.ssafy.io:3000
