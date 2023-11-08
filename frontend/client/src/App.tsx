@@ -10,7 +10,6 @@ import NoticeUpdatePage from './pages/notice/noticeUpdatePage';
 import NoticeCreatePage from './pages/notice/noticeCreatePage';
 // 회원관리 페이지
 import MemberPage from './pages/member/memberPage';
-import MemberDetailPage from './pages/member/memberDetailPage';
 
 function App() {
   return (
@@ -31,7 +30,6 @@ function App() {
 
               <Route path="member/">
                 <Route path="" element={<MemberPage />} />
-                <Route path=":id" element={<MemberDetailPage />} />
               </Route>
             </Route>
           </Routes>

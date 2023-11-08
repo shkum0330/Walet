@@ -25,7 +25,9 @@ function Navbar() {
           <a
             href="/main"
             className={`flex flex-col justify-center items-center my-4 ${
-              location.pathname === '/main' ? 'text-green-500' : 'text-gray-500'
+              location.pathname.includes('/main')
+                ? 'text-green-500'
+                : 'text-gray-500'
             }`}>
             <Homeicon styling="w-8 h-8" />
             <p>홈</p>
@@ -33,7 +35,7 @@ function Navbar() {
           <a
             href="/member"
             className={`flex flex-col justify-center items-center my-4 ${
-              location.pathname === '/member'
+              location.pathname.includes('/member')
                 ? 'text-green-500'
                 : 'text-gray-500'
             }`}>
@@ -43,7 +45,9 @@ function Navbar() {
           <a
             href="/log"
             className={`flex flex-col justify-center items-center my-4 ${
-              location.pathname === '/log' ? 'text-green-500' : 'text-gray-500'
+              location.pathname.includes('/log')
+                ? 'text-green-500'
+                : 'text-gray-500'
             }`}>
             <LogIcon styling="w-8 h-8" />
             <p>거래로그</p>
@@ -51,7 +55,7 @@ function Navbar() {
           <a
             href="/notice"
             className={`flex flex-col justify-center items-center my-4 ${
-              location.pathname === '/notice'
+              location.pathname.includes('/notice')
                 ? 'text-green-500'
                 : 'text-gray-500'
             }`}>

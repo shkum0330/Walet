@@ -6,6 +6,7 @@ import {
   LoginRequest,
   UsersResponse,
   UserSerachResponse,
+  UserResponse,
 } from '../../interface/api/memberApiInterface';
 import { logout } from '../../store/actions/authActions';
 import { setTokens } from '../../store/store';
@@ -28,6 +29,8 @@ export async function LoginAPI({ email, password, dispatch }: LoginRequest) {
       .catch((error: AxiosError) => {
         if (error.response) {
           data = error.response.data;
+        } else {
+          data = '잠시 후 다시 시도해주세요.';
         }
       });
   }
@@ -54,6 +57,20 @@ export function LogoutAPI(token: string, { dispatch }: LogoutRequest): void {
         }, 100);
       })
       .catch(() => {});
+  }
+}
+
+export async function UserAPI(token: string) {
+  const UsersURI = `${AUTH_URI}/user`;
+  if (token) {
+    try {
+      const response = await axios.get<UserResponse>(UsersURI, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data.data;
+    } catch (error) {}
   }
 }
 

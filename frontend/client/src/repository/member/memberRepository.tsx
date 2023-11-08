@@ -2,6 +2,7 @@ import { useAccessToken } from '../../data_source/apiInfo';
 import {
   LoginAPI,
   LogoutAPI,
+  UserAPI,
   UserSearchAPI,
   UsersAPI,
 } from '../../data_source/auth/member';
@@ -20,6 +21,15 @@ export function LogoutRepository(request: LogoutRequest): void {
   if (accessToken) {
     LogoutAPI(accessToken, request);
   }
+}
+
+export async function UserRepository() {
+  const accessToken = useAccessToken();
+  if (accessToken) {
+    const data = await UserAPI(accessToken);
+    return data;
+  }
+  return null;
 }
 
 export async function UsersRepository() {
