@@ -25,7 +25,7 @@ public class TransactionController {
     }
 
     @GetMapping("/transaction/recipient-info")
-    public Response getReceiverInfoByAccountNumber(String accountNumber, Long paymentAmount) {
+    public Response getReceiverInfoByAccountNumber(@RequestParam String accountNumber, @RequestParam Long paymentAmount) {
         return Response.success(GENERAL_SUCCESS, transactionService.getReceiverInfoByAccountNumber(accountNumber, paymentAmount));
     }
 
@@ -47,7 +47,7 @@ public class TransactionController {
         return Response.success(GENERAL_SUCCESS, transactionService.getTransactionAccountDetail(accountId));
     }
 
-    @GetMapping("/transaction/{accountId}")
+    @GetMapping("/transaction/list/{accountId}")
     public Response getTransactionHistory(@RequestHeader("id") Long memberId, @PathVariable Long accountId) {
         return Response.success(GENERAL_SUCCESS, transactionService.getTransactionHistory(memberId, accountId));
     }
