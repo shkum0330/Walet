@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class RFIDAuthRequest {
-    private Long buyerId;
+    private Long senderId;
     private String rfidCode;
 }

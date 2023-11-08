@@ -452,8 +452,18 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account findPetAccount(Long memberId) {
+    public Account findPetAccountByAccountId(Long memberId) {
         return accountRepository.findByMemberIdAndAccountType(memberId,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
     }
 
+    @Override
+    public Account findPetAccountByAccountNumber(String accountNumber) {
+
+        return accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+    }
+
+    @Override
+    public Account findPetAccountByDepositorName(String depositorName) {
+        return accountRepository.findByDepositorNameAndAccountState(depositorName,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+    }
 }
