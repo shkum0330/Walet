@@ -33,6 +33,6 @@ public interface AccountService {
     Account findPetAccountByAccountId(Long accountId);
     Account findPetAccountByAccountNumber(String accountNumber);
     Account findPetAccountByDepositorName(String depositorName);
-
+    Account findPetAccount(Long accountId);
 
 }
