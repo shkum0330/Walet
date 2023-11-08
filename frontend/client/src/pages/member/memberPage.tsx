@@ -143,8 +143,8 @@ function MemberPage() {
                       <td colSpan={7}>
                         <div className="h-[500px] overflow-y-auto">
                           <table className="w-full h-[200px] ">
-                            <thead className="bg-gray-200 ">
-                              <tr className="">
+                            <thead>
+                              <tr className="bg-gray-200">
                                 <th className="w-[3%] border border-gray-300">
                                   계좌명
                                 </th>
@@ -162,28 +162,30 @@ function MemberPage() {
                                 </th>
                               </tr>
                             </thead>
-                            {notice?.map(items => (
-                              <tr key={items.id}>
-                                <td
-                                  className={`border border-gray-300  ${
-                                    items.isActive ? 'text-red-500' : ''
-                                  } `}>
-                                  {items.isActive ? 'V' : ''}
-                                </td>
-                                <td className="border border-gray-300">
-                                  {items.id}
-                                </td>
-                                <td className="border border-gray-300">
-                                  {items.registerTime.substring(0, 14)}
-                                </td>
-                                <td className="border border-gray-300">
-                                  {items.title}
-                                </td>
-                                <td className="border border-gray-300">
-                                  {items.subTitle}
-                                </td>
-                              </tr>
-                            ))}
+                            <thead className=" ">
+                              {notice?.map(items => (
+                                <tr key={items.id}>
+                                  <td
+                                    className={`border border-gray-300  ${
+                                      items.isActive ? 'text-red-500' : ''
+                                    } `}>
+                                    {items.isActive ? 'V' : ''}
+                                  </td>
+                                  <td className="border border-gray-300">
+                                    {items.id}
+                                  </td>
+                                  <td className="border border-gray-300">
+                                    {items.registerTime.substring(0, 14)}
+                                  </td>
+                                  <td className="border border-gray-300">
+                                    {items.title}
+                                  </td>
+                                  <td className="border border-gray-300">
+                                    {items.subTitle}
+                                  </td>
+                                </tr>
+                              ))}
+                            </thead>
                           </table>
                         </div>
                       </td>
@@ -195,7 +197,11 @@ function MemberPage() {
         </table>
       </Card>
       <div className="flex justify-center mt-4">
-        <button type="button" onClick={prev} disabled={currentPage === 1}>
+        <button
+          type="button"
+          onClick={prev}
+          disabled={currentPage === 1}
+          aria-label="이전 페이지">
           <LeftIcon styling="w-6 h-6" />
         </button>
         {getPageNumbers().map(pageNumber => (
@@ -205,14 +211,16 @@ function MemberPage() {
               currentPage === pageNumber ? 'bg-gray-200 rounded-full w-10' : ''
             }`}
             key={pageNumber}
-            type="button">
+            type="button"
+            aria-label={`페이지 ${pageNumber}로 이동`}>
             {pageNumber}
           </button>
         ))}
         <button
           type="button"
           onClick={next}
-          disabled={currentPage === totalPages}>
+          disabled={currentPage === totalPages}
+          aria-label="다음 페이지">
           <RightIcon styling="w-6 h-6" />
         </button>
       </div>
