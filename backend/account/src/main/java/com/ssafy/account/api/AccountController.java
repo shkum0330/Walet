@@ -93,6 +93,18 @@ public class AccountController {
         return Response.success(GENERAL_SUCCESS, accountService.getAccessibleAccountList(memberId));
     }
 
+    // 카테고리별 전체 소비현황
+    @GetMapping("/all-consumption/{accountId}")
+    public Response getCategoryExpenditureDetail(@PathVariable Long accountId) {
+        return Response.success(GENERAL_SUCCESS, accountService.getCategoryExpenditureDetail(accountId));
+    }
+
+    // 이번달 소비현황
+    @GetMapping("/this-month-consumption/{accountId}")
+    public Response getMonthlyExpenditureDetail(@PathVariable Long accountId) {
+        return Response.success(GENERAL_SUCCESS, accountService.getMonthlyExpenditureDetail(accountId));
+    }
+
 //    // todo: 일단 파라미터에 accountId라 했으나 memberId를 받아와서 거기서 계좌번호를 끌어내야함
 //    @GetMapping("/home/account/{accountId}")
 //
