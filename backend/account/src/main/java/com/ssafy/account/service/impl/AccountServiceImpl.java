@@ -466,4 +466,6 @@ public class AccountServiceImpl implements AccountService {
     public Account findPetAccountByDepositorName(String depositorName) {
         return accountRepository.findByDepositorNameAndAccountState(depositorName,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
     }
+
+
 }
