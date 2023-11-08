@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static com.ssafy.global.common.status.FailCode.*;
 
@@ -64,7 +66,7 @@ public class MemberService {
         userDto.setEmail(member.getEmail());
         userDto.setPhoneNumber(member.getPhoneNumber());
         userDto.setBirth(member.getBirth());
-        userDto.setCreatedDate(member.getCreated_date());
+        userDto.setCreatedDate(member.getCreatedDate());
         return userDto;
     }
 
@@ -105,7 +107,8 @@ public class MemberService {
                     member.getId(),
                     member.getName(),
                     member.getEmail(),
-                    member.getCreated_date()
+                    member.getPhoneNumber(),
+                    member.getCreatedDate()
             );
             userResponses.add(usersResponse);
         }
@@ -134,5 +137,23 @@ public class MemberService {
                 .orElseThrow(() -> new GlobalRuntimeException(FIND_IMPOSSIBLE));
         return member;
     }
+
+    public List<MemberDto.UsersResponse> searchUser(String keyword){
+        List<MemberEntity> members = memberRepository.findByNameContaining(keyword);
+
+        return members.stream()
+                .map(member -> new MemberDto.UsersResponse(member))
+                .collect(Collectors.toList());
+    }
+
+    public MemberDto.CountResponse countDashBoardData(int days) {
+        LocalDateTime startDate = LocalDateTime.now().minusDays(days);
+        List<MemberEntity> users = memberRepository.findByCreatedDateAfter(startDate);
+        MemberDto.CountResponse countData = new MemberDto.CountResponse();
+        countData.setNewUser(String.valueOf(users.size()));
+
+        return countData;
+    }
+
 
 }

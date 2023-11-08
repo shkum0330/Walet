@@ -66,6 +66,8 @@ proxy:
   host: 121.162.108.65
   port: 9460
 
+cors:
+  origins: http://localhost:3000, http://k9a301.p.ssafy.io:3000
 
 
 ---
@@ -95,6 +97,7 @@ spring :
     redis:
       port: 6379
       host: 43.201.195.182
+
 
 jwt:
   secretKey: ENC(7i9pXf0/gVyTyZOAh8gDVg==)
@@ -135,3 +138,6 @@ logging:
 proxy:
   host: 121.162.108.65
   port: 9460
+
+cors:
+  origins: http://localhost:3000, http://k9a301.p.ssafy.io:3000

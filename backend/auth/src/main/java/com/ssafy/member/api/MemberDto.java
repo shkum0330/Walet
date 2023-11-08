@@ -1,9 +1,11 @@
 package com.ssafy.member.api;
 
+import com.ssafy.member.db.MemberEntity;
 import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class MemberDto {
@@ -31,6 +33,11 @@ public class MemberDto {
         private String phoneNumber;
         private String birth;
         private LocalDateTime createdDate;
+
+        public String getCreatedDate() {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
+            return createdDate != null ? createdDate.format(formatter) : null;
+        }
     }
 
     @AllArgsConstructor
@@ -40,7 +47,21 @@ public class MemberDto {
         private Long id;
         private String name;
         private String email;
+        private String phoneNumber;
         private LocalDateTime createdDate;
+
+        public UsersResponse(MemberEntity member) {
+            this.id = member.getId();
+            this.name = member.getName();
+            this.email = member.getEmail();
+            this.phoneNumber = member.getPhoneNumber();
+            this.createdDate = member.getCreatedDate();
+        }
+
+        public String getCreatedDate() {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
+            return createdDate != null ? createdDate.format(formatter) : null;
+        }
     }
 
 
@@ -54,4 +75,10 @@ public class MemberDto {
     public static class PhoneResponse{
         private String phoneNumber;
     }
+
+    @Data
+    public static class CountResponse{
+        private String newUser;
+    }
+
 }

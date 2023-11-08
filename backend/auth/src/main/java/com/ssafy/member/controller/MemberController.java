@@ -59,6 +59,11 @@ public class MemberController {
         return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, allUsers), HttpStatus.OK);
     }
 
+    @GetMapping("/user/search")
+    public ResponseEntity<EnvelopeResponse<List<MemberDto.UsersResponse>>> searchUser(@RequestParam String keyword) {
+        List<MemberDto.UsersResponse> users = memberService.searchUser(keyword);
+        return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, users), HttpStatus.OK);
+    }
 
     @PostMapping("/checkemail")
     public ResponseEntity<EnvelopeResponse<Boolean>> checkEmailExists(@RequestBody Map<String, String> requestData) {
@@ -83,16 +88,21 @@ public class MemberController {
         return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, ""), HttpStatus.OK);
     }
 
-    @GetMapping("/name/{id}")
-    public ResponseEntity<EnvelopeResponse<MemberDto.NameResponse>> getUserName(@PathVariable Long id) {
-        MemberDto.NameResponse name = memberService.findNameById(id);
+    @GetMapping("/name/{memberId}")
+    public ResponseEntity<EnvelopeResponse<MemberDto.NameResponse>> getUserName(@PathVariable Long memberId) {
+        MemberDto.NameResponse name = memberService.findNameById(memberId);
         return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, name), HttpStatus.OK);
     }
 
-    @GetMapping("/phone-number/{id}")
-    public ResponseEntity<EnvelopeResponse<MemberDto.PhoneResponse>> getUserPhone(@PathVariable Long id) {
-        MemberDto.PhoneResponse phone = memberService.findPhoneById(id);
+    @GetMapping("/phone-number/{memberId}")
+    public ResponseEntity<EnvelopeResponse<MemberDto.PhoneResponse>> getUserPhone(@PathVariable Long memberId) {
+        MemberDto.PhoneResponse phone = memberService.findPhoneById(memberId);
         return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, phone), HttpStatus.OK);
     }
 
+    @GetMapping("/dashboard/count")
+    public ResponseEntity<EnvelopeResponse<MemberDto.CountResponse>> countUsersRegisteredWithinLastWeek() {
+        MemberDto.CountResponse userCount = memberService.countDashBoardData(7);
+        return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, userCount), HttpStatus.OK);
+    }
 }
