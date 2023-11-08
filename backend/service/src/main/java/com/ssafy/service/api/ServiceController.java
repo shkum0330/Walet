@@ -71,6 +71,13 @@ public class ServiceController {
     public ResponseEntity<InquireDepositorFinAccountDto.Response> InquireDepositorFinAccount(@RequestBody InquireDepositorFinAccountDto.Request request){
         return ResponseEntity.ok(nhFintechService.InquireDepositorFinAccount(request));
     }
+//   잔액조회
+    @PostMapping("/InquireBalance")
+    public ResponseEntity<InquireBalanceDto.Response> InquireBalance(@RequestBody InquireBalanceDto.Request request){
+        return ResponseEntity.ok(nhFintechService.InquireBalance(request));
+    }
+
+
     
 
 }

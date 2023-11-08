@@ -203,11 +203,18 @@ public class NHFintechServiceImpl implements NHFintechService{
     }
 
     @Override
-    public Long InquireBalance(String FinAcno) {
+    public InquireBalanceDto.Response InquireBalance(InquireBalanceDto.Request data) {
+        HeaderDto header = getHeader("InquireBalance");
         InquireBalanceDto.Request request = InquireBalanceDto.Request.builder()
-                .FinAcno(FinAcno)
+                .Header(header)
+                .FinAcno(data.getFinAcno())
                 .build();
-        return Long.parseLong(nhFintechClient.InquireBalance(request).getLdbl());
+        String jsonString = nhFintechClient.InquireBalance(request).getLdbl();
+        try {
+            return objectMapper.readValue(jsonString , InquireBalanceDto.Response.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
