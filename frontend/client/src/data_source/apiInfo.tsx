@@ -1,9 +1,9 @@
 const BASE_URI = 'http://localhost';
 
-const NOTICE_URI = `${BASE_URI}:8083/api/notice`;
-// const NOTICE_URI = `${BASE_URI}:8083`; // 테스트용
-const AUTH_URI = `${BASE_URI}:8084/api/auth`;
-// const AUTH_URI = `${BASE_URI}:8084`; // 테스트용
+// const NOTICE_URI = `${BASE_URI}:8083/api/notice`;
+const NOTICE_URI = `${BASE_URI}:8083`; // 테스트용
+// const AUTH_URI = `${BASE_URI}:8084/api/auth`;
+const AUTH_URI = `${BASE_URI}:8084`; // 테스트용
 // const LOG_URI = `${BASE_URI}:8084/api/auth`;
 
 function useAccessToken(): string | null {
