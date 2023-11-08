@@ -12,7 +12,7 @@ import java.util.Map;
 public class MonthlyExpenditureDetailResponse {
     // 매달 지출내역
     private Long currentTotalExpenditure; // 이번 달에서 현재까지의 총 지출액
-    private Map<Integer, Long> expenditureRatio; // 전체 지출에서 제한업종 별 지출액이 차지하는 비중
+    private Map<String, Long> expenditureRatio; // 전체 지출에서 제한업종 별 지출액이 차지하는 비중
 
     // 이전 지출내역: 이전 달의 총 지출액, 현재 총 지출액과의 차이
     private Long lastMonthTotalExpenditure; // 이번 달에서 현재까지의 총 지출액

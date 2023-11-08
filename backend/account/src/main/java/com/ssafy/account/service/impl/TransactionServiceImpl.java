@@ -3,10 +3,7 @@ package com.ssafy.account.service.impl;
 import com.ssafy.account.api.request.transaction.RemittanceRequest;
 import com.ssafy.account.api.request.transaction.TransactionPeriodRequest;
 import com.ssafy.account.api.request.transaction.TransactionRequest;
-import com.ssafy.account.api.response.transaction.PetInfoResponse;
-import com.ssafy.account.api.response.transaction.ReceiverInfoResponse;
-import com.ssafy.account.api.response.transaction.TransactionAccountResponse;
-import com.ssafy.account.api.response.transaction.TransactionResponse;
+import com.ssafy.account.api.response.transaction.*;
 import com.ssafy.account.common.api.exception.InsufficientBalanceException;
 import com.ssafy.account.common.api.exception.NotCorrectException;
 import com.ssafy.account.common.api.exception.NotFoundException;
@@ -20,6 +17,7 @@ import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.db.repository.TransactionRepository;
 import com.ssafy.account.service.MessageSenderService;
 import com.ssafy.account.service.TransactionService;
+import com.ssafy.external.service.OauthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,6 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccessRepository accessRepository;
     private final MessageSenderService messageSenderService;
+    private final OauthService oauthService;
 
     @Override
     public TransactionAccountResponse getTransactionAccountDetail(Long accountId) {
@@ -182,5 +181,45 @@ public class TransactionServiceImpl implements TransactionService {
         List<Transaction> transactions=transactionRepository
                 .findByTransactionTimeBetweenOrderByTransactionTimeDesc(startDate,endDate);
         return transactions.stream().map(TransactionResponse::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public TransactionDetailResponse getTransactionDetail(Long transactionId) {
+        Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() -> new NotFoundException(NO_TRANSACTION_DATA));
+
+        Long memberId = transaction.getAccount().getMemberId();
+        // memberId를 써서 해당 회원의 전화번호를 갖고오자
+
+        int category = transaction.getBusinessCategory();
+        String businessCategory = null;
+
+//        반려동물 관련 업종 카테고리
+//        1. 동물병원
+//        2. 반려동물용품
+//        3. 반려동물미용
+//        4. 애견카페
+//        5. 반려견놀이터
+
+        // businessCategory를 String으로 변환
+        switch(category) {
+            case 1:
+                businessCategory = "동물병원";
+                break;
+            case 2:
+                businessCategory = "반려동물용품";
+                break;
+            case 3:
+                businessCategory = "반려동물미용";
+                break;
+            case 4:
+                businessCategory = "애견카페";
+                break;
+            case 5:
+                businessCategory = "반려견놀이터";
+                break;
+        }
+
+        String userPhoneNumber = oauthService.getUserPhoneNumber(memberId);
+        return new TransactionDetailResponse(transaction, businessCategory, userPhoneNumber);
     }
 }
