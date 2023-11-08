@@ -67,7 +67,7 @@ proxy:
   port: 9460
 
 cors:
-  origins: http://localhost:3000, http://k9a301.p.ssafy.io:3000
+  origins: http://localhost:3000,http://k9a301.p.ssafy.io:3000
 
 
 ---
@@ -140,4 +140,4 @@ proxy:
   port: 9460
 
 cors:
-  origins: http://localhost:3000, http://k9a301.p.ssafy.io:3000
+  origins: http://localhost:3000,http://k9a301.p.ssafy.io:3000
