@@ -12,8 +12,8 @@ public interface OauthClient {
     OauthDto.Response getKey();
 
     @GetMapping(value = "/api/auth/name")
-    OauthDto.Response getUserName(@RequestParam Long memberId);
+    OauthDto.Response getUserName(@RequestParam("memberId") Long memberId);
 
     @GetMapping(value = "/api/auth/phone-number")
-    OauthDto.Response getUserPhoneNumber(@RequestParam Long memberId);
+    OauthDto.Response getUserPhoneNumber(@RequestParam("memberId") Long memberId);
 }

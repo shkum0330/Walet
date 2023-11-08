@@ -68,10 +68,10 @@ public class TransactionServiceImpl implements TransactionService {
         Long myAccountId = transactionRequest.getMyAccountId();
         Long companyAccountId = transactionRequest.getCompanyAccountId();
 
-        Account myAccount = accountRepository.findByMemberIdAndAccountType(myAccountId,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        Account companyAccount = accountRepository.findByMemberIdAndAccountType(companyAccountId,"01").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account myPetAccount = accountRepository.findByMemberIdAndAccountTypeAndAccountState(myAccountId,"02", "00").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account companyAccount = accountRepository.findByMemberIdAndAccountTypeAndAccountState(companyAccountId,"01", "00").orElseThrow(() -> new NotFoundException(NO_COMPANY_ACCOUNT));
 
-        int limitTypes=myAccount.getLimitTypes();
+        int limitTypes= myPetAccount.getLimitTypes();
         int businessType=(int)Math.pow(2,companyAccount.getBusinessType()-1);
         log.info("{} {}",limitTypes,businessType);
 
@@ -80,23 +80,15 @@ public class TransactionServiceImpl implements TransactionService {
             throw new RestrictedBusinessException(RESTRICTED_BUSINESS);
         }
 
-        // 사용 가능 계좌인지 확인
-//        if(myAccount.getAccountState().equals("01") || myAccount.getAccountState().equals("10") || myAccount.getAccountState().equals("11")) {
-//            throw new NotFoundException(NOT_USABLE_ACCOUNT);
-//        }
-//        if(companyAccount.getAccountState().equals("01") || companyAccount.getAccountState().equals("10") || companyAccount.getAccountState().equals("11")) {
-//            throw new NotFoundException(NOT_USABLE_COMPANY_ACCOUNT);
-//        }
-
         Long pay = transactionRequest.getPaymentAmount();
         // 잔액이 결제금액보다 부족하면 예외 발생
-        if(myAccount.getBalance() - pay < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_PAYMENT);
+        if(myPetAccount.getBalance() - pay < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_PAYMENT);
 
-        myAccount.minusBalance(pay);
+        myPetAccount.minusBalance(pay);
         companyAccount.addBalance(pay);
 
-        Transaction myTransaction = new Transaction(myAccount, companyAccount.getDepositorName(), companyAccount.getBusinessType(), TransactionType.WITHDRAWAL, pay, myAccount.getBalance());
-        Transaction companyTransaction = new Transaction(companyAccount, myAccount.getDepositorName(), companyAccount.getBusinessType(), TransactionType.DEPOSIT, pay, companyAccount.getBalance());
+        Transaction myTransaction = new Transaction(myPetAccount, companyAccount.getDepositorName(), companyAccount.getBusinessType(), TransactionType.WITHDRAWAL, pay, myPetAccount.getBalance());
+        Transaction companyTransaction = new Transaction(companyAccount, myPetAccount.getDepositorName(), companyAccount.getBusinessType(), TransactionType.DEPOSIT, pay, companyAccount.getBalance());
         log.info("{}",myTransaction);
         log.info("{}",companyTransaction);
         transactionRepository.save(myTransaction);
@@ -114,8 +106,8 @@ public class TransactionServiceImpl implements TransactionService {
         Long myAccountId = remittanceRequest.getMyAccountId();
         Long receiverAccountId = remittanceRequest.getReceiverAccountId();
 
-        Account myAccount = accountRepository.findById(myAccountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        Account receiverAccount = accountRepository.findById(receiverAccountId).orElseThrow(() -> new NotFoundException(NO_RECEIVER_ACCOUNT));
+        Account myAccount = accountRepository.findByIdAndAccountState(myAccountId, "00").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account receiverAccount = accountRepository.findByIdAndAccountState(receiverAccountId, "00").orElseThrow(() -> new NotFoundException(NO_RECEIVER_ACCOUNT));
 
         // 입력된 비밀번호가 맞는지 확인
         String password = remittanceRequest.getPassword();
@@ -132,7 +124,7 @@ public class TransactionServiceImpl implements TransactionService {
 //        }
 
         Long remittanceAmount = remittanceRequest.getRemittanceAmount();
-        // 잔액이 결제금액보다 부족하면 예외 발생
+        // 잔액이 송금금액보다 부족하면 예외 발생
         if(myAccount.getBalance() - remittanceAmount < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_REMITTANCE);
 
         myAccount.minusBalance(remittanceAmount);
@@ -153,7 +145,7 @@ public class TransactionServiceImpl implements TransactionService {
         // 접근하려는 사람의 id(requestMemberId)와 계좌번호(accountNumber)를 활용하여
         // 접근 권한이 있는 유저인지 확인
         // 본인이면 당연히 접근가능
-        Access access = accessRepository.findAccessByRequestMemberIdAndAccountNumber(memberId, account.getAccountNumber());
+        Access access = accessRepository.findAccessByRequestMemberIdAndAccountNumberAndIsConfirmed(memberId, account.getAccountNumber(), 1);
         if(!account.getMemberId().equals(memberId) && access == null) {
             throw new NotFoundException(NO_PERMISSION_TO_TRANSACTION);
         }
@@ -170,7 +162,7 @@ public class TransactionServiceImpl implements TransactionService {
         // 접근하려는 사람의 id(requestMemberId)와 계좌번호(accountNumber)를 활용하여
         // 접근 권한이 있는 유저인지 확인
         // 본인이면 당연히 접근가능
-        Access access = accessRepository.findAccessByRequestMemberIdAndAccountNumber(memberId, account.getAccountNumber());
+        Access access = accessRepository.findAccessByRequestMemberIdAndAccountNumberAndIsConfirmed(memberId, account.getAccountNumber(), 1);
         if(!account.getMemberId().equals(memberId) && access == null) {
             throw new NotFoundException(NO_PERMISSION_TO_TRANSACTION);
         }

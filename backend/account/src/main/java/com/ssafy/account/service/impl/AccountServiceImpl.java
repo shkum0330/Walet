@@ -273,27 +273,26 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
         List<Transaction> byMyAccountId = transactionRepository.findByAccount(account);
 
-        // 반려동물 관련 업종 총 소비
-        Long totalPetHospitalCost = 0L;
-        Long totalPetSupplyCost = 0L;
-        Long totalPetBeautyCost = 0L;
-        Long totalPetCafeCost = 0L;
-        Long totalPetPlayGroundCost = 0L;
+        // 이번 달 반려동물 관련 업종 총 소비
+        Long currentTotalPetHospitalCost = 0L;
+        Long currentTotalPetSupplyCost = 0L;
+        Long currentTotalPetBeautyCost = 0L;
+        Long currentTotalPetCafeCost = 0L;
+        Long currentTotalPetPlayGroundCost = 0L;
 
         // 이번 달 거래내역을 가져오자
         LocalDate currentDate = LocalDate.now();
         LocalDate startDayOfMonth = LocalDate.of(currentDate.getYear(), currentDate.getMonth(), 1);
-        LocalDate endDayOfMonth = startDayOfMonth.plusMonths(1).minusDays(1);
 
         List<Transaction> currentMonthTransactions = byMyAccountId.stream()
                 .filter(transaction -> {
                     LocalDate transactionDate = transaction.getTransactionTime().toLocalDate();
-                    return transactionDate.isAfter(startDayOfMonth.minusDays(1)) && transactionDate.isBefore(endDayOfMonth.plusDays(1));
+                    return transactionDate.isAfter(startDayOfMonth.minusDays(1)) && transactionDate.isBefore(currentDate.plusDays(1));
                 }).collect(Collectors.toList());
 
         // 이번 달의 총 지출액을 구해주자
         // 그리고 카테고리별 지출내역을 더해주자
-        Long currentMonthTotalExpenditure = 0L;
+        Long currentMonthTotalExpenditure = 1L;
         for (Transaction currentMonthTransaction : currentMonthTransactions) {
             if(currentMonthTransaction.getTransactionType() == TransactionType.WITHDRAWAL) {
 
@@ -303,19 +302,19 @@ public class AccountServiceImpl implements AccountService {
                 Integer businessCategory = currentMonthTransaction.getBusinessCategory();
                 switch (businessCategory) {
                     case 1:
-                        totalPetHospitalCost += payment;
+                        currentTotalPetHospitalCost += payment;
                         break;
                     case 2:
-                        totalPetSupplyCost += payment;
+                        currentTotalPetSupplyCost += payment;
                         break;
                     case 3:
-                        totalPetBeautyCost += payment;
+                        currentTotalPetBeautyCost += payment;
                         break;
                     case 4:
-                        totalPetCafeCost += payment;
+                        currentTotalPetCafeCost += payment;
                         break;
                     case 5:
-                        totalPetPlayGroundCost += payment;
+                        currentTotalPetPlayGroundCost += payment;
                         break;
                 }
             }
@@ -327,16 +326,23 @@ public class AccountServiceImpl implements AccountService {
         //  3. 반려동물미용
         //  4. 애견카페
         //  5. 반려견놀이터
-        Map<String, Long> expenditureRatio = new HashMap<>();
-        expenditureRatio.put("동물병원", totalPetHospitalCost / currentMonthTotalExpenditure);
-        expenditureRatio.put("반려동물용품", totalPetSupplyCost / currentMonthTotalExpenditure);
-        expenditureRatio.put("반려동물미용", totalPetBeautyCost / currentMonthTotalExpenditure);
-        expenditureRatio.put("애견카페", totalPetCafeCost / currentMonthTotalExpenditure);
-        expenditureRatio.put("반려견놀이터", totalPetPlayGroundCost / currentMonthTotalExpenditure);
+        Map<String, Long> currentExpenditureByCategory = new HashMap<>();
+        currentExpenditureByCategory.put("동물병원", currentTotalPetHospitalCost);
+        currentExpenditureByCategory.put("반려동물용품", currentTotalPetSupplyCost);
+        currentExpenditureByCategory.put("반려동물미용", currentTotalPetBeautyCost);
+        currentExpenditureByCategory.put("애견카페", currentTotalPetCafeCost);
+        currentExpenditureByCategory.put("반려견놀이터", currentTotalPetPlayGroundCost);
         
         // 저번 달 거래내역도 가져오자
         LocalDate startDayOfLastMonth = LocalDate.of(currentDate.getYear(), currentDate.getMonth().minus(1), 1);
         LocalDate endDayOfLastMonth = startDayOfLastMonth.plusMonths(1).minusDays(1);
+
+        // 저번 달 반려동물 관련 업종 총 소비
+        Long lastMonthTotalPetHospitalCost = 0L;
+        Long lastMonthTotalPetSupplyCost = 0L;
+        Long lastMonthTotalPetBeautyCost = 0L;
+        Long lastMonthTotalPetCafeCost = 0L;
+        Long lastMonthTotalPetPlayGroundCost = 0L;
 
         List<Transaction> lastMonthTransactions = byMyAccountId.stream()
                 .filter(transaction -> {
@@ -344,23 +350,59 @@ public class AccountServiceImpl implements AccountService {
                     return transactionDate.isAfter(startDayOfLastMonth.minusDays(1)) && transactionDate.isBefore(endDayOfLastMonth.plusDays(1));
                 }).collect(Collectors.toList());
         
-        // 저번 달의 총 지출액을 구해주자
-        Long lastMonthTotalExpenditure = 0L;
+        // 저번 달의 카테고리 별 지출액을 구해주자
         for (Transaction lastMonthTransaction : lastMonthTransactions) {
             if(lastMonthTransaction.getTransactionType() == TransactionType.WITHDRAWAL) {
-                lastMonthTotalExpenditure += lastMonthTransaction.getPaymentAmount();
+
+                Long payment = lastMonthTransaction.getPaymentAmount();
+
+                Integer businessCategory = lastMonthTransaction.getBusinessCategory();
+                switch (businessCategory) {
+                    case 1:
+                        lastMonthTotalPetHospitalCost += payment;
+                        break;
+                    case 2:
+                        lastMonthTotalPetSupplyCost += payment;
+                        break;
+                    case 3:
+                        lastMonthTotalPetBeautyCost += payment;
+                        break;
+                    case 4:
+                        lastMonthTotalPetCafeCost += payment;
+                        break;
+                    case 5:
+                        lastMonthTotalPetPlayGroundCost += payment;
+                        break;
+                }
             }
         }
 
-        // 저번달 대비 이번달의 증감률을 구해주자
-        Long growthRate = (currentMonthTotalExpenditure - lastMonthTotalExpenditure) / lastMonthTotalExpenditure * 100;
+        // 카테고리별 지출액의 비중
+        //  1. 동물병원
+        //  2. 반려동물용품
+        //  3. 반려동물미용
+        //  4. 애견카페
+        //  5. 반려견놀이터
+        Map<String, Long> lastMonthExpenditureByCategory = new HashMap<>();
+        lastMonthExpenditureByCategory.put("동물병원", lastMonthTotalPetHospitalCost);
+        lastMonthExpenditureByCategory.put("반려동물용품", lastMonthTotalPetSupplyCost);
+        lastMonthExpenditureByCategory.put("반려동물미용", lastMonthTotalPetBeautyCost);
+        lastMonthExpenditureByCategory.put("애견카페", lastMonthTotalPetCafeCost);
+        lastMonthExpenditureByCategory.put("반려견놀이터", lastMonthTotalPetPlayGroundCost);
 
-        return new MonthlyExpenditureDetailResponse(currentMonthTotalExpenditure, expenditureRatio, lastMonthTotalExpenditure, growthRate);
+        Map<String, Long> expenditureChange = new HashMap<>();
+        expenditureChange.put("동물병원", currentTotalPetHospitalCost - lastMonthTotalPetHospitalCost);
+        expenditureChange.put("반려동물용품", currentTotalPetSupplyCost - lastMonthTotalPetSupplyCost);
+        expenditureChange.put("반려동물미용", currentTotalPetBeautyCost - lastMonthTotalPetBeautyCost);
+        expenditureChange.put("애견카페", currentTotalPetCafeCost - lastMonthTotalPetCafeCost);
+        expenditureChange.put("반려견놀이터", currentTotalPetPlayGroundCost - lastMonthTotalPetPlayGroundCost);
+
+        return new MonthlyExpenditureDetailResponse(currentMonthTotalExpenditure, currentExpenditureByCategory, lastMonthExpenditureByCategory, expenditureChange);
     }
 
     // 전체 기간에서 각 카테고리 별 지출 비율
     @Override
-    public Map<String, Long> getCategoryExpenditureDetail(Long accountId) {
+    public Map<String, String> getCategoryExpenditureDetail(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
         List<Transaction> byMyAccountId = transactionRepository.findByAccount(account);
 
@@ -371,7 +413,7 @@ public class AccountServiceImpl implements AccountService {
         Long totalPetCafeCost = 0L;
         Long totalPetPlayGroundCost = 0L;
 
-        Long totalExpenditure = 0L;
+        Long totalExpenditure = 1L;
         for (Transaction transaction : byMyAccountId) {
             if(transaction.getTransactionType() == TransactionType.WITHDRAWAL) {
 
@@ -399,12 +441,12 @@ public class AccountServiceImpl implements AccountService {
             }
         }
 
-        Map<String, Long> expenditureRatio = new HashMap<>();
-        expenditureRatio.put("동물병원", totalPetHospitalCost / totalExpenditure);
-        expenditureRatio.put("반려동물용품", totalPetSupplyCost / totalExpenditure);
-        expenditureRatio.put("반려동물미용", totalPetBeautyCost / totalExpenditure);
-        expenditureRatio.put("애견카페", totalPetCafeCost / totalExpenditure);
-        expenditureRatio.put("반려견놀이터", totalPetPlayGroundCost / totalExpenditure);
+        Map<String, String> expenditureRatio = new HashMap<>();
+        expenditureRatio.put("동물병원", (totalPetHospitalCost * 100 / totalExpenditure) + "%");
+        expenditureRatio.put("반려동물용품", (totalPetSupplyCost * 100 / totalExpenditure) + "%");
+        expenditureRatio.put("반려동물미용", (totalPetBeautyCost * 100 / totalExpenditure) + "%");
+        expenditureRatio.put("애견카페", (totalPetCafeCost * 100 / totalExpenditure) + "%");
+        expenditureRatio.put("반려견놀이터", (totalPetPlayGroundCost * 100 / totalExpenditure) + "%");
 
         return expenditureRatio;
     }
