@@ -19,13 +19,22 @@ export interface LoginRequest extends AuthRequest {
 
 export interface LogoutRequest extends AuthRequest {}
 
-export interface Usersdata {
+export interface Userdata {
   id: string;
   name: string;
   email: string;
-  createdDate: Date;
+  phoneNumber: String;
+  createdDate: String;
+}
+
+export interface UserResponse extends common {
+  data: Userdata;
 }
 
 export interface UsersResponse extends common {
-  data: Usersdata[];
+  data: Userdata[];
+}
+
+export interface UserSerachResponse extends common {
+  data: Userdata[];
 }
