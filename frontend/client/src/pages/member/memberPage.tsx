@@ -128,7 +128,7 @@ function MemberPage() {
                       {item.createdDate.substring(0, 14)}
                     </td>
                     <td className="border border-gray-300">999,999,999원</td>
-                    <td className="border border-gray-300 " />
+                    <td className="border border-gray-300 ">-</td>
                   </tr>
                   <Transition
                     show={selectedUser === item.id}
