@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Component
 public class TimeUtil {
@@ -32,6 +33,11 @@ public class TimeUtil {
         LocalDate currentDate = LocalDate.now();
         Period period = Period.between(birthDate, currentDate);
         return String.valueOf(period.getYears());
+    }
+
+    public String transferDateConverter(LocalDateTime dateTime){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd(E) HH:mm", Locale.KOREA);
+        return dateTime.format(formatter);
     }
 
     public String YMD(LocalDateTime dateTime){

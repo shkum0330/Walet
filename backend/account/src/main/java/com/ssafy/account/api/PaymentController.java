@@ -3,7 +3,7 @@ package com.ssafy.account.api;
 import com.ssafy.account.api.request.message.PaymentNotificationRequest;
 import com.ssafy.account.api.request.payment.PaymentRequest;
 import com.ssafy.account.api.request.payment.RFIDAuthRequest;
-import com.ssafy.account.api.response.payment.PaymentCheckResponse;
+import com.ssafy.account.api.response.payment.CheckResponse;
 import com.ssafy.account.common.api.Response;
 import com.ssafy.account.common.api.exception.InvalidPaymentException;
 import com.ssafy.account.common.api.status.FailCode;
@@ -47,12 +47,12 @@ public class PaymentController {
         if(payment.getStatus() != Payment.PaymentStatus.PENDING){
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
-        Account account=accountService.findPetAccount(request.getBuyerId());
+        Account account=accountService.findPetAccountByAccountId(request.getBuyerId());
 //        transactionService.addPetRelatedTransaction(new TransactionRequest(request.getRfidCode(), request.getBuyerId(),
 //                payment.getSellerId(), TransactionType.WITHDRAWAL,payment.getPaymentAmount()));
         paymentService.completePayment(payment);
 
-        PaymentCheckResponse response=PaymentCheckResponse.builder()
+        CheckResponse response= CheckResponse.builder()
                 .petImage(account.getPetPhoto())
                 .petName(account.getPetName())
                 .petBreed(account.getPetBreed())

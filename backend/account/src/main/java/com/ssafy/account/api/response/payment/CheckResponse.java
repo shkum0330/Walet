@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class PaymentCheckResponse {
+public class CheckResponse {
     private String petImage;
     private String petName;
     private String petBreed;
@@ -14,7 +14,7 @@ public class PaymentCheckResponse {
     private String petBirth;
 
     @Builder
-    public PaymentCheckResponse(String petImage,String petName, String petBreed, String petGender, String petNeutered, String petAge, String petBirth) {
+    public CheckResponse(String petImage, String petName, String petBreed, String petGender, String petNeutered, String petAge, String petBirth) {
         this.petImage= petImage;
         this.petName = petName;
         this.petBreed = petBreed;
