@@ -50,17 +50,20 @@ function NoticeDetailPage() {
             </div>
           </Card>
 
-          <Card width="w-[95%]" height="h-[50%]" styling="">
+          <Card
+            width="w-[95%]"
+            height="h-[50%]"
+            styling="overflow-y-auto scrollbar-hide">
             <p className="text-2xl">작성 상세 내용</p>
             <div className="flex h-[80%]">
-              <div className="w-[50%]">
+              <div className="w-[30%]">
                 <img
                   src={notice?.bannerImg}
                   alt="banner"
                   className="w-full h-full"
                 />
               </div>
-              <div>
+              <div className="w-[70%]">
                 <div>
                   <p className="text-2xl mt-2"> 제목</p>
                   <div className="mt-2"> {notice?.title}</div>

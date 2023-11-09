@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AxiosInterceptor } from './repository/axios/instanceRepository';
-import LoginPage from './pages/loginPage';
-import MainPage from './pages/mainPage';
+import LoginPage from './pages/login/loginPage';
+import MainPage from './pages/main/mainPage';
 import Navbar from './components/nav/navbar';
 // 공지사항 페이지
 import NoticePage from './pages/notice/noticePage';

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { LoginRepository } from '../repository/member/memberRepository';
-import { ErrorModal } from '../components/modal/customModal';
-import { useModal } from '../components/modal/modalClass';
+import { LoginRepository } from '../../repository/member/memberRepository';
+import { ErrorModal } from '../../components/modal/customModal';
+import { useModal } from '../../components/modal/modalClass';
 
 function LoginPage() {
   const [userId, setUserId] = useState('');
