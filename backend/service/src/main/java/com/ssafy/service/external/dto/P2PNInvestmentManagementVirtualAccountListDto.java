@@ -3,6 +3,8 @@ package com.ssafy.service.external.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.util.List;
+
 public class P2PNInvestmentManagementVirtualAccountListDto {
     @Getter
     @Setter
@@ -36,7 +38,7 @@ public class P2PNInvestmentManagementVirtualAccountListDto {
         @JsonProperty("PageNo")
         String PageNo;
         @JsonProperty("REC")
-        REC Rec;
+        List<REC> Rec;
 
         @Getter
         @Setter
