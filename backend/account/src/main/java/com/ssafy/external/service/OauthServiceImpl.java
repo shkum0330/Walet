@@ -12,12 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class OauthServiceImpl implements OauthService{
     private final OauthClient oauthClient;
-
-    @Override
-    public String getOauthKey() {
-        return oauthClient.getKey().getData().getName();
-    }
-
     @Override
     public String getUserName(Long memberId) {
         return oauthClient.getUserName(memberId).getData().getName();

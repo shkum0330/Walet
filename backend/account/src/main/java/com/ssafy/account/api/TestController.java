@@ -2,6 +2,7 @@ package com.ssafy.account.api;
 
 import com.ssafy.account.common.api.Response;
 import com.ssafy.external.client.OauthClient;
+import com.ssafy.external.dto.InquireDepositorFinAccountDto;
 import com.ssafy.external.dto.OauthDto;
 import com.ssafy.external.service.NHFintechService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,12 @@ public class TestController {
 
     @GetMapping("/test")
     public Response getGeneralAccountList() {
-        System.out.println(nhFintechService.OpenFinAccountARS("모새건" , "19851221" , "01045644545","301-0361-0495-51","N"));
-        return Response.success(GENERAL_SUCCESS, null);
+        InquireDepositorFinAccountDto.Request request = InquireDepositorFinAccountDto.Request.builder()
+                .FinAcno("00820111419481425091415098899")
+                .build();
+//        nhFintechService.InquireDepositorFinAccount(request);
+//        System.out.println(nhFintechService.OpenFinAccountARS();
+        return Response.success(GENERAL_SUCCESS, nhFintechService.InquireDepositorFinAccount(request));
     }
 
     @GetMapping("/auth-test")
