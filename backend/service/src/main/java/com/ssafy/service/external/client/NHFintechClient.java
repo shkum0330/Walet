@@ -71,7 +71,7 @@ public interface NHFintechClient {
     );
 
     @PostMapping(value = "/InquireBalance.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    InquireBalanceDto.Response InquireBalance(
+    String InquireBalance(
             @RequestHeader("Auth") String key,
             @RequestBody InquireBalanceDto.Request request
     );

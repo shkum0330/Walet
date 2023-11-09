@@ -209,7 +209,7 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .Header(header)
                 .FinAcno(data.getFinAcno())
                 .build();
-        String jsonString = nhFintechClient.InquireBalance("Basic " + oauthService.getOauthKey() , request).getLdbl();
+        String jsonString = nhFintechClient.InquireBalance("Basic " + oauthService.getOauthKey() , request);
         try {
             return objectMapper.readValue(jsonString , InquireBalanceDto.Response.class);
         } catch (JsonProcessingException e) {
