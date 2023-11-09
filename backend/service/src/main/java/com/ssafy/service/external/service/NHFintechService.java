@@ -19,6 +19,7 @@ public interface NHFintechService {
     InquireBalanceDto.Response InquireBalance(InquireBalanceDto.Request request); //잔액조회
     InquireTransactionHistoryDto.Response InquireTransactionHistory(InquireTransactionHistoryDto.Request request); //거래내역조회
 
-//    void P2PNVirtualAccountNumberRequest(); //(신규) P2P투자자및차입자 가상계좌발급
+    P2PNVirtualAccountNumberRequestDto.Response P2PNVirtualAccountNumberRequest(P2PNVirtualAccountNumberRequestDto.Request request); //(신규) P2P투자자및차입자 가상계좌발급
+
 //    void P2PNVirtualAccountTerminate(); //(신규) P2P투자자/차입자 가상계좌 해지
 }

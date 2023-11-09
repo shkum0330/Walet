@@ -83,6 +83,11 @@ public class ServiceController {
         return ResponseEntity.ok(nhFintechService.InquireTransactionHistory(request));
     }
 
+//    투자자 및 차입자 가상계좌 발급
+    @PostMapping("/P2PNVirtualAccountNumberRequest")
+    public ResponseEntity<P2PNVirtualAccountNumberRequestDto.Response> P2PNVirtualAccountNumberRequest(@RequestBody P2PNVirtualAccountNumberRequestDto.Request request){
+        return ResponseEntity.ok(nhFintechService.P2PNVirtualAccountNumberRequest(request));
+    }
 
     
 
