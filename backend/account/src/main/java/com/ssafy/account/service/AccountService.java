@@ -29,12 +29,15 @@ public interface AccountService {
     MonthlyExpenditureDetailResponse getMonthlyExpenditureDetail(Long accountId); // 이번 달의 지출 현황을 카테고리별로 분류
     Map<String, String> getCategoryExpenditureDetail(Long accountId); // 전체 지출을 카테고리 별로 분류해서 반환
     Account findPetAccountByAccountId(Long accountId);
-    Account findPetAccountByAccountNumber(String accountNumber);
     Account findPetAccountByDepositorName(String depositorName);
 
     // 특정 사용자의 계좌 목록 반환(관리자페이지)
     List<AdminMemberAccountResponse> findMemberAccount(Long memberId);
 
+    Account findPetAccountByMemberId(Long memberId);
+    List<Account> findActiveAccountByMemberId(Long memberId,String accountType);
+
     // 일반계좌 및 동물계좌 수 반환(관리자페이지)
     AdminAccountCountResponse countAllAccountForAdmin();
+
 }

@@ -9,6 +9,13 @@ public class OauthDto {
     public static class Response{
         String message;
         String code;
-        String data;
+        Data data;
+
+        @Getter
+        @Setter
+        public static class Data{
+            String name;
+            String phoneNumber;
+        }
     }
 }

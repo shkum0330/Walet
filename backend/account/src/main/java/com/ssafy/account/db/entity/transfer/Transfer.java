@@ -34,11 +34,15 @@ public class Transfer extends BaseTimeEntity {
     @Column(name="transferee_id")
     private Long transfereeId; // 새로운 계좌 주인의 id
 
+    @Column(name="content")
+    private String content;
+
     @Enumerated(EnumType.STRING)
     @Column(name="status",length = 10,nullable = false)
     private TransferStatus status;
 
-    public Transfer(TransferStatus status) {
+    public Transfer(String content, TransferStatus status) {
+        this.content=content;
         this.status = PENDING;
     }
 
