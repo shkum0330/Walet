@@ -88,6 +88,9 @@ public interface NHFintechClient {
             @RequestBody P2PNVirtualAccountNumberRequestDto.Request request
     );
 
-    @PostMapping(value = "/P2PNVirtualAccountTerminate.nhd" , headers = "ApiNm=P2PNVirtualAccountTerminate")
-    String P2PNVirtualAccountTerminate();
+    @PostMapping(value = "/P2PNVirtualAccountTerminate.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    String P2PNVirtualAccountTerminate(
+            @RequestHeader("Auth") String key,
+            @RequestBody P2PNVirtualAccountTerminateDto.Request request
+    );
 }

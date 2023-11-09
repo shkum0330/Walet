@@ -89,6 +89,12 @@ public class ServiceController {
         return ResponseEntity.ok(nhFintechService.P2PNVirtualAccountNumberRequest(request));
     }
 
+//    투자자 및 차입자 가상계좌 해지
+    @PostMapping("/P2PNVirtualAccountTerminate")
+    public ResponseEntity<P2PNVirtualAccountTerminateDto.Response> P2PNVirtualAccountNumberRequest(@RequestBody P2PNVirtualAccountTerminateDto.Request request){
+        return ResponseEntity.ok(nhFintechService.P2PNVirtualAccountTerminate(request));
+    }
+
     
 
 }

@@ -259,6 +259,21 @@ public class NHFintechServiceImpl implements NHFintechService{
         }
     }
 
+    @Override
+    public P2PNVirtualAccountTerminateDto.Response P2PNVirtualAccountTerminate(P2PNVirtualAccountTerminateDto.Request data) {
+        HeaderDto header = getHeader("P2PNVirtualAccountTerminate");
+        P2PNVirtualAccountTerminateDto.Request request = P2PNVirtualAccountTerminateDto.Request.builder()
+                .Header(header)
+                .Vran(data.getVran())
+                .build();
+        String jsonString = nhFintechClient.P2PNVirtualAccountTerminate("Basic " + oauthService.getOauthKey() , request);
+        try {
+            return objectMapper.readValue(jsonString , P2PNVirtualAccountTerminateDto.Response.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private byte[] encode(Object objects){
         try {
             return objectMapper.writeValueAsBytes(objects);
