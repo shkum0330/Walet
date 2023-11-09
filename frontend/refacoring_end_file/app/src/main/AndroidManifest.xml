@@ -89,6 +89,9 @@
             android:name=".TransferPaymentActivity"
             android:exported="false" />
         <activity
+            android:name=".TransferTargetActivity"
+            android:exported="false" />
+        <activity
             android:name=".PayCompleteNegativeActivity"
             android:exported="false" />
         <activity

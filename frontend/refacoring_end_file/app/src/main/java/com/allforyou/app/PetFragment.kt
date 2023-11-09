@@ -47,7 +47,7 @@ class PetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recharge.setOnClickListener {
-            val intent = Intent(requireActivity(), PayPaymentActivity::class.java)
+            val intent = Intent(requireActivity(), ChargePaymentActivity::class.java)
             Log.d("버튼 클릭!!!!!!!!!!!","  _______                    \n" +
                     " / ___/ /  ___ ________ ____ \n" +
                     "/ /__/ _ \\/ _ `/ __/ _ `/ -_)\n" +

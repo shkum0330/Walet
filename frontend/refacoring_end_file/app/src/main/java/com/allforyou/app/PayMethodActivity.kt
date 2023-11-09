@@ -12,19 +12,19 @@ class PayMethodActivity : AppCompatActivity() {
         binding= ActivityPayMethodBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.nosePrint.setOnClickListener({
-            val intent= Intent(this, ChipAlertActivity::class.java)
+        binding.nosePrint.setOnClickListener {
+            val intent = Intent(this, PayRecognitionChipActivity::class.java)
             startActivity(intent)
-        })
+        }
 
-        binding.chip.setOnClickListener({
-            val intent= Intent(this, ChipAlertActivity::class.java)
+        binding.chip.setOnClickListener {
+            val intent = Intent(this, PayRecognitionChipActivity::class.java)
             startActivity(intent)
-        })
+        }
 
-        binding.close.setOnClickListener({
-            val intent= Intent(this, PayPaymentActivity::class.java)
+        binding.close.setOnClickListener {
+            val intent = Intent(this, PayPaymentActivity::class.java)
             startActivity(intent)
-        })
+        }
     }
 }

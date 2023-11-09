@@ -224,6 +224,7 @@
                 />
 
             <Button
+                android:id="@+id/confirm_identification"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="2"
