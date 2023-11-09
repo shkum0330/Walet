@@ -1,9 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".TransferIdentificationActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_marginHorizontal="22dp"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+android:background="@drawable/box_dialog"
+android:gravity="center"
+android:orientation="vertical"
+tools:context=".TransferIdentificationActivity">
+
+<ImageButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="end"
+    android:layout_marginHorizontal="14dp"
+    android:background="@color/white"
+    android:contentDescription="close button"
+    android:src="@drawable/baseline_close_24" />
+
+<Space
+    android:layout_width="match_parent"
+    android:layout_height="10dp" />
+
+
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:contentDescription="결제 아이콘"
+    android:src="@drawable/bank_nonghyup"
+
+    />
+
+<!--  회원이름-->
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:fontFamily="@font/pretendard_medium"
+    android:text="정옥매님께"
+    android:textColor="@color/black"
+    android:textSize="24sp" />
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:fontFamily="@font/pretendard_medium"
+    android:text="농협 111222333333"
+    android:textColor="@color/grey80"
+    android:textSize="18sp" />
+
+<Space
+    android:layout_width="match_parent"
+    android:layout_height="20dp" />
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:fontFamily="@font/pretendard_medium"
+    android:text="400,000원"
+    android:textColor="@color/black"
+    android:textSize="24sp" />
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:fontFamily="@font/pretendard_medium"
+    android:text="보낼게요"
+    android:textColor="@color/black"
+    android:textSize="24sp" />
+
+<Space
+    android:layout_width="match_parent"
+    android:layout_height="22dp" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/send_no"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/pretendard_medium"
+        android:background="@drawable/button_grey_no"
+        android:text="아니요"
+        android:textColor="@color/black"
+        android:textSize="24sp" />
+    <Space
+        android:layout_width="12dp"
+        android:layout_height="10dp"
+        />
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:fontFamily="@font/pretendard_medium"
+        android:background="@drawable/button_no_green"
+        android:text="이체하기"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+
+
+</LinearLayout>
+
+<Space
+    android:layout_width="match_parent"
+    android:layout_height="20dp" />
+
+</LinearLayout>
