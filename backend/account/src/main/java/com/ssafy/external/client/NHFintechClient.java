@@ -45,11 +45,11 @@ public interface NHFintechClient {
     InquireTransactionHistoryDto.Response InquireTransactionHistory(@RequestBody InquireTransactionHistoryDto.Request request);
 
     @PostMapping(value = "/P2PNVirtualAccountNumberRequest")
-    P2PNVirtualAccountNumberRequestDto.Response P2PNVirtualAccountNumberRequest(P2PNVirtualAccountNumberRequestDto.Request request);
+    P2PNVirtualAccountNumberRequestDto.Response P2PNVirtualAccountNumberRequest(@RequestBody P2PNVirtualAccountNumberRequestDto.Request request);
 
     @PostMapping(value = "/P2PNVirtualAccountTerminate")
-    P2PNVirtualAccountTerminateDto.Response P2PNVirtualAccountTerminate(P2PNVirtualAccountTerminateDto.Request request);
+    P2PNVirtualAccountTerminateDto.Response P2PNVirtualAccountTerminate(@RequestBody P2PNVirtualAccountTerminateDto.Request request);
 
     @PostMapping(value = "/P2PNInvestmentManagementVirtualAccountList")
-    P2PNInvestmentManagementVirtualAccountListDto.Response P2PNInvestmentManagementVirtualAccountList(P2PNInvestmentManagementVirtualAccountListDto.Request request);
+    P2PNInvestmentManagementVirtualAccountListDto.Response P2PNInvestmentManagementVirtualAccountList(@RequestBody P2PNInvestmentManagementVirtualAccountListDto.Request request);
 }
