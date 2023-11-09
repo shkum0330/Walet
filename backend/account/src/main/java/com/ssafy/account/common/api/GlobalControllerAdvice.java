@@ -38,5 +38,9 @@ public class GlobalControllerAdvice {
         return Response.fail(exception.getFailCode());
     }
 
+    @ExceptionHandler(InvalidTransferException.class)
+    public Response invalidPaymentException(InvalidTransferException exception) {
+        return Response.fail(exception.getFailCode());
+    }
 
 }
