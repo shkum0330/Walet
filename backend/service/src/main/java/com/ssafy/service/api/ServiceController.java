@@ -77,6 +77,12 @@ public class ServiceController {
         return ResponseEntity.ok(nhFintechService.InquireBalance(request));
     }
 
+//    거래내역조회
+    @PostMapping("/InquireTransactionHistory")
+    public ResponseEntity<InquireTransactionHistoryDto.Response> InquireTransactionHistory(@RequestBody InquireTransactionHistoryDto.Request request){
+        return ResponseEntity.ok(nhFintechService.InquireTransactionHistory(request));
+    }
+
 
     
 

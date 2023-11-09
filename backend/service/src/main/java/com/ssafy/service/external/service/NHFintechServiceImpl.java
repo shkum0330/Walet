@@ -194,7 +194,7 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .Header(header)
                 .FinAcno(data.getFinAcno())
                 .build();
-        String jsonString = nhFintechClient.InquireDepositorFinAccount(request).getDpnm();
+        String jsonString = nhFintechClient.InquireDepositorFinAccount("Basic " + oauthService.getOauthKey(),request);
         try {
             return objectMapper.readValue(jsonString , InquireDepositorFinAccountDto.Response.class);
         } catch (JsonProcessingException e) {
@@ -209,7 +209,7 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .Header(header)
                 .FinAcno(data.getFinAcno())
                 .build();
-        String jsonString = nhFintechClient.InquireBalance(request).getLdbl();
+        String jsonString = nhFintechClient.InquireBalance("Basic " + oauthService.getOauthKey() , request).getLdbl();
         try {
             return objectMapper.readValue(jsonString , InquireBalanceDto.Response.class);
         } catch (JsonProcessingException e) {
@@ -218,17 +218,24 @@ public class NHFintechServiceImpl implements NHFintechService{
     }
 
     @Override
-    public List<InquireTransactionHistoryDto.Response.REC> InquireTransactionHistory(String FinAcno, String Insymd, String Ineymd, String TrnsDsnc, String Lnsq, String PageNo, String Dmcnt) {
+    public InquireTransactionHistoryDto.Response InquireTransactionHistory(InquireTransactionHistoryDto.Request data) {
+        HeaderDto header = getHeader("InquireTransactionHistory");
         InquireTransactionHistoryDto.Request request = InquireTransactionHistoryDto.Request.builder()
-                .FinAcno(FinAcno)
-                .Insymd(Insymd)
-                .Ineymd(Ineymd)
-                .TrnsDsnc(TrnsDsnc)
-                .Lnsq(Lnsq)
-                .PageNo(PageNo)
-                .Dmcnt(Dmcnt)
+                .Header(header)
+                .FinAcno(data.getFinAcno())
+                .Insymd(data.getInsymd())
+                .Ineymd(data.getIneymd())
+                .TrnsDsnc(data.getTrnsDsnc())
+                .Lnsq(data.getLnsq())
+                .PageNo(data.getPageNo())
+                .Dmcnt(data.getDmcnt())
                 .build();
-        return nhFintechClient.InquireTransactionHistory(request).getREC();
+        String jsonString = nhFintechClient.InquireTransactionHistory("Basic " + oauthService.getOauthKey() , request);
+        try {
+            return objectMapper.readValue(jsonString , InquireTransactionHistoryDto.Response.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private byte[] encode(Object objects){

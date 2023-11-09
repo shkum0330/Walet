@@ -55,14 +55,20 @@ public interface NHFintechClient {
             @RequestHeader("Auth") String key,
             @RequestBody CheckDepositorFinAccountDto.Request request);
 
-    @PostMapping(value = "/InquireDepositorFinAccount.nhd" , headers = "ApiNm=InquireDepositorFinAccount")
-    InquireDepositorFinAccountDto.Response InquireDepositorFinAccount(@RequestBody InquireDepositorFinAccountDto.Request request);
+    @PostMapping(value = "/InquireDepositorFinAccount.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    String InquireDepositorFinAccount(
+            @RequestHeader("Auth") String key,
+            @RequestBody InquireDepositorFinAccountDto.Request request);
 
-    @PostMapping(value = "/InquireBalance.nhd" , headers = "ApiNm=InquireBalance")
-    InquireBalanceDto.Response InquireBalance(@RequestBody InquireBalanceDto.Request request);
+    @PostMapping(value = "/InquireBalance.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    InquireBalanceDto.Response InquireBalance(
+            @RequestHeader("Auth") String key,
+            @RequestBody InquireBalanceDto.Request request);
 
-    @PostMapping(value = "/InquireTransactionHistory.nhd" , headers = "ApiNm=InquireTransactionHistory")
-    InquireTransactionHistoryDto.Response InquireTransactionHistory(@RequestBody InquireTransactionHistoryDto.Request request);
+    @PostMapping(value = "/InquireTransactionHistory.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    String InquireTransactionHistory(
+            @RequestHeader("Auth") String key,
+            @RequestBody InquireTransactionHistoryDto.Request request);
 
     @PostMapping(value = "/P2PNVirtualAccountNumberRequest.nhd" , headers = "ApiNm=P2PNVirtualAccountNumberRequest")
     String P2PNVirtualAccountNumberRequest();

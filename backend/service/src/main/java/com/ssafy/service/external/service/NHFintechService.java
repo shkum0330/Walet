@@ -17,7 +17,7 @@ public interface NHFintechService {
     CheckDepositorFinAccountDto.Response CheckDepositorFinAccount(CheckDepositorFinAccountDto.Request request); //예금주 실명확인(핀-어카운트)
     InquireDepositorFinAccountDto.Response InquireDepositorFinAccount(InquireDepositorFinAccountDto.Request request); //예금주 조회(핀-어카운트)
     InquireBalanceDto.Response InquireBalance(InquireBalanceDto.Request request); //잔액조회
-    List<InquireTransactionHistoryDto.Response.REC> InquireTransactionHistory(String FinAcno , String Insymd , String Ineymd , String TrnsDsnc , String Lnsq , String PageNo , String Dmcnt); //거래내역조회
+    InquireTransactionHistoryDto.Response InquireTransactionHistory(InquireTransactionHistoryDto.Request request); //거래내역조회
 
 //    void P2PNVirtualAccountNumberRequest(); //(신규) P2P투자자및차입자 가상계좌발급
 //    void P2PNVirtualAccountTerminate(); //(신규) P2P투자자/차입자 가상계좌 해지
