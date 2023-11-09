@@ -23,7 +23,8 @@ public class ReceivedTransferFinAccountDto {
         @JsonProperty("MractOtlt")
         String MractOtlt;
     }
-
+    @Getter
+    @Setter
     public static class Response{
         @JsonProperty("Header")
         HeaderDto Header;
