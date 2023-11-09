@@ -5,16 +5,12 @@ import { DashboardCountData } from '../../interface/api/dashboardApiInterface';
 import { DashBoardCountRepository } from '../../repository/dashboard/dashboardRepository';
 import UserIcon from '../../components/Icons/usericon';
 import AccountIcon from '../../components/Icons/accounticon';
-import { noticedata } from '../../interface/api/noticeApiInterface';
-import {
-  noticeListRepository,
-  noticePopCheckRepository,
-} from '../../repository/notice/noticeRepository';
+import NoticeManage from '../../components/dashboard/noticeManage';
+import TransactionGraph from '../../data_source/dashboard/transactionGraph';
+import WeeklyTransactionGraph from '../../data_source/dashboard/weeklyTransactionGraph';
 
 function MainPage() {
   const [countData, SetCountData] = useState<DashboardCountData>();
-  const [notice, SetNotice] = useState<noticedata[] | null>([]);
-  const [popNotice, setPopNotice] = useState<noticedata | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -23,19 +19,8 @@ function MainPage() {
         SetCountData(data);
       }
     })();
-    (async () => {
-      const data = await noticeListRepository();
-      if (data) {
-        SetNotice(data);
-      }
-    })();
-    (async () => {
-      const data = await noticePopCheckRepository();
-      if (data) {
-        setPopNotice(data);
-      }
-    })();
   }, []);
+
   return (
     <div className="ml-24 pl-4 pt-4 h-[89vh]">
       <p className="text-3xl font-do-hyeon">DashBoard</p>
@@ -79,10 +64,10 @@ function MainPage() {
           </div>
         </Card>
         <Card width="w-[47%]" height="h-full" styling="p-2">
-          기간 거래금액 그래프
+          <TransactionGraph />
         </Card>
         <Card width="w-[22%]" height="h-full" styling="p-2">
-          기간 거래량 분석
+          <WeeklyTransactionGraph />
         </Card>
       </div>
       <div className="flex mt-8 h-[28%]">
@@ -94,38 +79,7 @@ function MainPage() {
         </Card>
         <Card width="w-[22%]" height="h-full" styling="p-2">
           공지사항 관리
-          <Card
-            width="w-[80%]"
-            height="h-[23%]"
-            styling="p-2 bg-gray-50 ring-2 ring-green-400">
-            <div className="flex justify-around">
-              <div>
-                <div className="text-base ">{popNotice?.title}</div>
-                <div className="text-sm ">{popNotice?.subTitle}</div>
-              </div>
-              <img
-                src={popNotice?.bannerImg}
-                alt="banner"
-                className="w-[30%] h-[4vh]"
-              />
-            </div>
-          </Card>
-          {notice &&
-            notice.slice(0, 2).map(item => (
-              <Card width="w-[80%]" height="h-[23%]" styling="p-2 bg-gray-50">
-                <div className="flex justify-around">
-                  <div>
-                    <div className="text-base ">{item.title}</div>
-                    <div className="text-sm ">{item.subTitle}</div>
-                  </div>
-                  <img
-                    src={item.bannerImg}
-                    alt="banner"
-                    className="w-[30%] h-[4vh]"
-                  />
-                </div>
-              </Card>
-            ))}
+          <NoticeManage />
         </Card>
       </div>
     </div>

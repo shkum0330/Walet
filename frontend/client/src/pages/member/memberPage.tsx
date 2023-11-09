@@ -141,7 +141,7 @@ function MemberPage() {
                     leaveTo="transform opacity-0 scale-95">
                     {selectedUser === item.id && (
                       <td colSpan={7}>
-                        <div className="h-[500px] overflow-y-auto">
+                        <div className="max-h-[500px] h-auto overflow-y-auto">
                           <table className="w-full h-[200px] ">
                             <thead>
                               <tr className="bg-gray-200">
