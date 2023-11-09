@@ -2,21 +2,18 @@ package com.allforyou.app
 
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.GsonBuilder
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.google.gson.Gson
+import com.google.gson.TypeAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
@@ -52,11 +49,30 @@ class LoginActivity : AppCompatActivity() {
 
         retrofitAPI.login(LoginRequest(email,password)).enqueue(object : Callback<AccessToken> {
             override fun onResponse(call: Call<AccessToken>, response: Response<AccessToken>) {
+//                if (response.code() === 400) {
+//                    Log.d(TAG, "onResponse - Status : " + response.code())
+//                    val gson = Gson()
+//                    val adapter: TypeAdapter<AccessToken> =
+//                        gson.getAdapter(AccessToken::class.java)
+//                    try {
+////                        if (response.errorBody() != null) accessToken = adapter.fromJson(
+////                            response.errorBody()!!.string()
+////                        )
+//                    } catch (e: IOException) {
+//                        e.printStackTrace()
+//                    }
+//                }
+
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     if (loginResponse != null) {
                         val accessToken = loginResponse.accessToken
                         val refreshToken = loginResponse.refreshToken
+                        Log.d("my_tag",loginResponse.toString())
+//                        Log.d("my_tag",loginResponse.accessToken)
+//                        Log.d("my_tag",loginResponse.refreshToken)
+//
+//                        AccessTokenManager.init(AccessToken(accessToken,refreshToken, loginResponse.userName));
 
                         val intent = Intent(this@LoginActivity, PasscodeActivity::class.java)
                         intent.putExtra("enroll",false);

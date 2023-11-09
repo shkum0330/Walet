@@ -58,6 +58,9 @@ class LoginActivity : AppCompatActivity() {
                         val accessToken = loginResponse.accessToken
                         val refreshToken = loginResponse.refreshToken
 
+                        Log.d("my_tag",accessToken)
+                        Log.d("my_tag",refreshToken)
+
                         val intent = Intent(this@LoginActivity, PinLockActivity::class.java)
                         // 다음 activity로 넘어감
                         startActivity(intent)

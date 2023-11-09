@@ -104,6 +104,8 @@
                 </LinearLayout>
 
                 <!--    공지사항-->
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -132,7 +134,7 @@
                             android:textSize="15sp" />
 
                         <TextView
-                            android:id="@+id/notice_content"
+                            android:id="@+id/notice_subtitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/pretendard_regular"

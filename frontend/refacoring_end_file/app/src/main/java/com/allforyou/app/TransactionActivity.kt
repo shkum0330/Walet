@@ -13,15 +13,15 @@ class TransactionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction)
         chargePaymentButton = findViewById(R.id.charge_payment)
-        chargePaymentButton.setOnClickListener({
+        chargePaymentButton.setOnClickListener {
             val intent = Intent(this, ChargePaymentActivity::class.java)
             startActivity(intent)
-        })
+        }
 
         transactionButton = findViewById(R.id.transaction)
-        transactionButton.setOnClickListener({
+        transactionButton.setOnClickListener {
             val intent = Intent(this, TransactionActivity::class.java)
             startActivity(intent)
-        })
+        }
     }
 }
