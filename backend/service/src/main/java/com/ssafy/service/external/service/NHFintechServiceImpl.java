@@ -274,9 +274,19 @@ public class NHFintechServiceImpl implements NHFintechService{
         }
     }
 
-    private byte[] encode(Object objects){
+    @Override
+    public P2PNInvestmentManagementVirtualAccountListDto.Response P2PNInvestmentManagementVirtualAccountList(P2PNInvestmentManagementVirtualAccountListDto.Request data) {
+        HeaderDto header = getHeader("P2PNInvestmentManagementVirtualAccountList");
+        P2PNInvestmentManagementVirtualAccountListDto.Request request = P2PNInvestmentManagementVirtualAccountListDto.Request.builder()
+                .Header(header)
+                .P2pVractUsg(data.getP2pVractUsg())
+                .Vran(data.getVran())
+                .Lnsq(data.getLnsq())
+                .PageNo(data.getPageNo())
+                .build();
+        String jsonString = nhFintechClient.P2PNInvestmentManagementVirtualAccountList("Basic " + oauthService.getOauthKey() , request);
         try {
-            return objectMapper.writeValueAsBytes(objects);
+            return objectMapper.readValue(jsonString , P2PNInvestmentManagementVirtualAccountListDto.Response.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

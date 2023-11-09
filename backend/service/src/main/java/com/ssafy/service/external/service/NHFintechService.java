@@ -22,5 +22,5 @@ public interface NHFintechService {
     P2PNVirtualAccountNumberRequestDto.Response P2PNVirtualAccountNumberRequest(P2PNVirtualAccountNumberRequestDto.Request request); //(신규) P2P투자자및차입자 가상계좌발급
 
     P2PNVirtualAccountTerminateDto.Response P2PNVirtualAccountTerminate(P2PNVirtualAccountTerminateDto.Request request);  //(신규) P2P투자자/차입자 가상계좌 해지
-
+    P2PNInvestmentManagementVirtualAccountListDto.Response P2PNInvestmentManagementVirtualAccountList(P2PNInvestmentManagementVirtualAccountListDto.Request request);
 }

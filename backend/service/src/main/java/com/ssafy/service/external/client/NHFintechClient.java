@@ -93,4 +93,10 @@ public interface NHFintechClient {
             @RequestHeader("Auth") String key,
             @RequestBody P2PNVirtualAccountTerminateDto.Request request
     );
+
+    @PostMapping(value = "/P2PNInvestmentManagementVirtualAccountList.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    String P2PNInvestmentManagementVirtualAccountList(
+            @RequestHeader("Auth") String key,
+            @RequestBody P2PNInvestmentManagementVirtualAccountListDto.Request request
+    );
 }
