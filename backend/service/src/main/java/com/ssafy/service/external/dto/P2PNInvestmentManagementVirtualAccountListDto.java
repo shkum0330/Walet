@@ -36,7 +36,7 @@ public class P2PNInvestmentManagementVirtualAccountListDto {
         @JsonProperty("PageNo")
         String PageNo;
         @JsonProperty("REC")
-        REC REC;
+        REC Rec;
 
         @Getter
         @Setter
