@@ -1,10 +1,14 @@
 package com.allforyou.app
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.allforyou.app.databinding.FragmentHomeBinding
+import com.allforyou.app.databinding.FragmentPetAccountBinding
+import com.allforyou.app.databinding.FragmentPetBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +25,8 @@ class PetAccountFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding: FragmentPetBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,7 +40,14 @@ class PetAccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
+//        binding.re.setOnClickListener {
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//        }
+
         return inflater.inflate(R.layout.fragment_pet_account, container, false)
+
     }
 
     companion object {
