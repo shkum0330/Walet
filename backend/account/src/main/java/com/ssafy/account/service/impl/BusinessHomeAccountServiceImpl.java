@@ -3,9 +3,9 @@ package com.ssafy.account.service.impl;
 import com.ssafy.account.api.response.account.BusinessAccountDetailResponse;
 import com.ssafy.account.api.response.transaction.HomeTransactionResponse;
 import com.ssafy.account.common.api.exception.NotFoundException;
-import com.ssafy.account.common.api.status.FailCode;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.transaction.Transaction;
+import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.db.repository.TransactionRepository;
 import com.ssafy.account.service.BusinessHomeAccountService;
@@ -39,11 +39,28 @@ public class BusinessHomeAccountServiceImpl implements BusinessHomeAccountServic
             throw new NotFoundException(NO_BUSINESS_ACCOUNT);
         }
 
+        List<HomeTransactionResponse> top5Transactions = new ArrayList<>();
         List<BusinessAccountDetailResponse> result = new ArrayList<>();
+
         for (Account businessAccount : businessAccounts) {
+
             List<Transaction> transactions = transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(businessAccount);
-            result.add(new BusinessAccountDetailResponse(businessAccount, transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList())));
+            for (Transaction transaction : transactions) {
+
+                TransactionType transactionType = transaction.getTransactionType();
+
+                if(transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
+                    top5Transactions.add(new HomeTransactionResponse(transaction, transaction.getAccount().getDepositorName()));
+                }
+                else if (transactionType == TransactionType.WITHDRAWAL) {
+                    top5Transactions.add(new HomeTransactionResponse(transaction, transaction.getRecipient()));
+                }
+
+            }
+
+            result.add(new BusinessAccountDetailResponse(businessAccount, top5Transactions));
         }
+
         return result;
     }
 }

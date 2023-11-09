@@ -5,6 +5,7 @@ import com.ssafy.account.api.response.transaction.HomeTransactionResponse;
 import com.ssafy.account.common.api.exception.NotFoundException;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.transaction.Transaction;
+import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.db.repository.TransactionRepository;
 import com.ssafy.account.service.PetHomeAccountService;
@@ -34,12 +35,26 @@ public class PetHomeAccountServiceImpl implements PetHomeAccountService {
         if(petAccounts.isEmpty()) {
             throw new NotFoundException(NO_PET_ACCOUNT);
         }
-        
+
+        List<HomeTransactionResponse> top5Transactions = new ArrayList<>();
         List<AnimalAccountDetailResponse> result = new ArrayList<>();
+
         for (Account petAccount : petAccounts) {
+
             // 각 계좌의 거래내역을 가져옴
             List<Transaction> transactions = transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(petAccount);
-            result.add(new AnimalAccountDetailResponse(petAccount, transactions.stream().map(HomeTransactionResponse::new).collect(Collectors.toList())));
+            for (Transaction transaction : transactions) {
+                TransactionType transactionType = transaction.getTransactionType();
+
+                if(transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
+                    top5Transactions.add(new HomeTransactionResponse(transaction, transaction.getAccount().getDepositorName()));
+                }
+                else if (transactionType == TransactionType.WITHDRAWAL) {
+                    top5Transactions.add(new HomeTransactionResponse(transaction, transaction.getRecipient()));
+                }
+            }
+
+            result.add(new AnimalAccountDetailResponse(petAccount, top5Transactions));
         }
 
         return result;
