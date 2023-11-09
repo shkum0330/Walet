@@ -4,9 +4,7 @@ import com.ssafy.account.api.request.account.AccountSaveRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.api.request.account.AssignRequest;
 import com.ssafy.account.api.request.account.SelectChargingAccountRequest;
-import com.ssafy.account.api.response.account.AccessiblePetAccountResponse;
-import com.ssafy.account.api.response.account.AccountResponse;
-import com.ssafy.account.api.response.account.ChargingAccountResponse;
+import com.ssafy.account.api.response.account.*;
 import com.ssafy.account.api.response.transaction.MonthlyExpenditureDetailResponse;
 import com.ssafy.account.common.api.exception.DuplicatedException;
 import com.ssafy.account.common.api.exception.NotFoundException;
@@ -465,6 +463,20 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account findPetAccountByDepositorName(String depositorName) {
         return accountRepository.findByDepositorNameAndAccountState(depositorName,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+    }
+
+    @Override
+    public List<AdminMemberAccountResponse> findMemberAccount(Long memberId) {
+        List<Account> memberAccountList = accountRepository.findAccountsByMemberId(memberId);
+        return memberAccountList.stream().map((account) ->
+                new AdminMemberAccountResponse(account)).collect(Collectors.toList());
+    }
+
+    @Override
+    public AdminAccountCountResponse countAllAccountForAdmin() {
+        long generalAccountCount = accountRepository.countByAccountType("00");
+        long petAccountCount = accountRepository.countByAccountType("02");
+        return new AdminAccountCountResponse(generalAccountCount, petAccountCount);
     }
 
 

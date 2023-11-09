@@ -65,4 +65,10 @@ public class TransactionController {
     public Response getTransactionDetail(@PathVariable Long transactionId) {
         return Response.success(GENERAL_SUCCESS, transactionService.getTransactionDetail(transactionId));
     }
+    
+    // 관리자 페이지에 특정 계좌의 거래목록 반환
+    @GetMapping("/admin/transaction/{accountId}")
+    public Response getTransactionsForAdmin(@PathVariable Long accountId) {
+        return Response.success(GENERAL_SUCCESS, transactionService.getTransactionsForAdmin(accountId));
+    }
 }
