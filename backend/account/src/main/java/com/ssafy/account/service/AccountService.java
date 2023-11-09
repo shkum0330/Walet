@@ -4,9 +4,7 @@ import com.ssafy.account.api.request.account.AccountSaveRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.api.request.account.AssignRequest;
 import com.ssafy.account.api.request.account.SelectChargingAccountRequest;
-import com.ssafy.account.api.response.account.AccessiblePetAccountResponse;
-import com.ssafy.account.api.response.account.AccountResponse;
-import com.ssafy.account.api.response.account.ChargingAccountResponse;
+import com.ssafy.account.api.response.account.*;
 import com.ssafy.account.api.response.transaction.MonthlyExpenditureDetailResponse;
 import com.ssafy.account.db.entity.account.Account;
 
@@ -33,16 +31,13 @@ public interface AccountService {
     Account findPetAccountByAccountId(Long accountId);
     Account findPetAccountByDepositorName(String depositorName);
 
-
-
-
-
-
-
-
-
+    // 특정 사용자의 계좌 목록 반환(관리자페이지)
+    List<AdminMemberAccountResponse> findMemberAccount(Long memberId);
 
     Account findPetAccountByMemberId(Long memberId);
     List<Account> findActiveAccountByMemberId(Long memberId,String accountType);
+
+    // 일반계좌 및 동물계좌 수 반환(관리자페이지)
+    AdminAccountCountResponse countAllAccountForAdmin();
 
 }

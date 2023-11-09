@@ -17,4 +17,6 @@ public interface TransactionService {
     List<TransactionResponse> getTransactionHistory(Long memberId, Long accountId); // 특정 계좌의 거래내역 목록 반환
     List<TransactionResponse> getSpecificPeriodTransaction(Long memberId, TransactionPeriodRequest request); // 특정 기간 내에 속하는 거래내역 목록 반환
     TransactionDetailResponse getTransactionDetail(Long transactionId); // 특정 거래 내역의 상세정보 반환
+
+    List<AdminMemberAccountTransactionResponse> getTransactionsForAdmin(Long accountId);
 }

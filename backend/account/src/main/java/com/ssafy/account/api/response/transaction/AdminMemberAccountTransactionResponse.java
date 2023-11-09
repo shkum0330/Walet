@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class MemberAccountTransactionResponse {
+public class AdminMemberAccountTransactionResponse {
     // 계좌명, 거래대상, 거래금액, 거래타입, 거래일자
     private String accountName;
     private String counterpart;
@@ -14,7 +14,7 @@ public class MemberAccountTransactionResponse {
     private String transactionType;
     private LocalDateTime transactionTime;
 
-    public MemberAccountTransactionResponse(Transaction transaction, String counterpart) {
+    public AdminMemberAccountTransactionResponse(Transaction transaction, String counterpart) {
         this.accountName = transaction.getAccount().getAccountName();
         this.counterpart = counterpart;
         this.paymentAmount = transaction.getPaymentAmount();

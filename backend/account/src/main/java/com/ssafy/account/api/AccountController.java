@@ -104,6 +104,26 @@ public class AccountController {
     public Response getMonthlyExpenditureDetail(@PathVariable Long accountId) {
         return Response.success(GENERAL_SUCCESS, accountService.getMonthlyExpenditureDetail(accountId));
     }
+    
+    // 로그인한 사용자의 모든 계좌 목록 반환
+    @GetMapping("/list/all-account")
+    public Response findAllMemberAccount(@RequestHeader("id") Long memberId) {
+        return Response.success(GENERAL_SUCCESS, accountService.findMemberAccount(memberId));
+    }
+
+    // 관리자 페이지
+    // 1. 특정 사용자의 계좌 목록 반환
+    @GetMapping("/admin/list/all-account/{memberId}")
+    public Response findMemberAccountForAdmin(@PathVariable Long memberId) {
+        return Response.success(GENERAL_SUCCESS, accountService.findMemberAccount(memberId));
+    }
+    
+    // 2. 전체 일반계좌 및 동물계좌 수 반환
+    @GetMapping("/admin/count/all-account")
+    public Response countAllAccountForAdmin() {
+        return Response.success(GENERAL_SUCCESS, accountService.countAllAccountForAdmin());
+    }
+
 
 //    // todo: 일단 파라미터에 accountId라 했으나 memberId를 받아와서 거기서 계좌번호를 끌어내야함
 //    @GetMapping("/home/account/{accountId}")

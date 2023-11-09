@@ -23,21 +23,20 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Optional<Account> findByAccountNumberAndAccountState(String accountNumber, String accountState);
 
-
-
-
-
-
-
-
-
-
-
-
     Optional<Account> findByIdAndAccountState(Long id, String accountState);
+
     Optional<Account> findByMemberIdAndAccountState(Long memberId, String accountState);
+
     Optional<Account> findByDepositorNameAndAccountType(String depositorName, String accountType);
+
     Optional<Account> findByDepositorNameAndAccountNumber(String depositorName, String accountNumber);
+
     List<Account> findAccountByMemberIdAndAccountTypeAndAccountState(Long memberId,String accountType, String accountState);
+
+    Optional<Account> findByDepositorNameAndAccountState(String depositorName, String accountState);
+
+    Optional<Account> findByAccountNumber(String accountNumber);
+
+    long countByAccountType(String accountType);
 }
 

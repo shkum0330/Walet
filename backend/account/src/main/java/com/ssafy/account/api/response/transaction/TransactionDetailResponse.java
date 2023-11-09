@@ -1,10 +1,8 @@
 package com.ssafy.account.api.response.transaction;
 
 import com.ssafy.account.db.entity.transaction.Transaction;
-import com.ssafy.account.db.entity.transaction.TransactionType;
 import lombok.Data;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,7 +12,7 @@ public class TransactionDetailResponse {
     private Long paymentAmount; // 거래 금액
     private Long balance; // 거래 후 잔액
     private LocalDateTime transactionTime; // 거래시간
-    private String phoneNumber;
+    private String phoneNumber; // 전화번호
 
     public TransactionDetailResponse(Transaction transaction, String businessCategory, String phoneNumber) {
         this.recipient = transaction.getRecipient();

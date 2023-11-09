@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -151,7 +152,19 @@ public class TransactionServiceImpl implements TransactionService {
         }
         
         List<Transaction> transactions = transactionRepository.findByAccount(account);
-        List<TransactionResponse> result = transactions.stream().map(transaction -> new TransactionResponse(transaction)).collect(Collectors.toList());
+        List<TransactionResponse> result = new ArrayList<>();
+
+        for (Transaction transaction : transactions) {
+            TransactionType transactionType = transaction.getTransactionType();
+
+            if(transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
+                result.add(new TransactionResponse(transaction.getAccount().getDepositorName(), transaction));
+            }
+            else if (transactionType == TransactionType.WITHDRAWAL) {
+                result.add(new TransactionResponse(transaction.getRecipient(), transaction));
+            }
+
+        }
         return result;
     }
 
@@ -172,7 +185,18 @@ public class TransactionServiceImpl implements TransactionService {
 
         List<Transaction> transactions=transactionRepository
                 .findByTransactionTimeBetweenOrderByTransactionTimeDesc(startDate,endDate);
-        return transactions.stream().map(TransactionResponse::new).collect(Collectors.toList());
+
+        List<TransactionResponse> result = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            TransactionType transactionType = transaction.getTransactionType();
+            if (transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
+                result.add(new TransactionResponse(transaction.getAccount().getDepositorName(), transaction));
+            }
+            else if (transactionType == TransactionType.WITHDRAWAL) {
+                result.add(new TransactionResponse(transaction.getRecipient(), transaction));
+            }
+        }
+        return result;
     }
 
     @Override
@@ -213,5 +237,23 @@ public class TransactionServiceImpl implements TransactionService {
 
         String userPhoneNumber = oauthService.getUserPhoneNumber(memberId);
         return new TransactionDetailResponse(transaction, businessCategory, userPhoneNumber);
+    }
+
+    @Override
+    public List<AdminMemberAccountTransactionResponse> getTransactionsForAdmin(Long accountId) {
+        List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
+
+        List<AdminMemberAccountTransactionResponse> result = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            TransactionType transactionType = transaction.getTransactionType();
+            if (transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
+                result.add(new AdminMemberAccountTransactionResponse(transaction, transaction.getAccount().getDepositorName()));
+            }
+            else if(transactionType == TransactionType.WITHDRAWAL) {
+                result.add(new AdminMemberAccountTransactionResponse(transaction, transaction.getRecipient()));
+            }
+        }
+
+        return result;
     }
 }
