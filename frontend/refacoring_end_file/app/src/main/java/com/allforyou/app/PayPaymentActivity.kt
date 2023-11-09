@@ -20,7 +20,7 @@ class PayPaymentActivity : AppCompatActivity() {
 
 
         binding.paymentDisabled.setOnClickListener({
-            val intent = Intent(this, PaymentCompleteNegativeActivity::class.java)
+            val intent = Intent(this, PayCompleteNegativeActivity::class.java)
             startActivity(intent)
         })
     }
