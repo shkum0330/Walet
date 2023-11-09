@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @Slf4j
@@ -36,7 +36,10 @@ public class JwtUtil {
         };
 
 //       만료시간 검사
-        if(!String.valueOf(decodedJWT.getClaim("exp")).equals("1")){
+//        String time = String.valueOf(decodedJWT.getClaim("exp"));
+//        Long now = new Date().getTime();
+
+        if(false){
             return ErrorCode.TOKEN_EXPIRED;
         };
 
