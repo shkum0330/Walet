@@ -22,7 +22,7 @@ ChartJS.register(
 );
 const options = {
   responsive: true,
-  aspectRatio: 4,
+  aspectRatio: 3,
   plugins: {
     legend: {
       display: false,
@@ -31,6 +31,18 @@ const options = {
   elements: {
     line: {
       tension: 0.4,
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
     },
   },
 };
@@ -84,41 +96,44 @@ function TransactionGraph() {
       {
         data: getData(period),
         borderColor: '#00C805',
-        backgroundColor: '#00C805',
+        backgroundColor: 'rgba(0, 200, 5, 0.3)',
+        fill: true,
       },
     ],
   };
 
   return (
     <div>
-      <p className="text-xl">기간별 거래금액 그래프</p>
-      <div className="flex justify-end">
-        <button
-          type="button"
-          className={`px-4 py-2 border ${
-            period === '1day' ? 'bg-gray-200' : ''
-          }`}
-          onClick={() => handleClick('1day')}>
-          1일
-        </button>
-        <button
-          type="button"
-          className={`px-4 py-2 border ${
-            period === '7days' ? 'bg-gray-200' : ''
-          }`}
-          onClick={() => handleClick('7days')}>
-          7일
-        </button>
-        <button
-          type="button"
-          className={`px-4 py-2 border ${
-            period === '1month' ? 'bg-gray-200' : ''
-          }`}
-          onClick={() => handleClick('1month')}>
-          1달
-        </button>
+      <div className="flex mb-8">
+        <p className="text-xl w-[77%]">기간별 거래금액 그래프</p>
+        <div className="flex justify-end">
+          <button
+            type="button"
+            className={`px-2 py-1 border ${
+              period === '1day' ? 'bg-gray-200' : ''
+            }`}
+            onClick={() => handleClick('1day')}>
+            <p>일</p>
+          </button>
+          <button
+            type="button"
+            className={`px-2 py-1 border ${
+              period === '7days' ? 'bg-gray-200' : ''
+            }`}
+            onClick={() => handleClick('7days')}>
+            <p>월</p>
+          </button>
+          <button
+            type="button"
+            className={`px-2 py-1 border ${
+              period === '1month' ? 'bg-gray-200' : ''
+            }`}
+            onClick={() => handleClick('1month')}>
+            <p>년</p>
+          </button>
+        </div>
       </div>
-      <div className="flex items-center justify-center h-[200px] w-[95%] mt-4">
+      <div className="flex items-center justify-center h-[20vh] w-[80vh] mt-4">
         <Line options={options} data={data} />
       </div>
     </div>

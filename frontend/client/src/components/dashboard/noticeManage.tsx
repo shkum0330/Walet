@@ -30,6 +30,7 @@ function NoticeManage() {
 
   return (
     <>
+      <p>공지사항 관리</p>
       <Card
         width="w-[80%]"
         height="h-[23%]"
@@ -45,13 +46,13 @@ function NoticeManage() {
           tabIndex={0}
           className="flex justify-around">
           <div>
-            <div className="text-base ">{popNotice?.title}</div>
-            <div className="text-sm ">{popNotice?.subTitle}</div>
+            <div className="text-sm font-bold ">{popNotice?.title}</div>
+            <div className="text-xs ">{popNotice?.subTitle}</div>
           </div>
           <img
             src={popNotice?.bannerImg}
             alt="banner"
-            className="w-[30%] h-[4vh]"
+            className="w-[25%] h-[4vh]"
           />
         </div>
       </Card>
@@ -73,13 +74,13 @@ function NoticeManage() {
               tabIndex={0}
               className="flex justify-around">
               <div>
-                <div className="text-base ">{item.title}</div>
-                <div className="text-sm ">{item.subTitle}</div>
+                <div className="text-sm font-bold">{item.title}</div>
+                <div className="text-xs">{item.subTitle}</div>
               </div>
               <img
                 src={item.bannerImg}
                 alt="banner"
-                className="w-[30%] h-[4vh]"
+                className="w-[25%] h-[4vh]"
               />
             </div>
           </Card>

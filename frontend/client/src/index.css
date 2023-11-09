@@ -31,9 +31,32 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: inherit;
 }
 
 code {
   font-family: 'Pretendard', source-code-pro, Menlo, Monaco, Consolas,
     'Courier New', monospace;
+}
+
+:root {
+  font-size: 1vw;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+button {
+  font-size: inherit;
+}
+
+.icon {
+  width: 3.5vw;
+  height: 3.5vw;
 }

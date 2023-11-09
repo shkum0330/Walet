@@ -36,49 +36,50 @@ function MainPage() {
           총 거래량
         </Card>
       </div>
-      <div className="flex mt-8 h-[38%]">
-        <Card width="w-[22%]" height="h-full" styling="p-2">
-          <p>시스템 개요</p>
-          <div className="flex ml-8 mt-4 h-[20%] align-middle">
-            <div className="w-[70%]">
-              <p className="text-3xl">{countData?.allUsers}</p>
+
+      <div className="flex mt-4 h-[38%]">
+        <Card width="w-[22%]" height="h-[33vh]" styling="p-2">
+          <p className="text-xl">시스템 개요</p>
+          <div className="flex ml-8 mt-2 h-[6vh] align-middle">
+            <div className="w-[70%] my-auto">
+              <p className="text-2xl">{countData?.allUsers}</p>
               <p>총 고객 수</p>
             </div>
-            <UserIcon styling="w-14 h-14" />
+            <UserIcon styling="icon" />
           </div>
           <hr className="mt-4 border-2" />
-          <div className="flex ml-8 mt-4 h-[20%] align-middle">
-            <div className="w-[70%]">
-              <p className="text-3xl">{countData?.allUsers}</p>
+          <div className="flex ml-8 mt-2 h-[6vh] align-middle">
+            <div className="w-[70%] my-auto">
+              <p className="text-2xl">{countData?.allUsers}</p>
               <p>일반 계좌 수</p>
             </div>
-            <AccountIcon styling="w-14 h-14" />
+            <AccountIcon styling="icon w-14 h-14" />
           </div>
           <hr className="mt-4 border-2" />
-          <div className="flex ml-8 mt-4 h-[20%] align-middle">
-            <div className="w-[70%]">
-              <p className="text-3xl">{countData?.allUsers}</p>
+          <div className="flex ml-8 mt-2 h-[6vh] align-middle">
+            <div className="w-[70%] my-auto">
+              <p className="text-2xl">{countData?.allUsers}</p>
               <p>반려 동물 계좌 수</p>
             </div>
-            <PetsIcon style={{ fontSize: 70 }} />
+            <PetsIcon style={{ fontSize: '3.5vw' }} />
           </div>
         </Card>
-        <Card width="w-[47%]" height="h-full" styling="p-2">
+        <Card width="w-[47%]" height="h-[33vh]" styling="p-2">
           <TransactionGraph />
         </Card>
-        <Card width="w-[22%]" height="h-full" styling="p-2">
+        <Card width="w-[22%]" height="h-[33vh]" styling="p-2">
           <WeeklyTransactionGraph />
         </Card>
       </div>
-      <div className="flex mt-8 h-[28%]">
-        <Card width="w-[22%]" height="h-full" styling="p-2">
-          카테고리별 매출
+
+      <div className="flex mt-4 h-[28%]">
+        <Card width="w-[22%]" height="h-[33vh]" styling="p-2">
+          <p>카테고리별 매출</p>
         </Card>
-        <Card width="w-[47%]" height="h-full" styling="p-2">
-          최근 거래 내역
+        <Card width="w-[47%]" height="h-[33vh]" styling="p-2">
+          <p>최근 거래 내역</p>
         </Card>
-        <Card width="w-[22%]" height="h-full" styling="p-2">
-          공지사항 관리
+        <Card width="w-[22%]" height="h-[33vh]" styling="p-2">
           <NoticeManage />
         </Card>
       </div>
