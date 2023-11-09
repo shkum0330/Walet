@@ -7,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -17,121 +15,77 @@ public class NHFintechServiceImpl implements NHFintechService{
     private final NHFintechClient nhFintechClient;
 
     @Override
-    public String OpenFinAccountARS(String Csnm, String BrdtBrno, String Tlno, String Acno, String DrtrRgyn) {
-        OpenFinAccountARSDto.Request request = new OpenFinAccountARSDto.Request(Csnm,BrdtBrno,Tlno,Acno,DrtrRgyn);
-        return nhFintechClient.OpenFinAccountARS(request).getRgno();
+    public OpenFinAccountARSDto.Response OpenFinAccountARS(OpenFinAccountARSDto.Request request) {
+        return nhFintechClient.OpenFinAccountARS(request);
     }
 
     @Override
-    public String CheckOpenFinAccount(String Rgno, String BrdtBrno, String Tlno) {
-        CheckOpenFinAccountDto.Request request = new CheckOpenFinAccountDto.Request(Rgno, BrdtBrno, Tlno);
-        return nhFintechClient.CheckOpenFinAccount(request).getFinAcno();
+    public CheckOpenFinAccountDto.Response CheckOpenFinAccount(CheckOpenFinAccountDto.Request request) {
+        return nhFintechClient.CheckOpenFinAccount(request);
     }
 
     @Override
-    public void CloseFinAccount(String FinAcno, String Tlno, String BrdtBrno) {
-        FinAccountDto.Request request = FinAccountDto.Request.builder()
-                .FinAcno(FinAcno)
-                .Tlno(Tlno)
-                .BrdtBrno(BrdtBrno)
-                .build();
-        nhFintechClient.CloseFinAccount(request);
+    public FinAccountDto.Response CloseFinAccount(FinAccountDto.Request request) {
+        return nhFintechClient.CloseFinAccount(request);
     }
 
     @Override
-    public String InquireFinAccountStatus(String FinAcno, String Tlno, String BrdtBrno) {
-        FinAccountDto.Request request = FinAccountDto.Request.builder()
-                .FinAcno(FinAcno)
-                .Tlno(Tlno)
-                .BrdtBrno(BrdtBrno)
-                .build();
-        return nhFintechClient.InquireFinAccountStatus(request).getFinAcnoStts();
+    public FinAccountDto.Response InquireFinAccountStatus(FinAccountDto.Request request) {
+        return nhFintechClient.InquireFinAccountStatus(request);
     }
 
     @Override
-    public void DrawingTransfer2(String FinAcno, String Tram, String Vran, String DractOtlt, String MractOtlt) {
-        DrawingTransfer2Dto.Request request = DrawingTransfer2Dto.Request.builder()
-                .FinAcno(FinAcno)
-                .Tram(Tram)
-                .Vran(Vran)
-                .DractOtlt(DractOtlt)
-                .MractOtlt(MractOtlt)
-                .build();
-        nhFintechClient.DrawingTransfer2(request);
+    public DrawingTransfer2Dto.Response DrawingTransfer2(DrawingTransfer2Dto.Request request) {
+        return nhFintechClient.DrawingTransfer2(request);
     }
 
     @Override
-    public String CheckOnDrawingTransfer2(String FinAcno, String Tram, String Vran, String OrtrYmd, String OrtrIsTuno) {
-        CheckOnDrawingTransfer2Dto.Request request = CheckOnDrawingTransfer2Dto.Request.builder()
-                .FinAcno(FinAcno)
-                .Tram(Tram)
-                .Vran(Vran)
-                .OrltYmd(OrtrYmd)
-                .OrtrIsTuno(OrtrIsTuno)
-                .build();
-        return nhFintechClient.CheckOnDrawingTransfer2(request).getPcrs();
+    public CheckOnDrawingTransfer2Dto.Response CheckOnDrawingTransfer2(CheckOnDrawingTransfer2Dto.Request request) {
+        return nhFintechClient.CheckOnDrawingTransfer2(request);
     }
 
     @Override
-    public void ReceivedTransferFinAccount(String FinAcno, String Tram, String DractOtlt, String MractOtlt) {
-        ReceivedTransferFinAccountDto.Request request = ReceivedTransferFinAccountDto.Request.builder()
-                .FinAcno(FinAcno)
-                .Tram(Tram)
-                .DractOtlt(DractOtlt)
-                .MractOtlt(MractOtlt)
-                .build();
-        nhFintechClient.ReceivedTransferFinAccount(request);
+    public ReceivedTransferFinAccountDto.Response ReceivedTransferFinAccount(ReceivedTransferFinAccountDto.Request request) {
+        return nhFintechClient.ReceivedTransferFinAccount(request);
     }
 
     @Override
-    public String CheckOnReceivedTransfer(String FinAcno, String Bncd, String Acno, String Tram, String OrtrYmd, String OrtrIsTuno) {
-        CheckOnReceivedTransferDto.Request request = CheckOnReceivedTransferDto.Request.builder()
-                .FinAcno(FinAcno)
-                .Bncd(Bncd)
-                .Acno(Acno)
-                .Tram(Tram)
-                .OrtrYmd(OrtrYmd)
-                .OrtrIsTuno(OrtrIsTuno)
-                .build();
-        return nhFintechClient.CheckOnReceivedTransfer(request).getPcrs();
+    public CheckOnReceivedTransferDto.Response CheckOnReceivedTransfer(CheckOnReceivedTransferDto.Request request) {
+        return nhFintechClient.CheckOnReceivedTransfer(request);
     }
 
     @Override
-    public String CheckDepositorFinAccount(String FinAcno, String BrdtBrno) {
-        CheckDepositorFinAccountDto.Request request = CheckDepositorFinAccountDto.Request.builder()
-                .FinAcno(FinAcno)
-                .BrdtBrno(BrdtBrno)
-                .build();
-        return nhFintechClient.CheckDepositorFinAccount(request).getDpnm();
+    public CheckDepositorFinAccountDto.Response CheckDepositorFinAccount(CheckDepositorFinAccountDto.Request request) {
+        return nhFintechClient.CheckDepositorFinAccount(request);
     }
 
     @Override
-    public String InquireDepositorFinAccount(String FinAcno) {
-        InquireDepositorFinAccountDto.Request request = InquireDepositorFinAccountDto.Request.builder()
-                .FinAcno(FinAcno)
-                .build();
-        return nhFintechClient.InquireDepositorFinAccount(request).getDpnm();
+    public InquireDepositorFinAccountDto.Response InquireDepositorFinAccount(InquireDepositorFinAccountDto.Request request) {
+        return nhFintechClient.InquireDepositorFinAccount(request);
     }
 
     @Override
-    public Long InquireBalance(String FinAcno) {
-        InquireBalanceDto.Request request = InquireBalanceDto.Request.builder()
-                .FinAcno(FinAcno)
-                .build();
-        return Long.parseLong(nhFintechClient.InquireBalance(request).getLdbl());
+    public InquireBalanceDto.Response InquireBalance(InquireBalanceDto.Request request) {
+        return nhFintechClient.InquireBalance(request);
     }
 
     @Override
-    public List<InquireTransactionHistoryDto.Response.REC> InquireTransactionHistory(String FinAcno, String Insymd, String Ineymd, String TrnsDsnc, String Lnsq, String PageNo, String Dmcnt) {
-        InquireTransactionHistoryDto.Request request = InquireTransactionHistoryDto.Request.builder()
-                .FinAcno(FinAcno)
-                .Insymd(Insymd)
-                .Ineymd(Ineymd)
-                .TrnsDsnc(TrnsDsnc)
-                .Lnsq(Lnsq)
-                .PageNo(PageNo)
-                .Dmcnt(Dmcnt)
-                .build();
-        return nhFintechClient.InquireTransactionHistory(request).getREC();
+    public InquireTransactionHistoryDto.Response InquireTransactionHistory(InquireTransactionHistoryDto.Request request) {
+        return nhFintechClient.InquireTransactionHistory(request);
+    }
+
+    @Override
+    public P2PNVirtualAccountNumberRequestDto.Response P2PNVirtualAccountNumberRequest(P2PNVirtualAccountNumberRequestDto.Request request) {
+        return nhFintechClient.P2PNVirtualAccountNumberRequest(request);
+    }
+
+    @Override
+    public P2PNVirtualAccountTerminateDto.Response P2PNVirtualAccountTerminate(P2PNVirtualAccountTerminateDto.Request request) {
+        return nhFintechClient.P2PNVirtualAccountTerminate(request);
+    }
+
+    @Override
+    public P2PNInvestmentManagementVirtualAccountListDto.Response P2PNInvestmentManagementVirtualAccountList(P2PNInvestmentManagementVirtualAccountListDto.Request request) {
+        return nhFintechClient.P2PNInvestmentManagementVirtualAccountList(request);
     }
 }

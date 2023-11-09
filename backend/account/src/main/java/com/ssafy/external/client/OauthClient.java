@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(url = "http://43.201.195.182" , name = "OauthClient" , configuration = ClientConfig.class)
 public interface OauthClient {
-    @GetMapping(value = "/api/auth/key")
-    OauthDto.Response getKey();
-
     @GetMapping(value = "/api/auth/name/{memberId}")
     OauthDto.Response getUserName(@PathVariable("memberId") Long memberId);
 
