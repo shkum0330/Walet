@@ -11,7 +11,7 @@ import java.util.TimeZone;
 public class ServiceApplication {
 	@PostConstruct
 	public void started() {
-		TimeZone.setDefault(TimeZone.getTimeZone("KST"));
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(ServiceApplication.class, args);
