@@ -1,19 +1,15 @@
 package com.allforyou.app
 
 import android.app.AlertDialog
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
-import com.google.gson.TypeAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
@@ -45,27 +41,21 @@ class LoginActivity : AppCompatActivity() {
     // Your login logic
     fun performLogin(email : String, password : String) {
 
-        var retrofitAPI = RetrofitClient.getClient().create(ApiService::class.java)
-
-        retrofitAPI.login(LoginRequest(email,password)).enqueue(object : Callback<AccessToken> {
-            override fun onResponse(call: Call<AccessToken>, response: Response<AccessToken>) {
+        var retrofitAPI = RetrofitClient.getClient()
+        retrofitAPI.login(LoginRequest(email,password)).enqueue(object : Callback<AccessTokenResponse> {
+            override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
                 if (response.isSuccessful) {
-                    val accessToken : AccessToken? = response.body()
+                    val accessToken : AccessTokenResponse.AccessToken = response.body()?.data!!
+                    Log.d("my_tag", "ResponseBody $response");
                     if (accessToken != null) {
-//                        val accessToken = loginResponse.accessToken
-//                        val refreshToken = loginResponse.refreshToken
-//                        Log.d("my_tag",loginResponse.toString())
-//                        Log.d("my_tag",loginResponse.accessToken)
-//                        Log.d("my_tag",loginResponse.refreshToken)
-//
                         AccessTokenManager.init(accessToken);
-
+                        retrofitAPI.login(LoginRequest(email,password))
+                        Log.d("my_tag",accessToken.toString())
                         val intent = Intent(this@LoginActivity, PasscodeActivity::class.java)
                         intent.putExtra("enroll",false);
                         intent.putExtra("destination", "com.allforyou.app.MainActivity");
                         startActivity(intent)
                         finish()
-
                         // Handle a successful login here
                     } else {
                         // Handle null response body
@@ -77,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<AccessToken>, t: Throwable) {
+            override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
                 showNetworkLoginAlertDialog()
             }
 

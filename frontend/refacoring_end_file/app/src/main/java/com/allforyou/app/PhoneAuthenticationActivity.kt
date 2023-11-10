@@ -108,7 +108,7 @@ class PhoneAuthenticationActivity : AppCompatActivity() {
         }
     }
     fun sendAuthenticationNumber(){
-        var retrofitAPI = RetrofitClient.getClient().create(ApiService::class.java)
+        var retrofitAPI = RetrofitClient.getClient()
 
         retrofitAPI.sendCode(PhoneAuthenticationRequest(phoneNumberForm.text.toString(),0)).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
@@ -130,7 +130,7 @@ class PhoneAuthenticationActivity : AppCompatActivity() {
     }
 
     fun checkAuthenticationNumber(){
-        var retrofitAPI = RetrofitClient.getClient().create(ApiService::class.java)
+        var retrofitAPI = RetrofitClient.getClient()
 
         retrofitAPI.checkCode(PhoneAuthenticationRequest(phoneNumberForm.text.toString(),authenticationNumber.text.toString().toLong())).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
