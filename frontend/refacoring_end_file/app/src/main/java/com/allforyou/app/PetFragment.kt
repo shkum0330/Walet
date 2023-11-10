@@ -1,10 +1,14 @@
 package com.allforyou.app
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.allforyou.app.databinding.FragmentHomeBinding
+import com.allforyou.app.databinding.FragmentPetBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -13,13 +17,15 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [PetAccountFragment.newInstance] factory method to
+ * Use the [PetFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PetAccountFragment : Fragment() {
+class PetFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var binding: FragmentPetBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +39,22 @@ class PetAccountFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pet_account, container, false)
+        binding = FragmentPetBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.recharge.setOnClickListener {
+            val intent = Intent(requireActivity(), ChargePaymentActivity::class.java)
+            Log.d("버튼 클릭!!!!!!!!!!!","  _______                    \n" +
+                    " / ___/ /  ___ ________ ____ \n" +
+                    "/ /__/ _ \\/ _ `/ __/ _ `/ -_)\n" +
+                    "\\___/_//_/\\_,_/_/  \\_, /\\__/ \n" +
+                    "                  /___/      ")
+            startActivity(intent)
+        }
     }
 
     companion object {
@@ -44,12 +64,12 @@ class PetAccountFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment PetAccountFragment.
+         * @return A new instance of fragment PetFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            PetAccountFragment().apply {
+            PetFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

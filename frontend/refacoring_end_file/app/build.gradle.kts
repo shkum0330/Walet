@@ -40,7 +40,30 @@ android {
 }
 
 dependencies {
+    // image
+    implementation ("com.squareup.picasso:picasso:2.71828")
 
+    // Passcode view
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.cardview:cardview:1.0.0")
+
+    // Biometrics
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
+
+    // Android security
+    implementation("androidx.security:security-crypto:1.0.0-rc03")
+    // For Identity Credential APIs
+    implementation("androidx.security:security-identity-credential:1.0.0-alpha01")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    // Retrofit REST request
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.8.0")
+
+    implementation("com.airbnb.android:lottie:6.1.0")
     implementation ("com.google.android.material:material:1.3.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
