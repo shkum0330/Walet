@@ -10,9 +10,7 @@ class PayCompletePositiveActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPayCompletePositiveBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-<<<<<<< HEAD
-        setContentView(R.layout.activity_pay_complete_positive)
-=======
+
         binding = ActivityPayCompletePositiveBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -25,6 +23,6 @@ class PayCompletePositiveActivity : AppCompatActivity() {
             val intent = Intent(this, TransactionReceiptActivity::class.java)
             startActivity(intent)
         }
->>>>>>> f34acb82f11168c25395974323bf5272ec0cbc74
+
     }
 }
