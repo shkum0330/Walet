@@ -38,13 +38,6 @@ class HomeFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        if(!NoticeManager.init){
-            Log.d("my_tag","공지사항을 불러옵니다")
-            loadNotice()
-        }else{
-            Log.d("my_tag","이미 저장된 공지사항을 불러옵니다")
-            setNotice()
-        }
     }
 
     override fun onCreateView(
@@ -55,17 +48,21 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
 //        return inflater.inflate(R.layout.fragment_home, container, false)
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        val imageView : ImageView = binding.noticeImg
-//        val imageUrl = NoticeManager.getInstance().bannerImg;
-//
-//        Picasso.get().load(imageUrl).into(imageView)
+        if(!NoticeManager.init){
+            Log.d("my_tag","공지사항을 불러옵니다")
+            loadNotice()
+        }else{
+            Log.d("my_tag","이미 저장된 공지사항을 불러옵니다")
+            setNotice()
+        }
+        binding.notice.setOnClickListener {
+            val intent = Intent(requireActivity(), NoticeActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.petpay.setOnClickListener {
             val intent = Intent(requireActivity(), PayPaymentActivity::class.java)
@@ -95,14 +92,15 @@ class HomeFragment : Fragment() {
     }
 
     fun loadNotice() {
-        var retrofitAPI = RetrofitClient.getClient().create(ApiService::class.java)
+        var retrofitAPI = RetrofitClient.getClient()
 
-        retrofitAPI.loadNotice(AccessTokenManager.getBearer()).enqueue(object : Callback<Notice> {
-            override fun onResponse(call: Call<Notice>, response: Response<Notice>) {
+        retrofitAPI.loadNotice(AccessTokenManager.getBearer()).enqueue(object : Callback<NoticeResponse> {
+            override fun onResponse(call: Call<NoticeResponse>, response: Response<NoticeResponse>) {
                 Log.d("my_tag","요청 사항 : "+AccessTokenManager.getBearer())
                 if (response.isSuccessful) {
-                    val noticeResponse = response.body()
+                    val noticeResponse = response.body()!!.data
                     NoticeManager.initData(noticeResponse!!)
+                    Log.d("my_tag",noticeResponse.toString())
                     if (noticeResponse != null) {
                         Log.d("my_tag","공지사항을 로딩 성공")
                         setNotice()
@@ -115,14 +113,14 @@ class HomeFragment : Fragment() {
                     // Handle unsuccessful response
                 }
             }
-            override fun onFailure(call: Call<Notice>, t: Throwable) {
+            override fun onFailure(call: Call<NoticeResponse>, t: Throwable) {
                 Log.d("my_tag","공지사항을: 네트워크 오류")
             }
         })
     }
     fun setNotice(){
         binding.noticeTitle.text = NoticeManager.getInstance().title
-        binding.noticeTitle.text = NoticeManager.getInstance().subTitle
+        binding.noticeSubtitle.text = NoticeManager.getInstance().subTitle
         val imageView : ImageView = binding.noticeImg
         val imageUrl = NoticeManager.getInstance().bannerImg;
 

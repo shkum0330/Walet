@@ -31,6 +31,7 @@
 
 
             <ImageView
+                android:id="@+id/notice_img"
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
                 android:background="#FFFFEB7A"
@@ -57,7 +58,7 @@
                 />
 
             <TextView
-                android:id="@+id/main_title"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="농협은행 단독 펫계좌 출시"
@@ -67,7 +68,7 @@
                 />
 
             <TextView
-                android:id="@+id/sub_title"
+                android:id="@+id/subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="간편한 올포유 페이 사용가능!"
