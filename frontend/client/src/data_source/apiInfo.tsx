@@ -1,10 +1,10 @@
-// const BASE_URI = 'http://43.201.195.182';
-// const NOTICE_URI = `${BASE_URI}/api/notice`;
-// const AUTH_URI = `${BASE_URI}/api/auth`;
+const BASE_URI = 'http://43.201.195.182';
+const NOTICE_URI = `${BASE_URI}/api/notice`;
+const AUTH_URI = `${BASE_URI}/api/auth`;
 
-const BASE_URI = 'http://localhost'; // 테스트용
-const NOTICE_URI = `${BASE_URI}:8083`; // 테스트용
-const AUTH_URI = `${BASE_URI}:8084`; // 테스트용
+// const BASE_URI = 'http://localhost'; // 테스트용
+// const NOTICE_URI = `${BASE_URI}:8083`; // 테스트용
+// const AUTH_URI = `${BASE_URI}:8084`; // 테스트용
 // const LOG_URI = `${BASE_URI}:8084/api/auth`;
 
 function useAccessToken(): string | null {
