@@ -1,9 +1,6 @@
 package com.ssafy.account.service;
 
-import com.ssafy.account.api.request.account.AccountSaveRequest;
-import com.ssafy.account.api.request.account.PetAccountSaveRequest;
-import com.ssafy.account.api.request.account.AssignRequest;
-import com.ssafy.account.api.request.account.SelectChargingAccountRequest;
+import com.ssafy.account.api.request.account.*;
 import com.ssafy.account.api.response.account.*;
 import com.ssafy.account.api.response.transaction.MonthlyExpenditureDetailResponse;
 import com.ssafy.account.db.entity.account.Account;
@@ -31,10 +28,10 @@ public interface AccountService {
     Account findAccountByAccountId(Long accountId);
     Account findPetAccountByAccountId(Long accountId);
     Account findPetAccountByDepositorName(String depositorName);
-
-    // 특정 사용자의 계좌 목록 반환(관리자페이지)
     List<AdminMemberAccountResponse> findMemberAccount(Long memberId);
 
+    // 전체 사용자의 계좌 목록 반환(관리자페이지)
+    List<AdminMemberAccountResponse> findAllMemberAccounts(AdminAllMemberIdsRequest request);
     Account findPetAccountByMemberId(Long memberId);
     List<Account> findActiveAccountByMemberId(Long memberId,String accountType);
 

@@ -1,6 +1,7 @@
 package com.ssafy.account.api;
 
 import com.ssafy.account.api.request.account.AccountSaveRequest;
+import com.ssafy.account.api.request.account.AdminAllMemberIdsRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.api.request.account.SelectChargingAccountRequest;
 import com.ssafy.account.common.api.Response;
@@ -112,10 +113,10 @@ public class AccountController {
     }
 
     // 관리자 페이지
-    // 1. 특정 사용자의 계좌 목록 반환
-    @GetMapping("/admin/list/all-account/{memberId}")
-    public Response findMemberAccountForAdmin(@PathVariable Long memberId) {
-        return Response.success(GENERAL_SUCCESS, accountService.findMemberAccount(memberId));
+    // 1. 전체 사용자의 계좌 목록 반환
+    @PostMapping("/admin/list/all-account")
+    public Response findMemberAccountForAdmin(@RequestBody AdminAllMemberIdsRequest request) {
+        return Response.success(GENERAL_SUCCESS, accountService.findAllMemberAccounts(request));
     }
     
     // 2. 전체 일반계좌 및 동물계좌 수 반환
