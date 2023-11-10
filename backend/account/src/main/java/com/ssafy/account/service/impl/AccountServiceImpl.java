@@ -1,9 +1,6 @@
 package com.ssafy.account.service.impl;
 
-import com.ssafy.account.api.request.account.AccountSaveRequest;
-import com.ssafy.account.api.request.account.PetAccountSaveRequest;
-import com.ssafy.account.api.request.account.AssignRequest;
-import com.ssafy.account.api.request.account.SelectChargingAccountRequest;
+import com.ssafy.account.api.request.account.*;
 import com.ssafy.account.api.response.account.*;
 import com.ssafy.account.api.response.transaction.MonthlyExpenditureDetailResponse;
 import com.ssafy.account.common.api.exception.DuplicatedException;
@@ -479,6 +476,21 @@ public class AccountServiceImpl implements AccountService {
         List<Account> memberAccountList = accountRepository.findAccountsByMemberId(memberId);
         return memberAccountList.stream().map((account) ->
                 new AdminMemberAccountResponse(account)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AdminMemberAccountResponse> findAllMemberAccounts(AdminAllMemberIdsRequest request) {
+        List<Long> allMemberIds = request.getAllMemberIds();
+        List<AdminMemberAccountResponse> result = new ArrayList<>();
+
+        for (Long memberId : allMemberIds) {
+            List<Account> accountsByMemberId = accountRepository.findAccountsByMemberId(memberId);
+            for (Account account : accountsByMemberId) {
+                result.add(new AdminMemberAccountResponse(account));
+            }
+        }
+
+        return result;
     }
 
     @Override
