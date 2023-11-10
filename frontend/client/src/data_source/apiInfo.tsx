@@ -1,8 +1,10 @@
 const BASE_URI = 'http://43.201.195.182';
 const NOTICE_URI = `${BASE_URI}/api/notice`;
 const AUTH_URI = `${BASE_URI}/api/auth`;
+const ACCOUNT_URI = `${BASE_URI}/api/account`
 
 // const BASE_URI = 'http://localhost'; // 테스트용
+// const ACCOUNT_URI = `${BASE_URI}:8082`; // 테스트용
 // const NOTICE_URI = `${BASE_URI}:8083`; // 테스트용
 // const AUTH_URI = `${BASE_URI}:8084`; // 테스트용
 // const LOG_URI = `${BASE_URI}:8084/api/auth`;
@@ -43,4 +45,11 @@ function useUsername(): string | null {
   return null;
 }
 
-export { AUTH_URI, NOTICE_URI, useAccessToken, useRefreshToken, useUsername };
+export {
+  AUTH_URI,
+  ACCOUNT_URI,
+  NOTICE_URI,
+  useAccessToken,
+  useRefreshToken,
+  useUsername,
+};

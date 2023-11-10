@@ -51,7 +51,7 @@ export async function UserSearchRepository(keyword: string) {
   return null;
 }
 
-export async function TransactionRepository(id: number) {
+export async function TransactionRepository(id: string) {
   const accessToken = useAccessToken();
   if (accessToken) {
     const data = await TransactionAPI(accessToken, id);

@@ -10,7 +10,6 @@ import TransactionTable from '../../components/member/transactionTable';
 
 function MemberPage() {
   const [users, SetUsers] = useState<Userdata[] | null>([]);
-  const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [keyword, setKeyword] = useState<string>('');
   useEffect(() => {
     (async () => {
@@ -51,8 +50,17 @@ function MemberPage() {
   const startIndex = (currentPage - 1) * 20;
   const endIndex = Math.min(startIndex + 20, totalItems);
 
+  const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const handleRowClick = (id: string) => {
     setSelectedUser(prevId => (prevId === id ? null : id));
+  };
+
+  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(
+    null,
+  );
+
+  const handleAccountClick = (accountId: string) => {
+    setSelectedAccountId(accountId);
   };
 
   return (
@@ -118,7 +126,16 @@ function MemberPage() {
                     <td className="border border-gray-300">
                       {item.account &&
                         item.account.map((accountItem, index) => (
-                          <span key={accountItem.accountId}>
+                          <span
+                            key={accountItem.accountId}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={() =>
+                              handleAccountClick(accountItem.accountId)
+                            }
+                            onClick={() =>
+                              handleAccountClick(accountItem.accountId)
+                            }>
                             {accountItem.accountName}
                             {index !== item.account.length - 1 ? ', ' : ''}
                           </span>
@@ -139,7 +156,9 @@ function MemberPage() {
                     {selectedUser === item.id && (
                       <td colSpan={7}>
                         <div className="max-h-[500px] h-auto overflow-y-auto">
-                          <TransactionTable accountId={1} />
+                          <TransactionTable
+                            accountId={selectedAccountId as string}
+                          />
                         </div>
                       </td>
                     )}

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { AUTH_URI } from '../apiInfo';
+import { ACCOUNT_URI, AUTH_URI } from '../apiInfo';
 import {
   LogoutRequest,
   LoginResponse,
@@ -106,8 +106,8 @@ export async function UserSearchAPI(token: string, keyword: string) {
   }
 }
 
-export async function TransactionAPI(token: string, id: number) {
-  const UserSearchURI = `${AUTH_URI}/admin/transaction/${id}`;
+export async function TransactionAPI(token: string, id: string) {
+  const UserSearchURI = `${ACCOUNT_URI}/admin/transaction/${id}`;
   if (token) {
     try {
       const response = await axios.get<TransactionResponse>(UserSearchURI, {

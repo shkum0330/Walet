@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { noticedata } from '../../interface/api/noticeApiInterface';
-import { noticeListRepository } from '../../repository/notice/noticeRepository';
+import { TransactionRepository } from '../../repository/member/memberRepository';
+import { Accountdata } from '../../interface/api/memberApiInterface';
 
-function TransactionTable({ accountId }: { accountId: number }) {
-  const [notice, SetNotice] = useState<noticedata[] | null>([]);
+function TransactionTable({ accountId }: { accountId: string }) {
+  const [transaction, SetTransaction] = useState<Accountdata[] | null>([]);
 
   useEffect(() => {
     (async () => {
-      const data = await noticeListRepository();
+      const data = await TransactionRepository(accountId);
       if (data) {
-        SetNotice(data);
+        console.log(data);
+        SetTransaction(data);
       }
     })();
   }, []);
@@ -22,24 +23,19 @@ function TransactionTable({ accountId }: { accountId: number }) {
           <th className="w-[5%] border border-gray-300">거래 타입</th>
           <th className="w-[10%] border border-gray-300">거래 일자</th>
           <th className="w-[10%] border border-gray-300">거래 대상</th>
-          <th className="w-[15%] border border-gray-300">가입 금액</th>
+          <th className="w-[15%] border border-gray-300">금액</th>
         </tr>
       </thead>
       <thead className=" ">
-        {notice?.map(items => (
-          <tr key={items.id}>
-            <td
-              className={`border border-gray-300  ${
-                items.isActive ? 'text-red-500' : ''
-              } `}>
-              {items.isActive ? 'V' : ''}
-            </td>
-            <td className="border border-gray-300">{items.id}</td>
+        {transaction?.map(items => (
+          <tr key={Math.random()}>
+            <td className="border border-gray-300  ">{items.accountName}</td>
+            <td className="border border-gray-300">{items.transactionType}</td>
             <td className="border border-gray-300">
-              {items.registerTime.substring(0, 14)}
+              {items.transactionTime.substring(0, 14)}
             </td>
-            <td className="border border-gray-300">{items.title}</td>
-            <td className="border border-gray-300">{items.subTitle}</td>
+            <td className="border border-gray-300">{items.counterpart}</td>
+            <td className="border border-gray-300">{items.paymentAmount}</td>
           </tr>
         ))}
       </thead>
