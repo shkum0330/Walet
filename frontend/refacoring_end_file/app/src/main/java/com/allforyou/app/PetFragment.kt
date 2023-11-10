@@ -55,6 +55,12 @@ class PetFragment : Fragment() {
                     "                  /___/      ")
             startActivity(intent)
         }
+
+        binding.btnViewApply.setOnClickListener{
+            val intent=Intent(requireActivity(), RequestViewActivity::class.java)
+            Log.d("사용자 클릭", "계좌 열람 신청을 눌렀습니다")
+            startActivity(intent)
+        }
     }
 
     companion object {

@@ -12,6 +12,7 @@ private const val TAG_HOME = "home_fragment"
 private const val TAG_PRINT = "print_fragment"
 private const val TAG_PRESENT = "present_fragment"
 private const val TAG_PET = "pet_fragment"
+private const val TAG_MYPAGE="mypage_fragment"
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,8 +31,9 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.homeFragment -> setFragment(TAG_HOME, HomeFragment())
                 R.id.printFragment -> setFragment(TAG_PRINT, PrintFragment())
-                R.id.presentFragment-> setFragment(TAG_PRESENT, PresentFragment())
+                R.id.presentFragment-> setFragment(TAG_PRESENT, FinancialProductFragment())
                 R.id.petFragment-> setFragment(TAG_PET, PetFragment())
+                R.id.mypageFragment-> setFragment(TAG_MYPAGE, MypageFragment())
             }
             true
         }
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         val print = manager.findFragmentByTag(TAG_PRINT)
         val present = manager.findFragmentByTag(TAG_PRESENT)
         val pet = manager.findFragmentByTag(TAG_PET)
+        val mypage=manager.findFragmentByTag(TAG_MYPAGE)
 
 
 
@@ -67,6 +70,9 @@ class MainActivity : AppCompatActivity() {
         }
         if (pet != null) {
             fragTransaction.hide(pet)
+        }
+        if (mypage != null) {
+            fragTransaction.hide(mypage)
         }
 
 
@@ -93,6 +99,11 @@ class MainActivity : AppCompatActivity() {
                 fragTransaction.show(pet)
             }
         }
+      else if (tag == TAG_MYPAGE){
+          if (mypage != null){
+              fragTransaction.show(mypage)
+          }
+      }
 
         fragTransaction.commitAllowingStateLoss()
     }

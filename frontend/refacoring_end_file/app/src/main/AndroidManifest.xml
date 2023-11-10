@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".RequestViewEndActivity"
+            android:exported="false" />
+        <activity
             android:name=".PassCompleteActivity"
             android:exported="false" />
         <activity
@@ -75,6 +78,9 @@
             android:exported="false" />
         <activity
             android:name=".RequestViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RequestViewEndActivity"
             android:exported="false" />
         <activity
             android:name=".TransferCompleteActivity"
