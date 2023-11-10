@@ -30,7 +30,7 @@ object RegisterRequestManager {
     }
     fun performRegister(context: Context){
 
-        var retrofitAPI = RetrofitClient.getClient().create(ApiService::class.java)
+        var retrofitAPI = RetrofitClient.getClient()
         Log.d("my_tag","request : "+data.toString())
         retrofitAPI.register(data!!).enqueue(object : Callback<RegisterRequest> {
             override fun onResponse(call: Call<RegisterRequest>, response: Response<RegisterRequest>) {
