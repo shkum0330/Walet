@@ -34,7 +34,7 @@ class PresentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pet, container, false)
+        return inflater.inflate(R.layout.fragment_present, container, false)
     }
 
     companion object {
@@ -44,7 +44,7 @@ class PresentFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment BoardFragment.
+         * @return A new instance of fragment PresentFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic

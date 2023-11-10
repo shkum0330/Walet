@@ -7,10 +7,6 @@ import android.util.Log
 import android.view.MotionEvent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.allforyou.app.PresentFragment
-import com.allforyou.app.HomeFragment
-import com.allforyou.app.PetFragment
-import com.allforyou.app.PrintFragment
 
 private const val TAG_HOME = "home_fragment"
 private const val TAG_PRINT = "print_fragment"
