@@ -6,8 +6,7 @@ import { UserSearchRepository } from '../../repository/member/memberRepository';
 import LeftIcon from '../../components/Icons/lefticon';
 import RightIcon from '../../components/Icons/righticon';
 import SearchIcon from '../../components/Icons/searchicon';
-import { noticeListRepository } from '../../repository/notice/noticeRepository';
-import { noticedata } from '../../interface/api/noticeApiInterface';
+import TransactionTable from '../../components/member/transactionTable';
 
 function MemberPage() {
   const [users, SetUsers] = useState<Userdata[] | null>([]);
@@ -55,17 +54,6 @@ function MemberPage() {
   const handleRowClick = (id: string) => {
     setSelectedUser(prevId => (prevId === id ? null : id));
   };
-
-  const [notice, SetNotice] = useState<noticedata[] | null>([]);
-
-  useEffect(() => {
-    (async () => {
-      const data = await noticeListRepository();
-      if (data) {
-        SetNotice(data);
-      }
-    })();
-  }, []);
 
   return (
     <div className="ml-24 pl-4 pt-4 h-[89vh]">
@@ -127,7 +115,16 @@ function MemberPage() {
                     <td className="border border-gray-300">
                       {item.createdDate.substring(0, 14)}
                     </td>
-                    <td className="border border-gray-300">999,999,999원</td>
+                    <td className="border border-gray-300">
+                      {item.account &&
+                        item.account.map((accountItem, index) => (
+                          <span key={accountItem.accountId}>
+                            {accountItem.accountName}
+                            {index !== item.account.length - 1 ? ', ' : ''}
+                          </span>
+                        ))}
+                    </td>
+
                     <td className="border border-gray-300 ">-</td>
                   </tr>
                   <Transition
@@ -142,51 +139,7 @@ function MemberPage() {
                     {selectedUser === item.id && (
                       <td colSpan={7}>
                         <div className="max-h-[500px] h-auto overflow-y-auto">
-                          <table className="w-full h-[200px] ">
-                            <thead>
-                              <tr className="bg-gray-200">
-                                <th className="w-[3%] border border-gray-300">
-                                  계좌명
-                                </th>
-                                <th className="w-[5%] border border-gray-300">
-                                  거래 타입
-                                </th>
-                                <th className="w-[10%] border border-gray-300">
-                                  거래 일자
-                                </th>
-                                <th className="w-[10%] border border-gray-300">
-                                  거래 대상
-                                </th>
-                                <th className="w-[15%] border border-gray-300">
-                                  가입 금액
-                                </th>
-                              </tr>
-                            </thead>
-                            <thead className=" ">
-                              {notice?.map(items => (
-                                <tr key={items.id}>
-                                  <td
-                                    className={`border border-gray-300  ${
-                                      items.isActive ? 'text-red-500' : ''
-                                    } `}>
-                                    {items.isActive ? 'V' : ''}
-                                  </td>
-                                  <td className="border border-gray-300">
-                                    {items.id}
-                                  </td>
-                                  <td className="border border-gray-300">
-                                    {items.registerTime.substring(0, 14)}
-                                  </td>
-                                  <td className="border border-gray-300">
-                                    {items.title}
-                                  </td>
-                                  <td className="border border-gray-300">
-                                    {items.subTitle}
-                                  </td>
-                                </tr>
-                              ))}
-                            </thead>
-                          </table>
+                          <TransactionTable accountId={1} />
                         </div>
                       </td>
                     )}

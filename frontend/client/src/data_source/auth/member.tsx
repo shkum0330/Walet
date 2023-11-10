@@ -7,6 +7,7 @@ import {
   UsersResponse,
   UserSerachResponse,
   UserResponse,
+  TransactionResponse,
 } from '../../interface/api/memberApiInterface';
 import { logout } from '../../store/actions/authActions';
 import { setTokens } from '../../store/store';
@@ -83,6 +84,7 @@ export async function UsersAPI(token: string) {
           Authorization: `Bearer ${token}`,
         },
       });
+
       return response.data.data;
     } catch (error) {}
   }
@@ -95,6 +97,20 @@ export async function UserSearchAPI(token: string, keyword: string) {
   if (token) {
     try {
       const response = await axios.get<UserSerachResponse>(UserSearchURI, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data.data;
+    } catch (error) {}
+  }
+}
+
+export async function TransactionAPI(token: string, id: number) {
+  const UserSearchURI = `${AUTH_URI}/admin/transaction/${id}`;
+  if (token) {
+    try {
+      const response = await axios.get<TransactionResponse>(UserSearchURI, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

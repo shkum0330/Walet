@@ -19,12 +19,28 @@ export interface LoginRequest extends AuthRequest {
 
 export interface LogoutRequest extends AuthRequest {}
 
+export interface account {
+  accountId: string;
+  accountName: string;
+  accountNumber: string;
+  balance: number;
+}
+
 export interface Userdata {
   id: string;
   name: string;
   email: string;
   phoneNumber: String;
   createdDate: String;
+  account: account[];
+}
+
+export interface Accountdata {
+  accountName: number;
+  counterpart: string;
+  paymentAmount: string;
+  transactionType: string;
+  transactionTime: string;
 }
 
 export interface UserResponse extends common {
@@ -37,4 +53,8 @@ export interface UsersResponse extends common {
 
 export interface UserSerachResponse extends common {
   data: Userdata[];
+}
+
+export interface TransactionResponse extends common {
+  data: Accountdata[];
 }

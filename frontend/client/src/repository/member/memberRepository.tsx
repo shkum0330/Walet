@@ -2,6 +2,7 @@ import { useAccessToken } from '../../data_source/apiInfo';
 import {
   LoginAPI,
   LogoutAPI,
+  TransactionAPI,
   UserAPI,
   UserSearchAPI,
   UsersAPI,
@@ -45,6 +46,15 @@ export async function UserSearchRepository(keyword: string) {
   const accessToken = useAccessToken();
   if (accessToken) {
     const data = await UserSearchAPI(accessToken, keyword);
+    return data;
+  }
+  return null;
+}
+
+export async function TransactionRepository(id: number) {
+  const accessToken = useAccessToken();
+  if (accessToken) {
+    const data = await TransactionAPI(accessToken, id);
     return data;
   }
   return null;

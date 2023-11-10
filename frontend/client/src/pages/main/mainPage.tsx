@@ -6,8 +6,8 @@ import { DashBoardCountRepository } from '../../repository/dashboard/dashboardRe
 import UserIcon from '../../components/Icons/usericon';
 import AccountIcon from '../../components/Icons/accounticon';
 import NoticeManage from '../../components/dashboard/noticeManage';
-import TransactionGraph from '../../data_source/dashboard/transactionGraph';
-import WeeklyTransactionGraph from '../../data_source/dashboard/weeklyTransactionGraph';
+import TransactionGraph from '../../components/dashboard/transactionGraph';
+import WeeklyTransactionGraph from '../../components/dashboard/weeklyTransactionGraph';
 
 function MainPage() {
   const [countData, SetCountData] = useState<DashboardCountData>();
@@ -50,7 +50,7 @@ function MainPage() {
           <hr className="mt-4 border-2" />
           <div className="flex ml-8 mt-2 h-[6vh] align-middle">
             <div className="w-[70%] my-auto">
-              <p className="text-2xl">{countData?.allUsers}</p>
+              <p className="text-2xl">{countData?.generalAccountCount}</p>
               <p>일반 계좌 수</p>
             </div>
             <AccountIcon styling="icon w-14 h-14" />
@@ -58,7 +58,7 @@ function MainPage() {
           <hr className="mt-4 border-2" />
           <div className="flex ml-8 mt-2 h-[6vh] align-middle">
             <div className="w-[70%] my-auto">
-              <p className="text-2xl">{countData?.allUsers}</p>
+              <p className="text-2xl">{countData?.petAccountCount}</p>
               <p>반려 동물 계좌 수</p>
             </div>
             <PetsIcon style={{ fontSize: '3.5vw' }} />

@@ -7,4 +7,6 @@ export interface DashboardCountResponse extends common {
 export interface DashboardCountData {
   newUser: string;
   allUsers: number;
+  generalAccountCount: number;
+  petAccountCount: number;
 }
