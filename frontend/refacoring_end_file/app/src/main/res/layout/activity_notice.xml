@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".NoticeActivity">
+
+    <ImageButton
+        android:layout_gravity="end"
+        android:layout_marginHorizontal="22dp"
+        android:id="@+id/btn_close"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/icon_close"
+        android:background="@color/white"
+        android:contentDescription="클로즈 버튼"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:background="#FFFFEB7A"
+                android:src="@drawable/img_dog9"
+                />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공지"
+                android:textColor="@color/no_green"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="14sp"
+                />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                />
+
+            <TextView
+                android:id="@+id/main_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="농협은행 단독 펫계좌 출시"
+                android:textColor="@color/black"
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:textSize="24sp"
+                />
+
+            <TextView
+                android:id="@+id/sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="간편한 올포유 페이 사용가능!"
+                android:textColor="@color/grey80"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="18sp"
+                />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                />
+
+            <TextView
+                android:layout_marginHorizontal="22dp"
+                android:lineHeight="24dp"
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey80"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="18sp"
+
+                android:letterSpacing="0.07"
+                android:text="농협은행은 애완동물을 사랑하는 고객들을 위해 새로운 서비스를 출시했습니다! 🐾 이제 농협은행에서는 펫 전용 계좌를 제공하여 고객들의 애완동물에 대한 책임 있는 돌봄을 지원하고 있어요. 이 특별한 계좌는 애완동물 소유주들을 위한 편리한 서비스를 제공합니다. 펫 전용 계좌를 사용하면 애완동물의 의료 비용, 사료 및 용품 구매 등에 대한 지출을 체계적으로 관리할 수 있어요. 💳\n\n
+
+농협은행의 펫 전용 계좌는 편리한 기능과 다양한 혜택을 제공해요! 이 계좌를 사용하면 애완동물의 건강을 관리하기 위한 병원비 지출을 쉽게 추적할 수 있고, 특별한 할인 혜택과 보너스 포인트를 받을 수 있어요. 또한, 계좌 소유주들을 위한 애완동물 관련 이벤트와 커뮤니티에 참여할 수 있는 기회도 제공됩니다. 🎉\n\n
+
+농협은행은 항상 고객들의 다양한 요구를 충족시키기 위해 노력하고 있어요. 이제 애완동물을 키우는 고객들은 농협은행의 펫 전용 계좌를 통해 보다 안정적으로 애완동물을 돌보고 관리할 수 있어요. 농협은행은 고객들의 삶을 더 행복하고 편리하게 만들기 위해 최선을 다하고 있어요! 😊\n\n"
+
+                />
+
+
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+</LinearLayout>

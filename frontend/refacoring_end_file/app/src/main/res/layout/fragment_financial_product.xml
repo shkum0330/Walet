@@ -1,0 +1,960 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FinancialProductFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginHorizontal="22dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nong_hyup"
+                android:text="All For You"
+                android:layout_marginRight="12dp"
+                android:textColor="@color/no_green"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@color/white"
+                android:contentDescription="로고"
+                android:paddingRight="12dp"
+                android:src="@drawable/img_logo" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/bell"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@color/white"
+                android:contentDescription="알림 아이콘"
+                android:src="@drawable/icon_bell" />
+
+
+
+        </LinearLayout>
+        
+
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="22dp"
+            android:fontFamily="@font/pretendard_bold"
+            android:text="쇼핑"
+            android:textColor="@color/black"
+            android:textSize="28sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="24dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="22dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:text="우리아이 병원비 보장 펫보험"
+                        android:textColor="@color/black"
+                        android:textSize="24sp" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:text="눈덩이처럼 불어나는 병원비, 펫보험으로 대비하세요"
+                        android:textColor="@color/grey80"
+                        android:textSize="18sp" />
+
+
+
+
+                </LinearLayout>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="340dp"
+                            android:layout_height="380dp"
+                            app:cardCornerRadius="10dp"
+                            android:background="@color/white"
+                            android:elevation="5dp"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:adjustViewBounds="true"
+                                    android:src="@drawable/pet_ad1" />
+
+                                <Space
+                                    android:layout_width="match_parent"
+                                    android:layout_height="12dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingBottom="4dp"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="펫퍼민트 Puppy Love 다이렉트"
+                                            android:textColor="@color/black"
+                                            android:textSize="18sp" />
+
+                                        <Space
+                                            android:layout_width="10dp"
+                                            android:layout_height="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="메리츠화재"
+                                            android:textColor="@color/grey60"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+                                    <Space
+                                        android:layout_width="12dp"
+                                        android:layout_height="6dp" />
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="강아지"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+                                        <Space
+                                            android:layout_width="12dp"
+                                            android:layout_height="6dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="고양이"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+
+                                    <Space
+                                        android:layout_width="match_parent"
+                                        android:layout_height="12dp" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/pretendard_regular"
+
+                                        android:text="# 슬개골/피부 관련 질환 기본 보장\n
+#3년 자동갱신으로 만 20세까지 보장\n
+#반려견 배상책임(특약) 보장\n
+#자기부담금 선택으로 경제적인 보험료
+"
+                                        android:textColor="@color/grey80"
+                                        android:textSize="16sp"
+                                        />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+
+                        </androidx.cardview.widget.CardView>
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="10dp"
+                            />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="340dp"
+                            android:layout_height="380dp"
+                            app:cardCornerRadius="10dp"
+                            android:background="@color/white"
+                            android:elevation="5dp"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:adjustViewBounds="true"
+                                    android:src="@drawable/pet_ad1" />
+
+                                <Space
+                                    android:layout_width="match_parent"
+                                    android:layout_height="12dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="펫퍼민트 Puppy Love 다이렉트"
+                                            android:textColor="@color/black"
+                                            android:textSize="18sp" />
+
+                                        <Space
+                                            android:layout_width="10dp"
+                                            android:layout_height="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="메리츠화재"
+                                            android:textColor="@color/grey60"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+                                    <Space
+                                        android:layout_width="12dp"
+                                        android:layout_height="6dp" />
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="강아지"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+                                        <Space
+                                            android:layout_width="12dp"
+                                            android:layout_height="6dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="고양이"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+
+                                    <Space
+                                        android:layout_width="match_parent"
+                                        android:layout_height="12dp" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/pretendard_regular"
+
+                                        android:text="# 슬개골/피부 관련 질환 기본 보장\n
+#3년 자동갱신으로 만 20세까지 보장\n
+#반려견 배상책임(특약) 보장\n
+#자기부담금 선택으로 경제적인 보험료
+"
+                                        android:textColor="@color/grey80"
+                                        android:textSize="16sp"
+                                        />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+
+                        </androidx.cardview.widget.CardView>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="10dp"
+                            />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="340dp"
+                            android:layout_height="380dp"
+                            app:cardCornerRadius="10dp"
+                            android:background="@color/white"
+                            android:elevation="5dp"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:adjustViewBounds="true"
+                                    android:src="@drawable/pet_ad1" />
+
+                                <Space
+                                    android:layout_width="match_parent"
+                                    android:layout_height="12dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="펫퍼민트 Puppy Love 다이렉트"
+                                            android:textColor="@color/black"
+                                            android:textSize="18sp" />
+
+                                        <Space
+                                            android:layout_width="10dp"
+                                            android:layout_height="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="메리츠화재"
+                                            android:textColor="@color/grey60"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+                                    <Space
+                                        android:layout_width="12dp"
+                                        android:layout_height="6dp" />
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="강아지"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+                                        <Space
+                                            android:layout_width="12dp"
+                                            android:layout_height="6dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="고양이"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+
+                                    <Space
+                                        android:layout_width="match_parent"
+                                        android:layout_height="12dp" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/pretendard_regular"
+
+                                        android:text="# 슬개골/피부 관련 질환 기본 보장\n
+#3년 자동갱신으로 만 20세까지 보장\n
+#반려견 배상책임(특약) 보장\n
+#자기부담금 선택으로 경제적인 보험료
+"
+                                        android:textColor="@color/grey80"
+                                        android:textSize="16sp"
+                                        />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+
+                        </androidx.cardview.widget.CardView>
+
+
+
+
+                    </LinearLayout>
+
+
+                </HorizontalScrollView>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/grey20"
+                    />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="22dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:text="목돈 마련 보장 펫적금"
+                        android:textColor="@color/black"
+                        android:textSize="24sp" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:text="어떤일이 생길지 몰라요! 최대 우대 금리 3.4%"
+                        android:textColor="@color/grey80"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="340dp"
+                            android:layout_height="380dp"
+                            app:cardCornerRadius="10dp"
+                            android:background="@color/white"
+                            android:elevation="5dp"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:adjustViewBounds="true"
+                                    android:src="@drawable/pet_ad2" />
+
+                                <Space
+                                    android:layout_width="match_parent"
+                                    android:layout_height="12dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="펫사랑 적금"
+                                            android:textColor="@color/black"
+                                            android:textSize="18sp" />
+
+                                        <Space
+                                            android:layout_width="10dp"
+                                            android:layout_height="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="하나은행"
+                                            android:textColor="@color/grey60"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+                                    <Space
+                                        android:layout_width="12dp"
+                                        android:layout_height="6dp" />
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="강아지"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+                                        <Space
+                                            android:layout_width="12dp"
+                                            android:layout_height="6dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="고양이"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+
+                                    <Space
+                                        android:layout_width="match_parent"
+                                        android:layout_height="12dp" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/pretendard_regular"
+                                        android:paddingBottom="12dp"
+                                        android:text="#최대금리 연 2.80%\n
+#최고가입한도 월 50만원\n
+#보험서비스 무료가입 사랑의 서약서\n
+#가입기간 1년
+"
+                                        android:textColor="@color/grey80"
+                                        android:textSize="16sp"
+                                        />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+
+                        </androidx.cardview.widget.CardView>
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="10dp"
+                            />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="340dp"
+                            android:layout_height="380dp"
+                            app:cardCornerRadius="10dp"
+                            android:background="@color/white"
+                            android:elevation="5dp"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:adjustViewBounds="true"
+                                    android:src="@drawable/pet_ad2" />
+
+                                <Space
+                                    android:layout_width="match_parent"
+                                    android:layout_height="12dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="펫퍼민트 Puppy Love 다이렉트"
+                                            android:textColor="@color/black"
+                                            android:textSize="18sp" />
+
+                                        <Space
+                                            android:layout_width="10dp"
+                                            android:layout_height="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="메리츠화재"
+                                            android:textColor="@color/grey60"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+                                    <Space
+                                        android:layout_width="12dp"
+                                        android:layout_height="6dp" />
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="강아지"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+                                        <Space
+                                            android:layout_width="12dp"
+                                            android:layout_height="6dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="고양이"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+
+                                    <Space
+                                        android:layout_width="match_parent"
+                                        android:layout_height="12dp" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/pretendard_regular"
+
+                                        android:text="# 슬개골/피부 관련 질환 기본 보장\n
+#3년 자동갱신으로 만 20세까지 보장\n
+#반려견 배상책임(특약) 보장\n
+#자기부담금 선택으로 경제적인 보험료
+"
+                                        android:textColor="@color/grey80"
+                                        android:textSize="16sp"
+                                        />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+
+                        </androidx.cardview.widget.CardView>
+
+                        <Space
+                            android:layout_width="20dp"
+                            android:layout_height="10dp"
+                            />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="340dp"
+                            android:layout_height="380dp"
+                            app:cardCornerRadius="10dp"
+                            android:background="@color/white"
+                            android:elevation="5dp"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:adjustViewBounds="true"
+                                    android:src="@drawable/pet_ad1" />
+
+                                <Space
+                                    android:layout_width="match_parent"
+                                    android:layout_height="12dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="펫퍼민트 Puppy Love 다이렉트"
+                                            android:textColor="@color/black"
+                                            android:textSize="18sp" />
+
+                                        <Space
+                                            android:layout_width="10dp"
+                                            android:layout_height="10dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/pretendard_semi_bold"
+                                            android:text="메리츠화재"
+                                            android:textColor="@color/grey60"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+                                    <Space
+                                        android:layout_width="12dp"
+                                        android:layout_height="6dp" />
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="강아지"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+                                        <Space
+                                            android:layout_width="12dp"
+                                            android:layout_height="6dp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/box_chip"
+                                            android:paddingHorizontal="8dp"
+                                            android:paddingVertical="2dp"
+                                            android:text="고양이"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp" />
+
+
+                                    </LinearLayout>
+
+                                    <Space
+                                        android:layout_width="match_parent"
+                                        android:layout_height="12dp" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/pretendard_regular"
+
+                                        android:text="# 슬개골/피부 관련 질환 기본 보장\n
+#3년 자동갱신으로 만 20세까지 보장\n
+#반려견 배상책임(특약) 보장\n
+#자기부담금 선택으로 경제적인 보험료
+"
+                                        android:textColor="@color/grey80"
+                                        android:textSize="16sp"
+                                        />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+
+                        </androidx.cardview.widget.CardView>
+
+
+
+
+                    </LinearLayout>
+
+
+                </HorizontalScrollView>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    />
+
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+</FrameLayout>

@@ -35,4 +35,7 @@
 
     <color name="sub_green10">#FF69C7B4</color>
     <color name="sub_green20">#FF69C7A3</color>
+
+    <color name="red">#FFF43333</color>
+    <color name="blue">#FF1400F7</color>
 </resources>
