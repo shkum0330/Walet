@@ -13,7 +13,7 @@ public class InquireBalanceDto {
     @AllArgsConstructor
     public static class Request{
         @JsonProperty("FinAcno")
-        String FinAcno;
+        String FinAcno; // 핀-어카운트
     }
 
     @Setter
@@ -38,10 +38,10 @@ public class InquireBalanceDto {
         @JsonProperty("IosWebUrl")
         String IosWebUrl;
         @JsonProperty("FinAcno")
-        String FinAcno;
+        String FinAcno; // 핀-어카운트
         @JsonProperty("Ldbl")
-        String Ldbl;
+        String Ldbl; // 원장잔액
         @JsonProperty("RlpmAbamt")
-        String RlpmAbamt;
+        String RlpmAbamt; // 실지급가능액
     }
 }

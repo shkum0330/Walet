@@ -13,13 +13,13 @@ public class ReceivedTransferFinAccountDto {
     @AllArgsConstructor
     public static class Request{
         @JsonProperty("FinAcno")
-        String FinAcno;
+        String FinAcno; // 핀-어카운트
         @JsonProperty("Tram")
-        String Tram;
+        String Tram; // 거래금액
         @JsonProperty("DractOtlt")
-        String DractOtlt;
+        String DractOtlt; // 출금계좌인자내용
         @JsonProperty("MractOtlt")
-        String MractOtlt;
+        String MractOtlt; // 입금계좌인자내용
     }
 
     @Getter

@@ -50,7 +50,6 @@ cloud:
     stack:
       auto: false
 
-
 eureka:
   client:
     service-url:

@@ -13,15 +13,15 @@ public class OpenFinAccountARSDto {
     @AllArgsConstructor
     public static class Request{
         @JsonProperty("Csnm")
-        String Csnm;
+        String Csnm; // 고객명
         @JsonProperty("BrdtBrno")
-        String BrdtBrno;
+        String BrdtBrno; // 생년월일
         @JsonProperty("Tlno")
-        String Tlno;
+        String Tlno; // 전화번호
         @JsonProperty("Acno")
-        String Acno;
+        String Acno; // 계좌번호
         @JsonProperty("DrtrRgyn")
-        String DrtrRgyn;
+        String DrtrRgyn; // 출금이체등록 여부
     }
 
     @Getter
@@ -30,6 +30,6 @@ public class OpenFinAccountARSDto {
         @JsonProperty("Header")
         String Header;
         @JsonProperty("Rgno")
-        String Rgno;
+        String Rgno; // 등록번호
     }
 }

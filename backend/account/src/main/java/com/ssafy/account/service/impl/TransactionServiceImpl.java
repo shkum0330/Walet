@@ -247,10 +247,10 @@ public class TransactionServiceImpl implements TransactionService {
         for (Transaction transaction : transactions) {
             TransactionType transactionType = transaction.getTransactionType();
             if (transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
-                result.add(new AdminMemberAccountTransactionResponse(transaction, transaction.getAccount().getDepositorName()));
+                result.add(new AdminMemberAccountTransactionResponse(transaction, transaction.getAccount().getDepositorName(), TransactionType.DEPOSIT.getName()));
             }
             else if(transactionType == TransactionType.WITHDRAWAL) {
-                result.add(new AdminMemberAccountTransactionResponse(transaction, transaction.getRecipient()));
+                result.add(new AdminMemberAccountTransactionResponse(transaction, transaction.getRecipient(), TransactionType.WITHDRAWAL.getName()));
             }
         }
 
