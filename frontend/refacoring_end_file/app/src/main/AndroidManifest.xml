@@ -80,9 +80,6 @@
             android:name=".RequestViewActivity"
             android:exported="false" />
         <activity
-            android:name=".RequestViewEndActivity"
-            android:exported="false" />
-        <activity
             android:name=".TransferCompleteActivity"
             android:exported="false" />
         <activity

@@ -126,6 +126,9 @@ class HomeFragment : Fragment() {
 
         Picasso.get().load(imageUrl).into(imageView)
     }
+    fun loadAccounts(){
+
+    }
 
     companion object {
         /**
