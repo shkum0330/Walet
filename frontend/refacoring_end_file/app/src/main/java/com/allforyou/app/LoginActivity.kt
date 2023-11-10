@@ -49,30 +49,16 @@ class LoginActivity : AppCompatActivity() {
 
         retrofitAPI.login(LoginRequest(email,password)).enqueue(object : Callback<AccessToken> {
             override fun onResponse(call: Call<AccessToken>, response: Response<AccessToken>) {
-//                if (response.code() === 400) {
-//                    Log.d(TAG, "onResponse - Status : " + response.code())
-//                    val gson = Gson()
-//                    val adapter: TypeAdapter<AccessToken> =
-//                        gson.getAdapter(AccessToken::class.java)
-//                    try {
-////                        if (response.errorBody() != null) accessToken = adapter.fromJson(
-////                            response.errorBody()!!.string()
-////                        )
-//                    } catch (e: IOException) {
-//                        e.printStackTrace()
-//                    }
-//                }
-
                 if (response.isSuccessful) {
-                    val loginResponse = response.body()
-                    if (loginResponse != null) {
-                        val accessToken = loginResponse.accessToken
-                        val refreshToken = loginResponse.refreshToken
-                        Log.d("my_tag",loginResponse.toString())
+                    val accessToken : AccessToken? = response.body()
+                    if (accessToken != null) {
+//                        val accessToken = loginResponse.accessToken
+//                        val refreshToken = loginResponse.refreshToken
+//                        Log.d("my_tag",loginResponse.toString())
 //                        Log.d("my_tag",loginResponse.accessToken)
 //                        Log.d("my_tag",loginResponse.refreshToken)
 //
-//                        AccessTokenManager.init(AccessToken(accessToken,refreshToken, loginResponse.userName));
+                        AccessTokenManager.init(accessToken);
 
                         val intent = Intent(this@LoginActivity, PasscodeActivity::class.java)
                         intent.putExtra("enroll",false);
