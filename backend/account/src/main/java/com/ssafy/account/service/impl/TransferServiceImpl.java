@@ -46,4 +46,8 @@ public class TransferServiceImpl implements TransferService {
         return transferRepository.findByTransfereeId(transfereeId).orElseThrow(() -> new NotFoundException(NO_TRANSFER));
     }
 
+    @Override
+    public Transfer findById(Long transferId) {
+        return transferRepository.findById(transferId).orElseThrow(() -> new NotFoundException(NO_TRANSFER));
+    }
 }

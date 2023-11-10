@@ -32,7 +32,7 @@ import static com.ssafy.account.common.api.status.FailCode.*;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true) // todo: 조회 이외 메서드는 @Transactional 붙여야함
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
@@ -45,6 +45,7 @@ public class AccountServiceImpl implements AccountService {
 
     // 일반계좌 발급
     @Override
+    @Transactional
     public Long registerGeneralAccount(AccountSaveRequest accountSaveRequest) {
         Account account = new Account(accountSaveRequest);
 
@@ -78,6 +79,7 @@ public class AccountServiceImpl implements AccountService {
     // 동물계좌 생성 버튼 클릭 -> 모계좌를 연결할 사람은 기존에 있던 농협 계좌 중 선택(필수사항x) -> 내 반려동물 정보 입력 -> 동물계좌 완성
     // cf) 계좌를 등록하려고 할 때 내가 등록할 비문 사진이 이미 있으면 양도 받는 것이 목적이냐고 물어보기
     @Override
+    @Transactional
     public Long registerPetAccount(PetAccountSaveRequest petAccountRequest) {
 
         // 펫계좌와 관련된 정보가 입력되었을 때
@@ -193,6 +195,7 @@ public class AccountServiceImpl implements AccountService {
 
     // 충전계좌 선택
     @Override
+    @Transactional
     public Long selectChargingAccount(SelectChargingAccountRequest request) {
         Account myAccount = accountRepository.findById(request.getMyAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
 
@@ -210,28 +213,34 @@ public class AccountServiceImpl implements AccountService {
     }
 
     // 동물계좌 양도
-    // 상대방 반려동물 계좌 생성 -> 이전 주인의 반려동물 계좌에서 돈 전부 이체 -> 이전 주인의 반려동물 계좌 삭제(폐쇄 상태로 변경)
+    // 상대방 반려동물 계좌 생성 -> 이전 주인의 반려동물 계좌에서 돈 전부 이체 -> 정보 이전 및 이전 주인의 반려동물 계좌 삭제(폐쇄 상태로 변경)
     // 잔액을 양도 받은 계좌의 잔액 반환
+    // todo: TransferService로 이동
     @Override
+    @Transactional
     public Long assignAccount(AssignRequest assignRequest) {
-        Account transferAccount = accountRepository.findById(assignRequest.getTransfererAccountId()).orElseThrow(() -> new NotFoundException(NO_TRANSFER_ACCOUNT));
+        Account transferorAccount = accountRepository.findById(assignRequest.getTransferorAccountId()).orElseThrow(() -> new NotFoundException(NO_TRANSFER_ACCOUNT));
         Account transfereeAccount = accountRepository.findById(assignRequest.getTransfereeAccountId()).orElseThrow(() -> new NotFoundException(NO_TRANSFEREE_ACCOUNT));
-
+        log.info("양도인 pk:{} 양수인 pk:{}",assignRequest.getTransferorAccountId(),assignRequest.getTransfereeAccountId());
         // 계좌 잔액을 이양
-        Long balance = transferAccount.getBalance();
+        Long balance = transferorAccount.getBalance();
         if(balance > 0) {
-            transferAccount.minusBalance(balance);
+            transferorAccount.minusBalance(balance);
             transfereeAccount.addBalance(balance);
         }
+
+        // 정보 이전
+        transfereeAccount.transferPetInfo(transferorAccount);
         
         // 양도자의 계좌를 폐쇄상태로 변경
-        transferAccount.updateStateToClosed();
-        return transfereeAccount.getBalance();
+        transferorAccount.updateStateToClosed();
+        return balance;
     }
 
     // 계좌 상태 변경
     // 1. 정상
     @Override
+    @Transactional
     public void updateStateToActive(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
         account.updateStateToActive();
@@ -239,6 +248,7 @@ public class AccountServiceImpl implements AccountService {
 
     // 2. 잠금
     @Override
+    @Transactional
     public void updateStateToLocked(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
         account.updateStateToLocked();
@@ -246,6 +256,7 @@ public class AccountServiceImpl implements AccountService {
 
     // 3. 정지
     @Override
+    @Transactional
     public void updateStateToSuspended(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
         account.updateStateToSuspended();
@@ -253,6 +264,7 @@ public class AccountServiceImpl implements AccountService {
 
     // 4. 폐쇄
     @Override
+    @Transactional
     public void updateStateToClosed(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
         account.updateStateToClosed();
@@ -479,5 +491,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<Account> findActiveAccountByMemberId(Long memberId, String accountType) {
         return accountRepository.findAccountByMemberIdAndAccountTypeAndAccountState(memberId,accountType,"00");
+    }
+
+    @Override
+    public Account findAccountByAccountId(Long accountId) {
+        return accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
     }
 }

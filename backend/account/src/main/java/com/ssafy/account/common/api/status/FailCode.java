@@ -14,7 +14,7 @@ public enum FailCode {
 
     // 인증
     DIFFERENT_PASSWORD(FORBIDDEN, "입력하신 비밀번호가 잘못되었습니다"),
-    DIFFERENT_RFID(FORBIDDEN, "입력된 RFID코드가 잘못되었습니다."),
+    DIFFERENT_RFID(FORBIDDEN, "입력된 RFID 코드가 잘못되었습니다."),
 
     // 계좌
     NO_ACCOUNT(NO_CONTENT, "입력하신 계좌는 존재하지 않습니다."),
