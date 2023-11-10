@@ -44,7 +44,7 @@ public class FeignConfiguration {
     }
 
     @Bean
-    public Client feignClient() {
+    public Client feignClientProxy() {
         HttpHost proxy = new HttpHost(proxyHost, proxyPort);
         RequestConfig config = RequestConfig.custom()
                 .setProxy(proxy)
@@ -56,4 +56,13 @@ public class FeignConfiguration {
 
         return new ApacheHttpClient(httpClient);
     }
+
+    @Bean
+    public Client feignClient() {
+        CloseableHttpClient httpClient = HttpClientBuilder.create()
+                .build();
+
+        return new ApacheHttpClient(httpClient);
+    }
+
 }
