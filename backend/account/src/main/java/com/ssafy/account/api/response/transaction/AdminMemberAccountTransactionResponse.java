@@ -4,6 +4,7 @@ import com.ssafy.account.db.entity.transaction.Transaction;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 public class AdminMemberAccountTransactionResponse {
@@ -14,12 +15,17 @@ public class AdminMemberAccountTransactionResponse {
     private String transactionType;
     private LocalDateTime transactionTime;
 
-    public AdminMemberAccountTransactionResponse(Transaction transaction, String counterpart) {
+    public AdminMemberAccountTransactionResponse(Transaction transaction, String counterpart, String transactionType) {
         this.accountName = transaction.getAccount().getAccountName();
         this.counterpart = counterpart;
         this.paymentAmount = transaction.getPaymentAmount();
-        this.transactionType = transaction.getTransactionType().getName();
+        this.transactionType = transactionType;
         this.transactionTime = transaction.getTransactionTime();
+    }
+
+    public String getCreatedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
+        return transactionTime != null ? transactionTime.format(formatter) : null;
     }
 
 }

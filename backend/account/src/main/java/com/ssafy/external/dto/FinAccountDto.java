@@ -13,11 +13,11 @@ public class FinAccountDto {
     @AllArgsConstructor
     public static class Request{
         @JsonProperty("FinAcno")
-        String FinAcno;
+        String FinAcno; // 핀-어카운트
         @JsonProperty("BrdtBrno")
-        String BrdtBrno;
+        String BrdtBrno; // 생년월일
         @JsonProperty("Tlno")
-        String Tlno;
+        String Tlno; // 전화번호
     }
 
     @Setter
