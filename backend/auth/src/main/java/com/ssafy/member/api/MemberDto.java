@@ -6,6 +6,7 @@ import lombok.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 public class MemberDto {
@@ -49,6 +50,7 @@ public class MemberDto {
         private String email;
         private String phoneNumber;
         private LocalDateTime createdDate;
+        private List<accountResponse.AccountData> account;
 
         public UsersResponse(MemberEntity member) {
             this.id = member.getId();
@@ -79,6 +81,22 @@ public class MemberDto {
     @Data
     public static class CountResponse{
         private String newUser;
+        private long allUsers;
     }
 
+    @Data
+    public static class accountResponse{
+        private int code;
+        private String message;
+        private List<AccountData> data;
+
+        @Data
+        public static class AccountData {
+            private int accountId;
+            private String accountName;
+            private String accountNumber;
+            private int balance;
+
+        }
+    }
 }

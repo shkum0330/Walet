@@ -66,7 +66,8 @@ proxy:
   host: 121.162.108.65
   port: 9460
 
-
+cors:
+  origins: http://localhost:3000,http://k9a301.p.ssafy.io:3000
 ---
 
 server:
@@ -136,3 +137,14 @@ proxy:
   host: 121.162.108.65
   port: 9460
 
+cors:
+  origins: http://localhost:3000,http://k9a301.p.ssafy.io:3000,http://43.201.195.182
+
+feign:
+#  url: http://43.201.195.182
+  url: http://localhost:8082
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000

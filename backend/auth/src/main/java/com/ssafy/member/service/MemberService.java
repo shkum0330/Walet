@@ -4,6 +4,7 @@ import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
 import com.ssafy.global.common.status.FailCode;
 import com.ssafy.member.api.MemberDto;
+import com.ssafy.member.db.FeignClient;
 import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.db.MemberRepository;
 import com.ssafy.member.db.Role;
@@ -27,6 +28,8 @@ public class MemberService {
     private MemberRepository memberRepository;
     @Autowired
     private JwtProvider jwtProvider;
+    @Autowired
+    private FeignClient feignClient;
 
     public MemberEntity signup(String name, String email, String password, String phoneNumber, String birth, String pinNumber, String fingerPrint){
         if(memberRepository.existsByEmail(email)){
@@ -98,18 +101,19 @@ public class MemberService {
         if(role.equals("USER")){
             throw new GlobalRuntimeException(STAFF_ONLY);
         }
-
         List<MemberEntity> members = memberRepository.findByRole(Role.USER);
 
         List<MemberDto.UsersResponse> userResponses = new ArrayList<>();
         for (MemberEntity member : members) {
-            MemberDto.UsersResponse usersResponse = new MemberDto.UsersResponse(
-                    member.getId(),
-                    member.getName(),
-                    member.getEmail(),
-                    member.getPhoneNumber(),
-                    member.getCreatedDate()
-            );
+            MemberDto.UsersResponse usersResponse = new MemberDto.UsersResponse();
+            usersResponse.setId(member.getId());
+            usersResponse.setName(member.getName());
+            usersResponse.setEmail(member.getEmail());
+            usersResponse.setPhoneNumber(member.getPhoneNumber());
+            usersResponse.setCreatedDate(member.getCreatedDate());
+            MemberDto.accountResponse response = feignClient.getExternalData(member.getId());
+            usersResponse.setAccount(response.getData());
+
             userResponses.add(usersResponse);
         }
 
@@ -151,7 +155,7 @@ public class MemberService {
         List<MemberEntity> users = memberRepository.findByCreatedDateAfter(startDate);
         MemberDto.CountResponse countData = new MemberDto.CountResponse();
         countData.setNewUser(String.valueOf(users.size()));
-
+        countData.setAllUsers(memberRepository.count());
         return countData;
     }
 
