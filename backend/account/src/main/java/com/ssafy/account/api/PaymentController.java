@@ -71,6 +71,8 @@ public class PaymentController {
         // 결제 상태를 완료로 변경
         paymentService.completePayment(paymentService.findPayment(paymentId));
         // 거래 기록을 db에 저장
+
+        // 알림 보내기
         messageSenderService.sendPaymentMessage(new PaymentNotificationRequest(1L,10000,"이마트"));
         return "message sending!";
     }

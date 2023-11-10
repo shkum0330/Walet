@@ -1,8 +1,10 @@
 package com.ssafy.account.api.request.account.transfer;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class AccountTransferRequest {
     private String newOwner;
     private String accountNumber;

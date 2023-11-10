@@ -28,6 +28,7 @@ public interface AccountService {
     void updateStateToClosed(Long accountId); // 계좌 상태를 폐쇄로 변경
     MonthlyExpenditureDetailResponse getMonthlyExpenditureDetail(Long accountId); // 이번 달의 지출 현황을 카테고리별로 분류
     Map<String, String> getCategoryExpenditureDetail(Long accountId); // 전체 지출을 카테고리 별로 분류해서 반환
+    Account findAccountByAccountId(Long accountId);
     Account findPetAccountByAccountId(Long accountId);
     Account findPetAccountByDepositorName(String depositorName);
 

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -55,6 +56,8 @@ public class Account extends BaseTimeEntity {
     // 펫 정보(일반 계좌에서는 이 값들이 null값으로 들어감)
     @Column(name="pet_name", length = 10)
     private String petName; // 펫이름
+    @Column(name = "pet_type",length = 5)
+    private String petType; // 강아지, 고양이
     @Column(name="pet_gender", length = 3)
     private String petGender; // 펫성별
     @Column(name="pet_birth")
@@ -158,6 +161,22 @@ public class Account extends BaseTimeEntity {
     // 4. CLOSED
     public void updateStateToClosed() {
         this.accountState = "11";
+    }
+
+    // 양도시 정보 이전
+    public void transferPetInfo(Account account){
+        this.accountType=account.getAccountType();
+        this.limitTypes=account.getLimitTypes();
+        this.petBirth=account.getPetBirth();
+        this.petBreed=account.getPetBreed();
+        this.petGender=account.getPetGender();
+        this.petName=account.getPetName();
+        this.petNeutered=account.getPetNeutered();
+        this.petPhoto=account.getPetPhoto();
+        this.petRegistrationDate=account.getPetRegistrationDate();
+        this.petType=account.getPetType();
+        this.petWeight=account.getPetWeight();
+        this.rfidCode=account.getRfidCode();
     }
 
 }
