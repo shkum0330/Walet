@@ -2,7 +2,6 @@ package com.ssafy.member.service;
 
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
-import com.ssafy.global.common.status.FailCode;
 import com.ssafy.member.api.MemberDto;
 import com.ssafy.member.db.FeignClient;
 import com.ssafy.member.db.MemberEntity;
@@ -10,13 +9,10 @@ import com.ssafy.member.db.MemberRepository;
 import com.ssafy.member.db.Role;
 import com.ssafy.global.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.ssafy.global.common.status.FailCode.*;
@@ -111,10 +107,6 @@ public class MemberService {
             usersResponse.setEmail(member.getEmail());
             usersResponse.setPhoneNumber(member.getPhoneNumber());
             usersResponse.setCreatedDate(member.getCreatedDate());
-            MemberDto.accountResponse response = feignClient.getExternalData(member.getId());
-            usersResponse.setAccount(response.getData());
-
-            userResponses.add(usersResponse);
         }
 
         return userResponses;
@@ -144,20 +136,38 @@ public class MemberService {
 
     public List<MemberDto.UsersResponse> searchUser(String keyword){
         List<MemberEntity> members = memberRepository.findByNameContaining(keyword);
+        List<Long> memberIds = members.stream().map(MemberEntity::getId).collect(Collectors.toList());
+
+        MemberDto.transactionRequest memberIdsRequest = new MemberDto.transactionRequest();
+        memberIdsRequest.setAllMemberIds(memberIds);
+
+        MemberDto.accountResponse accountResponse = feignClient.getExternalData(memberIdsRequest);
+        Map<Long, List<MemberDto.accountResponse.AccountData>> accountDataMap = new HashMap<>();
+        for (MemberDto.accountResponse.AccountData accountData : accountResponse.getData()) {
+            accountDataMap.computeIfAbsent(accountData.getMemberId(), k -> new ArrayList<>()).add(accountData);
+        }
 
         return members.stream()
-                .map(member -> new MemberDto.UsersResponse(member))
+                .map(member -> {
+                    MemberDto.UsersResponse usersResponse = new MemberDto.UsersResponse(member);
+                    usersResponse.setAccount(accountDataMap.get(member.getId()));
+                    return usersResponse;
+                })
                 .collect(Collectors.toList());
     }
 
+
     public MemberDto.CountResponse countDashBoardData(int days) {
         LocalDateTime startDate = LocalDateTime.now().minusDays(days);
+        MemberDto.TransactionResponse transactionData = feignClient.getTransactionData();
+
         List<MemberEntity> users = memberRepository.findByCreatedDateAfter(startDate);
         MemberDto.CountResponse countData = new MemberDto.CountResponse();
         countData.setNewUser(String.valueOf(users.size()));
         countData.setAllUsers(memberRepository.count());
+        countData.setGeneralAccountCount(transactionData.getData().getGeneralAccountCount());
+        countData.setPetAccountCount(transactionData.getData().getPetAccountCount());
         return countData;
     }
-
 
 }

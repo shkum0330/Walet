@@ -3,7 +3,6 @@ package com.ssafy.member.api;
 import com.ssafy.member.db.MemberEntity;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -34,6 +33,7 @@ public class MemberDto {
         private String phoneNumber;
         private String birth;
         private LocalDateTime createdDate;
+        private List<accountResponse.AccountData> account;
 
         public String getCreatedDate() {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
@@ -66,7 +66,6 @@ public class MemberDto {
         }
     }
 
-
     @Data
     public static class NameResponse{
         private String name;
@@ -82,6 +81,8 @@ public class MemberDto {
     public static class CountResponse{
         private String newUser;
         private long allUsers;
+        private long generalAccountCount;
+        private long petAccountCount;
     }
 
     @Data
@@ -92,11 +93,29 @@ public class MemberDto {
 
         @Data
         public static class AccountData {
-            private int accountId;
+            private long accountId;
+            private long memberId;
             private String accountName;
             private String accountNumber;
             private int balance;
-
         }
+    }
+
+    @Data
+    public static class TransactionResponse {
+        private int code;
+        private String message;
+        private CountData data;
+
+        @Data
+        public static class CountData {
+            private Long generalAccountCount;
+            private Long petAccountCount;
+        }
+    }
+
+    @Data
+    public static class transactionRequest{
+        private List<Long> allMemberIds;
     }
 }
