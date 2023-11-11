@@ -20,6 +20,7 @@ import com.ssafy.account.service.TransactionService;
 import com.ssafy.external.service.OauthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -140,6 +141,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Cacheable(value = "txHistory", key = "#memberId")
     public List<TransactionResponse> getTransactionHistory(Long memberId, Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
         
