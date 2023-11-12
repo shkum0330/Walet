@@ -1,12 +1,13 @@
 package com.ssafy.service.util;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional
 public class RedisService {
     private final RedisTemplate<String, Object> redisTemplate;
 

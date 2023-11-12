@@ -3,10 +3,12 @@ package com.ssafy.service.external.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.service.external.client.NHFintechClient;
+import com.ssafy.service.external.client.OauthClient;
 import com.ssafy.service.external.dto.*;
 import com.ssafy.service.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ import java.util.List;
 @Transactional
 public class NHFintechServiceImpl implements NHFintechService{
     private final NHFintechClient nhFintechClient;
+    private final OauthClient oauthClient;
     private final OauthService oauthService;
     private final ObjectMapper objectMapper;
     private final TimeUtil timeUtil;

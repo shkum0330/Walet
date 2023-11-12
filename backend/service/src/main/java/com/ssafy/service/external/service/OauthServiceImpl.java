@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class OauthServiceImpl implements OauthService{
     private final OauthClient oauthClient;
     private final RedisService redisService;
