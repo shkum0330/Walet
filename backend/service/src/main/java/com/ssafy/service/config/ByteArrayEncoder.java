@@ -15,7 +15,7 @@ public class ByteArrayEncoder implements Encoder {
     private final ObjectMapper objectMapper;
     @Override
     public void encode(Object object, Type bodyType, RequestTemplate template) {
-        System.out.println(bodyType);
+        System.out.println("test" + bodyType);
         if (bodyType.equals(byte[].class)) {
             // 바이트 배열로 이미 인코딩된 경우 그대로 사용
             template.body((byte[]) object, null); // null은 charset을 지정하지 않음을 의미

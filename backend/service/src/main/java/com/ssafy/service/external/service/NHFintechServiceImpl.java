@@ -198,12 +198,13 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .FinAcno(data.getFinAcno())
                 .build();
 
-        String jsonString = null;
-        try {
-            jsonString = nhFintechClient.InquireDepositorFinAccount("Basic " + oauthService.getOauthKey(),objectMapper.writeValueAsString(request).getBytes());
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+//        String jsonString = null;
+//        try {
+//            jsonString = nhFintechClient.InquireDepositorFinAccount("Basic " + oauthService.getOauthKey(),objectMapper.writeValueAsString(request).getBytes());
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+        String jsonString = nhFintechClient.InquireDepositorFinAccount("Basic " + oauthService.getOauthKey(),request);
         try {
             return objectMapper.readValue(jsonString , InquireDepositorFinAccountDto.Response.class);
         } catch (JsonProcessingException e) {
