@@ -1,12 +1,16 @@
 package com.ssafy.service.external.client;
 
-import com.ssafy.service.config.ClientConfig;
-import com.ssafy.service.external.dto.OauthDto;
+import com.ssafy.service.config.ClientProxyConfig;
+import com.ssafy.service.external.dto.NHDto;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(url = "http://43.201.195.182" , name = "OauthClient" , configuration = ClientConfig.class)
+@FeignClient(url = "http://smartdev.nonghyup.com:9460/svcapi" , name = "Server1" , configuration = ClientProxyConfig.class)
 public interface OauthClient {
-    @GetMapping(value = "/api/auth/key")
-    OauthDto.Response getKey();
+    @PostMapping(value = "/oauth/requestToken.nhd" , consumes = "application/x-www-form-urlencoded")
+    NHDto.Response getKey(@RequestParam("client_id") String clientId,
+                          @RequestParam("client_secret") String clientSecret,
+                          @RequestParam("scope") String scope,
+                          @RequestParam("grant_type") String grantType);
 }

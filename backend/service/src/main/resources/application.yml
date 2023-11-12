@@ -6,6 +6,10 @@ spring:
     name: SERVICE
   main:
     allow-bean-definition-overriding: true
+  data:
+    redis:
+      port: 6379
+      host: 43.201.195.182
 
 logging:
   level:
@@ -28,3 +32,8 @@ proxy:
 
 jasypt:
   password: ${PASSWORD}
+
+nh:
+  client:
+    id: ENC(dDMftFuEktP7Xn7N3L/UElG0Ny0ZfNmVt0CJXzEND4teKt/qlX2tj73nIeN8EhVz)
+    secret: ENC(p5Wn5A4yHMu4BGL+XMbzvpPYaTdEx82KK3hiNLdFHG2ODIRqBbIzmIn3UVmN/X7X)
