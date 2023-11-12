@@ -67,7 +67,8 @@ public interface NHFintechClient {
     @PostMapping(value = "/InquireDepositorFinAccount.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     String InquireDepositorFinAccount(
             @RequestHeader("Auth") String key,
-            @RequestBody InquireDepositorFinAccountDto.Request request
+//            @RequestBody InquireDepositorFinAccountDto.Request request
+            @RequestBody byte[] data
     );
 
     @PostMapping(value = "/InquireBalance.nhd" , consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
