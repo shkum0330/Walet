@@ -20,6 +20,7 @@ import static com.ssafy.account.db.entity.account.AccountState.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name="account")
 public class Account extends BaseTimeEntity {
 
     @Id
@@ -28,6 +29,11 @@ public class Account extends BaseTimeEntity {
     private Long id;
     @Column(name = "member_id")
     private Long memberId;
+
+    @Column(name = "pin_account",length = 40)
+    private String pinAccount;
+    @Column(name = "virtual_account", length = 20)
+    private String virtualAccount;
 
     @Column(name="account_name",length = 20,nullable = false)
     private String accountName; // 계좌명(ex. NH올원e예금)
