@@ -1,84 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingHorizontal="22dp"
+    tools:context=".LoginActivity">
+
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="40dp" />
 
-        android:layout_marginTop="43dp"
-        tools:context=".LoginActivity">
-        <Button
-            android:id="@+id/goBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="뒤로가기"/>
+<!--    <ImageButton-->
+<!--        android:id="@+id/goBack"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/white"-->
+<!--        android:contentDescription="뒤로가기"-->
+<!--        android:src="@drawable/baseline_arrow_back_ios_new_24" />-->
 
-        <TextView
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/bank_nonghyup" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="안녕하세요.\n농협은행입니다."
+        android:textColor="@color/grey90"
+        android:textSize="24sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="회원 서비스 이용을 위해 로그인을 해주세요"
+        android:textColor="@color/grey90"
+        android:textSize="16sp" />
+
+
+        <Space
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_medium"
-            android:gravity="left"
-            android:text="Log in"
-            android:textColor="@color/gray90"
-            android:textSize="14sp" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_medium"
-            android:gravity="left"
-            android:text="로그인 해주세요"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이메일"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:hint="example@dot.com"
-                android:inputType="textEmailAddress" />
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="비밀번호"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:hint="********"
-                android:inputType="textPassword" />
-        </LinearLayout>
 
-    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="이메일"
+        android:textColorHint="@color/grey60"
+        android:textSize="20sp"
+        android:paddingVertical="20dp"
+        android:textColor="@color/grey80"
+        android:fontFamily="@font/pretendard_medium"
+        android:inputType="textEmailAddress" />
+
+
+
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호"
+        android:textColorHint="@color/grey60"
+        android:textColor="@color/grey80"
+        android:textSize="20sp"
+        android:paddingVertical="20dp"
+        android:fontFamily="@font/pretendard_medium"
+        android:inputType="textPassword" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        />
+
+
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="로그인"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="로그인하기"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:fontFamily="@font/pretendard_regular"
+        android:background="@drawable/button_no_green"
+        />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        />
+
+</LinearLayout>
