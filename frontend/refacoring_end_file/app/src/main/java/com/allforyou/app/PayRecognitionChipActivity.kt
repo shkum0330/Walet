@@ -16,9 +16,14 @@ class PayRecognitionChipActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.writeChipId.setOnClickListener {
+            
+            // 정보 가져오기
             val intent = Intent(this, PayIdentificationActivity::class.java)
             startActivity(intent)
         }
+    }
+    fun rfidGetPetInfo(){
+        
     }
 
 }

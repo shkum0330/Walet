@@ -46,5 +46,11 @@ interface ApiService {
     @GET("api/account/transaction/list/{accountId}")
     fun loadTransactionLog(@Header("Authorization") accessToken : String, @Path("accountId") id : Long) : Call<TransactionLogResponse>
 
-    
+    @GET("/api/account/transaction/recipient-info?")
+    fun getTransactionRecipientInfo(@Header("Authorization") accessToken : String, @Query("accountNumber") accountNumber : String, @Query("paymentAmount") amount : Long) : Call<RecipientInfoResponse>
+
+    @POST("/api/account/transaction/pet-info")
+    fun remittance(@Header("Authorization") accessToken : String, @Query("accountNumber") rfidCode : String) : Call<PetInfoResponse>
+
+
 }
