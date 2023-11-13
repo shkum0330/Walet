@@ -57,8 +57,8 @@ public class InquireTransactionHistoryDto {
         String CtntDataYn;
         @JsonProperty("TotCnt")
         String TotCnt;
-        @JsonProperty("REC")
-        List<REC> REC;
+        @JsonProperty("Rec")
+        List<REC> Rec;
 
         @Getter
         @Setter
