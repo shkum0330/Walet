@@ -1,5 +1,9 @@
 import { useAccessToken } from '../../data_source/apiInfo';
-import { DashBoardCountAPI } from '../../data_source/dashboard/dashboard';
+import {
+  DashBoardCountAPI,
+  DashBoardStatsAPI,
+  DashBoardWeeklyAPI,
+} from '../../data_source/dashboard/dashboard';
 
 export async function DashBoardCountRepository() {
   const accessToken = useAccessToken();
@@ -10,9 +14,20 @@ export async function DashBoardCountRepository() {
   return null;
 }
 
-export function test() {
+export async function DashBoardStatsRepository() {
   const accessToken = useAccessToken();
   if (accessToken) {
+    const data = await DashBoardStatsAPI(accessToken);
+    return data;
+  }
+  return null;
+}
+
+export async function DashBoardWeeklyRepository() {
+  const accessToken = useAccessToken();
+  if (accessToken) {
+    const data = await DashBoardWeeklyAPI(accessToken);
+    return data;
   }
   return null;
 }

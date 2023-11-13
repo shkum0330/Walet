@@ -8,8 +8,10 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { DashBoardStatsRepository } from '../../repository/dashboard/dashboardRepository';
+import { DashboardStats } from '../../interface/api/dashboardApiInterface';
 
 ChartJS.register(
   CategoryScale,
@@ -49,10 +51,19 @@ const options = {
 
 function TransactionGraph() {
   const [period, setPeriod] = useState('1day');
-
+  const [stats, setStates] = useState<DashboardStats>();
   const handleClick = (newPeriod: string) => {
     setPeriod(newPeriod);
   };
+
+  useEffect(() => {
+    (async () => {
+      const data = await DashBoardStatsRepository();
+      if (data) {
+        setStates(data);
+      }
+    })();
+  }, []);
 
   const getLabels = (selectedPeriod: string) => {
     switch (selectedPeriod) {

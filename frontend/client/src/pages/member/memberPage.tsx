@@ -51,16 +51,17 @@ function MemberPage() {
   const endIndex = Math.min(startIndex + 20, totalItems);
 
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
+  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(
+    null,
+  );
   const handleRowClick = (id: string) => {
     setSelectedUser(prevId => (prevId === id ? null : id));
   };
 
-  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(
-    null,
-  );
-
   const handleAccountClick = (accountId: string) => {
-    setSelectedAccountId(accountId);
+    setSelectedAccountId(prevAccountId =>
+      prevAccountId === accountId ? null : accountId,
+    );
   };
 
   return (
@@ -111,9 +112,7 @@ function MemberPage() {
             {users &&
               users.slice(startIndex, endIndex).map(item => (
                 <React.Fragment key={item.id}>
-                  <tr
-                    className={selectedUser === item.id ? 'bg-green-100' : ''}
-                    onClick={() => handleRowClick(item.id)}>
+                  <tr>
                     <td className="border border-gray-300">{item.id}</td>
                     <td className="border border-gray-300">{item.name}</td>
                     <td className="border border-gray-300">
@@ -133,19 +132,26 @@ function MemberPage() {
                             onKeyDown={() =>
                               handleAccountClick(accountItem.accountId)
                             }
-                            onClick={() =>
-                              handleAccountClick(accountItem.accountId)
+                            onClick={() => {
+                              handleAccountClick(accountItem.accountId);
+                              handleRowClick(item.id);
+                            }}
+                            className={
+                              selectedAccountId === accountItem.accountId
+                                ? 'text-red-500'
+                                : 'text-black'
                             }>
                             {accountItem.accountName}
                             {index !== item.account.length - 1 ? ', ' : ''}
                           </span>
                         ))}
                     </td>
-
                     <td className="border border-gray-300 ">-</td>
                   </tr>
                   <Transition
-                    show={selectedUser === item.id}
+                    show={
+                      selectedUser === item.id && selectedAccountId !== null
+                    }
                     as="tr"
                     enter="transition ease-out duration-100"
                     enterFrom="transform opacity-0 scale-95"
@@ -153,14 +159,14 @@ function MemberPage() {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95">
-                    {selectedUser === item.id && (
+                    {selectedUser === item.id && selectedAccountId !== null ? (
                       <td colSpan={7}>
                         <div className="max-h-[500px] h-auto overflow-y-auto">
-                          <TransactionTable
-                            accountId={selectedAccountId as string}
-                          />
+                          <TransactionTable accountId={selectedAccountId} />
                         </div>
                       </td>
+                    ) : (
+                      <tr>여기에 거래 기록이 없습니다 표시</tr>
                     )}
                   </Transition>
                 </React.Fragment>
