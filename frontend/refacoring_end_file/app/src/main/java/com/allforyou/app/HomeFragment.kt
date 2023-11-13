@@ -59,6 +59,8 @@ class HomeFragment : Fragment() {
             Log.d("my_tag","이미 저장된 공지사항을 불러옵니다")
             setNotice()
         }
+        loadAccounts()
+
         binding.notice.setOnClickListener {
             val intent = Intent(requireActivity(), NoticeActivity::class.java)
             startActivity(intent)
@@ -127,7 +129,55 @@ class HomeFragment : Fragment() {
         Picasso.get().load(imageUrl).into(imageView)
     }
     fun loadAccounts(){
+        var retrofitAPI = RetrofitClient.getClient()
 
+        retrofitAPI.loadGeneralAccounts(AccessTokenManager.getBearer()).enqueue(object : Callback<HomeAccountResponse> {
+            override fun onResponse(call: Call<HomeAccountResponse>, response: Response<HomeAccountResponse>) {
+
+
+                Log.d("my_tag","요청 사항 : "+AccessTokenManager.getBearer())
+                Log.d("my_tag",response.toString())
+                if (response.isSuccessful) {
+                    val homeAccountList = response.body()!!.data
+//                    NoticeManager.initData(noticeResponse!!)
+                    if (homeAccountList != null) {
+                        Log.d("my_tag","일반 계좌 리스트 로딩 성공")
+                        Log.d("my_tag",homeAccountList.toString())
+                    } else {
+                        Log.d("my_tag","일반 계좌 리스트 NULL 반화됨")
+                        // Handle null response body
+                    }
+                } else {
+                    Log.d("my_tag","일반 계좌 리스트 실패")
+                    // Handle unsuccessful response
+                }
+            }
+            override fun onFailure(call: Call<HomeAccountResponse>, t: Throwable) {
+                Log.d("my_tag","일반 계좌 리스트: 네트워크 오류")
+            }
+        })
+//        retrofitAPI.loadBusinessAccounts(AccessTokenManager.getBearer()).enqueue(object : Callback<BusinessAccountResponse> {
+//            override fun onResponse(call: Call<BusinessAccountResponse>, response: Response<BusinessAccountResponse>) {
+//                Log.d("my_tag","요청 사항 : "+AccessTokenManager.getBearer())
+//                if (response.isSuccessful) {
+//                    val businessAccountList = response.body()!!.data
+////                    NoticeManager.initData(noticeResponse!!)
+//                    if (businessAccountList != null) {
+//                        Log.d("my_tag","사업자 계좌 리스트 로딩 성공")
+//                        Log.d("my_tag",businessAccountList.toString())
+//                    } else {
+//                        Log.d("my_tag","사업자 계좌 리스트 NULL 반화됨")
+//                        // Handle null response body
+//                    }
+//                } else {
+//                    Log.d("my_tag","사업자 계좌 리스트 실패")
+//                    // Handle unsuccessful response
+//                }
+//            }
+//            override fun onFailure(call: Call<BusinessAccountResponse>, t: Throwable) {
+//                Log.d("my_tag","사업자 계좌 리스트: 네트워크 오류")
+//            }
+//        })
     }
 
     companion object {

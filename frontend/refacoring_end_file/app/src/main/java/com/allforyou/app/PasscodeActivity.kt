@@ -99,10 +99,8 @@ class PasscodeActivity : AppCompatActivity() {
                 confirm = true
                 message.setText("PIN 입력 확인")
             }else{
-                val destination = intent.getStringExtra("destination")
-                val destinationClass = Class.forName(destination)
-                val dynamicIntent = Intent(this, destinationClass)
-                startActivity(dynamicIntent)
+                // check PIN number
+                checkPIN(passCodeConfirm)
             }
         }else{
             // 등록 완료
@@ -118,5 +116,13 @@ class PasscodeActivity : AppCompatActivity() {
 //        message
         passcodeDigits[0].requestFocus()
         Log.d("my_tag",passCode)
+    }
+    fun checkPIN(PIN : String){
+        Log.d("my_tag",PIN)
+
+        val destination = intent.getStringExtra("destination")
+        val destinationClass = Class.forName(destination)
+        val dynamicIntent = Intent(this, destinationClass)
+        startActivity(dynamicIntent)
     }
 }

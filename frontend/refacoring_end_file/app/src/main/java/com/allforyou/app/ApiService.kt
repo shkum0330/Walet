@@ -18,6 +18,8 @@ interface ApiService {
 //    fun login(@Body loginRequest: LoginRequest): Call<Any>
     @POST("api/auth/login")
     fun login(@Body loginRequest: LoginRequest): Call<AccessTokenResponse>
+//    @POST("api/auth/login") // PIN 확인
+//    fun login(@Body loginRequest: LoginRequest): Call<AccessTokenResponse>
 
     @POST("api/auth/signup")
     fun register(@Body registerRequest: RegisterRequest) : Call<RegisterRequest>
@@ -29,5 +31,12 @@ interface ApiService {
     fun checkCode(@Body phoneAuthenticationRequest: PhoneAuthenticationRequest) : Call<Unit>
 
     @GET("api/notice/pop")
-    fun loadNotice(@Header("Authorization") accessToken : String) : Call<NoticeResponse>
+    fun loadNotice(@Header("Authorization") accessToken : String ) : Call<NoticeResponse>
+
+    @GET("api/account/list/business-account")
+    fun loadBusinessAccounts(@Header("Authorization") accessToken : String) : Call<BusinessAccountResponse>
+    @GET("api/account/list/general-account")
+    fun loadGeneralAccounts(@Header("Authorization") accessToken : String) : Call<HomeAccountResponse>
+    @GET("api/account/list/pet-account")
+    fun loadPetAccounts(@Header("Authorization") accessToken : String) : Call<AnimalAccountDetailResponse>
 }
