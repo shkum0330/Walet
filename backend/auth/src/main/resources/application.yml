@@ -68,6 +68,16 @@ proxy:
 
 cors:
   origins: http://localhost:3000,http://k9a301.p.ssafy.io:3000
+
+feign:
+  url: http://43.201.195.182
+
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
 ---
 
 server:
