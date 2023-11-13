@@ -19,6 +19,7 @@ public enum FailCode {
     UNSIGNED_USER(BAD_REQUEST, "가입되지 않은 아이디입니다"),
     BAD_TOKEN(BAD_REQUEST, "사용할 수 없는 토큰입니다."),
     UNMATCHED_TOKEN(BAD_REQUEST, "토큰에 일치하는 회원이 없습니다."),
+    DIFFERENT_PIN(BAD_REQUEST, "핀 번호가 일치하지 않습니다."),
 
     // 검증
     EMAIL_EXIST(BAD_REQUEST, "중복된 이메읿입니다."),

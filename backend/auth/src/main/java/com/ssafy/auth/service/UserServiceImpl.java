@@ -39,6 +39,8 @@ public class UserServiceImpl implements UserRepository{
             throw new GlobalRuntimeException(DELETED_USER);
         }
 
+
+
         String role = member.getRole().name();
         TokenMapping tokenMapping = jwtProvider.createToken(member.getId(), role, member.getName());
         redisService.saveToken(member.getId().toString(), tokenMapping.getAccessToken());
@@ -54,4 +56,14 @@ public class UserServiceImpl implements UserRepository{
         redisService.setBlackList(accessToken, accessToken, expiration);
     }
 
+    public void pinCheck(String accessToken, String pinNumber){
+        Long userId = jwtProvider.AccessTokenDecoder(accessToken);
+
+        MemberEntity member = memberRepository.findById(userId)
+                .orElseThrow(() -> new GlobalRuntimeException(UNSIGNED_USER));
+
+        if (!member.getPinNumber().equals(pinNumber)) {
+            throw new GlobalRuntimeException(DIFFERENT_PIN);
+        }
+    }
 }

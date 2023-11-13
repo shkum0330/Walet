@@ -1,9 +1,9 @@
 package com.ssafy.auth.controller;
 
 import com.ssafy.auth.api.LoginDto;
+import com.ssafy.auth.api.PinCheckDto;
 import com.ssafy.auth.service.UserServiceImpl;
 import com.ssafy.auth.util.TokenMapping;
-import com.ssafy.external.dto.NHDto;
 import com.ssafy.external.service.NHService;
 import com.ssafy.global.common.response.EnvelopeResponse;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +42,13 @@ public class AuthController {
     public ResponseEntity<EnvelopeResponse<String>> getKey() {
         String accessToken = nhService.getKey();
         return new ResponseEntity<EnvelopeResponse<String>>(new EnvelopeResponse<>(GENERAL_SUCCESS, accessToken), HttpStatus.OK);
+    }
+
+    @PostMapping("/pincheck")
+    public ResponseEntity<EnvelopeResponse<String>> pincheck(@RequestHeader(value="Authorization") String token, @RequestBody PinCheckDto.RequestDto request) {
+        String pinNumber = request.getPinNumber();
+        userService.pinCheck(token, pinNumber);
+        return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, ""), HttpStatus.OK);
     }
 }
 
