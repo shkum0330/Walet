@@ -16,7 +16,7 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
     com:
-      ssafy: Debug
+      ssafy: trace
 
 eureka:
   client:
