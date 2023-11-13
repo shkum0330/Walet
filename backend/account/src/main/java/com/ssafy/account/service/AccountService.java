@@ -38,4 +38,6 @@ public interface AccountService {
     // 일반계좌 및 동물계좌 수 반환(관리자페이지)
     AdminAccountCountResponse countAllAccountForAdmin();
 
+    Account findByAccountNumber(String accountNumber);
+
 }

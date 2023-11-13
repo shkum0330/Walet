@@ -501,6 +501,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account findByAccountNumber(String accountNumber) {
+        return accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+    }
+
+    @Override
     public List<Account> findActiveAccountByMemberId(Long memberId, String accountType) {
         return accountRepository.findAccountByMemberIdAndAccountTypeAndAccountState(memberId,accountType,"00");
     }

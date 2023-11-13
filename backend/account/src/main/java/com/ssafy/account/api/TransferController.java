@@ -58,17 +58,17 @@ public class TransferController {
 
     // 양도 요청
     @PostMapping("/transfer/request")
-    public Response<?> requestAccountTransfer(@RequestHeader("owner-id") Long ownerId
+    public Response<?> requestAccountTransfer(@RequestHeader("id") Long ownerId, @RequestHeader("name") String name
             , @RequestBody AccountTransferRequest request){
         Long transferId= transferService.requestAccountTransfer(ownerId, request);
-
-        messageSenderService.sendTransferRequestMessage(new AccountTransferNotificationRequest(1L,"김민수"));
+        Account transfereeAccount=accountService.findByAccountNumber(request.getAccountNumber());
+        messageSenderService.sendTransferRequestMessage(new AccountTransferNotificationRequest(transfereeAccount.getMemberId(),name));
         return Response.success(GENERAL_SUCCESS,transferId);
     }
 
     // 알림 누르면 해당 페이지 출력
     @GetMapping("/transfer/get-info")
-    public Response<?> getTransferInfo(@RequestHeader("transferee-id") Long transfereeId){
+    public Response<?> getTransferInfo(@RequestHeader("id") Long transfereeId){
         Map<String,Object> resultMap=new ConcurrentHashMap<>();
         Transfer transfer=transferService.findByTransfereeId(transfereeId);
         if(transfer.getStatus() != PENDING){ // 반드시 대기 상태여야 함
@@ -100,7 +100,7 @@ public class TransferController {
 
     // 연결할 ACTIVE 상태 계좌 선택
     @GetMapping("/transfer/get-account-info")
-    public Response<?> getAccounts(@RequestHeader("transferee-id") Long transfereeId){
+    public Response<?> getAccounts(@RequestHeader("id") Long transfereeId){
         List<Account> accountList= accountService.findActiveAccountByMemberId(transfereeId,"00");
 
         return Response.success(GENERAL_SUCCESS,
@@ -135,5 +135,6 @@ public class TransferController {
         return Response.success(GENERAL_SUCCESS, null);
 
     }
+
 
 }
