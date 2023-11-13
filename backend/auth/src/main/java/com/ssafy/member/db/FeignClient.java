@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
-@org.springframework.cloud.openfeign.FeignClient(name = "account", url="http://43.201.195.182/api/account", configuration = ClientConfig.class)
+@org.springframework.cloud.openfeign.FeignClient(name = "account", url="${feign.url}/api/account", configuration = ClientConfig.class)
 public interface FeignClient {
     @PostMapping("/admin/list/all-account")
     MemberDto.accountResponse getExternalData(@RequestBody MemberDto.transactionRequest memberIdsRequest, @RequestHeader("Authorization") String accessToken);
