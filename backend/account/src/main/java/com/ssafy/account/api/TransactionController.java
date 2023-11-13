@@ -6,6 +6,7 @@ import com.ssafy.account.api.request.transaction.TransactionRequest;
 import com.ssafy.account.common.api.Response;
 import com.ssafy.account.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 
 import static com.ssafy.account.common.api.status.SuccessCode.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class TransactionController {
@@ -49,6 +51,7 @@ public class TransactionController {
 
     @GetMapping("/transaction/list/{accountId}")
     public Response getTransactionHistory(@RequestHeader("id") Long memberId, @PathVariable Long accountId) {
+        log.info("zzzzzzzz");
         return Response.success(GENERAL_SUCCESS, transactionService.getTransactionHistory(memberId, accountId));
     }
 

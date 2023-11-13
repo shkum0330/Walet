@@ -1,5 +1,6 @@
 package com.ssafy.account.service;
 
+import com.ssafy.account.db.entity.payment.Payment;
 import com.ssafy.account.db.entity.transfer.Transfer;
 import com.ssafy.account.db.repository.PaymentRepository;
 import com.ssafy.account.db.repository.TransferRepository;
@@ -23,7 +24,10 @@ public class SchedulerService {
     @Transactional
     @Async
     @Scheduled(cron = "0 0/1 * * * *", zone = "Asia/Seoul")
-    public void autoDelete() { // 30분 지나면 삭제
+    public void autoDelete() { // 요청한지 30분이 지났는데 처리가 안되면 삭제
+        paymentRepository.deleteByStatusAndCreatedAtLessThanEqual(Payment.PaymentStatus.PENDING,LocalDateTime.now().minusMinutes(30));
         transferRepository.deleteByStatusAndCreatedAtLessThanEqual(PENDING,LocalDateTime.now().minusMinutes(30));
     }
+
+
 }
