@@ -43,6 +43,14 @@ spring:
           predicates:
             - Path=/api/account/**
           filters:
+            - AuthFilter
+            - RewritePath=/api/account/(?<path>.*),/$\{path}
+        - id: payment
+          uri: lb://PAYMENT/
+          predicates:
+            - Path=/api/payment/**
+          filters:
+            - AuthFilter
             - RewritePath=/api/account/(?<path>.*),/$\{path}
         - id: service
           uri: lb://SERVICE/

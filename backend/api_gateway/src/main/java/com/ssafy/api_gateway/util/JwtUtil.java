@@ -19,7 +19,7 @@ public class JwtUtil {
         if (header == null){
             return ErrorCode.NOT_EXISTS_AUTHORIZATION;
         }
-        System.out.println(header.size());
+
         if(header.size() != 1){
             return ErrorCode.NOT_VALID_TOKEN;
         }
@@ -41,13 +41,22 @@ public class JwtUtil {
 
         if(false){
             return ErrorCode.TOKEN_EXPIRED;
-        };
-
+        }
         return null;
     }
 
     public String getUserType(ServerHttpRequest request) {
         return String.valueOf(JWT.decode(
                 request.getHeaders().get("Authorization").get(0).split(" ")[1]).getClaim("role"));
+    }
+
+    public String getMemberId(ServerHttpRequest request){
+        return String.valueOf(JWT.decode(
+                request.getHeaders().get("Authorization").get(0).split(" ")[1]).getClaim("id"));
+    }
+
+    public String getMemberName(ServerHttpRequest request){
+        return String.valueOf(JWT.decode(
+                request.getHeaders().get("Authorization").get(0).split(" ")[1]).getClaim("name"));
     }
 }

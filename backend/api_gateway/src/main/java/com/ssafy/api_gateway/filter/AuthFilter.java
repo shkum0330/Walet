@@ -18,6 +18,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -53,7 +54,13 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
             if(!userType.equals("\"USER\"")){
                 onError(exchange, ErrorCode.INVALID_MEMBER_TYPE);
             }
-            return chain.filter(exchange);
+
+//          헤더에 id name 추가
+            ServerHttpRequest.Builder builder = request.mutate();
+            builder.header("id",jwtUtil.getMemberId(request))
+                    .header("name" , jwtUtil.getMemberName(request)).build();
+
+            return chain.filter(exchange.mutate().request(request).build());
         };
     }
     private Mono<Void> onError(ServerWebExchange exchange, ErrorCode errorCode) {
