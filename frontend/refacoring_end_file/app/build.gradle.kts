@@ -64,6 +64,10 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("com.squareup.okhttp3:logging-interceptor:4.8.0")
 
+//    Corountine
+    implementation ("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+
+
     implementation("com.airbnb.android:lottie:6.1.0")
     implementation ("com.google.android.material:material:1.3.0")
     implementation("androidx.core:core-ktx:1.9.0")
