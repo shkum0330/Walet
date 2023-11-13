@@ -16,6 +16,6 @@ public interface FeignClient {
     MemberDto.accountResponse getExternalData(@RequestBody MemberDto.transactionRequest memberIdsRequest, @RequestHeader("Authorization") String accessToken);
 
     @GetMapping("/admin/count/all-account")
-    MemberDto.TransactionResponse getTransactionData();
+    MemberDto.TransactionResponse getTransactionData(@RequestHeader("Authorization") String accessToken);
 
 }

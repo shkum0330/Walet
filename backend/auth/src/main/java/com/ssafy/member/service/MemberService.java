@@ -160,9 +160,9 @@ public class MemberService {
     }
 
 
-    public MemberDto.CountResponse countDashBoardData(int days) {
+    public MemberDto.CountResponse countDashBoardData(int days, String accessToken) {
         LocalDateTime startDate = LocalDateTime.now().minusDays(days);
-        MemberDto.TransactionResponse transactionData = feignClient.getTransactionData();
+        MemberDto.TransactionResponse transactionData = feignClient.getTransactionData(accessToken);
 
         List<MemberEntity> users = memberRepository.findByCreatedDateAfter(startDate);
         MemberDto.CountResponse countData = new MemberDto.CountResponse();

@@ -104,8 +104,8 @@ public class MemberController {
     }
 
     @GetMapping("/dashboard/count")
-    public ResponseEntity<EnvelopeResponse<MemberDto.CountResponse>> countUsersRegisteredWithinLastWeek() {
-        MemberDto.CountResponse userCount = memberService.countDashBoardData(7);
+    public ResponseEntity<EnvelopeResponse<MemberDto.CountResponse>> countUsersRegisteredWithinLastWeek(@RequestHeader("Authorization") String accessToken) {
+        MemberDto.CountResponse userCount = memberService.countDashBoardData(7, accessToken);
         return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, userCount), HttpStatus.OK);
     }
 }
