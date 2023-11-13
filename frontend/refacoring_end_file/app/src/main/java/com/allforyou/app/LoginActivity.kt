@@ -26,13 +26,13 @@ class LoginActivity : AppCompatActivity() {
         email = findViewById(R.id.email)
         password = findViewById(R.id.password)
 
-        goBackButton = findViewById(R.id.goBack)
+//        goBackButton = findViewById(R.id.goBack)
         loginButton = findViewById(R.id.loginButton)
 
-        goBackButton.setOnClickListener {
-            val intent = Intent(this, LoginFaceActivity::class.java)
-            startActivity(intent)
-        }
+//        goBackButton.setOnClickListener {
+//            val intent = Intent(this, LoginFaceActivity::class.java)
+//            startActivity(intent)
+//        }
         loginButton.setOnClickListener {
             performLogin(email.text.toString(), password.text.toString());
         }

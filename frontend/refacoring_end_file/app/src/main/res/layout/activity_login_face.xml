@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
+    android:background="@color/white"
+   android:paddingHorizontal="22dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -79,33 +79,59 @@
         android:textSize="36sp"
         android:gravity="left"
         />
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieAnimationView"
+
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="360sp"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_url="REPLACE_JSON_URL"
-        app:lottie_fileName="loginface.json"
-    />
-    <Button
-        android:id="@+id/loginButton"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="로그인 하기"
-        android:fontFamily="@font/pretendard_medium"
-        android:textSize="24sp"/>
+        >
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_url="REPLACE_JSON_URL"
+            app:lottie_fileName="loginface.json"
+            />
+        <Button
+            android:layout_marginTop="350dp"
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="로그인"
+            android:background="@drawable/button_blue"
+            android:textColor="@color/white"
+            android:fontFamily="@font/pretendard_regular"
+            android:textSize="24sp"/>
+
+
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        />
     <TextView
         android:id="@+id/signupButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="회원이 아니신가요?"
-        android:fontFamily="@font/pretendard_medium"
+        android:fontFamily="@font/pretendard_regular"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textColor="@color/grey80"
+        android:textSize="16sp"
         android:paddingTop="2dp"
         android:clickable="true"
         android:focusable="true"
+        />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
         />
 </LinearLayout>
