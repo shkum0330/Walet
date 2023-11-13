@@ -19,6 +19,6 @@ public class OauthServiceImpl implements OauthService{
 
     @Override
     public String getUserPhoneNumber(Long memberId) {
-        return oauthClient.getUserPhoneNumber(memberId).getData().getName();
+        return oauthClient.getUserPhoneNumber(memberId).getData().getPhoneNumber();
     }
 }
