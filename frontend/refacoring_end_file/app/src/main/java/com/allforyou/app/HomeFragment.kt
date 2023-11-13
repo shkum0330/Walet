@@ -29,6 +29,7 @@ class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val retrofitAPI = RetrofitClient.getClient()
 
     private lateinit var binding:FragmentHomeBinding
 
@@ -82,9 +83,9 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
         binding.accountLogStore.setOnClickListener {
-            val intent = Intent(requireActivity(), TransactionActivity::class.java)
-            Log.d("버튼 클릭!!!!!!!!!!!","사업자계좌의 거래내역을 클릭했습니다")
-            startActivity(intent)
+            // 여기서 API 로드
+
+            getTransactionLog(5);
         }
         binding.send2.setOnClickListener {
             val intent = Intent(requireActivity(), TransferTargetActivity::class.java)
@@ -94,7 +95,12 @@ class HomeFragment : Fragment() {
     }
 
     fun loadNotice() {
-        var retrofitAPI = RetrofitClient.getClient()
+//        var retrofitAPI = RetrofitClient.getClient()
+//
+//        val header : MutableMap<String, String> = mutableMapOf()
+//        header.put("AccessToken", AccessTokenManager.getBearer())
+//        header.put("owner-id", 1)
+//        retrofitAPI.뭐시기(header).enqueue(object: Callback<....>)
 
         retrofitAPI.loadNotice(AccessTokenManager.getBearer()).enqueue(object : Callback<NoticeResponse> {
             override fun onResponse(call: Call<NoticeResponse>, response: Response<NoticeResponse>) {
@@ -128,13 +134,12 @@ class HomeFragment : Fragment() {
 
         Picasso.get().load(imageUrl).into(imageView)
     }
+
     fun loadAccounts(){
         var retrofitAPI = RetrofitClient.getClient()
 
         retrofitAPI.loadGeneralAccounts(AccessTokenManager.getBearer()).enqueue(object : Callback<HomeAccountResponse> {
             override fun onResponse(call: Call<HomeAccountResponse>, response: Response<HomeAccountResponse>) {
-
-
                 Log.d("my_tag","요청 사항 : "+AccessTokenManager.getBearer())
                 Log.d("my_tag",response.toString())
                 if (response.isSuccessful) {
@@ -156,28 +161,58 @@ class HomeFragment : Fragment() {
                 Log.d("my_tag","일반 계좌 리스트: 네트워크 오류")
             }
         })
-//        retrofitAPI.loadBusinessAccounts(AccessTokenManager.getBearer()).enqueue(object : Callback<BusinessAccountResponse> {
-//            override fun onResponse(call: Call<BusinessAccountResponse>, response: Response<BusinessAccountResponse>) {
-//                Log.d("my_tag","요청 사항 : "+AccessTokenManager.getBearer())
-//                if (response.isSuccessful) {
-//                    val businessAccountList = response.body()!!.data
-////                    NoticeManager.initData(noticeResponse!!)
-//                    if (businessAccountList != null) {
-//                        Log.d("my_tag","사업자 계좌 리스트 로딩 성공")
-//                        Log.d("my_tag",businessAccountList.toString())
-//                    } else {
-//                        Log.d("my_tag","사업자 계좌 리스트 NULL 반화됨")
-//                        // Handle null response body
-//                    }
-//                } else {
-//                    Log.d("my_tag","사업자 계좌 리스트 실패")
-//                    // Handle unsuccessful response
-//                }
-//            }
-//            override fun onFailure(call: Call<BusinessAccountResponse>, t: Throwable) {
-//                Log.d("my_tag","사업자 계좌 리스트: 네트워크 오류")
-//            }
-//        })
+        retrofitAPI.loadBusinessAccounts(AccessTokenManager.getBearer()).enqueue(object : Callback<BusinessAccountResponse> {
+            override fun onResponse(call: Call<BusinessAccountResponse>, response: Response<BusinessAccountResponse>) {
+                Log.d("my_tag","요청 사항 : "+AccessTokenManager.getBearer())
+                if (response.isSuccessful) {
+                    val businessAccountList = response.body()!!.data
+//                    NoticeManager.initData(noticeResponse!!)
+                    if (businessAccountList != null) {
+                        Log.d("my_tag","사업자 계좌 리스트 로딩 성공")
+                        Log.d("my_tag",businessAccountList.toString())
+                    } else {
+                        Log.d("my_tag","사업자 계좌 리스트 NULL 반화됨")
+                        // Handle null response body
+                    }
+                } else {
+                    Log.d("my_tag","사업자 계좌 리스트 실패")
+                    // Handle unsuccessful response
+                }
+            }
+            override fun onFailure(call: Call<BusinessAccountResponse>, t: Throwable) {
+                Log.d("my_tag","사업자 계좌 리스트: 네트워크 오류")
+            }
+        })
+    }
+
+    fun getTransactionLog(accountId : Long){
+        retrofitAPI.loadTransactionLog(AccessTokenManager.getBearer(), accountId).enqueue(object : Callback<TransactionLogResponse> {
+            override fun onResponse(call: Call<TransactionLogResponse>, response: Response<TransactionLogResponse>) {
+                Log.d("my_tag","요청 사항 : "+AccessTokenManager.getBearer())
+                if (response.isSuccessful) {
+                    val transactionLog : List<TransactionLogResponse.TransactionLog>? = response.body()!!.data
+//                    NoticeManager.initData(noticeResponse!!)
+                    Log.d("my_tag",transactionLog.toString())
+                    if (transactionLog != null) {
+                        Log.d("my_tag","거래 내역 로딩 성공")
+
+                        val intent = Intent(requireActivity(), TransactionActivity::class.java)
+                        intent.putExtra("transactionLog", ArrayList(transactionLog));
+                        Log.d("버튼 클릭!!!!!!!!!!!","사업자계좌의 거래내역을 클릭했습니다")
+                        startActivity(intent)
+                    } else {
+                        Log.d("my_tag","거래 내역 NULL 반화됨")
+                        // Handle null response body
+                    }
+                } else {
+                    Log.d("my_tag","거래 내역 로딩 실패")
+                    // Handle unsuccessful response
+                }
+            }
+            override fun onFailure(call: Call<TransactionLogResponse>, t: Throwable) {
+                Log.d("my_tag","거래 내역: 네트워크 오류")
+            }
+        })
     }
 
     companion object {

@@ -18,8 +18,15 @@ class TransferPaymentActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.identify.setOnClickListener {
+
+            // API 요청
+
             val intent = Intent(this, TransferIdentificationActivity::class.java)
             startActivity(intent)
         }
+    }
+    fun getRecipientInfo(accountNumber : String){
+        var retrofitAPI = RetrofitClient.getClient()
+
     }
 }

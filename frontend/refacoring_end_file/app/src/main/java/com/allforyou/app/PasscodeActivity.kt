@@ -12,6 +12,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class PasscodeActivity : AppCompatActivity() {
@@ -120,9 +123,26 @@ class PasscodeActivity : AppCompatActivity() {
     fun checkPIN(PIN : String){
         Log.d("my_tag",PIN)
 
-        val destination = intent.getStringExtra("destination")
-        val destinationClass = Class.forName(destination)
-        val dynamicIntent = Intent(this, destinationClass)
-        startActivity(dynamicIntent)
+        var retrofitAPI = RetrofitClient.getClient()
+
+        retrofitAPI.pinCheck(AccessTokenManager.getBearer(),PinNumberRequest(PIN)).enqueue(object :
+            Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                if (response.isSuccessful) {
+                    // 다음으로 넘어가기
+                    val destination = intent.getStringExtra("destination")
+                    val destinationClass = Class.forName(destination)
+                    val dynamicIntent = Intent(this@PasscodeActivity, destinationClass)
+                    startActivity(dynamicIntent)
+                } else {
+                    // Handle unsuccessful response
+                    message.setText("PIN 입력 확인")
+                }
+            }
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+//                sendCodeFailedAlertDialog()
+//                showAlertDialog("네트워크 오류", "네트워크 오류가 있어 인증번호 확인에 실패했습니다.")
+            }
+        })
     }
 }
