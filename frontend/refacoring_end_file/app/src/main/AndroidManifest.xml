@@ -79,7 +79,6 @@
         <activity
             android:name=".RequestViewActivity"
             android:exported="false" />
-
         <activity
             android:name=".TransferCompleteActivity"
             android:exported="false" />

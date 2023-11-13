@@ -2,19 +2,19 @@ package com.allforyou.app
 
 import com.google.gson.annotations.SerializedName
 data class NoticeResponse (
-    @SerializedName("message") val message: String,
-    @SerializedName("code") val code: String,
-    @SerializedName("data") val data : NoticeResponse.Notice? = null
+    val message: String,
+    val code: String,
+    val data : NoticeResponse.Notice? = null
 ) {
     data class Notice(
-        @SerializedName("id") val id: Int,
-        @SerializedName("title") val title: String,
-        @SerializedName("subTitle") val subTitle: String,
-        @SerializedName("content") val content: String,
-        @SerializedName("isActive") val isActive: Boolean,
-        @SerializedName("bannerImg") val bannerImg: String,
-        @SerializedName("registerTime") val registerTime: String,
-        @SerializedName("modifyTime") val modifyTime: String
+        val id: Int,
+        val title: String,
+        val subTitle: String,
+        val content: String,
+        val isActive: Boolean,
+        val bannerImg: String,
+        val registerTime: String,
+        val modifyTime: String
     )
 }
 object NoticeManager {
