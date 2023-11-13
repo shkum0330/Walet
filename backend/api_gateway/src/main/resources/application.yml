@@ -6,6 +6,18 @@ spring:
     gateway:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: '*'
+            allow-credentials: false
+            allowedHeaders: '*'
+            allowedMethods:
+              - PUT
+              - GET
+              - POST
+              - DELETE
+              - OPTIONS
       routes:
         - id: notification
           uri: lb://NOTIFICATION/
@@ -40,6 +52,12 @@ spring:
           filters:
             - AuthFilter
             - RewritePath=/api/account/(?<path>.*),/$\{path}
+        - id: service
+          uri: lb://SERVICE/
+          predicates:
+            - Path=/api/service/**
+          filters:
+            - RewritePath=/api/service/(?<path>.*),/$\{path}
 
   application:
     name: API-GATEWAY

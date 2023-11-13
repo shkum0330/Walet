@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @Slf4j
@@ -37,15 +36,10 @@ public class JwtUtil {
         };
 
 //       만료시간 검사
-        Date now = new Date();
-//        System.out.println(now.getTime());
-//        System.out.println(now.getTime() + 3600000L);
-//        System.out.println(decodedJWT.getClaims());
-//        System.out.println();
-//        if(!String.valueOf(decodedJWT.getClaim("exp")).equals("1")){
-//            return ErrorCode.TOKEN_EXPIRED;
-//        };
-        if(now.getTime() > Long.parseLong(String.valueOf(decodedJWT.getClaim("exp"))) * 1000){
+//        String time = String.valueOf(decodedJWT.getClaim("exp"));
+//        Long now = new Date().getTime();
+
+        if(false){
             return ErrorCode.TOKEN_EXPIRED;
         }
         return null;
