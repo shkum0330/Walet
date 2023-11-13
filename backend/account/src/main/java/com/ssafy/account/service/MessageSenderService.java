@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 public class MessageSenderService {
 
     private static final String EXCHANGE_NAME = "app-exchange";
-//    private static final String ROUTING_KEY = "app-id.*";
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
