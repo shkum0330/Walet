@@ -2,6 +2,7 @@ package com.ssafy.member.service;
 
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
+import com.ssafy.global.config.ClientConfig;
 import com.ssafy.member.api.MemberDto;
 import com.ssafy.member.db.FeignClient;
 import com.ssafy.member.db.MemberEntity;
@@ -26,6 +27,8 @@ public class MemberService {
     private JwtProvider jwtProvider;
     @Autowired
     private FeignClient feignClient;
+    @Autowired
+    private ClientConfig clientConfig;
 
     public MemberEntity signup(String name, String email, String password, String phoneNumber, String birth, String pinNumber, String fingerPrint){
         if(memberRepository.existsByEmail(email)){
@@ -134,14 +137,14 @@ public class MemberService {
         return member;
     }
 
-    public List<MemberDto.UsersResponse> searchUser(String keyword){
+
+    public List<MemberDto.UsersResponse> searchUser(String keyword, String token){
         List<MemberEntity> members = memberRepository.findByNameContaining(keyword);
         List<Long> memberIds = members.stream().map(MemberEntity::getId).collect(Collectors.toList());
 
         MemberDto.transactionRequest memberIdsRequest = new MemberDto.transactionRequest();
         memberIdsRequest.setAllMemberIds(memberIds);
-
-        MemberDto.accountResponse accountResponse = feignClient.getExternalData(memberIdsRequest);
+        MemberDto.accountResponse accountResponse = feignClient.getExternalData(memberIdsRequest, token);
         Map<Long, List<MemberDto.accountResponse.AccountData>> accountDataMap = new HashMap<>();
         for (MemberDto.accountResponse.AccountData accountData : accountResponse.getData()) {
             accountDataMap.computeIfAbsent(accountData.getMemberId(), k -> new ArrayList<>()).add(accountData);

@@ -3,6 +3,7 @@ package com.ssafy.member.controller;
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.global.common.redis.RedisService;
 import com.ssafy.global.common.response.EnvelopeResponse;
+import com.ssafy.global.config.ClientConfig;
 import com.ssafy.member.api.MemberDto;
 import com.ssafy.member.api.VerificationDto;
 import com.ssafy.member.db.MemberEntity;
@@ -29,6 +30,7 @@ public class MemberController {
     private SmsUtil smsUtil;
     @Autowired
     private RedisService redisService;
+
 
     @PostMapping("/signup")
     public ResponseEntity<EnvelopeResponse<MemberEntity>> signup(@RequestBody MemberDto.MemberRequest request) {
@@ -60,10 +62,11 @@ public class MemberController {
     }
 
     @GetMapping("/user/search")
-    public ResponseEntity<EnvelopeResponse<List<MemberDto.UsersResponse>>> searchUser(@RequestParam String keyword) {
-        List<MemberDto.UsersResponse> users = memberService.searchUser(keyword);
+    public ResponseEntity<EnvelopeResponse<List<MemberDto.UsersResponse>>> searchUser(@RequestParam String keyword, @RequestHeader("Authorization") String accessToken) {
+        List<MemberDto.UsersResponse> users = memberService.searchUser(keyword, accessToken);
         return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, users), HttpStatus.OK);
     }
+
 
     @PostMapping("/checkemail")
     public ResponseEntity<EnvelopeResponse<Boolean>> checkEmailExists(@RequestBody Map<String, String> requestData) {
