@@ -34,12 +34,12 @@ class LoginActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
         loginButton.setOnClickListener {
-            performLogin(email.text.toString(), password.text.toString());
+            performLogin(email.text.toString(), password.text.toString(), "000000");
         }
 
     }
     // Your login logic
-    fun performLogin(email : String, password : String) {
+    fun performLogin(email : String, password : String, pinNumber : String) {
 
         var retrofitAPI = RetrofitClient.getClient()
         retrofitAPI.login(LoginRequest(email,password)).enqueue(object : Callback<AccessTokenResponse> {
