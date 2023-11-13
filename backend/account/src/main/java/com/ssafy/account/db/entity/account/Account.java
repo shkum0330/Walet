@@ -20,6 +20,7 @@ import static com.ssafy.account.db.entity.account.AccountState.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name="account")
 public class Account extends BaseTimeEntity {
 
     @Id
