@@ -21,7 +21,6 @@ import java.util.List;
 @Transactional
 public class NHFintechServiceImpl implements NHFintechService{
     private final NHFintechClient nhFintechClient;
-    private final OauthClient oauthClient;
     private final OauthService oauthService;
     private final ObjectMapper objectMapper;
     private final TimeUtil timeUtil;
@@ -110,9 +109,12 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .MractOtlt(data.getMractOtlt())
                 .build();
         String jsonString = nhFintechClient.DrawingTransfer2("Basic " + oauthService.getOauthKey() , request);
+
         try {
+            log.info("출금 finAccount = {} , 가상계좌 = {} , 금액 = {} , 출금인자 = {} , 입금인자 = {}",data.getFinAcno(), data.getVran() , data.getTram() , data.getDractOtlt() , data.getMractOtlt());
             return objectMapper.readValue(jsonString , DrawingTransfer2Dto.Response.class);
         } catch (JsonProcessingException e) {
+            log.error("출금오류 finAccount = {} , 가상계좌 = {} , 금액 = {} , 출금인자 = {} , 입금인자 = {} " , data.getFinAcno(), data.getVran() , data.getTram() , data.getDractOtlt() , data.getMractOtlt());
             throw new RuntimeException(e);
         }
     }
@@ -148,8 +150,10 @@ public class NHFintechServiceImpl implements NHFintechService{
                 .build();
         String jsonString = nhFintechClient.ReceivedTransferFinAccount("Basic " + oauthService.getOauthKey(),request);
         try {
+            log.info("입금 finAccount = {} , 금액 = {} , 출금인자 = {} , 입금인자 = {}",data.getFinAcno() , data.getTram() , data.getDractOtlt() , data.getMractOtlt());
             return objectMapper.readValue(jsonString , ReceivedTransferFinAccountDto.Response.class);
         } catch (JsonProcessingException e) {
+            log.error("입금오류 : finAccount = {} , 금액 = {} , 출금인자 = {} , 입금인자 = {}",data.getFinAcno() , data.getTram() , data.getDractOtlt() , data.getMractOtlt());
             throw new RuntimeException(e);
         }
     }
