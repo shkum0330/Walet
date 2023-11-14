@@ -8,6 +8,7 @@ import com.ssafy.account.common.api.exception.InsufficientBalanceException;
 import com.ssafy.account.common.api.exception.NotCorrectException;
 import com.ssafy.account.common.api.exception.NotFoundException;
 import com.ssafy.account.common.api.exception.RestrictedBusinessException;
+import com.ssafy.account.common.domain.util.EncryptUtil;
 import com.ssafy.account.db.entity.access.Access;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.transaction.Transaction;
@@ -17,6 +18,7 @@ import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.db.repository.TransactionRepository;
 import com.ssafy.account.service.MessageSenderService;
 import com.ssafy.account.service.TransactionService;
+import com.ssafy.external.service.NHFintechService;
 import com.ssafy.external.service.OauthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +44,9 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccessRepository accessRepository;
     private final MessageSenderService messageSenderService;
+    private final NHFintechService nhFintechService;
     private final OauthService oauthService;
+    private final EncryptUtil encryptUtil;
 
     @Override
     public TransactionAccountResponse getTransactionAccountDetail(Long accountId) {
@@ -102,7 +106,9 @@ public class TransactionServiceImpl implements TransactionService {
         return myTransaction.getId();
     }
 
+    // 송금 후 거래내역 기록까지
     @Override
+    @Transactional
     public Long addRemittanceTransaction(RemittanceRequest remittanceRequest) {
 
         Long myAccountId = remittanceRequest.getMyAccountId();
@@ -113,7 +119,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         // 입력된 비밀번호가 맞는지 확인
         String password = remittanceRequest.getPassword();
-        if (!myAccount.getAccountPassword().equals(AccountServiceImpl.hashPassword(password))) {
+        if (!myAccount.getAccountPassword().equals(encryptUtil.hashPassword(password))) {
             throw new NotCorrectException(DIFFERENT_PASSWORD);
         }
 
@@ -128,6 +134,9 @@ public class TransactionServiceImpl implements TransactionService {
         Long remittanceAmount = remittanceRequest.getRemittanceAmount();
         // 잔액이 송금금액보다 부족하면 예외 발생
         if(myAccount.getBalance() - remittanceAmount < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_REMITTANCE);
+
+        // 농협api로 송금 진행
+        nhFintechService.remittance(myAccount,receiverAccount,remittanceAmount);
 
         myAccount.minusBalance(remittanceAmount);
         receiverAccount.addBalance(remittanceAmount);
