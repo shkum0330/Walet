@@ -7,8 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -49,14 +47,11 @@ public class Account extends BaseTimeEntity {
     @Column(name="account_state",length=10, nullable = false)
     private String accountState; // 상태 => 정상(00), 잠금(01), 정지(10), 폐쇄(11)
 
-    @ColumnDefault("50000000")
-    @Column(name="account_limit")
-    private Long accountLimit; // 인출한도
     @Column(name="account_type", length = 10,nullable = false)
     private String accountType; // 타입(일반계좌(00), 사업자계좌(01), 펫계좌(02))
     @Column(name="business_type")
     private Integer businessType; // 사업자계좌면 사업유형도 입력
-    @Column(name="linked_account_id", length = 20)
+    @Column(name="linked_accounact_id", length = 20)
     private Long linkedAccountId; // 연결될 충전계좌 아이디(선택사항)
 
     // 펫 정보(일반 계좌에서는 이 값들이 null값으로 들어감)
@@ -72,8 +67,6 @@ public class Account extends BaseTimeEntity {
     private String petBreed; // 품종
     @Column(name="pet_neutered")
     private Boolean petNeutered; // 중성화여부
-    @Column(name="pet_registration_date")
-    private LocalDate petRegistrationDate; // 등록일
     @Column(name="pet_weight")
     private Float petWeight; // 몸무게
     @Column(name="pet_photo",length = 100)
@@ -84,31 +77,28 @@ public class Account extends BaseTimeEntity {
     private Integer limitTypes; // 사용가능 제한업종 목록(비트연산으로 추가)
 
     // 일반계좌 기본정보 입력
-    public Account(AccountSaveRequest accountSaveRequest) {
+    public Account(Long memberId, String memberName, AccountSaveRequest accountSaveRequest) {
         this.accountState = "00";
-        this.memberId = accountSaveRequest.getMemberId();
+        this.memberId = memberId;
         this.accountName= accountSaveRequest.getAccountName();
-        this.depositorName = accountSaveRequest.getDepositorName();
-        this.accountLimit = accountSaveRequest.getAccountLimit();
+        this.depositorName = memberName;
         this.accountType = accountSaveRequest.getAccountType();
         this.linkedAccountId = accountSaveRequest.getLinkedAccountId();
     }
 
     // 반려동물계좌 기본정보 입력
-    public Account(PetAccountSaveRequest accountRequest) {
+    public Account(Long memberId, String memberName, PetAccountSaveRequest accountRequest) {
         this.accountState = "00";
-        this.memberId = accountRequest.getMemberId();
+        this.memberId = memberId;
         this.accountName=accountRequest.getAccountName();
-        this.depositorName = accountRequest.getDepositorName();
-        this.accountLimit = accountRequest.getAccountLimit();
-        this.accountType = accountRequest.getAccountType();
+        this.depositorName = memberName;
+        this.accountType = "02";
         this.linkedAccountId = accountRequest.getLinkedAccountId();
         this.petName = accountRequest.getPetName();
         this.petGender = accountRequest.getPetGender(); // 펫성별
         this.petBirth = accountRequest.getPetBirth(); // 펫생년월일
         this.petBreed = accountRequest.getPetBreed(); // 품종
         this.petNeutered = accountRequest.getPetNeutered(); // 중성화여부
-        this.petRegistrationDate = accountRequest.getPetRegistrationDate(); // 등록일
         this.petWeight = accountRequest.getPetWeight(); // 몸무게
         this.petPhoto = accountRequest.getPetPhoto(); // 사진
     }
@@ -179,7 +169,6 @@ public class Account extends BaseTimeEntity {
         this.petName=account.getPetName();
         this.petNeutered=account.getPetNeutered();
         this.petPhoto=account.getPetPhoto();
-        this.petRegistrationDate=account.getPetRegistrationDate();
         this.petType=account.getPetType();
         this.petWeight=account.getPetWeight();
         this.rfidCode=account.getRfidCode();

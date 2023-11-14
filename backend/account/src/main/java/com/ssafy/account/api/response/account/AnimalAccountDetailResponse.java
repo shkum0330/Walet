@@ -18,7 +18,6 @@ public class AnimalAccountDetailResponse {
     private Long balance; // 잔액
     private String accountState; // 상태
     private LocalDateTime createdAt; // 계좌생성일
-    private Long accountLimit; // 인출한도
     private String accountType; // 계좌타입
 
     private Long linkedAccountId; // 연결된 모계좌 id
@@ -28,7 +27,6 @@ public class AnimalAccountDetailResponse {
     private LocalDate petBirth; // 펫생년월일
     private String petBreed; // 품종
     private Boolean petNeutered; // 중성화여부
-    private LocalDate petRegistrationDate; // 등록일
     private Float petWeight; // 몸무게
     private String petPhoto; // 사진
     private List<HomeTransactionResponse> transactions;
@@ -40,7 +38,6 @@ public class AnimalAccountDetailResponse {
         this.balance = account.getBalance();
         this.accountState = account.getAccountState();
         this.createdAt = account.getCreatedAt();
-        this.accountLimit = account.getAccountLimit();
         this.accountType = account.getAccountType();
         this.linkedAccountId = account.getLinkedAccountId();
         this.petName = account.getPetName();
@@ -48,7 +45,6 @@ public class AnimalAccountDetailResponse {
         this.petBirth = account.getPetBirth();
         this.petBreed = account.getPetBreed();
         this.petNeutered = account.getPetNeutered();
-        this.petRegistrationDate = account.getPetRegistrationDate();
         this.petWeight = account.getPetWeight();
         this.petPhoto = account.getPetPhoto();
         this.transactions = new ArrayList<>(transactions);

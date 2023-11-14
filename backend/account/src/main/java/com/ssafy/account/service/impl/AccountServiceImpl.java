@@ -13,6 +13,7 @@ import com.ssafy.account.db.repository.AccessRepository;
 import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.db.repository.TransactionRepository;
 import com.ssafy.account.service.AccountService;
+import com.ssafy.external.service.OauthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +37,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
     private final AccessRepository accessRepository;
+    private final OauthService oauthService;
 
     @Value("${hash.pepper}")
     private String pepper;
@@ -43,8 +45,12 @@ public class AccountServiceImpl implements AccountService {
     // 일반계좌 발급
     @Override
     @Transactional
-    public Long registerGeneralAccount(AccountSaveRequest accountSaveRequest) {
-        Account account = new Account(accountSaveRequest);
+    public Long registerGeneralAccount(Long memberId, AccountSaveRequest accountSaveRequest) {
+        
+        // 회원 서버에서 이름 받아오기
+        String memberName = oauthService.getUserName(memberId);
+
+        Account account = new Account(memberId, memberName, accountSaveRequest);
 
         // 사업자계좌면(accountType이 01이라면) 사업유형도 입력
         if(accountSaveRequest.getAccountType().equals("01")) {
@@ -77,7 +83,7 @@ public class AccountServiceImpl implements AccountService {
     // cf) 계좌를 등록하려고 할 때 내가 등록할 비문 사진이 이미 있으면 양도 받는 것이 목적이냐고 물어보기
     @Override
     @Transactional
-    public Long registerPetAccount(PetAccountSaveRequest petAccountRequest) {
+    public Long registerPetAccount(Long memberId, PetAccountSaveRequest petAccountRequest) {
 
         // 펫계좌와 관련된 정보가 입력되었을 때
         // 입력된 비문 또는 RFID코드가 이미 등록돼있다면
@@ -85,7 +91,10 @@ public class AccountServiceImpl implements AccountService {
         // 확인을 누르면 해당 계좌의 주인한테 알림 메시지를 보냄
 
 
-        Account petAccount = new Account(petAccountRequest);
+        // 회원 서버에서 이름 받아오기
+        String memberName = oauthService.getUserName(memberId);
+
+        Account petAccount = new Account(memberId, memberName, petAccountRequest);
 
         String hashRfidCode = hashPassword(petAccountRequest.getRfidCode());
         petAccount.addHashedRfid(hashRfidCode);

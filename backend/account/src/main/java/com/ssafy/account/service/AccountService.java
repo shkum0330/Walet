@@ -10,8 +10,8 @@ import java.util.Map;
 
 public interface AccountService {
 
-    Long registerGeneralAccount(AccountSaveRequest accountSaveRequest); // 일반계좌 생성
-    Long registerPetAccount(PetAccountSaveRequest animalAccountRequest); // 동물계좌 생성
+    Long registerGeneralAccount(Long memberId, AccountSaveRequest accountSaveRequest); // 일반계좌 생성
+    Long registerPetAccount(Long memberId, PetAccountSaveRequest animalAccountRequest); // 동물계좌 생성
 
     List<ChargingAccountResponse> getChargingAccountList(Long memberId); // 충전계좌로 연결할 수 있는 일반계좌의 목록 반환
 
