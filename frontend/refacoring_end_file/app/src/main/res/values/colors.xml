@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="gray100">#FF212121</color>
+    <color name="gray90">#FF424242</color>
+    <color name="gray80">#FF616161</color>
+    <color name="gray70">#FF757575</color>
+    <color name="gray60">#FF9E9E9E</color>
+    <color name="gray50">#FFBDBDBD</color>
+    <color name="gray40">#FFE0E0E0</color>
+    <color name="gray30">#FFEEEEEE</color>
+    <color name="gray20">#FFF5F5F5</color>
+    <color name="gray10">#FFFAFAFA</color>
+
+    <color name="logo_blue">#FF0B4197</color>
+    <color name="logo_green">#FF20AB4B</color>
+    <color name="grey20">#FFF5F5F5</color>
+    <color name="grey30">#FFEEEEEE</color>
+    <color name="grey40">#FFE0E0E0</color>
+    <color name="grey60">#FF9E9E9E</color>
+    <color name="grey80">#FF616161</color>
+    <color name="grey90">#FF424242</color>
+    <color name="main_dark">#FF73B94C</color>
+    <color name="main_light">#FFC4F780</color>
+    <color name="main_selected">#FF256800</color>
+    <color name="transaction_ligt_green">#FFD8FFA4</color>
+
+    <color name="lime10">#FFF9FBE7</color>
+    <color name="lime30">#FFE6EE9C</color>
+
+    <color name="no_green">#FF00C805</color>
+    <color name="no_yellow">#FFFFB71B</color>
+
+    <color name="sub_green10">#FF69C7B4</color>
+    <color name="sub_green20">#FF69C7A3</color>
+
+    <color name="red">#FFF43333</color>
+    <color name="blue">#FF1400F7</color>
+</resources>

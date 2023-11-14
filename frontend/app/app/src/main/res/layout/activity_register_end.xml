@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    tools:context=".RegisterEndActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="22dp"
+        >
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="등록이\n완료되었습니다"
+            android:textColor="@color/black"
+            android:textSize="40sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            />
+        <com.airbnb.lottie.LottieAnimationView
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/love_pet"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        android:layout_gravity="center"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="재등록 진행하기"
+            android:textColor="@color/grey80"
+            android:textSize="20sp" />
+
+
+
+
+        <Button
+            android:id="@+id/go_home"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="22dp"
+            android:background="@drawable/button_no_green"
+            android:text="홈으로 돌아가기"
+            android:textColor="@color/white"
+
+            android:textSize="24dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
