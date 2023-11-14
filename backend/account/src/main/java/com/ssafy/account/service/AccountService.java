@@ -39,5 +39,8 @@ public interface AccountService {
     AdminAccountCountResponse countAllAccountForAdmin();
 
     Account findByAccountNumber(String accountNumber);
+    
+    // 일주일간 새로 생성된 계좌 개수
+    Long countNewAccountInWeek();
 
 }
