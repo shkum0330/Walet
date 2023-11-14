@@ -23,6 +23,9 @@ class TransferPaymentActivity : AppCompatActivity() {
 
         binding.identify.setOnClickListener {
 
+            // 돈 입력한 대로 넣기
+            RemittanceRequestManager.getInstance().remittanceAmount = 10000
+
             // API 요청 누구한테 보낼지
             getRecipientInfo(RemittanceRequestManager.receiverAccountNumber)
 //            val intent = Intent(this, TransferIdentificationActivity::class.java)

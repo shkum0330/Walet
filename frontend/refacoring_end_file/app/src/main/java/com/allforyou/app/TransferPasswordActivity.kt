@@ -29,7 +29,7 @@ class TransferPasswordActivity : AppCompatActivity() {
     }
     fun remittance(){
         // 키패드로 입력받은 것으로 만들기
-        RemittanceRequestManager.getInstance().password = "0000"
+        RemittanceRequestManager.getInstance().password = "1234"
 
         var retrofitAPI = RetrofitClient.getClient()
         retrofitAPI.remittance(AccessTokenManager.getBearer(),RemittanceRequestManager.getInstance()).enqueue(object :

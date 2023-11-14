@@ -65,6 +65,7 @@ class BusinessAccountAdapter(private val items : ArrayList<BankAccount>, private
             viewHolder = convertView.tag as ViewHolder
             result = convertView
         }
+        Log.d("my_tag",item.accountNumber)
         viewHolder.accountNumber.text = item.accountNumber
         viewHolder.accountName.text = item.accountName
         viewHolder.accountBalance.text = item.balance.toString()
@@ -156,6 +157,7 @@ class GeneralAccountAdapter(private val items : ArrayList<BankAccount>, private 
             viewHolder = convertView.tag as ViewHolder
             result = convertView
         }
+        Log.d("my_tag",item.accountNumber)
         viewHolder.accountNumber.text = item.accountNumber
         viewHolder.accountName.text = item.accountName
         viewHolder.accountBalance.text = item.balance.toString()
