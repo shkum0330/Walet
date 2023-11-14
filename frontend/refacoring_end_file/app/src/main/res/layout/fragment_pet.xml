@@ -901,6 +901,7 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
+                    android:id="@+id/btn_make_account"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
                     android:layout_weight="1"
@@ -960,7 +961,8 @@
                     android:layout_height="1dp" />
 
                 <RelativeLayout
-                    android:id="@+id/btn_account_assignment"
+
+                    android:id="@+id/btn_account_pass"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
                     android:layout_weight="1"
