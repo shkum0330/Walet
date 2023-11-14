@@ -12,9 +12,9 @@ function Navbar() {
   return (
     <>
       <nav className="flex items-center py-4 px-6 text-xl shadow-md w-full">
-        <img src={Logo} alt="Logo" className="w-[60px] h-[30px] mr-4" />
+        <img src={Logo} alt="Logo" className="w-[40px] h-[30px] mr-4" />
         <p className="flex items-center space-x-4 font-do-hyeon">
-          환영합니다! 관리자 {name} 님!
+          접속 중인 관리자 : {name}
         </p>
       </nav>
       <aside

@@ -18,13 +18,27 @@ export interface DashboardStats {
 }
 
 export interface DashboardWeekly {
-  day: [];
+  days: [];
 }
 
 export interface DashboardStatsResponse extends common {
   data: DashboardStats;
 }
 
-export interface DashboardWeeklyesponse extends common {
+export interface DashboardWeeklyresponse extends common {
   data: DashboardWeekly;
+}
+
+export interface DashboardWeeklyAccountresponse extends common {
+  data: string;
+}
+
+export interface DashboardCategoryesponse extends common {
+  data: {
+    category: [];
+  };
+}
+
+export interface DashboardWeeklyAmountResponse extends common {
+  data: string;
 }

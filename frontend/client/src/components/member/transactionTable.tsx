@@ -9,7 +9,6 @@ function TransactionTable({ accountId }: { accountId: string }) {
     (async () => {
       const data = await TransactionRepository(accountId);
       if (data) {
-        console.log(data);
         SetTransaction(data);
       }
     })();

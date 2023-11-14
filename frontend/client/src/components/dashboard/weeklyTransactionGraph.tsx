@@ -8,7 +8,10 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { DashboardWeekly } from '../../interface/api/dashboardApiInterface';
+import { DashBoardWeeklyRepository } from '../../repository/dashboard/dashboardRepository';
 
 ChartJS.register(
   CategoryScale,
@@ -49,14 +52,22 @@ const options = {
 
 function WeeklyTransactionGraph() {
   const labels = ['월', '화', '수', '목', '금', '토', '일'];
+  const [stats, setStates] = useState<DashboardWeekly>();
+
+  useEffect(() => {
+    (async () => {
+      const data = await DashBoardWeeklyRepository();
+      if (data) {
+        setStates(data);
+      }
+    })();
+  }, []);
 
   const data = {
     labels,
     datasets: [
       {
-        data: Array(7)
-          .fill(0)
-          .map(() => Math.ceil(Math.random() * 1000)),
+        data: stats?.days.reverse(),
         borderColor: '#FFB71B',
         backgroundColor: 'rgba(255, 183, 27, 0.2)',
         fill: true,

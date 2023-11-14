@@ -30,6 +30,7 @@ const options = {
       display: false,
     },
   },
+
   elements: {
     line: {
       tension: 0.4,
@@ -38,6 +39,9 @@ const options = {
   scales: {
     x: {
       grid: {
+        display: false,
+      },
+      ticks: {
         display: false,
       },
     },
@@ -70,13 +74,15 @@ function TransactionGraph() {
       case '1day':
         return Array(30)
           .fill(0)
-          .map((_, index) => `${index + 1}일`);
+          .map((_, index) => `${index + 1}`);
       case '7days':
+        return Array(15)
+          .fill(0)
+          .map((_, index) => `${index + 1}`);
+      case '1month':
         return Array(12)
           .fill(0)
-          .map((_, index) => `${index + 1}월`);
-      case '1month':
-        return ['2020년', '2021년', '2022년', '2023년'];
+          .map((_, index) => `${index + 1}`);
       default:
         return [];
     }
@@ -85,17 +91,11 @@ function TransactionGraph() {
   const getData = (selectedPeriod: string) => {
     switch (selectedPeriod) {
       case '1day':
-        return Array(30)
-          .fill(0)
-          .map(() => Math.ceil(Math.random() * 1000000));
+        return stats?.day.reverse();
       case '7days':
-        return Array(12)
-          .fill(0)
-          .map(() => Math.ceil(Math.random() * 7000000));
+        return stats?.week.reverse();
       case '1month':
-        return Array(4)
-          .fill(0)
-          .map(() => Math.ceil(Math.random() * 30000000));
+        return stats?.month.reverse();
       default:
         return [];
     }
@@ -132,7 +132,7 @@ function TransactionGraph() {
               period === '7days' ? 'bg-gray-200' : ''
             }`}
             onClick={() => handleClick('7days')}>
-            <p>월</p>
+            <p>주</p>
           </button>
           <button
             type="button"
@@ -140,11 +140,11 @@ function TransactionGraph() {
               period === '1month' ? 'bg-gray-200' : ''
             }`}
             onClick={() => handleClick('1month')}>
-            <p>년</p>
+            <p>월</p>
           </button>
         </div>
       </div>
-      <div className="flex items-center justify-center h-[20vh] w-[80vh] mt-4">
+      <div className="flex items-center justify-center  w-[65vh] mt-4">
         <Line options={options} data={data} />
       </div>
     </div>

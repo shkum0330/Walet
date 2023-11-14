@@ -55,8 +55,8 @@ function NoticePage() {
             {selectedItem && (
               <div className="flex justify-around">
                 <div>
-                  <div className="text-2xl mt-2">{selectedItem.title}</div>
-                  <div className="text-xl mt-1">{selectedItem.subTitle}</div>
+                  <div className="text-xl mt-2">{selectedItem.title}</div>
+                  <div className=" mt-1">{selectedItem.subTitle}</div>
                 </div>
                 <img
                   src={selectedItem.bannerImg}

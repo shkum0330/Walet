@@ -2,21 +2,40 @@ import { useEffect, useState } from 'react';
 import PetsIcon from '@mui/icons-material/Pets';
 import Card from '../../components/common/card';
 import { DashboardCountData } from '../../interface/api/dashboardApiInterface';
-import { DashBoardCountRepository } from '../../repository/dashboard/dashboardRepository';
+import {
+  DashBoardCountRepository,
+  DashBoardWeeklyAccountRepository,
+  DashBoardWeeklyAmountRepository,
+} from '../../repository/dashboard/dashboardRepository';
 import UserIcon from '../../components/Icons/usericon';
 import AccountIcon from '../../components/Icons/accounticon';
 import NoticeManage from '../../components/dashboard/noticeManage';
 import TransactionGraph from '../../components/dashboard/transactionGraph';
 import WeeklyTransactionGraph from '../../components/dashboard/weeklyTransactionGraph';
+import RecentTransaction from '../../components/dashboard/recenntTransaction';
+import CategoryGraph from '../../components/dashboard/categoryGraph';
 
 function MainPage() {
   const [countData, SetCountData] = useState<DashboardCountData>();
-
+  const [weeklyAccount, setWeeklyAccount] = useState('');
+  const [weeklyAmount, setWeeklyAmount] = useState('');
   useEffect(() => {
     (async () => {
       const data = await DashBoardCountRepository();
       if (data) {
         SetCountData(data);
+      }
+    })();
+    (async () => {
+      const datas = await DashBoardWeeklyAccountRepository();
+      if (datas) {
+        setWeeklyAccount(datas);
+      }
+    })();
+    (async () => {
+      const amountdata = await DashBoardWeeklyAmountRepository();
+      if (amountdata) {
+        setWeeklyAmount(amountdata);
       }
     })();
   }, []);
@@ -26,14 +45,16 @@ function MainPage() {
       <p className="text-3xl font-do-hyeon">DashBoard</p>
       <div className="flex h-[12%]">
         <Card width="w-[22%]" height="h-full" styling="p-2">
-          신규 계좌 발급
+          <p className="text-xl">주간 신규 계좌 발급</p>
+          <p className="text-2xl ml-2 mt-2">{weeklyAccount}건 </p>
         </Card>
         <Card width="w-[47%]" height="h-full" styling="p-2">
-          주간 신규 고객 현황
-          <p className="text-3xl ml-2 mt-2">{countData?.newUser}명 </p>
+          <p className="text-xl">주간 신규 고객 현황</p>
+          <p className="text-2xl ml-2 mt-2">{countData?.newUser}명 </p>
         </Card>
         <Card width="w-[22%]" height="h-full" styling="p-2">
-          총 거래량
+          <p className="text-xl">주간 총 거래량</p>
+          <p className="text-2xl ml-2 mt-2">{weeklyAmount}건 </p>
         </Card>
       </div>
 
@@ -74,10 +95,10 @@ function MainPage() {
 
       <div className="flex mt-4 h-[28%]">
         <Card width="w-[22%]" height="h-[33vh]" styling="p-2">
-          <p>카테고리별 매출</p>
+          <CategoryGraph />
         </Card>
         <Card width="w-[47%]" height="h-[33vh]" styling="p-2">
-          <p>최근 거래 내역</p>
+          <RecentTransaction />
         </Card>
         <Card width="w-[22%]" height="h-[33vh]" styling="p-2">
           <NoticeManage />

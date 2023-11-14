@@ -22,7 +22,7 @@ function MemberPage() {
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const totalItems = users?.length || 0;
-  const totalPages = Math.ceil(totalItems / 20);
+  const totalPages = Math.ceil(totalItems / 18);
 
   const next = () => {
     if (currentPage === totalPages) return;
@@ -47,8 +47,8 @@ function MemberPage() {
     return pageNumbers;
   };
 
-  const startIndex = (currentPage - 1) * 20;
-  const endIndex = Math.min(startIndex + 20, totalItems);
+  const startIndex = (currentPage - 1) * 18;
+  const endIndex = Math.min(startIndex + 18, totalItems);
 
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [selectedAccountId, setSelectedAccountId] = useState<string | null>(
@@ -93,7 +93,7 @@ function MemberPage() {
       <Card width="w-[95%]" height="h-auto" styling="">
         <table
           className={`table-fixed w-full ${
-            users && users.slice(startIndex, endIndex).length === 20
+            users && users.slice(startIndex, endIndex).length === 18
               ? 'h-full'
               : ''
           }`}>
