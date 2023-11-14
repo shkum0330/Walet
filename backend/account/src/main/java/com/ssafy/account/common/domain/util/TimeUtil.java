@@ -40,6 +40,11 @@ public class TimeUtil {
         return dateTime.format(formatter);
     }
 
+    public String transferDateTimeConverter(LocalDateTime dateTime){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return dateTime.format(formatter);
+    }
+
     public String YMD(LocalDateTime dateTime){
         return dateTime.format(DateTimeFormatter.ofPattern("YYYYMMdd"));
     }

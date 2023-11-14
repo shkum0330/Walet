@@ -22,5 +22,5 @@ public interface NHFintechService {
 
     P2PNVirtualAccountTerminateDto.Response P2PNVirtualAccountTerminate(P2PNVirtualAccountTerminateDto.Request request);  //(신규) P2P투자자/차입자 가상계좌 해지
     P2PNInvestmentManagementVirtualAccountListDto.Response P2PNInvestmentManagementVirtualAccountList(P2PNInvestmentManagementVirtualAccountListDto.Request request);
-    void remittance(Account senderAccountId, Account accountNumber, Long amount);
+    void remittance(Account senderAccount,Account receiverAccount,Long amount);
 }

@@ -336,12 +336,6 @@ public class AccountServiceImpl implements AccountService {
             }
         }
 
-        // 카테고리별 지출액의 비중
-        //  1. 동물병원
-        //  2. 반려동물용품
-        //  3. 반려동물미용
-        //  4. 애견카페
-        //  5. 반려견놀이터
         Map<String, Long> currentExpenditureByCategory = new HashMap<>();
         currentExpenditureByCategory.put("동물병원", currentTotalPetHospitalCost);
         currentExpenditureByCategory.put("반려동물용품", currentTotalPetSupplyCost);
@@ -525,6 +519,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public Account findByRFID(String rfidCode) {
         return accountRepository.findByRfidCodeAndAccountState(rfidCode,"00").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
     }
