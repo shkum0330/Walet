@@ -123,8 +123,8 @@ interface ApiService {
         @Body transferRequest: TransferRequest
     ): Response<ApiRespond<Int>>
 
-    @GET("/api/account/transfer/get-info")
-    suspend fun
+//    @GET("/api/account/transfer/get-info")
+//    suspend fun
 
 
 

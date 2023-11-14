@@ -11,7 +11,7 @@ class PassDetailActivity : AppCompatActivity() {
         binding=ActivityPassDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.
+//        binding.
 
 
 
