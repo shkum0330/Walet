@@ -10,6 +10,11 @@ spring:
     redis:
       port: 6379
       host: 43.201.195.182
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ENC(9pPcvFQrOmdd8PMOzb5LT2NO8knP5W7K75NVbQGuoMIDmdAnuDw2H6rFrUwwdM1pUQChn1uLuFr631F8gFMDxOlR4sG7I9kfO8F8lmCcdhmdHrTRbSTaHFMeCTZBwe7T)
+    username: ENC(rgBkLekRUBVFezMhGqUMwQ==)
+    password: ENC(2jZOoppfgHR24JO58hoYDN6Bk6UqkY1u)
 
 logging:
   level:
@@ -37,3 +42,15 @@ nh:
   client:
     id: ENC(dDMftFuEktP7Xn7N3L/UElG0Ny0ZfNmVt0CJXzEND4teKt/qlX2tj73nIeN8EhVz)
     secret: ENC(p5Wn5A4yHMu4BGL+XMbzvpPYaTdEx82KK3hiNLdFHG2ODIRqBbIzmIn3UVmN/X7X)
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ENC(kMyHtS0sBPjSpalnnltB/nhyvfbEzJmM7zglZXOSDk8=)
+      secretKey: ENC(qz+8NQvId9nLux7LonOIrfys3HlyM7bODKpkXiGNlEEPgKgBveEV0zHLwVpRYobaKS8KY02Bue4=)
+    s3:
+      bucket: a301-s3-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
