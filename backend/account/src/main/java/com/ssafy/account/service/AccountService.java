@@ -43,4 +43,8 @@ public interface AccountService {
     // 일주일간 새로 생성된 계좌 개수
     Long countNewAccountInWeek();
 
+    Account findByRFID(String rfidCode);
+
+    Account findBusinessAccountByMemberId(Long memberID);
+
 }
