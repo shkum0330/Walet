@@ -66,7 +66,9 @@ function MainPage() {
               <p className="text-2xl">{countData?.allUsers}</p>
               <p>총 고객 수</p>
             </div>
-            <UserIcon styling="icon" />
+            <div>
+              <UserIcon styling="icon" />
+            </div>
           </div>
           <hr className="mt-4 border-2" />
           <div className="flex ml-8 mt-2 h-[6vh] align-middle">
