@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
@@ -25,8 +26,11 @@ public class Payment extends BaseTimeEntity {
     @Column(name = "payment_id")
     private Long id;
 
-    @Column(name="member_id",nullable = false)
+    @Column(name="seller_id",nullable = false)
     private Long sellerId;
+
+    @Column(name="buyer_id")
+    private Long buyerId;
 
     @Enumerated(EnumType.STRING)
     @Column(name="status",length = 10,nullable = false)
@@ -42,6 +46,10 @@ public class Payment extends BaseTimeEntity {
         this.paymentAmount = paymentAmount;
     }
 
+    public void setBuyerId(Long buyerId){
+        log.info("{} {}",this.id,buyerId);
+        this.buyerId=buyerId;
+    }
     public void completePayment(){
         this.status= COMPLETE;
     }

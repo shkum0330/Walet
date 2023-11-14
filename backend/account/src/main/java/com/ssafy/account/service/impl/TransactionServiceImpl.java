@@ -90,6 +90,7 @@ public class TransactionServiceImpl implements TransactionService {
         // 잔액이 결제금액보다 부족하면 예외 발생
         if(myPetAccount.getBalance() - pay < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_PAYMENT);
 
+        nhFintechService.remittance(myPetAccount,companyAccount,transactionRequest.getPaymentAmount());
         myPetAccount.minusBalance(pay);
         companyAccount.addBalance(pay);
 
