@@ -15,7 +15,6 @@ public class PetInfoResponse { // rfid 코드를 바탕으로 알아낸 펫정�
     private LocalDate petBirth; // 펫생년월일
     private String petBreed; // 품종
     private Boolean petNeutered; // 중성화여부
-    private LocalDate petRegistrationDate; // 등록일
     private Float petWeight; // 몸무게
     private String petPhoto; // 사진
 
@@ -26,7 +25,6 @@ public class PetInfoResponse { // rfid 코드를 바탕으로 알아낸 펫정�
         this.petBirth = account.getPetBirth();
         this.petBreed = account.getPetBreed();
         this.petNeutered = account.getPetNeutered();
-        this.petRegistrationDate = account.getPetRegistrationDate();
         this.petWeight = account.getPetWeight();
         this.petPhoto = account.getPetPhoto();
     }

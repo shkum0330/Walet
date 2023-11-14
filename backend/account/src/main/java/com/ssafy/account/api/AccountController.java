@@ -39,20 +39,20 @@ public class AccountController {
     
     // 1. 계좌 생성
     @PostMapping("/register/general-account")
-    public ResponseEntity<?> registerGeneralAccount(@RequestBody AccountSaveRequest accountSaveRequest){
+    public ResponseEntity<?> registerGeneralAccount(@RequestHeader("id") Long memberId, @RequestBody AccountSaveRequest accountSaveRequest){
         log.info("일반/사업자 계좌 생성 요청 dto: {}", accountSaveRequest);
         Response response=new Response<Long>(200, GENERAL_SUCCESS.getMessage(),
-                accountService.registerGeneralAccount(accountSaveRequest));
+                accountService.registerGeneralAccount(memberId, accountSaveRequest));
         return ResponseEntity.ok(response);
     }
     @PostMapping("/register/pet-account")
-    public ResponseEntity<?> registerAnimalAccount(@RequestPart("petAccountRequest") PetAccountSaveRequest petAccountRequest,
+    public ResponseEntity<?> registerAnimalAccount(@RequestHeader("id") Long memberId, @RequestPart("petAccountRequest") PetAccountSaveRequest petAccountRequest,
                                                    @RequestPart("petImage") MultipartFile file) throws IOException {
 
         petAccountRequest.setPetPhoto(s3Service.getS3ImageUrl(s3Service.upload(file)));
         log.info("펫 계좌 생성 요청 dto: {}", petAccountRequest);
         Response response=new Response<Long>(200, GENERAL_SUCCESS.getMessage(),
-                accountService.registerPetAccount(petAccountRequest));
+                accountService.registerPetAccount(memberId, petAccountRequest));
         return ResponseEntity.ok(response);
     }
     
