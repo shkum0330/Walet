@@ -249,7 +249,7 @@
             android:layout_height="12dp" />
 
         <LinearLayout
-            android:id="@+id/btn_seeAll"
+            android:id="@+id/btn_pass_confirm"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@drawable/box_grey_ff"
@@ -268,7 +268,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="내 계좌 모아보기"
+                    android:text="양도요청 확인"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -276,7 +276,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="보유한 계좌를 모두 모아보세요"
+                    android:text="받은 양도요청을 확인하세요"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 

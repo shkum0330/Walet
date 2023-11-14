@@ -147,11 +147,13 @@
 
 
                     <EditText
+                        android:id="@+id/pet_name"
                         android:paddingVertical="12dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="반려가족의 이름을 입력하세요"
                         android:textSize="18sp"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/grey60"
                         />
 
@@ -179,12 +181,14 @@
 
 
                     <EditText
+                        android:id="@+id/pet_account_number"
                         android:paddingVertical="12dp"
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="반려가족의 계봐번호를 입력하세요"
                         android:textSize="18sp"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/grey60"
                         />
 
@@ -218,7 +222,8 @@
                         android:layout_height="wrap_content"
                         android:hint="간단한 메세지를 남겨주세요"
                         android:textSize="18sp"
-
+android:id="@+id/pet_view_request"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/grey60"
                         />
 
