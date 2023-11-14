@@ -518,7 +518,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Long countNewAccountInWeek() {
-        LocalDateTime startOfDay = LocalDateTime.now().with(LocalTime.MIN);
+        LocalDateTime startOfDay = LocalDateTime.now().minusWeeks(1).with(LocalTime.MIN);
         Long result = accountRepository.countByCreatedAtAfter(startOfDay);
         return result;
     }
