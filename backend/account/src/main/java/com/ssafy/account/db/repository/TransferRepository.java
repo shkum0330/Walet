@@ -12,7 +12,7 @@ import java.util.Optional;
 import static com.ssafy.account.db.entity.transfer.Transfer.*;
 
 public interface TransferRepository extends JpaRepository<Transfer,Long> {
-    List<Transfer> findByTransferorId(Long transferorId);
+    List<Transfer> findByTransferorIdAndStatus(Long transferorId,ProcessStatus status);
 
     void deleteByTransferorId(Long transferorId);
     void deleteByStatusAndCreatedAtLessThanEqual(ProcessStatus status,LocalDateTime createdAt);

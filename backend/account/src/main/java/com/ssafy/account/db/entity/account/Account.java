@@ -173,5 +173,17 @@ public class Account extends BaseTimeEntity {
         this.petWeight=account.getPetWeight();
         this.rfidCode=account.getRfidCode();
     }
-
+    public void deletePetInfo(){
+        this.accountType="00";
+        this.limitTypes=null;
+        this.petBirth=null;
+        this.petBreed=null;
+        this.petGender=null;
+        this.petName=null;
+        this.petNeutered=null;
+        this.petPhoto=null;
+        this.petType=null;
+        this.petWeight=null;
+        this.rfidCode=null;
+    }
 }

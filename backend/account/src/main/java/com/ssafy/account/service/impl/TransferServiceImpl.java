@@ -31,9 +31,9 @@ public class TransferServiceImpl implements TransferService {
 
         Transfer transfer=new Transfer(request.getContent(),PENDING);
         transfer.setTransferorId(ownerId);
-        if(transferRepository.findByTransferorId(ownerId) != null){ // 이미 양도를 진행중이라면
+        if(transferRepository.findByTransferorIdAndStatus(ownerId,PENDING) != null){ // 이미 진행중인 양도가 있다면
             log.info("삭제 실행 {}",ownerId);
-            transferRepository.deleteByTransferorId(ownerId);
+            transferRepository.deleteByTransferorId(ownerId); // 기존의 양도요청은 삭제한다.
         }
         transferRepository.save(transfer);
         Account transfereeAccount=accountRepository.findByDepositorNameAndAccountNumber(request.getNewOwner(),request.getAccountNumber()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
