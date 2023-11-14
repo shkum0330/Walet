@@ -11,10 +11,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class PaymentNotificationRequest implements Serializable {
     Long receiveMemberId;
-    int price;
+    Long price;
     String sender; // 결제처
 
-    public PaymentNotificationRequest(Long receiveMemberId, int price, String sender) {
+    public PaymentNotificationRequest(Long receiveMemberId, Long price, String sender) {
         this.receiveMemberId = receiveMemberId;
         this.price = price;
         this.sender = sender;

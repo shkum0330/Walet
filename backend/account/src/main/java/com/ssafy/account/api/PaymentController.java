@@ -3,19 +3,23 @@ package com.ssafy.account.api;
 import com.ssafy.account.api.request.message.PaymentNotificationRequest;
 import com.ssafy.account.api.request.payment.PaymentRequest;
 import com.ssafy.account.api.request.payment.RFIDAuthRequest;
+import com.ssafy.account.api.request.transaction.TransactionRequest;
 import com.ssafy.account.api.response.payment.CheckResponse;
 import com.ssafy.account.common.api.Response;
 import com.ssafy.account.common.api.exception.InvalidPaymentException;
 import com.ssafy.account.common.api.status.FailCode;
 import com.ssafy.account.common.api.status.ProcessStatus;
 import com.ssafy.account.common.api.status.SuccessCode;
+import com.ssafy.account.common.domain.util.EncryptUtil;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.payment.Payment;
+import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.service.AccountService;
 import com.ssafy.account.service.MessageSenderService;
 import com.ssafy.account.service.PaymentService;
 import com.ssafy.account.service.TransactionService;
+import com.ssafy.external.service.NHFintechService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +36,14 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final TransactionService transactionService;
     private final MessageSenderService messageSenderService;
+    private final NHFintechService fintechService;
     private final TimeUtil timeUtil;
+    private final EncryptUtil encryptUtil;
 
     // 판매자가 결제 요청을 보냄
     @PostMapping("/payment/request")
-    public ResponseEntity<?> requestPayment(@RequestBody PaymentRequest request){
-
+    public ResponseEntity<?> requestPayment(@RequestHeader("id") Long sellerId,@RequestBody PaymentRequest request){
+        request.setSellerId(sellerId);
         Long paymentId=paymentService.requestPayment(request);
         log.info("paymentId: {}",paymentId);
         return ResponseEntity.ok(new Response<>(200, SuccessCode.GENERAL_SUCCESS.getMessage(),paymentId));
@@ -50,10 +56,10 @@ public class PaymentController {
         if(payment.getStatus() != PENDING){
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
-        Account account=accountService.findPetAccountByAccountId(request.getSenderId());
+        Account account=accountService.findByRFID(encryptUtil.hashPassword(request.getRfidCode()));
 //        transactionService.addPetRelatedTransaction(new TransactionRequest(request.getRfidCode(), request.getBuyerId(),
 //                payment.getSellerId(), TransactionType.WITHDRAWAL,payment.getPaymentAmount()));
-        paymentService.completePayment(payment);
+//        paymentService.completePayment(payment);
 
         CheckResponse response= CheckResponse.builder()
                 .petImage(account.getPetPhoto())
@@ -67,6 +73,19 @@ public class PaymentController {
         return ResponseEntity.ok(new Response<>(200, SuccessCode.GENERAL_SUCCESS.getMessage(),response));
     }
 
+    // RFID 인증을 하면 상대에게 푸쉬알림을 보낸다.
+    @PostMapping("/payment/message/{paymentId}")
+    public void sendNotification(@RequestHeader("id") Long sellerId,@PathVariable Long paymentId, @RequestBody RFIDAuthRequest request){
+        Payment payment=paymentService.findPayment(paymentId); // 결제 정보를 가져온다.
+        if(payment.getStatus() != PENDING){
+            throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
+        }
+        Account sellerAccount=accountService.findBusinessAccountByMemberId(sellerId);
+        Account buyerAccount=accountService.findByRFID(encryptUtil.hashPassword(request.getRfidCode()));
+        messageSenderService.sendPaymentMessage(new PaymentNotificationRequest(
+                buyerAccount.getMemberId(), payment.getPaymentAmount(), sellerAccount.getDepositorName()
+        ));
+    }
     // 결제 확정
     @PostMapping("/payment/complete/{paymentId}")
     public String completePayment(@PathVariable Long paymentId) {
@@ -76,7 +95,7 @@ public class PaymentController {
         // 거래 기록을 db에 저장
 
         // 알림 보내기
-        messageSenderService.sendPaymentMessage(new PaymentNotificationRequest(1L,10000,"이마트"));
+//        messageSenderService.sendPaymentMessage(new PaymentNotificationRequest(1L,10000,"이마트"));
         return "message sending!";
     }
 }

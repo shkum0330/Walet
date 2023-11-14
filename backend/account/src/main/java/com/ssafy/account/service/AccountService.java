@@ -40,4 +40,7 @@ public interface AccountService {
 
     Account findByAccountNumber(String accountNumber);
 
+    Account findByRFID(String rfidCode);
+
+    Account findBusinessAccountByMemberId(Long memberID);
 }
