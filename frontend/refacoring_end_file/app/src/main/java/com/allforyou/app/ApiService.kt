@@ -89,28 +89,28 @@ interface ApiService {
         @Query("accountNumber") accountNumber: Int
     ): Response<ApiRespond<List<AccessRespond>>>
 
-        @PUT("/api/account/access/accept")
-        suspend fun applyAccept(
-            @Header("Authorization") accessToken: String,
-            @Body accessId: AccessStatusChangeRequest
-        ): Response<ApiRespond<Int>>
+    @PUT("/api/account/access/accept")
+    suspend fun applyAccept(
+        @Header("Authorization") accessToken: String,
+        @Body accessId: AccessStatusChangeRequest
+    ): Response<ApiRespond<Int>>
 
-        @DELETE("/api/account/access/reject")
-        suspend fun applyReject(
-            @Header("Authorization") accessToken: String,
-            @Body accessId: AccessStatusChangeRequest
-        ): Response<ApiRespond<Int>>
+    @DELETE("/api/account/access/reject")
+    suspend fun applyReject(
+        @Header("Authorization") accessToken: String,
+        @Body accessId: AccessStatusChangeRequest
+    ): Response<ApiRespond<Int>>
 
 
-        @POST("/api/account/register/pet-account")
-        suspend fun makePetAccount(
-            @Header("Authorization") accessToken: String,
-            @Body petAcountRequest: PetAccountRequest
-        ):Response<ApiRespond<Int>>
+    @POST("/api/account/register/pet-account")
+    suspend fun makePetAccount(
+        @Header("Authorization") accessToken: String,
+        @Body petAcountRequest: PetAccountRequest
+    ):Response<ApiRespond<Int>>
 
-        @GET("/api/account/charging-account-list")
-        suspend fun getChargingAccountList(
-            @Header("Authorization") accessToken: String):Response<ApiRespond<List<ChargingAccount>>>
+    @GET("/api/account/charging-account-list")
+    suspend fun getChargingAccountList(
+        @Header("Authorization") accessToken: String):Response<ApiRespond<List<ChargingAccount>>>
 
 
 
@@ -150,6 +150,7 @@ interface ApiService {
 //    @GET("/api/account/transfer/get-info")
 //    suspend fun
 
-
+    @POST("/api/acoount/payment/rfid/{paymentId}")
+    fun payRFID(@Header("Authorization") accessToken : String, @Path("paymentId") id : Long ,@Body rfidCode : PayRFIDRequest) : Call<Unit>
 
 }

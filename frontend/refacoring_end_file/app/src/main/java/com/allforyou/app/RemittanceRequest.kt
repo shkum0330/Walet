@@ -9,6 +9,7 @@ data class RemittanceRequest(
 object RemittanceRequestManager {
     private var data: RemittanceRequest? = null
     var name: String = ""
+    var receiverAccountNumber = ""
     fun initData(request: RemittanceRequest) {
         data = request
     }

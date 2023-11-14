@@ -18,6 +18,8 @@ class TransferTargetActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.finish.setOnClickListener {
+            // 키패드에 입력한 내용 연결
+            RemittanceRequestManager.receiverAccountNumber = "00"
             val intent = Intent(this, TransferPaymentActivity::class.java)
             startActivity(intent)
         }

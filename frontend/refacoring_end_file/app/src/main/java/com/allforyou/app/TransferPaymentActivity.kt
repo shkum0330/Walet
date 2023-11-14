@@ -24,9 +24,9 @@ class TransferPaymentActivity : AppCompatActivity() {
         binding.identify.setOnClickListener {
 
             // API 요청 누구한테 보낼지
-//            getRecipientInfo("000000000")
-            val intent = Intent(this, TransferIdentificationActivity::class.java)
-            startActivity(intent)
+            getRecipientInfo(RemittanceRequestManager.receiverAccountNumber)
+//            val intent = Intent(this, TransferIdentificationActivity::class.java)
+//            startActivity(intent)
         }
     }
     fun getRecipientInfo(accountNumber : String){
@@ -52,6 +52,7 @@ class TransferPaymentActivity : AppCompatActivity() {
                     }
                 } else {
                     Log.d("my_tag","예금주 로딩 실패")
+                    // 이전 화면으로 돌아감
                     // Handle unsuccessful response
                 }
             }
