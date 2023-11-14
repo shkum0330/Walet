@@ -1,5 +1,6 @@
 package com.ssafy.account.db.entity.transfer;
 
+import com.ssafy.account.common.api.status.ProcessStatus;
 import com.ssafy.account.common.domain.util.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
-import static com.ssafy.account.db.entity.transfer.Transfer.TransferStatus.*;
+import static com.ssafy.account.common.api.status.ProcessStatus.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Slf4j
@@ -17,11 +18,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Transfer extends BaseTimeEntity {
-    public enum TransferStatus {
-        PENDING, // 대기 중
-        COMPLETE, // 완료
-        CANCEL // 취소
-    }
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -39,9 +35,9 @@ public class Transfer extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name="status",length = 10,nullable = false)
-    private TransferStatus status;
+    private ProcessStatus status;
 
-    public Transfer(String content, TransferStatus status) {
+    public Transfer(String content, ProcessStatus status) {
         this.content=content;
         this.status = PENDING;
     }

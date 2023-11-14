@@ -38,8 +38,8 @@ import java.util.stream.Collectors;
 
 import static com.ssafy.account.common.api.status.FailCode.DIFFERENT_RFID;
 import static com.ssafy.account.common.api.status.FailCode.INVALID_TRANSFER;
+import static com.ssafy.account.common.api.status.ProcessStatus.PENDING;
 import static com.ssafy.account.common.api.status.SuccessCode.GENERAL_SUCCESS;
-import static com.ssafy.account.db.entity.transfer.Transfer.TransferStatus.PENDING;
 import static java.util.stream.Collectors.*;
 
 @Slf4j

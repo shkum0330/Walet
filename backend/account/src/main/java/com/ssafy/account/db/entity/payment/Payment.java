@@ -1,5 +1,6 @@
 package com.ssafy.account.db.entity.payment;
 
+import com.ssafy.account.common.api.status.ProcessStatus;
 import com.ssafy.account.common.domain.util.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.*;
 
 
+import static com.ssafy.account.common.api.status.ProcessStatus.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Slf4j
@@ -17,11 +19,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Payment extends BaseTimeEntity {
-    public enum PaymentStatus {
-        PENDING,   // 대기 중
-        COMPLETE,  // 완료
-        CANCEL // 취소
-    }
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -33,23 +30,23 @@ public class Payment extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name="status",length = 10,nullable = false)
-    private PaymentStatus status;
+    private ProcessStatus status;
 
     @Column(name="payment_amount",nullable = false)
     private Long paymentAmount;
 
     @Builder
-    public Payment(Long sellerId, PaymentStatus status, Long paymentAmount) {
+    public Payment(Long sellerId, ProcessStatus status, Long paymentAmount) {
         this.sellerId = sellerId;
         this.status = status;
         this.paymentAmount = paymentAmount;
     }
 
     public void completePayment(){
-        this.status=PaymentStatus.COMPLETE;
+        this.status= COMPLETE;
     }
     public void closePayment(){
-        this.status=PaymentStatus.CANCEL;
+        this.status= CANCEL;
     }
 
 }

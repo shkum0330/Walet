@@ -1,5 +1,6 @@
 package com.ssafy.account.db.repository;
 
+import com.ssafy.account.common.api.status.ProcessStatus;
 import com.ssafy.account.db.entity.transfer.Transfer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +15,8 @@ public interface TransferRepository extends JpaRepository<Transfer,Long> {
     List<Transfer> findByTransferorId(Long transferorId);
 
     void deleteByTransferorId(Long transferorId);
-    void deleteByStatusAndCreatedAtLessThanEqual(TransferStatus status,LocalDateTime createdAt);
+    void deleteByStatusAndCreatedAtLessThanEqual(ProcessStatus status,LocalDateTime createdAt);
     Optional<Transfer> findByTransfereeId(Long transfereeId);
 
-    List<Transfer> findByStatus(TransferStatus status);
+    List<Transfer> findByStatus(ProcessStatus status);
 }
