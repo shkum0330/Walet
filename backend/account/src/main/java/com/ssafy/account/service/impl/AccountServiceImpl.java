@@ -532,4 +532,14 @@ public class AccountServiceImpl implements AccountService {
     public Account findAccountByAccountId(Long accountId) {
         return accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
     }
+
+    @Override
+    public Account findByRFID(String rfidCode) {
+        return accountRepository.findByRfidCodeAndAccountState(rfidCode,"00").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+    }
+
+    @Override
+    public Account findBusinessAccountByMemberId(Long memberID) {
+        return accountRepository.findByMemberIdAndAccountType(memberID,"01").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+    }
 }
