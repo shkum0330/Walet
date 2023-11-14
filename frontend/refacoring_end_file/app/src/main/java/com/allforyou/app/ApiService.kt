@@ -47,7 +47,8 @@ interface ApiService {
 
     @POST("api/auth/sendcode")
     fun sendCode(@Body phoneAuthenticationRequest: PhoneAuthenticationRequest): Call<Unit>
-    fun loadNotice(@Header("Authorization") accessToken : String ) : Call<NoticeResponse>
+    @GET("api/notice/pop")
+    fun loadNotice(@Header("Authorization") accessToken: String): Call<NoticeResponse>
 
 //    @GET("api/notice/ㅋㅋ/경로")
 //    fun 뭐시기(@HeaderMap headers : Map<String,String> ) : Call<NoticeResponse>
@@ -61,11 +62,15 @@ interface ApiService {
     @GET("api/account/transaction/list/{accountId}")
     fun loadTransactionLog(@Header("Authorization") accessToken : String, @Path("accountId") id : Long) : Call<TransactionLogResponse>
 
+    @GET("/api/account/transaction/recipient-info?")
+    fun getTransactionRecipientInfo(@Header("Authorization") accessToken : String, @Query("accountNumber") accountNumber : String, @Query("paymentAmount") amount : Long) : Call<RecipientInfoResponse>
+
+    @POST("/api/account/transaction/pet-info")
+    fun remittance(@Header("Authorization") accessToken : String, @Query("accountNumber") rfidCode : String) : Call<PetInfoResponse>
+
     @POST("api/auth/checkcode")
     fun checkCode(@Body phoneAuthenticationRequest: PhoneAuthenticationRequest): Call<Unit>
 
-    @GET("api/notice/pop")
-    fun loadNotice(@Header("Authorization") accessToken: String): Call<NoticeResponse>
 
 
 //    계좌 관련 api
@@ -142,7 +147,6 @@ interface ApiService {
 
 //    @GET("/api/account/transfer/get-info")
 //    suspend fun
-
 
 
 
