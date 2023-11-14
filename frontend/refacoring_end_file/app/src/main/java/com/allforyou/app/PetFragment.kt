@@ -94,4 +94,8 @@ class PetFragment : Fragment() {
                 }
             }
     }
+
+    fun loadPetAccount(){
+
+    }
 }

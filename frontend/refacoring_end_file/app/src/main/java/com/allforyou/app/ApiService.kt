@@ -21,6 +21,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.HeaderMap
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -37,6 +38,9 @@ interface ApiService {
 //    fun login(@Body loginRequest: LoginRequest): Call<Any>
     @POST("api/auth/login")
     fun login(@Body loginRequest: LoginRequest): Call<AccessTokenResponse>
+
+    @POST("api/auth/pincheck")
+    fun pinCheck(@Header("Authorization") accessToken : String, @Body pinNumberRequest: PinNumberRequest): Call<Unit>
 
     @POST("api/auth/signup")
     fun register(@Body registerRequest: RegisterRequest): Call<RegisterRequest>
