@@ -7,6 +7,7 @@ import com.ssafy.account.api.response.payment.CheckResponse;
 import com.ssafy.account.common.api.Response;
 import com.ssafy.account.common.api.exception.InvalidPaymentException;
 import com.ssafy.account.common.api.status.FailCode;
+import com.ssafy.account.common.api.status.ProcessStatus;
 import com.ssafy.account.common.api.status.SuccessCode;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.account.Account;
@@ -19,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static com.ssafy.account.common.api.status.ProcessStatus.*;
 
 @Slf4j
 @RestController
@@ -44,7 +47,7 @@ public class PaymentController {
     @PostMapping("/payment/rfid/{paymentId}")
     public ResponseEntity<?> RFIDPayment(@PathVariable Long paymentId, @RequestBody RFIDAuthRequest request){
         Payment payment=paymentService.findPayment(paymentId); // 결제 정보를 가져온다.
-        if(payment.getStatus() != Payment.PaymentStatus.PENDING){
+        if(payment.getStatus() != PENDING){
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
         Account account=accountService.findPetAccountByAccountId(request.getSenderId());

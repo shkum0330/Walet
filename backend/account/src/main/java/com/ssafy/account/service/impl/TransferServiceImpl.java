@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static com.ssafy.account.common.api.status.FailCode.NO_ACCOUNT;
 import static com.ssafy.account.common.api.status.FailCode.NO_TRANSFER;
-import static com.ssafy.account.db.entity.transfer.Transfer.TransferStatus.PENDING;
+import static com.ssafy.account.common.api.status.ProcessStatus.PENDING;
 
 @Slf4j
 @Service
