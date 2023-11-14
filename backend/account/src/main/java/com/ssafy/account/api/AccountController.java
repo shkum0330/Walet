@@ -122,6 +122,12 @@ public class AccountController {
         return Response.success(GENERAL_SUCCESS, accountService.countAllAccountForAdmin());
     }
 
+    // 3. 일주일 간 새로 생성된 계좌 개수 반환
+    @GetMapping("/admin/count/new-account-in-a-week")
+    public Response countNewAccountInWeek() {
+        return Response.success(GENERAL_SUCCESS, accountService.countNewAccountInWeek());
+    }
+
 
 //    // todo: 일단 파라미터에 accountId라 했으나 memberId를 받아와서 거기서 계좌번호를 끌어내야함
 //    @GetMapping("/home/account/{accountId}")

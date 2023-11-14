@@ -4,6 +4,7 @@ import com.ssafy.account.db.entity.account.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,5 +40,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     long countByAccountType(String accountType);
 
+    Long countByCreatedAtAfter(LocalDateTime startOfDay);
 }
 

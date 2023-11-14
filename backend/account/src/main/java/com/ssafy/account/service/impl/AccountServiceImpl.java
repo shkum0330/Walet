@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -506,6 +508,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account findByAccountNumber(String accountNumber) {
         return accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+    }
+
+    @Override
+    public Long countNewAccountInWeek() {
+        LocalDateTime startOfDay = LocalDateTime.now().with(LocalTime.MIN);
+        Long result = accountRepository.countByCreatedAtAfter(startOfDay);
+        return result;
     }
 
     @Override
