@@ -61,6 +61,18 @@ class PetFragment : Fragment() {
             Log.d("사용자 클릭", "계좌 열람 신청을 눌렀습니다")
             startActivity(intent)
         }
+
+        binding.btnMakeAccount.setOnClickListener({
+            val intent=Intent(requireActivity(), MakePetAccountActivity::class.java)
+            Log.d("사용자 클릭", "펫계좌 발급 버튼을 눌렀습니다")
+            startActivity(intent)
+        })
+
+        binding.btnAccountPass.setOnClickListener({
+            val intent=Intent(requireActivity(), PassApplyActivity::class.java)
+            Log.d("사용자 클릭", "계좌 양도 버튼을 눌렀습니다")
+            startActivity(intent)
+        })
     }
 
     companion object {

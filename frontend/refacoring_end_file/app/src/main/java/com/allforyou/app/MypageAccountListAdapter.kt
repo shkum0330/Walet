@@ -28,7 +28,7 @@ class MypageAccountListAdapter :RecyclerView.Adapter<MypageAccountListAdapter.Ho
     }
 
     override fun getItemCount(): Int {
-        return
+        return 0
     }
 
 }
