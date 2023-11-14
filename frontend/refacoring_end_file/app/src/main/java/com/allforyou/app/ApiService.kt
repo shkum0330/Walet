@@ -65,12 +65,14 @@ interface ApiService {
     @GET("/api/account/transaction/recipient-info?")
     fun getTransactionRecipientInfo(@Header("Authorization") accessToken : String, @Query("accountNumber") accountNumber : String, @Query("paymentAmount") amount : Long) : Call<RecipientInfoResponse>
 
+    @POST("/api/account/transaction/remittance/create")
+    fun remittance(@Header("Authorization") accessToken : String, @Body remittanceRequest : RemittanceRequest) : Call<Unit>
+
     @POST("/api/account/transaction/pet-info")
-    fun remittance(@Header("Authorization") accessToken : String, @Query("accountNumber") rfidCode : String) : Call<PetInfoResponse>
+    fun getPetInfo(@Header("Authorization") accessToken : String, @Query("accountNumber") rfidCode : String) : Call<PetInfoResponse>
 
     @POST("api/auth/checkcode")
     fun checkCode(@Body phoneAuthenticationRequest: PhoneAuthenticationRequest): Call<Unit>
-
 
 
 //    계좌 관련 api
