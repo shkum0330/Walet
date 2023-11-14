@@ -5,9 +5,7 @@ import com.ssafy.account.api.request.account.AdminAllMemberIdsRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.api.request.account.SelectChargingAccountRequest;
 import com.ssafy.account.common.api.Response;
-import com.ssafy.account.common.api.status.SuccessCode;
 import com.ssafy.account.service.*;
-import com.ssafy.external.service.OauthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +24,6 @@ public class AccountController {
     private final HomeAccountService homeAccountService;
     private final BusinessHomeAccountService businessHomeAccountService;
     private final PetHomeAccountService petHomeAccountService;
-    private final TransactionService transactionService;
     private final S3Service s3Service;
 
     /*
