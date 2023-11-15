@@ -40,6 +40,7 @@ export interface ConfirmModalInterface {
 export interface UpdateConfirmInterface {
   content: string | null;
   id: string;
+  url: string;
 }
 export interface UpdateModalInterface extends UpdateConfirmInterface {
   request: FormData;
@@ -56,6 +57,11 @@ export interface DeleteModalInterface {
 }
 
 export interface ActiveModalInterface {
+  content: string | null;
+  id: string;
+}
+
+export interface ReviseModalInterface {
   content: string | null;
   id: string;
 }

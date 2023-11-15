@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Transition } from '@headlessui/react';
 import Card from '../../components/common/card';
 import { Userdata } from '../../interface/api/memberApiInterface';
-import { UserSearchRepository } from '../../repository/member/memberRepository';
+import {
+  UserReviseRepository,
+  UserSearchRepository,
+} from '../../repository/member/memberRepository';
 import LeftIcon from '../../components/Icons/lefticon';
 import RightIcon from '../../components/Icons/righticon';
 import SearchIcon from '../../components/Icons/searchicon';
 import TransactionTable from '../../components/member/transactionTable';
+import { useModal } from '../../components/modal/modalClass';
+import { ReviseModal } from '../../components/modal/customModal';
 
 function MemberPage() {
   const [users, SetUsers] = useState<Userdata[] | null>([]);
@@ -54,6 +59,8 @@ function MemberPage() {
   const [selectedAccountId, setSelectedAccountId] = useState<string | null>(
     null,
   );
+  const { openModal } = useModal();
+  const [userId, setUserId] = useState('');
   const handleRowClick = (id: string) => {
     setSelectedUser(prevId => (prevId === id ? null : id));
   };
@@ -147,7 +154,17 @@ function MemberPage() {
                           </span>
                         ))}
                     </td>
-                    <td className="border border-gray-300 ">-</td>
+                    <td className="border border-gray-300 ">
+                      <button
+                        type="button"
+                        className="bg-gray-100 rounded-md"
+                        onClick={() => {
+                          setUserId(item.id);
+                          openModal('revise');
+                        }}>
+                        {item.isDeleted ? '해지' : '정상'}
+                      </button>
+                    </td>
                   </tr>
                   <Transition
                     show={
@@ -201,6 +218,8 @@ function MemberPage() {
           <RightIcon styling="w-6 h-6" />
         </button>
       </div>
+
+      <ReviseModal content="상태를 변경하겠습니까?" id={userId} />
     </div>
   );
 }

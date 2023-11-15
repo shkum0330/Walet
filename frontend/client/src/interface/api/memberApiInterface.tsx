@@ -33,6 +33,7 @@ export interface Userdata {
   phoneNumber: String;
   createdDate: String;
   account: account[];
+  isDeleted: boolean;
 }
 
 export interface Accountdata {

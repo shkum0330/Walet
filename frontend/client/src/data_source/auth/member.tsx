@@ -119,3 +119,21 @@ export async function TransactionAPI(token: string, id: string) {
     } catch (error) {}
   }
 }
+
+export async function UserReviseAPI(token: string, id: string) {
+  const UserRevisehURI = `${AUTH_URI}/admin/user/${id}`;
+  if (token) {
+    try {
+      const response = await axios.post(
+        UserRevisehURI,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      return null;
+    } catch (error) {}
+  }
+}

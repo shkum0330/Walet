@@ -4,6 +4,7 @@ import {
   LogoutAPI,
   TransactionAPI,
   UserAPI,
+  UserReviseAPI,
   UserSearchAPI,
   UsersAPI,
 } from '../../data_source/auth/member';
@@ -55,6 +56,15 @@ export async function TransactionRepository(id: string) {
   const accessToken = useAccessToken();
   if (accessToken) {
     const data = await TransactionAPI(accessToken, id);
+    return data;
+  }
+  return null;
+}
+
+export async function UserReviseRepository(id: string) {
+  const accessToken = useAccessToken();
+  if (accessToken) {
+    const data = await UserReviseAPI(accessToken, id);
     return data;
   }
   return null;

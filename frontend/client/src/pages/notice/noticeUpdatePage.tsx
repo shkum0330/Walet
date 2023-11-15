@@ -225,6 +225,7 @@ function NoticeUpdatePage() {
           content="공지사항을 수정하겠습니까?"
           request={request}
           id={id as string}
+          url=""
         />
       )}
 

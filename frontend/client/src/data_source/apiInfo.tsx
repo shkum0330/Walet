@@ -4,10 +4,10 @@ const AUTH_URI = `${BASE_URI}/api/auth`;
 const ACCOUNT_URI = `${BASE_URI}/api/account`;
 const LOG_URI = `${BASE_URI}/api/log`;
 
-// const BASE_URI = 'http://localhost'; // 테스트용
+// const BASES_URI = 'http://localhost'; // 테스트용
 // const ACCOUNT_URI = `${BASE_URI}:8082`; // 테스트용
 // const NOTICE_URI = `${BASE_URI}:8083`; // 테스트용
-// const AUTH_URI = `${BASE_URI}:8084`; // 테스트용
+// const AUTH_URI = `${BASES_URI}:8084`; // 테스트용
 // const LOG_URI = `${BASE_URI}:8084/api/auth`;
 
 function useAccessToken(): string | null {

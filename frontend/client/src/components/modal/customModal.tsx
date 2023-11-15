@@ -6,6 +6,7 @@ import {
   UpdateModalInterface,
   DeleteModalInterface,
   ActiveModalInterface,
+  ReviseModalInterface,
 } from '../../interface/common/modalInterface';
 import {
   noticeCreateRepository,
@@ -16,6 +17,7 @@ import {
 import { ConfirmContents, ConfirmSelect } from './modalContent';
 import Modal from './modal';
 import { useModal } from './modalClass';
+import { UserReviseRepository } from '../../repository/member/memberRepository';
 
 export function ConfirmModal({ content }: ConfirmModalInterface) {
   const { modalOpen, closeModal } = useModal();
@@ -42,7 +44,7 @@ export function ConfirmModal({ content }: ConfirmModalInterface) {
   );
 }
 
-export function ConfirmUpdate({ content, id }: UpdateConfirmInterface) {
+export function ConfirmUpdate({ content, id, url }: UpdateConfirmInterface) {
   const { modalOpen, closeModal } = useModal();
   const updateModal = 'updateconfirm';
 
@@ -59,7 +61,7 @@ export function ConfirmUpdate({ content, id }: UpdateConfirmInterface) {
           content={content as string}
           okAction={() => {
             closeModal(updateModal);
-            window.location.href = `/notice/${id}`;
+            window.location.href = url;
           }}
         />
       </Modal>
@@ -210,7 +212,11 @@ export function UpdateModal({ content, id, request }: UpdateModalInterface) {
         />
       </Modal>
 
-      <ConfirmUpdate content="정상적으로 수정됐습니다." id={id} />
+      <ConfirmUpdate
+        content="정상적으로 수정됐습니다."
+        id={id}
+        url={`/notice/${id}`}
+      />
     </div>
   );
 }
@@ -235,6 +241,41 @@ export function ErrorModal({ content }: ErrorModalInterface) {
           }}
         />
       </Modal>
+    </div>
+  );
+}
+
+export function ReviseModal({ content, id }: ReviseModalInterface) {
+  const { openModal, modalOpen, closeModal } = useModal();
+  const reviseModal = 'revise';
+
+  const responseHandle = async () => {
+    await UserReviseRepository(id);
+    closeModal(reviseModal);
+    openModal('updateconfirm');
+  };
+
+  return (
+    <div>
+      <Modal
+        closeModal={() => {
+          closeModal(reviseModal);
+        }}
+        OpenModal={modalOpen[reviseModal]}
+        width="w-[25%] bg-color-white"
+        height="h-200px">
+        <ConfirmSelect
+          content={content as string}
+          cancelAction={() => {
+            closeModal(reviseModal);
+          }}
+          okAction={() => {
+            responseHandle();
+          }}
+        />
+      </Modal>
+
+      <ConfirmUpdate content="정상적으로 수정됐습니다." id={id} url="/member" />
     </div>
   );
 }
