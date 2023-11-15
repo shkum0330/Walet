@@ -41,7 +41,7 @@ public class NoticeFilter extends AbstractGatewayFilterFactory<NoticeFilter.Conf
             String userType = jwtUtil.getUserType(request);
 //          공지사항 조회일경우 USER타입 허용
             if (request.getMethod() != null && request.getMethod().matches(HttpMethod.GET) && request.getURI().getPath().equals("/api/notice/pop")) {
-                if(userType.equals("\"USER\"")){
+                if(userType.equals("\"USER\"") || userType.equals("\"ADMIN\"")){
                     return chain.filter(exchange);
                 } else{
                     return onError(exchange, ErrorCode.INVALID_MEMBER_TYPE);
