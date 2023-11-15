@@ -74,3 +74,9 @@ eureka:
       defaultZone: http://43.201.195.182:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+
+
+logging:
+  level:
+    com.netflix.eureka: WARN
+    com.netflix.discovery: WARN
