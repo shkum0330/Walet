@@ -39,7 +39,7 @@ public class S3SaveService {
 
         if(errorFile.exists()){
             try {
-                savefile = new CustomMultipartFile(infoFile);
+                savefile = new CustomMultipartFile(errorFile);
                 logService.saveLog(s3Service.saveFile(savefile), "error ", day.toString());
             } catch (IOException e) {
                 throw new RuntimeException(e);

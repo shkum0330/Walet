@@ -18,10 +18,11 @@ spring:
 
 logging:
   level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
-    com:
-      ssafy: trace
+    org.hibernate.SQL: WARN
+    org.hibernate.type: WARN
+    com.ssafy: Info
+    com.netflix.eureka: WARN
+    com.netflix.discovery: WARN
 
 eureka:
   client:
