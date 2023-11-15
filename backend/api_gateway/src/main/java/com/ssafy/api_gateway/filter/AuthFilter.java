@@ -51,7 +51,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
 
             String userType = jwtUtil.getUserType(request);
             //USER 가 아니면 거부
-            if(!userType.equals("\"USER\"")){
+            if(!userType.equals("\"USER\"") && !userType.equals("\"ADMIN\"")){
                 return onError(exchange, ErrorCode.INVALID_MEMBER_TYPE);
             }
 
