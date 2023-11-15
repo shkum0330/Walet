@@ -24,6 +24,7 @@ import com.ssafy.account.service.MessageSenderService;
 import com.ssafy.account.service.TransactionService;
 import com.ssafy.account.service.TransferService;
 import com.ssafy.account.service.impl.AccountServiceImpl;
+import com.ssafy.external.service.NHFintechService;
 import com.ssafy.external.service.OauthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,7 @@ public class TransferController {
     private final TransferService transferService;
     private final MessageSenderService messageSenderService;
     private final OauthService oauthService;
+    private final NHFintechService nhFintechService;
     private final TimeUtil timeUtil;
     private final EncryptUtil encryptUtil;
 
@@ -127,12 +129,14 @@ public class TransferController {
         // 양도 진행. 양도된 금액 반환
         Long amount = accountService.assignAccount(new AssignRequest(transferorAccount.getId(), transfereeAccount.getId()));
         log.info("양도금액: {}",amount);
+        // 농협api로 송금 진행
+        nhFintechService.remittance(transferorAccount,transfereeAccount,amount);
         // 트랜잭션에 반영
         transactionRepository.save(new Transaction(transferorAccount, transfereeAccount.getDepositorName(), TransactionType.TRANSFER, amount, 0L));
         transactionRepository.save(new Transaction(transfereeAccount, transferorAccount.getDepositorName(), TransactionType.TRANSFER
                 , amount, transfereeAccount.getBalance()+amount));
         transfer.completeTransfer();
-        return Response.success(GENERAL_SUCCESS, null);
+        return Response.success(GENERAL_SUCCESS, request.getSenderAccountId());
 
     }
 

@@ -239,7 +239,7 @@ public class AccountServiceImpl implements AccountService {
 
         // 정보 이전
         transfereeAccount.transferPetInfo(transferorAccount);
-        
+        transferorAccount.deletePetInfo();
         // 양도자의 계좌를 폐쇄상태로 변경
         transferorAccount.updateStateToClosed();
         return balance;
