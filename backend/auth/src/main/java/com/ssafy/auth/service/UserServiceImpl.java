@@ -7,6 +7,7 @@ import com.ssafy.global.common.redis.RedisService;
 import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.db.MemberRepository;
 import com.ssafy.global.PasswordEncoder;
+import com.ssafy.member.db.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,34 @@ public class UserServiceImpl implements UserRepository{
 
         if (member.isDeleted()) {
             throw new GlobalRuntimeException(DELETED_USER);
+        }
+
+
+
+        String role = member.getRole().name();
+        TokenMapping tokenMapping = jwtProvider.createToken(member.getId(), role, member.getName());
+        redisService.saveToken(member.getId().toString(), tokenMapping.getAccessToken());
+        redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
+        return tokenMapping;
+    }
+
+
+
+    public TokenMapping adminLogin(String email, String password) {
+        MemberEntity member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new GlobalRuntimeException(UNSIGNED_USER));
+
+        if (!PasswordEncoder.checkPass(password, member.getPassword())) {
+           throw new GlobalRuntimeException(DIFFERENT_PASSWORD);
+        }
+
+        if (member.isDeleted()) {
+            throw new GlobalRuntimeException(DELETED_USER);
+        }
+
+
+        if (member.getRole().equals(Role.USER)){
+            throw new GlobalRuntimeException(STAFF_ONLY);
         }
 
 

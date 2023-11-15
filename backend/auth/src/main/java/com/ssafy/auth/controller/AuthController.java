@@ -30,6 +30,14 @@ public class AuthController {
         return new ResponseEntity<EnvelopeResponse<TokenMapping>>(new EnvelopeResponse<>(GENERAL_SUCCESS, token), HttpStatus.OK);
     }
 
+    @PostMapping("/admin/login")
+    public ResponseEntity<EnvelopeResponse<TokenMapping>> Adminlogin(@RequestBody LoginDto loginRequest , HttpServletRequest request) {
+        System.out.println(request.getRemoteAddr());
+        TokenMapping token = userService.adminLogin(loginRequest.getEmail(), loginRequest.getPassword());
+
+        return new ResponseEntity<EnvelopeResponse<TokenMapping>>(new EnvelopeResponse<>(GENERAL_SUCCESS, token), HttpStatus.OK);
+    }
+
     @PostMapping("/logout")
     public ResponseEntity<EnvelopeResponse<String>> logout(@RequestHeader(value="Authorization") String token) {
         token = token.replace("Bearer ", "");
