@@ -11,6 +11,7 @@ import {
 } from '../../interface/api/memberApiInterface';
 import { logout } from '../../store/actions/authActions';
 import { setTokens } from '../../store/store';
+import { ErrorCommon } from '../../interface/api/commonApiInterface';
 
 export async function LoginAPI({ email, password, dispatch }: LoginRequest) {
   const loginURI = `${AUTH_URI}/admin/login`;
@@ -28,8 +29,9 @@ export async function LoginAPI({ email, password, dispatch }: LoginRequest) {
         }
       })
       .catch((error: AxiosError) => {
-        if (error.response) {
-          data = error.response.data;
+        const errorData = error.response?.data as ErrorCommon;
+        if (errorData.message) {
+          data = errorData.message;
         } else {
           data = '잠시 후 다시 시도해주세요.';
         }
