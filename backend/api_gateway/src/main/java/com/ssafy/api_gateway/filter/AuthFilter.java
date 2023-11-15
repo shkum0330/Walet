@@ -52,7 +52,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
             String userType = jwtUtil.getUserType(request);
             //USER 가 아니면 거부
             if(!userType.equals("\"USER\"")){
-                onError(exchange, ErrorCode.INVALID_MEMBER_TYPE);
+                return onError(exchange, ErrorCode.INVALID_MEMBER_TYPE);
             }
 
 //          헤더에 id name 추가
