@@ -43,6 +43,8 @@ public class NoticeFilter extends AbstractGatewayFilterFactory<NoticeFilter.Conf
             System.out.println(request.getMethod().matches(HttpMethod.GET));
             System.out.println(request.getURI().getPath());
             System.out.println(userType);
+            System.out.println(userType.equals("\"ADMIN\""));
+            System.out.println(userType.equals("\"USER\""));
 //          공지사항 조회일경우 USER타입 허용
             if (request.getMethod() != null && request.getMethod().matches(HttpMethod.GET) && request.getURI().getPath().equals("/api/notice/pop")) {
                 if(userType.equals("\"USER\"")){
