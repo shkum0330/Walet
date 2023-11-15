@@ -20,7 +20,8 @@ public class AnimalAccountDetailResponse {
     private LocalDateTime createdAt; // 계좌생성일
     private String accountType; // 계좌타입
 
-    private Long linkedAccountId; // 연결된 모계좌 id
+    private Long linkedAccountId; // 연결된 충전계좌 id
+    private String linkedAccountNumber; // 연결된 충전계좌번호
 
     private String petName; // 펫이름
     private String petGender; // 펫성별
@@ -31,7 +32,7 @@ public class AnimalAccountDetailResponse {
     private String petPhoto; // 사진
     private List<HomeTransactionResponse> transactions;
 
-    public AnimalAccountDetailResponse(Account account, List<HomeTransactionResponse> transactions, String petAge) {
+    public AnimalAccountDetailResponse(Account account, List<HomeTransactionResponse> transactions, String petAge, String linkedAccountNumber) {
         this.id = account.getId();
         this.accountName = account.getAccountName();
         this.accountNumber = account.getAccountNumber();
@@ -40,6 +41,7 @@ public class AnimalAccountDetailResponse {
         this.createdAt = account.getCreatedAt();
         this.accountType = account.getAccountType();
         this.linkedAccountId = account.getLinkedAccountId();
+        this.linkedAccountNumber = linkedAccountNumber;
         this.petName = account.getPetName();
         this.petGender = account.getPetGender();
         this.petAge = petAge;
