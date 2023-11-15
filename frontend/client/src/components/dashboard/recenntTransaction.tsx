@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import { useEffect, useState } from 'react';
 import { Transactionsdata } from '../../interface/api/logApiinterface';
 
