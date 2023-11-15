@@ -160,14 +160,12 @@ function MemberPage() {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95">
-                    {selectedUser === item.id && selectedAccountId !== null ? (
+                    {selectedUser === item.id && selectedAccountId !== null && (
                       <td colSpan={7}>
                         <div className="max-h-[500px] h-auto overflow-y-auto">
                           <TransactionTable accountId={selectedAccountId} />
                         </div>
                       </td>
-                    ) : (
-                      <tr>여기에 거래 기록이 없습니다 표시</tr>
                     )}
                   </Transition>
                 </React.Fragment>

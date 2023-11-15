@@ -12,7 +12,7 @@ function TransactionTable({ accountId }: { accountId: string }) {
         SetTransaction(data);
       }
     })();
-  }, []);
+  }, [accountId]);
 
   return (
     <table className="w-full h-[200px] ">
@@ -25,19 +25,27 @@ function TransactionTable({ accountId }: { accountId: string }) {
           <th className="w-[15%] border border-gray-300">금액</th>
         </tr>
       </thead>
-      <thead className=" ">
-        {transaction?.map(items => (
-          <tr key={Math.random()}>
-            <td className="border border-gray-300  ">{items.accountName}</td>
-            <td className="border border-gray-300">{items.transactionType}</td>
-            <td className="border border-gray-300">
-              {items.transactionTime.substring(0, 14)}
-            </td>
-            <td className="border border-gray-300">{items.counterpart}</td>
-            <td className="border border-gray-300">{items.paymentAmount}</td>
+      <tbody>
+        {transaction && transaction.length > 0 ? (
+          transaction.map(items => (
+            <tr key={Math.random()}>
+              <td className="border border-gray-300  ">{items.accountName}</td>
+              <td className="border border-gray-300">
+                {items.transactionType}
+              </td>
+              <td className="border border-gray-300">
+                {items.transactionTime.substring(0, 14)}
+              </td>
+              <td className="border border-gray-300">{items.counterpart}</td>
+              <td className="border border-gray-300">{items.paymentAmount}</td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={5}>거래 데이터가 없습니다</td>
           </tr>
-        ))}
-      </thead>
+        )}
+      </tbody>
     </table>
   );
 }

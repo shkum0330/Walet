@@ -51,8 +51,7 @@ function RecentTransaction() {
             <tr>
               <th className="w-[25%] border border-gray-300">시간</th>
               <th className="w-[10%] border border-gray-300">거래타입</th>
-              <th className="w-[10%] border border-gray-300">송금인</th>
-              <th className="w-[10%] border border-gray-300">수령인</th>
+              <th className="w-[10%] border border-gray-300">거래자</th>
               <th className="w-[20%] border border-gray-300">거래금액</th>
             </tr>
           </thead>
@@ -70,7 +69,6 @@ function RecentTransaction() {
                     {getTransactionType(item.transactionType)}
                   </td>
                   <td className="border border-gray-300">{item.recipient}</td>
-                  <td className="border border-gray-300">수령인??</td>
                   <td className="border border-gray-300">
                     {item.paymentAmount}원
                   </td>
