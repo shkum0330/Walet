@@ -137,8 +137,15 @@ public class MemberService {
         return member;
     }
 
+    public void reviseMember(Long id) {
+        MemberEntity member = memberRepository.findById(id)
+                .orElseThrow(() -> new GlobalRuntimeException(FIND_IMPOSSIBLE));
+        member.setIsDeleted(!member.isDeleted());
+        memberRepository.save(member);
+    }
 
-    public List<MemberDto.UsersResponse> searchUser(String keyword, String token){
+
+    public List<MemberDto.UsersResponse> searchUser(String keyword, String token) {
         List<MemberEntity> members = memberRepository.findByNameContaining(keyword);
         List<Long> memberIds = members.stream().map(MemberEntity::getId).collect(Collectors.toList());
 
@@ -154,10 +161,12 @@ public class MemberService {
                 .map(member -> {
                     MemberDto.UsersResponse usersResponse = new MemberDto.UsersResponse(member);
                     usersResponse.setAccount(accountDataMap.get(member.getId()));
+                    usersResponse.setIsDeleted(member.isDeleted()); // 추가된 부분
                     return usersResponse;
                 })
                 .collect(Collectors.toList());
     }
+
 
 
     public MemberDto.CountResponse countDashBoardData(int days, String accessToken) {

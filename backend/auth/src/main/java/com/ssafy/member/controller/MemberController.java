@@ -108,4 +108,12 @@ public class MemberController {
         MemberDto.CountResponse userCount = memberService.countDashBoardData(7, accessToken);
         return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, userCount), HttpStatus.OK);
     }
+
+    @PostMapping("/admin/user/{memberId}")
+    public ResponseEntity<EnvelopeResponse<String>> revise(@RequestHeader("Authorization") String accessToken, @PathVariable Long memberId) {
+        memberService.reviseMember(memberId);
+
+        return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, ""), HttpStatus.OK);
+
+    }
 }

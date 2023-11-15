@@ -49,14 +49,15 @@ public class MemberDto {
         private String name;
         private String email;
         private String phoneNumber;
+        private Boolean isDeleted;
         private LocalDateTime createdDate;
         private List<accountResponse.AccountData> account;
-
         public UsersResponse(MemberEntity member) {
             this.id = member.getId();
             this.name = member.getName();
             this.email = member.getEmail();
             this.phoneNumber = member.getPhoneNumber();
+            this.isDeleted = member.isDeleted();
             this.createdDate = member.getCreatedDate();
         }
 
