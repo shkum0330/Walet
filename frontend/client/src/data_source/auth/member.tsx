@@ -13,7 +13,7 @@ import { logout } from '../../store/actions/authActions';
 import { setTokens } from '../../store/store';
 
 export async function LoginAPI({ email, password, dispatch }: LoginRequest) {
-  const loginURI = `${AUTH_URI}/login`;
+  const loginURI = `${AUTH_URI}/admin/login`;
   let data = null;
   if (email && password) {
     await axios
