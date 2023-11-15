@@ -128,6 +128,7 @@ function MemberPage() {
                           <span
                             key={accountItem.accountId}
                             role="button"
+                            aria-label={accountItem.accountName}
                             tabIndex={0}
                             onKeyDown={() =>
                               handleAccountClick(accountItem.accountId)
