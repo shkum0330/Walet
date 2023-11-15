@@ -4,6 +4,7 @@ import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.auth.util.TokenMapping;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
 import com.ssafy.global.common.redis.RedisService;
+import com.ssafy.global.common.status.FailCode;
 import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.db.MemberRepository;
 import com.ssafy.global.PasswordEncoder;

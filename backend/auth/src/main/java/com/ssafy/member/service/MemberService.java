@@ -2,6 +2,7 @@ package com.ssafy.member.service;
 
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
+import com.ssafy.global.common.status.FailCode;
 import com.ssafy.global.config.ClientConfig;
 import com.ssafy.member.api.MemberDto;
 import com.ssafy.member.db.FeignClient;
