@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.ssafy.account.common.api.status.FailCode.NO_ACCOUNT;
 import static com.ssafy.account.common.api.status.FailCode.NO_PET_ACCOUNT;
 
 @Service
@@ -56,7 +57,8 @@ public class PetHomeAccountServiceImpl implements PetHomeAccountService {
                 }
             }
 
-            result.add(new AnimalAccountDetailResponse(petAccount, top5Transactions, timeUtil.calculateAge(petAccount.getPetBirth())));
+            Account linkedAccount = accountRepository.findAccountById(petAccount.getLinkedAccountId());
+            result.add(new AnimalAccountDetailResponse(petAccount, top5Transactions, timeUtil.calculateAge(petAccount.getPetBirth()), linkedAccount.getAccountNumber()));
         }
 
         return result;

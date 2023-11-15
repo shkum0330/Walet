@@ -27,19 +27,8 @@ public class Response<T> {
         this.message = message;
     }
 
-    // 성공했을 때 반환해줄 ResponseEntity
-    public static <T> Response<T> success(SuccessCode code) {
-        return new Response<>(code.getStatus().value(), code.getMessage());
-    }
-
     public static <T> Response<T> success(SuccessCode code, T resultData) {
-
         return new Response<>(code.getStatus().value(), code.getMessage(), resultData);
     }
 
-    // 실패했을 때 반환해줄 ResponseEntity
-    public static <T> Response<T> fail(FailCode code) {
-        return new Response<>(code.getStatus().value(), code.getMessage());
-    }
-    
 }

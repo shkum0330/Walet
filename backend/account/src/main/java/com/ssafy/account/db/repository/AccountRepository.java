@@ -41,5 +41,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     long countByAccountType(String accountType);
 
     Long countByCreatedAtAfter(LocalDateTime startOfDay);
+
+    Account findAccountById(Long id);
 }
 
