@@ -24,14 +24,14 @@ public class AnimalAccountDetailResponse {
 
     private String petName; // 펫이름
     private String petGender; // 펫성별
-    private LocalDate petBirth; // 펫생년월일
+    private String petAge; // 펫 나이
     private String petBreed; // 품종
     private Boolean petNeutered; // 중성화여부
     private Float petWeight; // 몸무게
     private String petPhoto; // 사진
     private List<HomeTransactionResponse> transactions;
 
-    public AnimalAccountDetailResponse(Account account, List<HomeTransactionResponse> transactions) {
+    public AnimalAccountDetailResponse(Account account, List<HomeTransactionResponse> transactions, String petAge) {
         this.id = account.getId();
         this.accountName = account.getAccountName();
         this.accountNumber = account.getAccountNumber();
@@ -42,7 +42,7 @@ public class AnimalAccountDetailResponse {
         this.linkedAccountId = account.getLinkedAccountId();
         this.petName = account.getPetName();
         this.petGender = account.getPetGender();
-        this.petBirth = account.getPetBirth();
+        this.petAge = petAge;
         this.petBreed = account.getPetBreed();
         this.petNeutered = account.getPetNeutered();
         this.petWeight = account.getPetWeight();
