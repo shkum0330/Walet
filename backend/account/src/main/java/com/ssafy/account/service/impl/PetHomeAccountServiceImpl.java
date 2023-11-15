@@ -3,6 +3,7 @@ package com.ssafy.account.service.impl;
 import com.ssafy.account.api.response.account.AnimalAccountDetailResponse;
 import com.ssafy.account.api.response.transaction.HomeTransactionResponse;
 import com.ssafy.account.common.api.exception.NotFoundException;
+import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.transaction.Transaction;
 import com.ssafy.account.db.entity.transaction.TransactionType;
@@ -26,6 +27,7 @@ public class PetHomeAccountServiceImpl implements PetHomeAccountService {
 
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
+    private final TimeUtil timeUtil;
 
     @Override
     public List<AnimalAccountDetailResponse> getAnimalAccountDetail(Long memberId) {
@@ -54,7 +56,7 @@ public class PetHomeAccountServiceImpl implements PetHomeAccountService {
                 }
             }
 
-            result.add(new AnimalAccountDetailResponse(petAccount, top5Transactions));
+            result.add(new AnimalAccountDetailResponse(petAccount, top5Transactions, timeUtil.calculateAge(petAccount.getPetBirth())));
         }
 
         return result;
