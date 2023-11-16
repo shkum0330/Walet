@@ -52,7 +52,6 @@ public class TransactionController {
 
     @GetMapping("/transaction/list/{accountId}")
     public Response getTransactionHistory(@RequestHeader("id") Long memberId, @PathVariable Long accountId) {
-        log.info("zzzzzzzz");
         return Response.success(GENERAL_SUCCESS, transactionService.getTransactionHistory(memberId, accountId));
     }
 

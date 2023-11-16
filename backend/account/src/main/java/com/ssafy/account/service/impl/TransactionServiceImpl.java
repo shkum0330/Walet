@@ -9,6 +9,7 @@ import com.ssafy.account.common.api.exception.NotCorrectException;
 import com.ssafy.account.common.api.exception.NotFoundException;
 import com.ssafy.account.common.api.exception.RestrictedBusinessException;
 import com.ssafy.account.common.domain.util.EncryptUtil;
+import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.access.Access;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.transaction.Transaction;
@@ -45,6 +46,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final NHFintechService nhFintechService;
     private final OauthService oauthService;
     private final EncryptUtil encryptUtil;
+    private final TimeUtil timeUtil;
 
     @Override
     public TransactionAccountResponse getTransactionAccountDetail(Long accountId) {
@@ -55,7 +57,17 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public PetInfoResponse getPetInfoByRfid(String rfidCode) {
         Account petAccount = accountRepository.findByRfidCodeAndAccountState(encryptUtil.hashPassword(rfidCode), "00").orElseThrow(() -> new NotFoundException(NO_PET_ACCOUNT_WITH_AUTH_INFO));
-        return new PetInfoResponse(petAccount);
+
+        return PetInfoResponse.builder()
+                .accountId(petAccount.getId())
+                .petName(petAccount.getPetName())
+                .petGender(petAccount.getPetGender())
+                .petBirth(petAccount.getPetBirth().getYear()+"년 "+petAccount.getPetBirth().getMonth().getValue()+"월생")
+                .petBreed(petAccount.getPetBreed())
+                .petNeutered(petAccount.getPetNeutered() ? "중성화 했어요":"중성화 안했어요")
+                .petAge(timeUtil.calculateAge(petAccount.getPetBirth())+"살")
+                .petPhoto(petAccount.getPetPhoto())
+                .build();
     }
 
     @Override

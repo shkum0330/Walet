@@ -23,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import static com.ssafy.account.common.api.status.ProcessStatus.*;
 import static com.ssafy.account.common.api.status.SuccessCode.GENERAL_SUCCESS;
@@ -97,25 +100,28 @@ public class PaymentController {
         Account sellerAccount=accountService.findBusinessAccountByMemberId(payment.getSellerId());
         PaymentInfoResponse response=new PaymentInfoResponse(sellerAccount.getDepositorName()
                 ,types[sellerAccount.getBusinessType()-1],
-                null,timeUtil.transferDateTimeConverter(LocalDateTime.now()), payment.getId());
+                null,timeUtil.transferDateTimeConverter(LocalDateTime.now()), payment.getId(), payment.getPaymentAmount());
         return Response.success(GENERAL_SUCCESS, response);
     }
 
     @PostMapping("/payment/complete/{paymentId}")
     public Response<?> completePayment(@RequestHeader("id") Long buyerId, @PathVariable Long paymentId) {
         Payment payment=paymentService.findPayment(paymentId);
+        ConcurrentHashMap<String,Long> resultMap=new ConcurrentHashMap<>();
         if(payment.getStatus() != PENDING){
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
         Account buyerAccount=accountService.findPetAccountByMemberId(buyerId);
         Account sellerAccount=accountService.findBusinessAccountByMemberId(payment.getSellerId());
-        transactionService.addPetRelatedTransaction(new TransactionRequest(buyerAccount.getMemberId()
+        Long transactionId=transactionService.addPetRelatedTransaction(new TransactionRequest(buyerAccount.getMemberId()
                 ,sellerAccount.getMemberId(),payment.getPaymentAmount()));
 
         // 결제 상태를 완료로 변경
         paymentService.completePayment(paymentService.findPayment(paymentId));
 
-        return Response.success(GENERAL_SUCCESS, paymentId);
+        resultMap.put("paymentId",paymentId);
+        resultMap.put("transactionId",transactionId);
+        return Response.success(GENERAL_SUCCESS, transactionId);
 
     }
 }
