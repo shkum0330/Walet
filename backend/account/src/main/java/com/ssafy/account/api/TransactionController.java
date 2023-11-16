@@ -1,6 +1,7 @@
 package com.ssafy.account.api;
 
 import com.ssafy.account.api.request.transaction.RemittanceRequest;
+import com.ssafy.account.api.request.transaction.RfidRequest;
 import com.ssafy.account.api.request.transaction.TransactionPeriodRequest;
 import com.ssafy.account.api.request.transaction.TransactionRequest;
 import com.ssafy.account.common.api.Response;
@@ -22,8 +23,8 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping("/transaction/pet-info")
-    public Response getPetInfoByRfid(@RequestParam String rfidCode) {
-        return Response.success(GENERAL_SUCCESS, transactionService.getPetInfoByRfid(rfidCode));
+    public Response getPetInfoByRfid(@ModelAttribute RfidRequest request) {
+        return Response.success(GENERAL_SUCCESS, transactionService.getPetInfoByRfid(request.getRfidCode()));
     }
 
     @GetMapping("/transaction/recipient-info")
