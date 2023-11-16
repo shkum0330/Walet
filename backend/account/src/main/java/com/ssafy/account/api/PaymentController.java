@@ -97,7 +97,7 @@ public class PaymentController {
         Account sellerAccount=accountService.findBusinessAccountByMemberId(payment.getSellerId());
         PaymentInfoResponse response=new PaymentInfoResponse(sellerAccount.getDepositorName()
                 ,types[sellerAccount.getBusinessType()-1],
-                null,timeUtil.transferDateTimeConverter(LocalDateTime.now()), payment.getId());
+                null,timeUtil.transferDateTimeConverter(LocalDateTime.now()), payment.getId(), payment.getPaymentAmount());
         return Response.success(GENERAL_SUCCESS, response);
     }
 
