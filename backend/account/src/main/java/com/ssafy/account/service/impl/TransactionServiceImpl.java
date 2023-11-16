@@ -16,7 +16,6 @@ import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.repository.AccessRepository;
 import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.db.repository.TransactionRepository;
-import com.ssafy.account.service.MessageSenderService;
 import com.ssafy.account.service.TransactionService;
 import com.ssafy.external.service.NHFintechService;
 import com.ssafy.external.service.OauthService;
@@ -43,7 +42,6 @@ public class TransactionServiceImpl implements TransactionService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
     private final AccessRepository accessRepository;
-    private final MessageSenderService messageSenderService;
     private final NHFintechService nhFintechService;
     private final OauthService oauthService;
     private final EncryptUtil encryptUtil;
@@ -56,7 +54,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public PetInfoResponse getPetInfoByRfid(String rfidCode) {
-        Account petAccount = accountRepository.findByRfidCodeAndAccountState(rfidCode, "00").orElseThrow(() -> new NotFoundException(NO_PET_ACCOUNT_WITH_AUTH_INFO));
+        Account petAccount = accountRepository.findByRfidCodeAndAccountState(encryptUtil.hashPassword(rfidCode), "00").orElseThrow(() -> new NotFoundException(NO_PET_ACCOUNT_WITH_AUTH_INFO));
         return new PetInfoResponse(petAccount);
     }
 
