@@ -22,8 +22,8 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-    @GetMapping("/transaction/pet-info")
-    public Response getPetInfoByRfid(@ModelAttribute RfidRequest request) {
+    @PostMapping("/transaction/pet-info")
+    public Response getPetInfoByRfid(@RequestBody RfidRequest request) {
         return Response.success(GENERAL_SUCCESS, transactionService.getPetInfoByRfid(request.getRfidCode()));
     }
 
