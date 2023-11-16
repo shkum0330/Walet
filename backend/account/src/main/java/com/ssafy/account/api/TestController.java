@@ -1,6 +1,7 @@
 package com.ssafy.account.api;
 
 import com.ssafy.account.common.api.Response;
+import com.ssafy.account.common.domain.util.EncryptUtil;
 import com.ssafy.external.client.OauthClient;
 import com.ssafy.external.dto.InquireDepositorFinAccountDto;
 import com.ssafy.external.dto.OauthDto;
@@ -8,6 +9,7 @@ import com.ssafy.external.service.NHFintechService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.ssafy.account.common.api.status.SuccessCode.GENERAL_SUCCESS;
@@ -18,15 +20,17 @@ import static com.ssafy.account.common.api.status.SuccessCode.GENERAL_SUCCESS;
 public class TestController {
     private final NHFintechService nhFintechService;
     private final OauthClient oauthClient;
+    private final EncryptUtil encryptUtil;
 
-    @GetMapping("/test")
-    public Response getGeneralAccountList() {
-        InquireDepositorFinAccountDto.Request request = InquireDepositorFinAccountDto.Request.builder()
-                .FinAcno("00820111419481425091415098899")
-                .build();
+    @GetMapping("/test/{rfidCode}")
+    public Response test(@PathVariable String rfidCode) {
+//        InquireDepositorFinAccountDto.Request request = InquireDepositorFinAccountDto.Request.builder()
+//                .FinAcno("00820111419481425091415098899")
+//                .build();
 //        nhFintechService.InquireDepositorFinAccount(request);
 //        System.out.println(nhFintechService.OpenFinAccountARS();
-        return Response.success(GENERAL_SUCCESS, nhFintechService.InquireDepositorFinAccount(request));
+
+        return Response.success(GENERAL_SUCCESS, encryptUtil.hashPassword(rfidCode));
     }
 
     @GetMapping("/auth-test")

@@ -81,13 +81,14 @@ public class PaymentController {
         if(payment.getStatus() != PENDING){
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
+        log.info("계좌번호: {}",encryptUtil.hashPassword(request.getRfidCode()));
         Account sellerAccount=accountService.findBusinessAccountByMemberId(sellerId);
         Account buyerAccount=accountService.findByRFID(encryptUtil.hashPassword(request.getRfidCode()));
 
         messageSenderService.sendPaymentMessage(new PaymentNotificationRequest(
                 buyerAccount.getMemberId(), payment.getPaymentAmount(), sellerAccount.getDepositorName()
         ));
-        return Response.success(GENERAL_SUCCESS, null);
+        return Response.success(GENERAL_SUCCESS, "알림 전송");
     }
 
     // 결제 정보를 출력한다.
@@ -121,7 +122,7 @@ public class PaymentController {
 
         resultMap.put("paymentId",paymentId);
         resultMap.put("transactionId",transactionId);
-        return Response.success(GENERAL_SUCCESS, transactionId);
+        return Response.success(GENERAL_SUCCESS, resultMap);
 
     }
 }
