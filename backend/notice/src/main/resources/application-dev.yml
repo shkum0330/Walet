@@ -1,0 +1,48 @@
+server:
+  port: 8083
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  application:
+    name: NOTICE
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/allforyou
+    username: ENC(VNltww21CIXiNmgUXTMPOg==)
+    password: ENC(TVzrKXINCXa2FQpT16WX1I3OCgHxPv3c)
+  #  config:
+  #    import: env.yml
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+    properties:
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+
+
+eureka:
+  client:
+    register-with-eureka: false
+
+jasypt:
+  password: ${PASSWORD}
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ENC(kMyHtS0sBPjSpalnnltB/nhyvfbEzJmM7zglZXOSDk8=)
+      secretKey: ENC(qz+8NQvId9nLux7LonOIrfys3HlyM7bODKpkXiGNlEEPgKgBveEV0zHLwVpRYobaKS8KY02Bue4=)
+    s3:
+      bucket: a301-s3-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+cors:
+  origins: http://localhost:3000,http://k9a301.p.ssafy.io:3000
