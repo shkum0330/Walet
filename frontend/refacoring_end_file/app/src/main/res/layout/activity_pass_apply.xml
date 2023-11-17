@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+
+    tools:context=".PassApplyActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="12dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="22dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:backgroundTint="@color/white"
+                    android:contentDescription="이전버튼"
+                    android:paddingRight="22dp"
+                    android:src="@drawable/baseline_arrow_back_ios_new_24" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:gravity="center"
+                    android:text="반려동물계좌 양도"
+                    android:textColor="@color/grey80"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:background="@color/no_green">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="22dp"
+                    android:layout_marginTop="22dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/head"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_semi_bold"
+                        android:text="용도제한으로 안심하고\n
+계좌를 양도하세요"
+                        android:textColor="@color/white"
+                        android:textSize="22sp" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="22dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/head"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:gravity="center|start"
+                        android:letterSpacing="0.15"
+                        android:text="사랑하는 반려가족이\n
+새로운 가족 품에서\n
+금융 생활을 즐길 수 있도록"
+                        android:textColor="@color/white"
+
+                        android:textSize="18sp"
+
+                        />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="22dp"
+                    android:src="@drawable/img_dog10"
+
+                    />
+
+
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                />
+
+            <TextView
+
+                android:layout_marginHorizontal="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_semi_bold"
+
+                android:text="양도할 대상 정보"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="22dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_regular"
+
+                        android:text="반려인 이름"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+
+                    <EditText
+                        android:id="@+id/newOwner"
+                        android:paddingVertical="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="새로운 반려인의 이름을 입력하세요"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey60"
+                        />
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_regular"
+
+                        android:text="반려인의 계좌번호"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+
+                    <EditText
+                        android:id="@+id/accountNumber"
+                        android:paddingVertical="12dp"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="새로운 반려인의 계좌번호를 입력하세요"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey60"
+                        />
+
+                </LinearLayout>
+
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_regular"
+
+                        android:text="신청내용"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+
+                    <EditText
+                        android:paddingVertical="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="간단한 메세지를 남겨주세요"
+                        android:textSize="18sp"
+                        android:id="@+id/content"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey60"
+                        />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/grey20"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="22dp"
+                >
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    />
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_regular"
+
+                    android:text="알아두세요"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    />
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_regular"
+
+                    android:text="반려동물 계좌 양도는 사용용도 제한이 유지되기 때문에 안심하고 전달하셔도 됩니다."
+                    android:textColor="@color/grey80"
+                    android:letterSpacing="0.15"
+                    android:textSize="14sp" />
+
+
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                />
+
+            <Button
+                android:id="@+id/do_apply"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="양도 신청하기"
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:background="@drawable/button_no_green"
+                android:layout_marginHorizontal="22dp"
+
+                />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+
+
+
+</LinearLayout>

@@ -1,12 +1,13 @@
 spring:
   application:
     name: ACCOUNT
-
+  main:
+    allow-bean-definition-overriding: true
   datasource:
       driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mariadb://a301-rds.cz4ggd8ra6pu.ap-northeast-2.rds.amazonaws.com:3306/allforyou
-      username: a301
-      password: ssafyA301!
+      url: ENC(9pPcvFQrOmdd8PMOzb5LT2NO8knP5W7K75NVbQGuoMIDmdAnuDw2H6rFrUwwdM1pUQChn1uLuFr631F8gFMDxOlR4sG7I9kfO8F8lmCcdhmdHrTRbSTaHFMeCTZBwe7T)
+      username: ENC(rgBkLekRUBVFezMhGqUMwQ==)
+      password: ENC(2jZOoppfgHR24JO58hoYDN6Bk6UqkY1u)
   jpa:
     hibernate:
       ddl-auto: none
@@ -14,7 +15,55 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  redis:
+    host: 43.201.195.182
+    port: 6379
+
+  rabbitmq:
+    host: ENC(V1yH8VdVITBAyCighnck2oAZg/TjvbaE)
+    port: ENC(bOzbL6GUJuiQn0hlBJAVrQ==)
+    username: ENC(S7hh+SiqAZ0CsQoFx3YhuQ==)
+    password: ENC(FYqHK9yka2U1D6d/3hdwHvz/xSrQ+ylK)
 logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+    com:
+      ssafy:
+        external:
+          client: DEBUG
+
+hash:
+  pepper: ENC(tzd30k3PH7Y967FYSUisWhCAoYOGeWCq2U5VWO/ySaWY6vpDbpzTA4k209Jfygb4)
+cloud:
+  aws:
+    credentials:
+      access-key: ENC(xVeR21WhpGuI+K5KLnBW/EyO/hiE8Op99n5UrZ9GwwI=)
+      secret-key: ENC(qS11Nx1lLO7twpjkW7WBC7ecdyfKZmSQjeb3Kz3psPGzRZ0mvj5BGePtmcG8MOd7DegBCCRu+Ns=)
+    s3:
+      bucket: ENC(pRanUGxu977xvC5RyM+rjcdGobADXcM3)
+    region:
+      static: ENC(QlXUzkRxQ6pLw7eXrdHQ8cgeucQcmE1f)
+    stack:
+      auto: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://43.201.195.182:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+proxy:
+  host: 121.162.108.65
+  port: 9460
+
+cors:
+  origins: http://localhost:3000,http://k9a301.p.ssafy.io:3000
+
+jasypt:
+  password: ${PASSWORD}
