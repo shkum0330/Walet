@@ -111,7 +111,7 @@ public class TransferController {
 
     // rfid 인증 후 양도
     @PostMapping("/transfer/confirm/{transferId}")
-    public Response<?> requestAccountTransfer(@RequestHeader("id") Long transfereeId, @PathVariable Long transferId, @RequestBody RFIDAuthRequest request){
+    public Response<?> requestAccountTransfer(@PathVariable Long transferId, @RequestBody RFIDAuthRequest request){
         Transfer transfer=transferService.findById(transferId); // 양도 id로 찾는다.
         if(transfer.getStatus() != PENDING){ // 유효한 양도인지 확인한다.
             throw new InvalidTransferException(INVALID_TRANSFER);
