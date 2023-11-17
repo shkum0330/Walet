@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalControllerAdvice {
 
     @ExceptionHandler(GlobalRuntimeException.class)
-    public ResponseEntity<String> handleGlobalRuntimeException(GlobalRuntimeException e) {
-        return ResponseEntity.status(e.getStatusCode()).body(e.getMessage());
+    public ResponseEntity<Response> handleGlobalRuntimeException(GlobalRuntimeException exception) {
+        return Response.fail(exception.getFailCode());
     }
 }

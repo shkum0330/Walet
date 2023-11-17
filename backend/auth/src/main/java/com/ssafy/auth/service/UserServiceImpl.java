@@ -4,12 +4,16 @@ import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.auth.util.TokenMapping;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
 import com.ssafy.global.common.redis.RedisService;
+import com.ssafy.global.common.status.FailCode;
 import com.ssafy.member.db.MemberEntity;
 import com.ssafy.member.db.MemberRepository;
 import com.ssafy.global.PasswordEncoder;
+import com.ssafy.member.db.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import static com.ssafy.global.common.status.FailCode.*;
 
 @Service
 public class UserServiceImpl implements UserRepository{
@@ -27,28 +31,69 @@ public class UserServiceImpl implements UserRepository{
     @Override
     public TokenMapping login(String email, String password) {
         MemberEntity member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다. " + email));
+                .orElseThrow(() -> new GlobalRuntimeException(UNSIGNED_USER));
 
         if (!PasswordEncoder.checkPass(password, member.getPassword())) {
-            throw new GlobalRuntimeException("비밀번호가 틀립니다.", HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(DIFFERENT_PASSWORD);
         }
 
         if (member.isDeleted()) {
-            throw new GlobalRuntimeException("회원 탈퇴된 계정입니다.", HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(DELETED_USER);
         }
 
-        TokenMapping tokenMapping = jwtProvider.createToken(member.getRandomMemberId());
-        redisService.saveToken(member.getRandomMemberId(), tokenMapping.getAccessToken());
-        redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
 
+
+        String role = member.getRole().name();
+        TokenMapping tokenMapping = jwtProvider.createToken(member.getId(), role, member.getName());
+        redisService.saveToken(member.getId().toString(), tokenMapping.getAccessToken());
+        redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
+        return tokenMapping;
+    }
+
+
+
+    public TokenMapping adminLogin(String email, String password) {
+        MemberEntity member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new GlobalRuntimeException(UNSIGNED_USER));
+
+        if (!PasswordEncoder.checkPass(password, member.getPassword())) {
+           throw new GlobalRuntimeException(DIFFERENT_PASSWORD);
+        }
+
+        if (member.isDeleted()) {
+            throw new GlobalRuntimeException(DELETED_USER);
+        }
+
+
+        if (member.getRole().equals(Role.USER)){
+            throw new GlobalRuntimeException(STAFF_ONLY);
+        }
+
+
+
+        String role = member.getRole().name();
+        TokenMapping tokenMapping = jwtProvider.createToken(member.getId(), role, member.getName());
+        redisService.saveToken(member.getId().toString(), tokenMapping.getAccessToken());
+        redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
         return tokenMapping;
     }
 
     public void userLogout(String accessToken){
         if (redisService.isBlackListed(accessToken)) {
-            throw new GlobalRuntimeException("사용할 수 없는 토큰입니다.",HttpStatus.BAD_REQUEST);
+            throw new GlobalRuntimeException(BAD_TOKEN);
         }
         Long expiration = jwtProvider.getExpiration(accessToken);
         redisService.setBlackList(accessToken, accessToken, expiration);
+    }
+
+    public void pinCheck(String accessToken, String pinNumber){
+        Long userId = jwtProvider.AccessTokenDecoder(accessToken);
+
+        MemberEntity member = memberRepository.findById(userId)
+                .orElseThrow(() -> new GlobalRuntimeException(UNSIGNED_USER));
+
+        if (!member.getPinNumber().equals(pinNumber)) {
+            throw new GlobalRuntimeException(DIFFERENT_PIN);
+        }
     }
 }

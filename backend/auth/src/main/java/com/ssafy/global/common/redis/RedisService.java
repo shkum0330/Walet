@@ -40,4 +40,12 @@ public class RedisService {
     public boolean isBlackListed(String tokenKey) {
         return redisBlackListTemplate.hasKey(tokenKey);
     }
+
+    public String getKey(){
+        return (String) redisTemplate.opsForValue().get("nhKey");
+    }
+
+    public void saveKey(String key){
+        redisTemplate.opsForValue().set("nhKey",key,7_000_000_000L,TimeUnit.MILLISECONDS);
+    }
 }

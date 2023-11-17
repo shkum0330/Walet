@@ -1,5 +1,6 @@
 package com.ssafy.global.common.response;
 
+import com.ssafy.global.common.status.SuccessCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,9 +17,9 @@ public class EnvelopeResponse<T> {
     private int code;
     private T data;
 
-    public EnvelopeResponse(int code, String message, T data) {
-        this.message = message;
+    public EnvelopeResponse(SuccessCode successCode, T data) {
+        this.code = successCode.getStatus().value();
+        this.message = successCode.getMessage();
         this.data = data;
-        this.code = code;
     }
 }
