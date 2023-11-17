@@ -2,6 +2,10 @@ server:
   port: 8083
 
 spring:
+  config:
+    activate:
+      on-profile: dev
+
   application:
     name: NOTICE
 
@@ -20,12 +24,11 @@ spring:
     properties:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
 
+
 eureka:
   client:
-    service-url:
-      defaultZone: http://43.201.195.182:8761/eureka
-  instance:
-    prefer-ip-address: true
+    register-with-eureka: false
+
 jasypt:
   password: ${PASSWORD}
 
