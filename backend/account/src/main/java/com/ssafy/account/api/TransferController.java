@@ -60,7 +60,6 @@ public class TransferController {
 
     // 양도 요청
     @PostMapping("/transfer/request")
-    @Transactional
     public Response<?> requestAccountTransfer(@RequestHeader("id") Long ownerId, @RequestHeader("name") String name
             , @RequestBody AccountTransferRequest request){
         Long transferId= transferService.requestAccountTransfer(ownerId, request);
@@ -121,7 +120,7 @@ public class TransferController {
         // 본 주인의 계좌
         Account transferorAccount=accountService.findPetAccountByAccountId(transfer.getTransferorId());
         // 양도받을 사람의 계좌
-        Account transfereeAccount=accountService.findAccountByAccountId(request.getSenderAccountId());
+        Account transfereeAccount=accountService.findByRFID(encryptUtil.hashPassword(request.getRfidCode()));
         if(!encryptUtil.hashPassword(request.getRfidCode()).equals(transferorAccount.getRfidCode())){
             log.info("rfid: {} {}",request.getRfidCode(), encryptUtil.hashPassword(request.getRfidCode()));
             throw new NotCorrectException(DIFFERENT_RFID);
