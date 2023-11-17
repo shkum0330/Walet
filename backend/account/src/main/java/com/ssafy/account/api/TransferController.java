@@ -60,6 +60,7 @@ public class TransferController {
 
     // 양도 요청
     @PostMapping("/transfer/request")
+    @Transactional
     public Response<?> requestAccountTransfer(@RequestHeader("id") Long ownerId, @RequestHeader("name") String name
             , @RequestBody AccountTransferRequest request){
         Long transferId= transferService.requestAccountTransfer(ownerId, request);
