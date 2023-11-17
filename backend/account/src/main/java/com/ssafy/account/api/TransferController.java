@@ -110,9 +110,8 @@ public class TransferController {
     }
 
     // rfid 인증 후 양도
-    @Transactional
     @PostMapping("/transfer/confirm/{transferId}")
-    public Response<?> requestAccountTransfer(@PathVariable Long transferId, @RequestBody RFIDAuthRequest request){
+    public Response<?> requestAccountTransfer(@RequestHeader("id") Long transfereeId, @PathVariable Long transferId, @RequestBody RFIDAuthRequest request){
         Transfer transfer=transferService.findById(transferId); // 양도 id로 찾는다.
         if(transfer.getStatus() != PENDING){ // 유효한 양도인지 확인한다.
             throw new InvalidTransferException(INVALID_TRANSFER);
@@ -120,7 +119,7 @@ public class TransferController {
         // 본 주인의 계좌
         Account transferorAccount=accountService.findPetAccountByAccountId(transfer.getTransferorId());
         // 양도받을 사람의 계좌
-        Account transfereeAccount=accountService.findByRFID(encryptUtil.hashPassword(request.getRfidCode()));
+        Account transfereeAccount=accountService.findActiveAccountByMemberId(transfer.getTransfereeId(),"00").get(0);
         if(!encryptUtil.hashPassword(request.getRfidCode()).equals(transferorAccount.getRfidCode())){
             log.info("rfid: {} {}",request.getRfidCode(), encryptUtil.hashPassword(request.getRfidCode()));
             throw new NotCorrectException(DIFFERENT_RFID);
@@ -129,14 +128,14 @@ public class TransferController {
         // 양도 진행. 양도된 금액 반환
         Long amount = accountService.assignAccount(new AssignRequest(transferorAccount.getId(), transfereeAccount.getId()));
         log.info("양도금액: {}",amount);
-        // 농협api로 송금 진행
+        // 농협 api로 송금 진행
         nhFintechService.remittance(transferorAccount,transfereeAccount,amount);
         // 트랜잭션에 반영
         transactionRepository.save(new Transaction(transferorAccount, transfereeAccount.getDepositorName(), TransactionType.TRANSFER, amount, 0L));
         transactionRepository.save(new Transaction(transfereeAccount, transferorAccount.getDepositorName(), TransactionType.TRANSFER
                 , amount, transfereeAccount.getBalance()+amount));
         transfer.completeTransfer();
-        return Response.success(GENERAL_SUCCESS, request.getSenderAccountId());
+        return Response.success(GENERAL_SUCCESS, "ok");
 
     }
 
