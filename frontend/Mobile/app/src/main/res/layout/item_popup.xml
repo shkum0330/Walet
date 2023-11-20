@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#90000000"
+    app:cardCornerRadius="20dp"
+    android:layout_height="wrap_content">
+<LinearLayout
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    >
+    
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/logo_img"
+        />
+    <Space
+        android:layout_width="16dp"
+        android:layout_height="10dp"
+        />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="WALLET"
+                />
+            <Space
+                android:layout_width="16dp"
+                android:layout_height="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_regular"
+                android:text="오전 11:51"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                />
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="김민수님에게서\n반려동물계좌 양도요청이 왔습니다!"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            />
+
+    </LinearLayout>
+</LinearLayout>
+</androidx.cardview.widget.CardView>

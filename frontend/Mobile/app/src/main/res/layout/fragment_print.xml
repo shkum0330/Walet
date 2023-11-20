@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PrintFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="12dp" />
+
+            <LinearLayout
+                android:layout_marginHorizontal="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wallet"
+                    android:textColor="@color/no_green"
+                    android:textSize="26sp"
+                    android:fontFamily="@font/museo_moderno_regular"
+                    />
+
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/bell"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@color/white"
+                    android:contentDescription="알림버튼"
+
+                    android:src="@drawable/icon_bell" />
+
+
+
+
+
+            </LinearLayout>
+
+<!--            <Space-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="10dp" />-->
+
+            <!--            광고-->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="광고 배너"
+                android:src="@drawable/ad_banner" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="22dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:text="나의 반려가족"
+                    android:textColor="@color/black"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="등록된 강아지, 고양이 인증정보를 확인하세요"
+                    android:textColor="@color/grey80"
+                    android:textSize="18sp" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="22dp"
+                android:background="@drawable/box_pet_profile_2"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="19dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="22dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:text="강아지"
+                        android:textColor="@color/black"
+                        android:textSize="24sp" />
+
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="10dp" />
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:fontFamily="@font/pretendard_semi_bold"-->
+                    <!--                        android:text="조아"-->
+                    <!--                        android:textColor="@color/black"-->
+                    <!--                        android:textSize="24sp" />-->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_semi_bold"
+                        android:text="인증정보"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp" />
+
+                <!--반려동물 프로필 이미지-->
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/pet_profile2"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+
+                    android:layout_gravity="center"
+                    android:src="@drawable/zoa"
+                    app:civ_border_color="#FF000000" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+
+
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/pet_nose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:background="@drawable/button_finished_identification"
+                        android:fontFamily="@font/pretendard_semi_bold"
+                        android:text="비문"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
+
+                    <TextView
+                        android:id="@+id/pet_chip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:background="@drawable/button_grey_sixty"
+                        android:fontFamily="@font/pretendard_semi_bold"
+                        android:text="내장칩"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|bottom"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:text="말티푸"
+                            android:textColor="@color/black"
+                            android:textSize="24sp" />
+
+                        <Space
+                            android:layout_width="12dp"
+                            android:layout_height="10dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:text="조아"
+                            android:textColor="@color/no_green"
+                            android:textSize="24sp" />
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:src="@drawable/baseline_male_24" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:text="함께한지 "
+                            android:textColor="@color/black"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:text="1538"
+                            android:textColor="@color/no_green"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:text="일 되었습니다"
+                            android:textColor="@color/black"
+                            android:textSize="24sp" />
+
+
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp" />
+
+
+                </LinearLayout>
+                <!--                    비문, 내장칩 등록하기-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_sub_green_twenty">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:src="@drawable/dog4" />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:text="비문\n등록하기"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="10dp" />
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_sub_green_twenty">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/dog3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:text="내장칩\n등록하기"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+                <!--                    비문, 내장칩 등록하기 끝-->
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp" />
+
+                <LinearLayout
+                    android:id="@+id/btn_easy_pay_log"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/box_easy_pay"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="22dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/pretendard_semi_bold"
+                        android:text="간편결제"
+                        android:textColor="@color/grey90"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_semi_bold"
+                        android:text="23건"
+                        android:textColor="@color/grey90"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_arrow_forward_ios_24" />
+
+
+                </LinearLayout>
+
+<Space
+    android:layout_width="match_parent"
+    android:layout_height="12dp"
+    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end|bottom"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_siren"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="실종 신고하기"
+
+                        />
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    />
+
+
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                />
+
+
+            <!--    공지사항-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="22dp"
+
+                android:background="@drawable/ad_banner_box_yellow"
+
+                android:orientation="horizontal">
+                <!--        공지사항 내용-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="8"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/notice_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_semi_bold"
+                        android:text="우리집 반려가족을 잃어버렸을때"
+                        android:textColor="@color/black"
+
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/notice_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:text="골든타임을 지키는 방법"
+                        android:textColor="@color/black"
+
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+                <!--        공지사항 이미지-->
+                <ImageView
+                    android:id="@+id/notice_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+
+                    android:src="@drawable/ad_banner_2" />
+
+
+            </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/grey20"
+                />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="22dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:text="실종된 반려가족"
+                    android:textColor="@color/black"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="가족을 애타게 찾고있어요!"
+                    android:textColor="@color/grey80"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
+                        android:background="@drawable/box_pet_profile_2"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="200dp"
+                            android:src="@drawable/dog5"
+                            android:layout_gravity="top"
+                            android:adjustViewBounds="true"
+
+                            />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:text="실종 339일째"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:textSize="18dp"
+                            android:textColor="@color/grey90"
+                            />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:text="실종 339일째"
+                            />
+
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+
+
+            </HorizontalScrollView>
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</FrameLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:context=".MainActivity"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="22dp"
+    android:paddingVertical="20dp"
+    android:background="?attr/selectableItemBackground">
+    <!-- android:background="?attr/selectableItemBackground" : select animation 추가 -->
+<ImageView
+    android:layout_width="26dp"
+    android:layout_height="26dp"
+    android:src="@drawable/icon_bluetooth"
+    />
+    <Space
+        android:layout_width="16dp"
+        android:layout_height="10dp"
+        />
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+
+        android:text="item_name"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#FF7c7c7c"
+        android:textSize="18sp"
+     />
+
+
+    <TextView
+        android:id="@+id/item_address"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+
+        android:text="item_address"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#FF7c7c7c"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</LinearLayout>
