@@ -210,42 +210,66 @@
 <table>
   <tr>
     <td align="center" width="200">
-        <img src="./asset/1.png" alt="이승엽" />
+      <a href="https://github.com/codleee">
+        <img src="https://github.com/codleee.png" alt="이승엽" />
+      </a>
     </td>
      <td align="center" width="200">
-        <img src="./asset/2.png" alt="금세현" />
+      <a href="https://github.com/shkum0330">
+        <img src="https://github.com/shkum0330.png" alt="금세현" />
+      </a>
     </td>
     <td align="center" width="200">
-        <img src="./asset/3.png" alt="김보석" />
+      <a href="https://github.com/edder773">
+        <img src="https://github.com/edder773.png" alt="김보석" />
+      </a>
     </td>
     <td align="center" width="200">
-        <img src="./asset/4.png" alt="송희도" />
+      <a href="https://github.com/1lia">
+        <img src="https://github.com/1lia.png" alt="송희도" />
+      </a>
     </td>
     <td align="center" width="200">
-        <img src="./asset/5.png" alt="신재혁" />
+      <a href="https://github.com/shin197">
+        <img src="https://github.com/shin197.png" alt="신재혁" />
+      </a>
     </td>
     <td align="center" width="200">
-        <img src="./asset/6.png" alt="유지나" />
+      <a href="https://github.com/stargnastar">
+        <img src="https://github.com/stargnastar.png" alt="유지나" />
+      </a>
     </td>
   </tr>
   <tr>
     <td align="center">
+      <a href="https://github.com/codleee">
         <b>이승엽</b>
+      </a>
     </td>
     <td align="center">
+      <a href="https://github.com/shkum0330">
         <b>금세현</b>
+      </a>
     </td>
     <td align="center">
+      <a href="https://github.com/edder773">
         <b>김보석</b>
+      </a>
     </td>
     <td align="center">
+      <a href="https://github.com/1lia">
         <b>송희도</b>
+      </a>
     </td>
     <td align="center">
+      <a href="https://github.com/shin197">
         <b>신재혁</b>
+      </a>
     </td>
     <td align="center">
+      <a href="https://github.com/stargnastar">
         <b>유지나</b>
+      </a>
     </td>
   </tr>
   <tr>
