@@ -1,4 +1,4 @@
-const BASE_URI = 'http://43.201.195.182';
+const BASE_URI = '';
 const NOTICE_URI = `${BASE_URI}/api/notice`;
 const AUTH_URI = `${BASE_URI}/api/auth`;
 const ACCOUNT_URI = `${BASE_URI}/api/account`;

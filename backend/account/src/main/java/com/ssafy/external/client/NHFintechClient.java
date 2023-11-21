@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(url = "http://43.201.195.182/api/service" , name = "NHFintechClient" , configuration = ClientConfig.class)
+@FeignClient(url = "/api/service" , name = "NHFintechClient" , configuration = ClientConfig.class)
 public interface NHFintechClient {
     @PostMapping(value = "/OpenFinAccountARS")
     OpenFinAccountARSDto.Response OpenFinAccountARS(@RequestBody OpenFinAccountARSDto.Request request);
