@@ -1,7 +1,5 @@
 # Walet - 반려동물을 위한 pet 계좌 서비스
 
-| <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1671380429/noticon/zczk9wzsj5jq0epa0ine.png" alt="Notion Image" width="20" height="20"> [Notion](https://ambitious-cafe-d87.notion.site/A301-14b333fbc0ba4faebe0fc6498f000959?pvs=4) | <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1640982247/noticon/tpvr26zp02angin4t0jv.png" alt="Notion Image" width="20" height="20"> [Figma](https://www.figma.com/file/301GJlg4OmMEoFQxXut2ZQ/SSAFY_%EA%B8%B0%EC%97%85%EC%97%B0%EA%B3%84_%EB%86%8D%ED%98%91?type=design&node-id=0-1&mode=design&t=ursBjYyjVusKYyaj-0) |
-
 <br/>
 
 ## 기간 & 특이사항
