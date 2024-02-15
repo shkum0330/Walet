@@ -25,7 +25,7 @@ public class JwtProvider {
 
     private MemberRepository memberRepository;
 
-    @Value("all4u")
+    @Value("${jwt.secret-key}")
     private String secretKey;
 
     @Value("${jwt.access.expiration}")

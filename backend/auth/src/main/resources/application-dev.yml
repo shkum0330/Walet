@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/auth
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+cors:
+  origins: "localhost:3000"
+
+proxy:
+  host: "localhost"
+  port: 8080
+
+jasypt:
+  password: "walet"
+
+feign:
+  url: "localhost:8080"
+
+
+jwt:
+  access:
+    expiration: 3600
+    header: Authorization
+  refresh:
+    expiration: 2592000
+    header: Refresh-Token
+
