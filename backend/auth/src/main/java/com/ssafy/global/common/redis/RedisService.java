@@ -5,7 +5,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
-
 @Service
 public class RedisService {
     private final RedisTemplate<String, Object> redisTemplate;

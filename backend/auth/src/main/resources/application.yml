@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: AUTH
+  main:
+    allow-bean-definition-overriding: true
+
+jwt:
+  secret-key: "wallet1258120958211512510"
+
+coolsms:
+  api:
+    key: "API Key"
+    secret: "API Secret"
