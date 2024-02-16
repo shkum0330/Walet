@@ -53,7 +53,7 @@ public class AuthController {
     }
 
     @PostMapping("/pincheck")
-    public ResponseEntity<EnvelopeResponse<String>> pincheck(@RequestHeader(value="Authorization") String token, @RequestBody PinCheckDto.RequestDto request) {
+    public ResponseEntity<EnvelopeResponse<String>> pincheck(@RequestHeader(value="Authorization") String token, @RequestBody PinCheckDto request) {
         String pinNumber = request.getPinNumber();
         userService.pinCheck(token, pinNumber);
         return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, ""), HttpStatus.OK);

@@ -1,0 +1,20 @@
+spring:
+  config:
+    import: env.yml
+  application:
+    name: ${DOMAIN_NAME}
+
+  cloud:
+    gateway:
+      routes:
+        - id: auth
+          uri: lb://auth/
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth/api/(?<path>.*), /$\{path}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
