@@ -4,33 +4,26 @@ import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.auth.util.TokenMapping;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
 import com.ssafy.global.common.redis.RedisService;
-import com.ssafy.global.common.status.FailCode;
-import com.ssafy.member.db.MemberEntity;
+import com.ssafy.member.db.Member;
 import com.ssafy.member.db.MemberRepository;
 import com.ssafy.global.PasswordEncoder;
 import com.ssafy.member.db.Role;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import static com.ssafy.global.common.status.FailCode.*;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserRepository{
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
 
-    @Autowired
-    public UserServiceImpl(MemberRepository memberRepository, JwtProvider jwtProvider, RedisService redisService) {
-        this.memberRepository = memberRepository;
-        this.jwtProvider = jwtProvider;
-        this.redisService = redisService;
-    }
-
     @Override
     public TokenMapping login(String email, String password) {
-        MemberEntity member = memberRepository.findByEmail(email)
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new GlobalRuntimeException(UNSIGNED_USER));
 
         if (!PasswordEncoder.checkPass(password, member.getPassword())) {
@@ -41,8 +34,6 @@ public class UserServiceImpl implements UserRepository{
             throw new GlobalRuntimeException(DELETED_USER);
         }
 
-
-
         String role = member.getRole().name();
         TokenMapping tokenMapping = jwtProvider.createToken(member.getId(), role, member.getName());
         redisService.saveToken(member.getId().toString(), tokenMapping.getAccessToken());
@@ -50,10 +41,8 @@ public class UserServiceImpl implements UserRepository{
         return tokenMapping;
     }
 
-
-
     public TokenMapping adminLogin(String email, String password) {
-        MemberEntity member = memberRepository.findByEmail(email)
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new GlobalRuntimeException(UNSIGNED_USER));
 
         if (!PasswordEncoder.checkPass(password, member.getPassword())) {
@@ -68,8 +57,6 @@ public class UserServiceImpl implements UserRepository{
         if (member.getRole().equals(Role.USER)){
             throw new GlobalRuntimeException(STAFF_ONLY);
         }
-
-
 
         String role = member.getRole().name();
         TokenMapping tokenMapping = jwtProvider.createToken(member.getId(), role, member.getName());
@@ -89,7 +76,7 @@ public class UserServiceImpl implements UserRepository{
     public void pinCheck(String accessToken, String pinNumber){
         Long userId = jwtProvider.AccessTokenDecoder(accessToken);
 
-        MemberEntity member = memberRepository.findById(userId)
+        Member member = memberRepository.findById(userId)
                 .orElseThrow(() -> new GlobalRuntimeException(UNSIGNED_USER));
 
         if (!member.getPinNumber().equals(pinNumber)) {
