@@ -7,6 +7,9 @@ spring:
 jwt:
   secret-key: "wallet1258120958211512510"
 
+hash:
+  pepper: ${PEPPER}
+
 coolsms:
   api:
     key: "API Key"

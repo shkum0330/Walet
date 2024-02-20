@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<MemberEntity,Long> {
+public interface MemberRepository extends JpaRepository<Member,Long> {
     boolean existsByEmail(String email);
-    Optional<MemberEntity> findByEmail(String email);
-    public List<MemberEntity> findByRole(Role role);
-    List<MemberEntity> findByNameContaining(String keyword);
+    Optional<Member> findByEmail(String email);
+    public List<Member> findByRole(Role role);
+    List<Member> findByNameContaining(String keyword);
 
-    List<MemberEntity> findByCreatedDateAfter(LocalDateTime startDate);
+    List<Member> findByCreatedDateAfter(LocalDateTime startDate);
 
 
 }

@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 spring:
   datasource:
     url: jdbc:h2:tcp://localhost/~/auth
@@ -24,12 +27,8 @@ proxy:
   host: "localhost"
   port: 8080
 
-jasypt:
-  password: "walet"
-
 feign:
   url: "localhost:8080"
-
 
 jwt:
   access:

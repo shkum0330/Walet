@@ -2,16 +2,16 @@ package com.ssafy.member.db;
 
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.ssafy.global.PasswordEncoder;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 
 @Entity(name = "member")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter @Setter
-public class MemberEntity extends BaseTimeEntity {
+public class Member extends BaseTimeEntity {
 
 
     @Id @Column(name = "member_id")
@@ -45,6 +45,22 @@ public class MemberEntity extends BaseTimeEntity {
 
     @Column(name = "pin_number")
     private String pinNumber;
+
+
+    @Builder
+    public Member(Long id,String name, String email, String password, String phoneNumber,
+                  String birth, Role role, String fingerPrint, String pinNumber) {
+        this.id=id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.birth = birth;
+        this.isDeleted=false;
+        this.role = role;
+        this.fingerPrint = fingerPrint;
+        this.pinNumber = pinNumber;
+    }
 
 
     public void setIsDeleted(boolean isDeleted) {
