@@ -13,6 +13,7 @@ import com.ssafy.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,17 +40,17 @@ public class MemberServiceImpl implements MemberService {
         if(memberRepository.existsByEmail(memberRequest.getEmail())){
             throw new GlobalRuntimeException(EMAIL_EXIST);
         }
-        String hashedPassword = PasswordEncoder.hashPassword(memberRequest.getPassword());
-        Member member=Member.builder()
+        Member member=memberRepository.save(Member.builder()
                 .name(memberRequest.getName())
                 .email(memberRequest.getEmail())
-                .password(memberRequest.getPassword())
+                .password(PasswordEncoder.hashPassword(memberRequest.getPassword()))
                 .phoneNumber(memberRequest.getPhoneNumber())
                 .birth(memberRequest.getBirth())
                 .role(Role.USER)
                 .pinNumber(memberRequest.getPinNumber())
                 .fingerPrint(memberRequest.getFingerPrint())
-                .build();
+                .build());
+
         return memberRepository.save(member);
     }
 

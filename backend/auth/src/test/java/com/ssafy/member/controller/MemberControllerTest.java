@@ -21,9 +21,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.ssafy.docs.ApiDocumentUtils.getDocumentRequest;
+import static com.ssafy.docs.ApiDocumentUtils.getDocumentResponse;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,20 +51,25 @@ class MemberControllerTest extends RestDocsTest {
     @Test
     public void 회원가입() throws Exception {
         //given
-        MemberDto.MemberRequest memberRequest=new MemberDto.MemberRequest("강해린","haerin@naver.com"
-                ,"1234","010-1234-1234","2006-05-15",null,"000000");
+        MemberDto.MemberRequest memberRequest=new MemberDto.MemberRequest("김민지","minji@naver.com"
+                ,"1234","010-1234-1234","2004-05-07",null,"000000");
         Member expectedMember= MemberFixture.DEFAULT.getMember();
 
         //when
-        memberService.signUp(memberRequest);
+        given(memberService.signUp(any(MemberDto.MemberRequest.class))).willReturn(expectedMember);
 
-        //then
+        // then
         ResultActions perform=mockMvc.perform(
                 post("/signup").contentType(MediaType.APPLICATION_JSON)
-                        .content(toJson(memberRequest)));
-        perform.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.data.id").value(1L))
-                .andExpect(jsonPath("$.data.name").value("강해린"));
+                        .content(toJson(memberRequest)))
+                        .andExpect(status().isCreated())
+                        .andExpect(jsonPath("$.data.id").value(1L))
+                        .andExpect(jsonPath("$.data.name").value("김민지"))
+                        .andExpect(jsonPath("$.data.email").value("minji@naver.com"))
+                        .andExpect(jsonPath("$.data.password").value("1234"))
+                        .andExpect(jsonPath("$.data.phoneNumber").value("010-1234-1234"))
+                        .andExpect(jsonPath("$.data.birth").value("2004-05-07"))
+                        .andExpect(jsonPath("$.data.pinNumber").value("000000"));
 
     }
 

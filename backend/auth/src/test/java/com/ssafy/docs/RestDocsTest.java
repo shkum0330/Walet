@@ -29,6 +29,7 @@ public class RestDocsTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
     protected MockMvc mockMvc;
 
     protected String toJson(Object value) throws JsonProcessingException {
@@ -48,7 +49,7 @@ public class RestDocsTest {
                                         .withPort(8083))
                         .addFilter(new CharacterEncodingFilter("UTF-8", true))
                         .alwaysDo(print())
-                        .alwaysDo(document("api/v1"))
+                        .alwaysDo(document("api/docs"))
                         .build();
     }
 }

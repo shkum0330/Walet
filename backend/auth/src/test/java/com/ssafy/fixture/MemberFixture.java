@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum MemberFixture {
     DEFAULT(
-            1L,"강해린","haerin@naver.com"
-            ,"1234","010-1234-1234","2006-05-15",Role.USER,null,"000000"
+            1L,"김민지","minji@naver.com"
+            ,"1234","010-1234-1234","2004-05-07",Role.USER,null,"000000"
     );
     private Long id;
     private String name;

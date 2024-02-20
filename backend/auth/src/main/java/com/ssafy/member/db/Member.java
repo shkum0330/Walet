@@ -2,7 +2,9 @@ package com.ssafy.member.db;
 
 
 
+import com.ssafy.global.PasswordEncoder;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 
@@ -59,6 +61,7 @@ public class Member extends BaseTimeEntity {
         this.fingerPrint = fingerPrint;
         this.pinNumber = pinNumber;
     }
+
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;

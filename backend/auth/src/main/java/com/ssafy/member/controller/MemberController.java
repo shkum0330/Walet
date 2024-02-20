@@ -9,6 +9,7 @@ import com.ssafy.member.db.Member;
 import com.ssafy.member.service.MemberService;
 import com.ssafy.member.util.SmsUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.ssafy.global.common.status.SuccessCode.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
@@ -31,6 +33,7 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<EnvelopeResponse<Member>> signup(@RequestBody MemberDto.MemberRequest memberRequest) {
         Member member = memberService.signUp(memberRequest);
+        log.info("생성된 회원: {}",member);
         return new ResponseEntity<>(new EnvelopeResponse<>(CREATE_SUCCESS, member), HttpStatus.CREATED);
     }
 
