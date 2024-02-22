@@ -13,7 +13,30 @@ spring:
             - Path=/auth/**
           filters:
             - RewritePath=/auth/api/(?<path>.*), /$\{path}
-
+        - id: auth
+          uri: lb://account/
+          predicates:
+            - Path=/account/**
+          filters:
+            - RewritePath=/account/api/(?<path>.*), /$\{path}
+        - id: notification
+          uri: lb://notification/
+          predicates:
+            - Path=/notification/**
+          filters:
+            - RewritePath=/notification/api/(?<path>.*), /$\{path}
+        - id: notice
+          uri: lb://notice/
+          predicates:
+            - Path=/notice/**
+          filters:
+            - RewritePath=/notice/api/(?<path>.*), /$\{path}
+        - id: log
+          uri: lb://log/
+          predicates:
+            - Path=/log/**
+          filters:
+            - RewritePath=/log/api/(?<path>.*), /$\{path}
 eureka:
   client:
     service-url:
