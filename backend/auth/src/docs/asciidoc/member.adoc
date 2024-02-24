@@ -1,0 +1,14 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== 게시글 목록 조회 API
+
+=== HTTP REQUEST BODY
+
+include::{snippets}/member-signup/http-request.adoc[]
+
+=== HTTP RESPONSE BODY
+
+include::{snippets}/member-signup/http-response.adoc[]
+
