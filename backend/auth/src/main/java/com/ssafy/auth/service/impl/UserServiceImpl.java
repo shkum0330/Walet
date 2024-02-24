@@ -1,5 +1,6 @@
-package com.ssafy.auth.service;
+package com.ssafy.auth.service.impl;
 
+import com.ssafy.auth.service.UserRepository;
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.auth.util.TokenMapping;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
@@ -16,7 +17,7 @@ import static com.ssafy.global.common.status.FailCode.*;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserRepository{
+public class UserServiceImpl implements UserRepository {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
     private final RedisService redisService;

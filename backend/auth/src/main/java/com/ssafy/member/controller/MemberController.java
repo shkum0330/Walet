@@ -33,7 +33,6 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<EnvelopeResponse<Member>> signup(@RequestBody MemberDto.MemberRequest memberRequest) {
         Member member = memberService.signUp(memberRequest);
-        log.info("생성된 회원: {}",member);
         return new ResponseEntity<>(new EnvelopeResponse<>(CREATE_SUCCESS, member), HttpStatus.CREATED);
     }
 

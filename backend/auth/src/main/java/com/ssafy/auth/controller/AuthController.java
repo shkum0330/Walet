@@ -2,7 +2,7 @@ package com.ssafy.auth.controller;
 
 import com.ssafy.auth.api.LoginDto;
 import com.ssafy.auth.api.PinCheckDto;
-import com.ssafy.auth.service.UserServiceImpl;
+import com.ssafy.auth.service.impl.UserServiceImpl;
 import com.ssafy.auth.util.TokenMapping;
 import com.ssafy.external.service.NHService;
 import com.ssafy.global.common.response.EnvelopeResponse;

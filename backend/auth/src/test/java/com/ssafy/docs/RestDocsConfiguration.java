@@ -12,7 +12,7 @@ public class RestDocsConfiguration {
     public RestDocsMockMvcConfigurationCustomizer restDocsMockMvcConfigurationCustomizer() {
         return configurer ->
                 configurer
-                        .operationPreprocessors()
+                        .operationPreprocessors() // MockMvc의 각 작업에 대한 사전 처리기
                         .withRequestDefaults(prettyPrint())
                         .withResponseDefaults(prettyPrint());
     }

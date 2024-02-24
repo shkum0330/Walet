@@ -1,11 +1,13 @@
 spring:
+  config:
+    import: env.yml
   application:
     name: AUTH
   main:
     allow-bean-definition-overriding: true
 
 jwt:
-  secret-key: "wallet1258120958211512510"
+  secret-key: ${JWT_SECRET_KEY}
 
 hash:
   pepper: ${PEPPER}
