@@ -31,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/admin/login")
-    public ResponseEntity<EnvelopeResponse<TokenMapping>> Adminlogin(@RequestBody LoginDto loginRequest , HttpServletRequest request) {
+    public ResponseEntity<EnvelopeResponse<TokenMapping>> adminLogin(@RequestBody LoginDto loginRequest , HttpServletRequest request) {
         System.out.println(request.getRemoteAddr());
         TokenMapping token = userService.adminLogin(loginRequest.getEmail(), loginRequest.getPassword());
 
