@@ -33,6 +33,12 @@ proxy:
 feign:
   url: "localhost:8080"
 
+coolsms:
+  api:
+    key: "API Key"
+    secret: "API Secret"
+
+
 #  h2:
 #    console:
 #      enabled: true

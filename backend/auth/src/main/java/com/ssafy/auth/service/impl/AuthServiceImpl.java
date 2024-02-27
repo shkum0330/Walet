@@ -1,6 +1,6 @@
 package com.ssafy.auth.service.impl;
 
-import com.ssafy.auth.service.UserRepository;
+import com.ssafy.auth.service.AuthService;
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.auth.util.TokenMapping;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
@@ -10,14 +10,13 @@ import com.ssafy.member.db.MemberRepository;
 import com.ssafy.global.PasswordEncoder;
 import com.ssafy.member.db.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.ssafy.global.common.status.FailCode.*;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserRepository {
+public class AuthServiceImpl implements AuthService {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
@@ -42,6 +41,7 @@ public class UserServiceImpl implements UserRepository {
         return tokenMapping;
     }
 
+    @Override
     public TokenMapping adminLogin(String email, String password) {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new GlobalRuntimeException(UNSIGNED_USER));
@@ -66,7 +66,8 @@ public class UserServiceImpl implements UserRepository {
         return tokenMapping;
     }
 
-    public void userLogout(String accessToken){
+    @Override
+    public void logout(String accessToken){
         if (redisService.isBlackListed(accessToken)) {
             throw new GlobalRuntimeException(BAD_TOKEN);
         }

@@ -12,3 +12,7 @@ include::{snippets}/member-signup/http-request.adoc[]
 
 include::{snippets}/member-signup/http-response.adoc[]
 
+== 로그인 API
+
+
+== 로그아웃 API

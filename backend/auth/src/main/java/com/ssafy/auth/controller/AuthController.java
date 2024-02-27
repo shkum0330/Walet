@@ -2,7 +2,7 @@ package com.ssafy.auth.controller;
 
 import com.ssafy.auth.api.LoginDto;
 import com.ssafy.auth.api.PinCheckDto;
-import com.ssafy.auth.service.impl.UserServiceImpl;
+import com.ssafy.auth.service.impl.AuthServiceImpl;
 import com.ssafy.auth.util.TokenMapping;
 import com.ssafy.external.service.NHService;
 import com.ssafy.global.common.response.EnvelopeResponse;
@@ -19,7 +19,7 @@ import static com.ssafy.global.common.status.SuccessCode.GENERAL_SUCCESS;
 @RequestMapping
 @RequiredArgsConstructor
 public class AuthController {
-    private final UserServiceImpl userService;
+    private final AuthServiceImpl userService;
     private final NHService nhService;
 
     @PostMapping("/login")
@@ -41,7 +41,7 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<EnvelopeResponse<String>> logout(@RequestHeader(value="Authorization") String token) {
         token = token.replace("Bearer ", "");
-        userService.userLogout(token);
+        userService.logout(token);
 
         return new ResponseEntity<EnvelopeResponse<String>>(new EnvelopeResponse<>(GENERAL_SUCCESS, ""), HttpStatus.OK);
     }
