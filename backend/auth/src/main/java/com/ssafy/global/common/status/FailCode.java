@@ -16,7 +16,7 @@ public enum FailCode {
     // 인증
     DIFFERENT_PASSWORD(FORBIDDEN, "비밀번호가 틀렸습니다."),
     DELETED_USER(BAD_REQUEST, "회원 탈퇴된 계정입니다."),
-    UNSIGNED_USER(BAD_REQUEST, "가입되지 않은 아이디입니다"),
+    UNSIGNED_USER(BAD_REQUEST, "가입되지 않은 아이디입니다."),
     BAD_TOKEN(BAD_REQUEST, "사용할 수 없는 토큰입니다."),
     UNMATCHED_TOKEN(BAD_REQUEST, "토큰에 일치하는 회원이 없습니다."),
     DIFFERENT_PIN(BAD_REQUEST, "핀 번호가 일치하지 않습니다."),

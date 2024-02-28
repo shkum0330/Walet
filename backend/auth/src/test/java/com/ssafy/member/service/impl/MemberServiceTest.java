@@ -1,11 +1,10 @@
 package com.ssafy.member.service.impl;
 
-import com.ssafy.auth.api.LoginDto;
 import com.ssafy.auth.service.AuthService;
-import com.ssafy.auth.service.impl.AuthServiceImpl;
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.auth.util.TokenMapping;
 import com.ssafy.global.PasswordEncoder;
+import com.ssafy.global.common.exception.GlobalRuntimeException;
 import com.ssafy.global.common.redis.RedisService;
 import com.ssafy.member.api.MemberDto;
 import com.ssafy.member.db.Member;
@@ -18,12 +17,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Slf4j
 @ExtendWith(SpringExtension.class)
@@ -65,18 +64,24 @@ class MemberServiceTest {
     }
 
     @Test
-    @Rollback(false)
     public void 로그인_성공() throws Exception {
-        //given
-
         //when
         TokenMapping token = authService.login("haerin@naver.com","1234");
 
         //then
-        assertThat(token.getUserName()).isEqualTo("강해린");
-        log.info("username: {},  {} {}",token.getUserName(),token.getAccessToken(),token.getRefreshToken());
-        log.info("accessToken: {}",token.getAccessToken());
-        log.info("refreshToken: {}",token.getRefreshToken());
+        assertThat(token.getUsername()).isEqualTo("강해린");
+        assertThat(token.getAccessToken()).isNotNull();
+        assertThat(token.getRefreshToken()).isNotNull();
+
+    }
+
+    @Test
+    public void 로그인_실패() throws Exception {
+        Throwable thrownException = assertThrows(GlobalRuntimeException.class, () -> authService.login("hyein@naver.com","1234"));
+        assertThat(thrownException.getMessage()).isEqualTo("가입되지 않은 아이디입니다.");
+
+        thrownException = assertThrows(GlobalRuntimeException.class, () -> authService.login("haerin@naver.com","12345"));
+        assertThat(thrownException.getMessage()).isEqualTo("비밀번호가 틀렸습니다.");
 
     }
 
@@ -96,8 +101,8 @@ class MemberServiceTest {
         TokenMapping token = authService.login("haerin@naver.com","1234");
         //when
         authService.logout(token.getAccessToken());
-        authService.logout(token.getAccessToken()); // 이미 블랙리스트로 들어간 토큰
         //then
-        assertThat(redisService.isBlackListed(token.getAccessToken())).isTrue();
+        Throwable thrownException = assertThrows(GlobalRuntimeException.class, () -> authService.logout(token.getAccessToken()));
+        assertThat(thrownException.getMessage()).isEqualTo("사용할 수 없는 토큰입니다.");
     }
 }

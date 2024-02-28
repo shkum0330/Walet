@@ -15,7 +15,7 @@ public class RedisService {
         this.redisBlackListTemplate = redisBlackListTemplate;
     }
 
-    public void saveToken(String tokenKey, String tokenValue) {
+    public void  saveToken(String tokenKey, String tokenValue) {
         redisTemplate.opsForValue().set(tokenKey, tokenValue);
     }
 
