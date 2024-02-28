@@ -36,10 +36,10 @@ public class JwtUtil {
         };
 
 //       만료시간 검사
-//        String time = String.valueOf(decodedJWT.getClaim("exp"));
-//        Long now = new Date().getTime();
+        String time = String.valueOf(decodedJWT.getClaim("exp"));
+        long now = new Date().getTime();
 
-        if(false){
+        if(now > Long.parseLong(time) * 1000){
             return ErrorCode.TOKEN_EXPIRED;
         }
         return null;

@@ -10,6 +10,7 @@ import com.ssafy.member.db.MemberRepository;
 import com.ssafy.global.PasswordEncoder;
 import com.ssafy.member.db.Role;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import static com.ssafy.global.common.status.FailCode.*;
@@ -34,11 +35,7 @@ public class AuthServiceImpl implements AuthService {
             throw new GlobalRuntimeException(DELETED_USER);
         }
 
-        String role = member.getRole().name();
-        TokenMapping tokenMapping = jwtProvider.createToken(member.getId(), role, member.getName());
-        redisService.saveToken(member.getId().toString(), tokenMapping.getAccessToken());
-        redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
-        return tokenMapping;
+        return getTokenMapping(member);
     }
 
     @Override
@@ -59,20 +56,28 @@ public class AuthServiceImpl implements AuthService {
             throw new GlobalRuntimeException(STAFF_ONLY);
         }
 
+        return getTokenMapping(member);
+    }
+
+    @NotNull
+    private TokenMapping getTokenMapping(Member member) {
         String role = member.getRole().name();
         TokenMapping tokenMapping = jwtProvider.createToken(member.getId(), role, member.getName());
         redisService.saveToken(member.getId().toString(), tokenMapping.getAccessToken());
-        redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
+        redisService.saveToken("refresh_" + member.getId().toString(), tokenMapping.getRefreshToken());
         return tokenMapping;
     }
 
     @Override
-    public void logout(String accessToken){
+    public void logout(String accessToken,Long id){
         if (redisService.isBlackListed(accessToken)) {
             throw new GlobalRuntimeException(BAD_TOKEN);
         }
         Long expiration = jwtProvider.getExpiration(accessToken);
-        redisService.setBlackList(accessToken, accessToken, expiration);
+        if(redisService.getToken("refresh_"+id.toString()) != null){ // 리프레시 토큰 삭제
+            redisService.deleteToken("refresh_"+id.toString());
+        }
+        redisService.setBlackList(accessToken, "logout", expiration); // 엑세스 토큰 블랙리스트
     }
 
     public void pinCheck(String accessToken, String pinNumber){

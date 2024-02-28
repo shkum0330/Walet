@@ -15,8 +15,8 @@ public class RedisService {
         this.redisBlackListTemplate = redisBlackListTemplate;
     }
 
-    public void  saveToken(String tokenKey, String tokenValue) {
-        redisTemplate.opsForValue().set(tokenKey, tokenValue);
+    public void saveToken(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
     }
 
     public void saveTokenWithExpiration(String tokenKey, String tokenValue, long expirationTime, TimeUnit timeUnit) {
@@ -37,7 +37,7 @@ public class RedisService {
     }
 
     public boolean isBlackListed(String tokenKey) {
-        return redisBlackListTemplate.hasKey(tokenKey);
+        return Boolean.TRUE.equals(redisBlackListTemplate.hasKey(tokenKey));
     }
 
     public String getKey(){

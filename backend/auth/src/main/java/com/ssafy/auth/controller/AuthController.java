@@ -39,9 +39,10 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<EnvelopeResponse<String>> logout(@RequestHeader(value="Authorization") String token) {
-        token = token.replace("Bearer ", "");
-        userService.logout(token);
+    public ResponseEntity<EnvelopeResponse<String>> logout(@RequestHeader(value="Authorization") String accessToken,
+                                                           @RequestHeader(value="id") Long memberId) {
+        accessToken = accessToken.replace("Bearer ", "");
+        userService.logout(accessToken, memberId);
 
         return new ResponseEntity<EnvelopeResponse<String>>(new EnvelopeResponse<>(GENERAL_SUCCESS, ""), HttpStatus.OK);
     }

@@ -89,20 +89,25 @@ class MemberServiceTest {
     public void 로그아웃_성공() throws Exception {
         //given
         TokenMapping token = authService.login("haerin@naver.com","1234");
+
         //when
-        authService.logout(token.getAccessToken());
+        authService.logout(token.getAccessToken(),1L);
+
         //then
         assertThat(redisService.isBlackListed(token.getAccessToken())).isTrue();
+        assertThat(redisService.getToken("refresh_1")).isNull();
     }
 
     @Test
     public void 로그아웃_실패() throws Exception {
         //given
         TokenMapping token = authService.login("haerin@naver.com","1234");
+
         //when
-        authService.logout(token.getAccessToken());
+        authService.logout(token.getAccessToken(),1L);
+
         //then
-        Throwable thrownException = assertThrows(GlobalRuntimeException.class, () -> authService.logout(token.getAccessToken()));
+        Throwable thrownException = assertThrows(GlobalRuntimeException.class, () -> authService.logout(token.getAccessToken(),1L));
         assertThat(thrownException.getMessage()).isEqualTo("사용할 수 없는 토큰입니다.");
     }
 }
