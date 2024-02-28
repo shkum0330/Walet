@@ -1,0 +1,37 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  application:
+    name: account
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/account
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      data-locations: classpath*:db/h2/data.sql
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+# 임시 값들
+proxy:
+  host: "localhost"
+  port: 8080
+
+feign:
+  url: "localhost:8090"
+
+cors:
+  origins: "localhost:3000"
