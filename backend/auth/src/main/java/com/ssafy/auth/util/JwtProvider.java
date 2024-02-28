@@ -50,7 +50,7 @@ public class JwtProvider {
         return TokenMapping.builder()
                 .accessToken(createAccessToken(id, role))
                 .refreshToken(createRefreshToken())
-                .userName(name)
+                .username(name)
                 .build();
     }
 

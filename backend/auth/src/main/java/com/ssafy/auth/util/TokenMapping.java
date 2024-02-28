@@ -7,12 +7,12 @@ import lombok.Getter;
 public class TokenMapping {
     private final String accessToken;
     private final String refreshToken;
-    private final String userName;
+    private final String username;
 
     @Builder
-    public TokenMapping(String accessToken, String refreshToken, String userName){
+    public TokenMapping(String accessToken, String refreshToken, String username){
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-        this.userName = userName;
+        this.username = username;
     }
 }

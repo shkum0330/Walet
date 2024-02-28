@@ -12,8 +12,5 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     Optional<Member> findByEmail(String email);
     public List<Member> findByRole(Role role);
     List<Member> findByNameContaining(String keyword);
-
     List<Member> findByCreatedDateAfter(LocalDateTime startDate);
-
-
 }

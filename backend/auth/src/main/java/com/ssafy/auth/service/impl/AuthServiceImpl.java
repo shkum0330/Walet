@@ -1,6 +1,6 @@
 package com.ssafy.auth.service.impl;
 
-import com.ssafy.auth.service.UserRepository;
+import com.ssafy.auth.service.AuthService;
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.auth.util.TokenMapping;
 import com.ssafy.global.common.exception.GlobalRuntimeException;
@@ -10,14 +10,14 @@ import com.ssafy.member.db.MemberRepository;
 import com.ssafy.global.PasswordEncoder;
 import com.ssafy.member.db.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import static com.ssafy.global.common.status.FailCode.*;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserRepository {
+public class AuthServiceImpl implements AuthService {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
@@ -35,13 +35,10 @@ public class UserServiceImpl implements UserRepository {
             throw new GlobalRuntimeException(DELETED_USER);
         }
 
-        String role = member.getRole().name();
-        TokenMapping tokenMapping = jwtProvider.createToken(member.getId(), role, member.getName());
-        redisService.saveToken(member.getId().toString(), tokenMapping.getAccessToken());
-        redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
-        return tokenMapping;
+        return getTokenMapping(member);
     }
 
+    @Override
     public TokenMapping adminLogin(String email, String password) {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new GlobalRuntimeException(UNSIGNED_USER));
@@ -59,19 +56,28 @@ public class UserServiceImpl implements UserRepository {
             throw new GlobalRuntimeException(STAFF_ONLY);
         }
 
+        return getTokenMapping(member);
+    }
+
+    @NotNull
+    private TokenMapping getTokenMapping(Member member) {
         String role = member.getRole().name();
         TokenMapping tokenMapping = jwtProvider.createToken(member.getId(), role, member.getName());
         redisService.saveToken(member.getId().toString(), tokenMapping.getAccessToken());
-        redisService.saveToken("refresh_" + email, tokenMapping.getRefreshToken());
+        redisService.saveToken("refresh_" + member.getId().toString(), tokenMapping.getRefreshToken());
         return tokenMapping;
     }
 
-    public void userLogout(String accessToken){
+    @Override
+    public void logout(String accessToken,Long id){
         if (redisService.isBlackListed(accessToken)) {
             throw new GlobalRuntimeException(BAD_TOKEN);
         }
         Long expiration = jwtProvider.getExpiration(accessToken);
-        redisService.setBlackList(accessToken, accessToken, expiration);
+        if(redisService.getToken("refresh_"+id.toString()) != null){ // 리프레시 토큰 삭제
+            redisService.deleteToken("refresh_"+id.toString());
+        }
+        redisService.setBlackList(accessToken, "logout", expiration); // 엑세스 토큰 블랙리스트
     }
 
     public void pinCheck(String accessToken, String pinNumber){
