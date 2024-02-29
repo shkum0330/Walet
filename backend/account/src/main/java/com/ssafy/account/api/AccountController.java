@@ -38,10 +38,11 @@ public class AccountController {
     @PostMapping("/register/general-account")
     public ResponseEntity<?> registerGeneralAccount(@RequestHeader("id") Long memberId, @RequestBody AccountSaveRequest accountSaveRequest){
         log.info("일반/사업자 계좌 생성 요청 dto: {}", accountSaveRequest);
-        Response response=new Response<Long>(200, GENERAL_SUCCESS.getMessage(),
+        Response<Long> response=new Response<Long>(200, GENERAL_SUCCESS.getMessage(),
                 accountService.registerGeneralAccount(memberId, accountSaveRequest));
         return ResponseEntity.ok(response);
     }
+
     @PostMapping("/register/pet-account")
     public ResponseEntity<?> registerAnimalAccount(@RequestHeader("id") Long memberId, @RequestPart("petAccountRequest") PetAccountSaveRequest petAccountRequest,
                                                    @RequestPart("petImage") MultipartFile file) throws IOException {
