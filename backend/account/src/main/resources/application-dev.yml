@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   config:
     activate:
@@ -24,7 +26,11 @@ spring:
     redis:
       host: localhost
       port: 6379
-
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
 # 임시 값들
 proxy:
   host: "localhost"
@@ -35,3 +41,6 @@ feign:
 
 cors:
   origins: "localhost:3000"
+
+jasypt:
+  password: "1234" # 안쓸거임

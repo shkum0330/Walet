@@ -37,3 +37,6 @@ cloud:
       static: ap-east-2
     stack:
       auto: false
+
+hash:
+  pepper: ${PEPPER}
