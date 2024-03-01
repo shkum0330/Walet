@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(url = "" , name = "OauthClient" , configuration = ClientConfig.class)
+@FeignClient(url = "/api/service" , name = "OauthClient" , configuration = ClientConfig.class)
 public interface OauthClient {
     @GetMapping(value = "/api/auth/name/{memberId}")
     OauthDto.Response getUserName(@PathVariable("memberId") Long memberId);
