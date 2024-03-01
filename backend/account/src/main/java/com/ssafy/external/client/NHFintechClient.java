@@ -3,6 +3,7 @@ package com.ssafy.external.client;
 import com.ssafy.account.config.ClientConfig;
 import com.ssafy.external.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 

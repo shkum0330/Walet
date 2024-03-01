@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class Response<T> {
     private int code;
-    private String message;
+    private final String message;
     private T data;
 
     public Response(String message, T data) {
