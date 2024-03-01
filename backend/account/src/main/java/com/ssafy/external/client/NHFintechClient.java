@@ -3,11 +3,10 @@ package com.ssafy.external.client;
 import com.ssafy.account.config.ClientConfig;
 import com.ssafy.external.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(url = "/api/service" , name = "NHFintechClient" , configuration = ClientConfig.class)
+//@FeignClient(url = "/api/service" , name = "NHFintechClient" , configuration = ClientConfig.class)
 public interface NHFintechClient {
     @PostMapping(value = "/OpenFinAccountARS")
     OpenFinAccountARSDto.Response OpenFinAccountARS(@RequestBody OpenFinAccountARSDto.Request request);
