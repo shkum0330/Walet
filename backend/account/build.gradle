@@ -9,7 +9,7 @@ group = 'com.ssafy'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '11'
+	sourceCompatibility = '17'
 }
 
 configurations {
@@ -25,19 +25,18 @@ repositories {
 
 ext {
 	set('snippetsDir', file("build/generated-snippets")) // snippets 파일이 저장될 경로
-	set('springCloudVersion', "2022.0.3")
+	set('springCloudVersion', "2021.0.8")
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.5'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation 'io.github.openfeign:feign-httpclient'
 	implementation 'org.apache.commons:commons-lang3:3.0'
 	annotationProcessor 'org.projectlombok:lombok'
