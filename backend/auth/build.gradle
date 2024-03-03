@@ -9,7 +9,7 @@ group = 'com'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '11'
+	sourceCompatibility = '17'
 }
 
 configurations {
@@ -25,6 +25,7 @@ repositories {
 
 ext {
 	set('springCloudVersion', "2021.0.8")
+	set('snippetsDir', file("build/generated-snippets")) // snippets 파일이 저장될 경로
 }
 
 dependencies {
@@ -57,10 +58,6 @@ dependencyManagement {
 	}
 }
 
-ext {
-	set('snippetsDir', file("build/generated-snippets")) // snippets 파일이 저장될 경로
-	set('springCloudVersion', "2022.0.3")
-}
 
 tasks.named('test') {
 	useJUnitPlatform()

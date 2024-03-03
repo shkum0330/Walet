@@ -1,6 +1,8 @@
 spring:
   config:
     import: env.yml
+  application:
+    name: ${DOMAIN_NAME}
   profiles:
     active: test
   main:
