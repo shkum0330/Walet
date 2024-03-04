@@ -1,8 +1,8 @@
+server:
+  port: 8083
 spring:
   config:
     import: env.yml
-  application:
-    name: ${DOMAIN_NAME}
   profiles:
     active: test
   main:
@@ -39,17 +39,3 @@ coolsms:
   api:
     key: "API Key"
     secret: "API Secret"
-
-
-#  h2:
-#    console:
-#      enabled: true
-
-#  jpa:
-#    hibernate:
-#      ddl-auto: create
-#    open-in-view: false
-#    properties:
-#      hibernate:
-#        show_sql: true
-#        format_sql: true

@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalControllerAdvice {
 
     // @ExceptionHandler: @Controller, @RestController가 적용된 Bean내에서 발생하는 예외를 잡아서 하나의 메서드에서 처리해주는 기능
+    @ExceptionHandler(GlobalRuntimeException.class)
+    public ResponseEntity<FailResponse> handleGlobalRuntimeException(GlobalRuntimeException exception) {
+        return ResponseEntity.status(exception.getFailCode().getStatus()).body(FailResponse.fail(exception.getFailCode()));
+    }
+
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<FailResponse> handleNotFoundException(NotFoundException exception) {
         return ResponseEntity.status(exception.getFailCode().getStatus()).body(FailResponse.fail(exception.getFailCode()));

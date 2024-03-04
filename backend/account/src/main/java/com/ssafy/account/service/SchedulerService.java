@@ -22,11 +22,11 @@ public class SchedulerService {
     private final PaymentRepository paymentRepository;
     private final TransferRepository transferRepository;
 
-    @Transactional
-    @Async
-    @Scheduled(cron = "0 0/1 * * * *", zone = "Asia/Seoul")
-    public void autoDelete() { // 요청한지 30분이 지났는데 처리가 안되면 삭제
+//    @Transactional
+//    @Async
+//    @Scheduled(cron = "0 0/1 * * * *", zone = "Asia/Seoul")
+//    public void autoDelete() { // 요청한지 30분이 지났는데 처리가 안되면 삭제
 //        paymentRepository.deleteByStatusAndCreatedAtLessThanEqual(PENDING,LocalDateTime.now().minusMinutes(30));
 //        transferRepository.deleteByStatusAndCreatedAtLessThanEqual(PENDING,LocalDateTime.now().minusMinutes(30));
-    }
+//    }
 }

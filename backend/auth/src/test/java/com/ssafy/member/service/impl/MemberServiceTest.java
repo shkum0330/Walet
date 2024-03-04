@@ -25,7 +25,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Slf4j
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 class MemberServiceTest {
