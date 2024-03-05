@@ -17,6 +17,8 @@ public enum FailCode {
     DIFFERENT_RFID(FORBIDDEN, "입력된 RFID 코드가 잘못되었습니다."),
 
     // 계좌
+    NO_BUSINESS_TYPE(BAD_REQUEST,"사업자계좌는 사업 유형을 입력해주세요"),
+    UNNECESSARY_BUSINESS_TYPE(BAD_REQUEST,"일반계좌는 사업 유형을 입력하실 수 없습니다."),
     NO_ACCOUNT(BAD_REQUEST, "입력하신 계좌는 존재하지 않습니다."),
     NO_COMPANY_ACCOUNT(BAD_REQUEST, "해당 회사의 계좌가 존재하지 않습니다."),
     NO_RECEIVER_ACCOUNT(BAD_REQUEST, "입력하신 계좌는 유효하지 않습니다. 올바른 계좌 번호를 다시 확인해 주세요."),
@@ -25,7 +27,7 @@ public enum FailCode {
     NOT_USABLE_ACCOUNT(BAD_REQUEST, "현재 이 계좌는 사용이 불가합니다."),
     NOT_USABLE_COMPANY_ACCOUNT(BAD_REQUEST, "현재 해당 기업의 계좌는 사용이 불가합니다."),
     NOT_USABLE_RECEIVER_ACCOUNT(BAD_REQUEST, "입력된 계좌는 현재 사용이 불가능한 상태입니다."),
-    DUPLICATED_LINKED_ACCOUNT(BAD_REQUEST, "이미 등록돼있는 충전계좌입니다."),
+    DUPLICATED_LINKED_ACCOUNT(BAD_REQUEST, "이미 등록되어있는 충전계좌입니다."),
     NO_NORMAL_ACCOUNT(BAD_REQUEST, "현재 고객님의 일반계좌가 존재하지 않습니다."),
     NO_BUSINESS_ACCOUNT(BAD_REQUEST, "현재 고객님의 사업자계좌가 존재하지 않습니다."),
     NO_PET_ACCOUNT(BAD_REQUEST, "현재 고객님의 펫계좌가 존재하지 않습니다."),

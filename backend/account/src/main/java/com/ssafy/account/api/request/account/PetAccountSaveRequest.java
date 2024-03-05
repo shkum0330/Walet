@@ -1,5 +1,6 @@
 package com.ssafy.account.api.request.account;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -7,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class PetAccountSaveRequest {
     private String accountName; // 계좌명
-    private String accountPwd; // 계좌 비밀번호
+    private String accountPassword; // 계좌 비밀번호
     private Long linkedAccountId; // 충전계좌의 id
 
     private String petName; // 펫이름

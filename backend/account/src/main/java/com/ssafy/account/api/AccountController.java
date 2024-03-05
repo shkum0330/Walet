@@ -5,6 +5,7 @@ import com.ssafy.account.api.request.account.AdminAllMemberIdsRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.api.request.account.SelectChargingAccountRequest;
 import com.ssafy.account.common.api.Response;
+import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,8 @@ public class AccountController {
     private final S3Service s3Service;
 
     /*
+     동물 및 관련 용품 소매업: 523996
+     동물 장묘 및 보호 서비스업 : 930919
      1. 동물병원 1
      2. 반려동물용품 2
      3. 반려동물미용 4
@@ -37,8 +40,7 @@ public class AccountController {
     // 1. 계좌 생성
     @PostMapping("/register/general-account")
     public ResponseEntity<?> registerGeneralAccount(@RequestHeader("id") Long memberId, @RequestBody AccountSaveRequest accountSaveRequest){
-        log.info("일반/사업자 계좌 생성 요청 dto: {}", accountSaveRequest);
-        Response<Long> response=new Response<Long>(200, GENERAL_SUCCESS.getMessage(),
+        Response<Account> response=new Response<Account>(200, GENERAL_SUCCESS.getMessage(),
                 accountService.registerGeneralAccount(memberId, accountSaveRequest));
         return ResponseEntity.ok(response);
     }
@@ -48,8 +50,7 @@ public class AccountController {
                                                    @RequestPart("petImage") MultipartFile file) throws IOException {
 
         petAccountRequest.setPetPhoto(s3Service.getS3ImageUrl(s3Service.upload(file)));
-        log.info("펫 계좌 생성 요청 dto: {}", petAccountRequest);
-        Response response=new Response<Long>(200, GENERAL_SUCCESS.getMessage(),
+        Response response=new Response<Account>(200, GENERAL_SUCCESS.getMessage(),
                 accountService.registerPetAccount(memberId, petAccountRequest));
         return ResponseEntity.ok(response);
     }

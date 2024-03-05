@@ -4,6 +4,7 @@ import com.ssafy.account.api.request.account.*;
 import com.ssafy.account.api.response.account.*;
 import com.ssafy.account.api.response.transaction.MonthlyExpenditureDetailResponse;
 import com.ssafy.account.common.api.exception.DuplicatedException;
+import com.ssafy.account.common.api.exception.GlobalRuntimeException;
 import com.ssafy.account.common.api.exception.NotFoundException;
 import com.ssafy.account.db.entity.access.Access;
 import com.ssafy.account.db.entity.account.Account;
@@ -16,12 +17,9 @@ import com.ssafy.account.service.AccountService;
 import com.ssafy.external.service.OauthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,6 +27,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.ssafy.account.common.api.status.FailCode.*;
+import static com.ssafy.account.common.domain.util.PasswordEncoder.hashPassword;
 
 @Slf4j
 @Service
@@ -41,72 +40,53 @@ public class AccountServiceImpl implements AccountService {
     private final AccessRepository accessRepository;
     private final OauthService oauthService;
 
-    @Value("${hash.pepper}")
-    private String pepper;
-
     // 일반계좌 발급
     @Override
     @Transactional
-    public Long registerGeneralAccount(Long memberId, AccountSaveRequest accountSaveRequest) {
-        
-        // 회원 서버에서 이름 받아오기
-        String memberName = oauthService.getUserName(memberId);
+    public Account registerGeneralAccount(Long memberId, AccountSaveRequest accountSaveRequest) {
 
-        Account account = new Account(memberId, memberName, accountSaveRequest);
-
-        // 사업자계좌면(accountType이 01이라면) 사업유형도 입력
-        if(accountSaveRequest.getAccountType().equals("01")) {
-            account.addBusinessType(accountSaveRequest.getBusinessType());
+        // 사업자 계좌인데 사업 유형이 없으면 에러
+        if(accountSaveRequest.getAccountType().equals("01") && accountSaveRequest.getBusinessType() == null) {
+            throw new GlobalRuntimeException(NO_BUSINESS_TYPE);
+        }
+        // 사업자 계좌가 아닌데 사업 유형이 있으면 에러
+        if(!accountSaveRequest.getAccountType().equals("01") && accountSaveRequest.getBusinessType() != null) {
+            throw new GlobalRuntimeException(UNNECESSARY_BUSINESS_TYPE);
         }
 
-        // todo: salt+pepper 추가
-        String hashPassword = hashPassword(accountSaveRequest.getAccountPwd());
-        account.addHashPwd(hashPassword);
+        Account account = Account.generalAccountBuilder()
+                .memberId(memberId)
+                .depositorName(oauthService.getUserName(memberId)) // 회원 서버에서 이름 받아오기
+                .accountSaveRequest(accountSaveRequest)
+                .buildGeneralAccount();
 
         // 우선 랜덤으로 13자리의 계좌번호 부여
-        int length = 13;
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < length; i++) {
-            int digit = random.nextInt(10);
-            sb.append(digit);
-        }
-        String accountNumber = sb.toString();
-        account.createAccountNumber(accountNumber);
+        account.createAccountNumber();
 
-        log.info("게좌 정보: {}",account.toString());
         // 계좌 정보를 DB에 저장
-        accountRepository.save(account);
-        return account.getId();
+        return accountRepository.save(account);
     }
 
-    // 동물계좌 발급
-    // 동물계좌 생성 버튼 클릭 -> 모계좌를 연결할 사람은 기존에 있던 농협 계좌 중 선택(필수사항x) -> 내 반려동물 정보 입력 -> 동물계좌 완성
+    // 펫계좌 발급
+    // 펫계좌 생성 버튼 클릭 -> 모계좌를 연결할 사람은 기존에 있던 농협 계좌 중 선택(필수사항x) -> 내 반려동물 정보 입력 -> 동물계좌 완성
     // cf) 계좌를 등록하려고 할 때 내가 등록할 비문 사진이 이미 있으면 양도 받는 것이 목적이냐고 물어보기
     @Override
     @Transactional
-    public Long registerPetAccount(Long memberId, PetAccountSaveRequest petAccountRequest) {
+    public Account registerPetAccount(Long memberId, PetAccountSaveRequest petAccountSaveRequest) {
 
         // 펫계좌와 관련된 정보가 입력되었을 때
         // 입력된 비문 또는 RFID코드가 이미 등록돼있다면
         // 이미 등록된 계좌가 있으니 양도신청 알림을 보낼거냐는 팝업창을 띄워줌
         // 확인을 누르면 해당 계좌의 주인한테 알림 메시지를 보냄
 
-
-        // 회원 서버에서 이름 받아오기
-        String memberName = oauthService.getUserName(memberId);
-
-        Account petAccount = new Account(memberId, memberName, petAccountRequest);
-
-        String hashRfidCode = hashPassword(petAccountRequest.getRfidCode());
-        petAccount.addHashedRfid(hashRfidCode);
-        // todo: salt+pepper 추가
-        String hashPassword = hashPassword(petAccountRequest.getAccountPwd());
-        petAccount.addHashPwd(hashPassword);
+        Account petAccount= Account.petAccountBuilder()
+                                    .memberId(memberId)
+                                    .memberName(oauthService.getUserName(memberId))
+                                    .petAccountSaveRequest(petAccountSaveRequest)
+                                    .buildPetAccount();
 
         // 제한업종 추가
-        List<Integer> limitTypeList = petAccountRequest.getLimitTypeIdList();
-        log.info("제한업종: {}",limitTypeList);
+        List<Integer> limitTypeList = petAccountSaveRequest.getLimitTypeIdList();
         // 선택을 안했다면 전부 들어감
         if(limitTypeList.isEmpty()) {
             for(int i = 0; i < 5; i++) {
@@ -120,43 +100,10 @@ public class AccountServiceImpl implements AccountService {
             }
         }
 
-        // 우선 랜덤으로 13자리의 계좌번호 부여
-        int length = 13;
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < length; i++) {
-            int digit = random.nextInt(10);
-            sb.append(digit);
-        }
-        String accountNumber = sb.toString();
-        petAccount.createAccountNumber(accountNumber);
+        // 계좌번호 부여
+        petAccount.createAccountNumber();
 
-        // 계좌 정보를 DB에 저장
-        accountRepository.save(petAccount);
-        return petAccount.getId();
-    }
-    
-    public static String hashPassword(String password) {
-        // 비밀번호 해쉬화
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hashedBytes = md.digest(password.getBytes());
-
-            StringBuilder hexString = new StringBuilder();
-            for (byte hashedByte : hashedBytes) {
-                String hex = Integer.toHexString(0xff & hashedByte);
-                if(hex.length() == 1) {
-                    hexString.append('0');
-                }
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        }
-        catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
-        }
-
+        return  accountRepository.save(petAccount);
     }
 
     // 충전계좌로 등록할 수 있는 계좌 리스트 반환(일반계좌만 반환)

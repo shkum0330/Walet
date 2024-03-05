@@ -1,8 +1,10 @@
+server:
+  port: 8083
 spring:
   config:
     import: env.yml
   application:
-    name: AUTH
+    name: ${DOMAIN_NAME}
   main:
     allow-bean-definition-overriding: true
 

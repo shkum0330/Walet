@@ -3,34 +3,32 @@ package com.ssafy.account.db.entity.account;
 import com.ssafy.account.api.request.account.AccountSaveRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.common.domain.util.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.ssafy.account.common.domain.util.PasswordEncoder;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Random;
 
 import static com.ssafy.account.db.entity.account.AccountState.*;
 
 @Entity
 @Getter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Account extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
-    private Long id;
+    private Long id; // 계좌의 pk
     @Column(name = "member_id")
     private Long memberId;
 
-    @Column(name = "pin_account",length = 40)
-    private String pinAccount;
-    @Column(name = "virtual_account", length = 20)
-    private String virtualAccount;
+//    @Column(name = "pin_account",length = 40)
+//    private String pinAccount;
+//    @Column(name = "virtual_account", length = 20)
+//    private String virtualAccount;
 
     @Column(name="account_name",length = 20,nullable = false)
     private String accountName; // 계좌명(ex. NH올원e예금)
@@ -73,39 +71,51 @@ public class Account extends BaseTimeEntity {
     @Column(name="rfid_code", length = 64)
     private String rfidCode; // 강아지 RFID 코드
     @Column(name="limit_types")
-    private Integer limitTypes; // 사용가능 제한업종 목록(비트연산으로 추가)
+    private Integer limitTypes=0; // 사용가능 제한업종 목록(비트연산으로 추가)
 
     // 일반계좌 기본정보 입력
-    public Account(Long memberId, String memberName, AccountSaveRequest accountSaveRequest) {
+    @Builder(builderMethodName = "generalAccountBuilder", buildMethodName = "buildGeneralAccount")
+    public Account(Long memberId, String depositorName, AccountSaveRequest accountSaveRequest) {
         this.accountState = "00";
         this.memberId = memberId;
+        this.depositorName = depositorName;
+        this.accountPassword= PasswordEncoder.hashPassword(accountSaveRequest.getAccountPassword());
         this.accountName= accountSaveRequest.getAccountName();
-        this.depositorName = memberName;
         this.accountType = accountSaveRequest.getAccountType();
+        this.businessType=accountSaveRequest.getBusinessType();
         this.linkedAccountId = accountSaveRequest.getLinkedAccountId();
     }
 
     // 반려동물계좌 기본정보 입력
-    public Account(Long memberId, String memberName, PetAccountSaveRequest accountRequest) {
+    @Builder(builderMethodName = "petAccountBuilder", buildMethodName = "buildPetAccount")
+    public Account(Long memberId, String memberName, PetAccountSaveRequest petAccountSaveRequest) {
         this.accountState = "00";
         this.memberId = memberId;
-        this.accountName=accountRequest.getAccountName();
+        this.accountName=petAccountSaveRequest.getAccountName();
         this.depositorName = memberName;
+        this.accountPassword= PasswordEncoder.hashPassword(petAccountSaveRequest.getAccountPassword());
         this.accountType = "02";
-        this.linkedAccountId = accountRequest.getLinkedAccountId();
-        this.petName = accountRequest.getPetName();
-        this.petGender = accountRequest.getPetGender(); // 펫성별
-        this.petBirth = accountRequest.getPetBirth(); // 펫생년월일
-        this.petBreed = accountRequest.getPetBreed(); // 품종
-        this.petNeutered = accountRequest.getPetNeutered(); // 중성화여부
-        this.petWeight = accountRequest.getPetWeight(); // 몸무게
-        this.petPhoto = accountRequest.getPetPhoto(); // 사진
+        this.linkedAccountId = petAccountSaveRequest.getLinkedAccountId();
+        this.petName = petAccountSaveRequest.getPetName();
+        this.petGender = petAccountSaveRequest.getPetGender(); // 펫성별
+        this.petBirth = petAccountSaveRequest.getPetBirth(); // 펫생년월일
+        this.petBreed = petAccountSaveRequest.getPetBreed(); // 품종
+        this.petNeutered = petAccountSaveRequest.getPetNeutered(); // 중성화여부
+        this.petWeight = petAccountSaveRequest.getPetWeight(); // 몸무게
+        this.petPhoto = petAccountSaveRequest.getPetPhoto(); // 사진
+        this.rfidCode= PasswordEncoder.hashPassword(petAccountSaveRequest.getRfidCode());
     }
 
-    public void addHashPwd(String hashAccountPwd) {
-        this.accountPassword = hashAccountPwd;
+    public void createAccountNumber(){
+        int length = 13;
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < length; i++) {
+            int digit = random.nextInt(10);
+            sb.append(digit);
+        }
+        accountNumber = sb.toString();
     }
-
     public void addHashedRfid(String rfidCode) {
         this.rfidCode = rfidCode;
     }

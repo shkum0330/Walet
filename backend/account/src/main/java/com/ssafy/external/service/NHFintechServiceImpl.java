@@ -97,15 +97,15 @@ public class NHFintechServiceImpl implements NHFintechService{
 
 
     // 농협 api를 이용한 송금
-    public void remittance(Account senderAccount,Account receiverAccount,Long amount){
-
-        String senderPinAccount=senderAccount.getPinAccount();
-        String senderVirtualAccount=senderAccount.getVirtualAccount();
-        String receiverPinAccount=receiverAccount.getPinAccount();
-        // 출금이체
-        DrawingTransfer2(new DrawingTransfer2Dto.Request(senderPinAccount,String.valueOf(amount),senderVirtualAccount,"출금인자","입금인자"));
-        // 입금이체
-        ReceivedTransferFinAccount(new ReceivedTransferFinAccountDto.Request(receiverPinAccount,String.valueOf(amount),"출금인자","입금인자"));
-
-    }
+//    public void remittance(Account senderAccount,Account receiverAccount,Long amount){
+//
+//        String senderPinAccount=senderAccount.getPinAccount();
+//        String senderVirtualAccount=senderAccount.getVirtualAccount();
+//        String receiverPinAccount=receiverAccount.getPinAccount();
+//        // 출금이체
+//        DrawingTransfer2(new DrawingTransfer2Dto.Request(senderPinAccount,String.valueOf(amount),senderVirtualAccount,"출금인자","입금인자"));
+//        // 입금이체
+//        ReceivedTransferFinAccount(new ReceivedTransferFinAccountDto.Request(receiverPinAccount,String.valueOf(amount),"출금인자","입금인자"));
+//
+//    }
 }

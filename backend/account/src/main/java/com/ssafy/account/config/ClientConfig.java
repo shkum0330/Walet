@@ -14,5 +14,4 @@ public class ClientConfig {
                 .client(feignClient);
     }
 
-
 }

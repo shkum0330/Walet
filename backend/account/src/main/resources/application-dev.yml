@@ -1,27 +1,21 @@
-server:
-  port: 8081
 spring:
   config:
     activate:
       on-profile: dev
-  application:
-    name: account
 
   datasource:
-    url: jdbc:h2:tcp://localhost/~/account
+    url: jdbc:h2:tcp://localhost/~/walet
     username: sa
     password:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-  sql:
-    init:
-      data-locations: classpath*:db/h2/data.sql
+
   data:
     redis:
       host: localhost
@@ -35,10 +29,10 @@ spring:
 # 임시 값들
 proxy:
   host: "localhost"
-  port: 8080
+  port: 8089
 
 feign:
-  url: "localhost:8090"
+  url: "localhost:8083"
 
 cors:
   origins: "localhost:3000"
