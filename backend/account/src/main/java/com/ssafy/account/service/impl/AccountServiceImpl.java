@@ -6,7 +6,6 @@ import com.ssafy.account.api.response.transaction.MonthlyExpenditureDetailRespon
 import com.ssafy.account.common.api.exception.DuplicatedException;
 import com.ssafy.account.common.api.exception.GlobalRuntimeException;
 import com.ssafy.account.common.api.exception.NotFoundException;
-import com.ssafy.account.common.domain.util.PasswordEncoder;
 import com.ssafy.account.db.entity.access.Access;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.transaction.Transaction;
@@ -18,7 +17,6 @@ import com.ssafy.account.service.AccountService;
 import com.ssafy.external.service.OauthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,11 +54,11 @@ public class AccountServiceImpl implements AccountService {
             throw new GlobalRuntimeException(UNNECESSARY_BUSINESS_TYPE);
         }
 
-        Account account = Account.builder()
+        Account account = Account.generalAccountBuilder()
                 .memberId(memberId)
                 .depositorName(oauthService.getUserName(memberId)) // 회원 서버에서 이름 받아오기
                 .accountSaveRequest(accountSaveRequest)
-                .build();
+                .buildGeneralAccount();
 
         // 우선 랜덤으로 13자리의 계좌번호 부여
         account.createAccountNumber();
@@ -69,32 +67,26 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account);
     }
 
-    // 동물계좌 발급
-    // 동물계좌 생성 버튼 클릭 -> 모계좌를 연결할 사람은 기존에 있던 농협 계좌 중 선택(필수사항x) -> 내 반려동물 정보 입력 -> 동물계좌 완성
+    // 펫계좌 발급
+    // 펫계좌 생성 버튼 클릭 -> 모계좌를 연결할 사람은 기존에 있던 농협 계좌 중 선택(필수사항x) -> 내 반려동물 정보 입력 -> 동물계좌 완성
     // cf) 계좌를 등록하려고 할 때 내가 등록할 비문 사진이 이미 있으면 양도 받는 것이 목적이냐고 물어보기
     @Override
     @Transactional
-    public Long registerPetAccount(Long memberId, PetAccountSaveRequest petAccountRequest) {
+    public Account registerPetAccount(Long memberId, PetAccountSaveRequest petAccountSaveRequest) {
 
         // 펫계좌와 관련된 정보가 입력되었을 때
         // 입력된 비문 또는 RFID코드가 이미 등록돼있다면
         // 이미 등록된 계좌가 있으니 양도신청 알림을 보낼거냐는 팝업창을 띄워줌
         // 확인을 누르면 해당 계좌의 주인한테 알림 메시지를 보냄
 
-
-        // 회원 서버에서 이름 받아오기
-        String memberName = oauthService.getUserName(memberId);
-
-        Account petAccount = new Account(memberId, memberName, petAccountRequest);
-
-        String hashRfidCode = hashPassword(petAccountRequest.getRfidCode());
-        petAccount.addHashedRfid(hashRfidCode);
-        // todo: salt+pepper 추가
-        String hashPassword = hashPassword(petAccountRequest.getAccountPwd());
+        Account petAccount= Account.petAccountBuilder()
+                                    .memberId(memberId)
+                                    .memberName(oauthService.getUserName(memberId))
+                                    .petAccountSaveRequest(petAccountSaveRequest)
+                                    .buildPetAccount();
 
         // 제한업종 추가
-        List<Integer> limitTypeList = petAccountRequest.getLimitTypeIdList();
-        log.info("제한업종: {}",limitTypeList);
+        List<Integer> limitTypeList = petAccountSaveRequest.getLimitTypeIdList();
         // 선택을 안했다면 전부 들어감
         if(limitTypeList.isEmpty()) {
             for(int i = 0; i < 5; i++) {
@@ -108,20 +100,10 @@ public class AccountServiceImpl implements AccountService {
             }
         }
 
-        // 우선 랜덤으로 13자리의 계좌번호 부여
-        int length = 13;
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < length; i++) {
-            int digit = random.nextInt(10);
-            sb.append(digit);
-        }
-        String accountNumber = sb.toString();
-        petAccount.createAccountNumber(accountNumber);
+        // 계좌번호 부여
+        petAccount.createAccountNumber();
 
-        // 계좌 정보를 DB에 저장
-        accountRepository.save(petAccount);
-        return petAccount.getId();
+        return  accountRepository.save(petAccount);
     }
 
     // 충전계좌로 등록할 수 있는 계좌 리스트 반환(일반계좌만 반환)

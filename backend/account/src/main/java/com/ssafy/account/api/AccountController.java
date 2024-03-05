@@ -50,8 +50,7 @@ public class AccountController {
                                                    @RequestPart("petImage") MultipartFile file) throws IOException {
 
         petAccountRequest.setPetPhoto(s3Service.getS3ImageUrl(s3Service.upload(file)));
-        log.info("펫 계좌 생성 요청 dto: {}", petAccountRequest);
-        Response response=new Response<Long>(200, GENERAL_SUCCESS.getMessage(),
+        Response response=new Response<Account>(200, GENERAL_SUCCESS.getMessage(),
                 accountService.registerPetAccount(memberId, petAccountRequest));
         return ResponseEntity.ok(response);
     }
