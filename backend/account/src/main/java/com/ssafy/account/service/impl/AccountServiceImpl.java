@@ -60,9 +60,6 @@ public class AccountServiceImpl implements AccountService {
                 .accountSaveRequest(accountSaveRequest)
                 .buildGeneralAccount();
 
-        // 우선 랜덤으로 13자리의 계좌번호 부여
-        account.createAccountNumber();
-
         // 계좌 정보를 DB에 저장
         return accountRepository.save(account);
     }
@@ -99,9 +96,6 @@ public class AccountServiceImpl implements AccountService {
                 petAccount.addLimitType(1 << (limitType-1));
             }
         }
-
-        // 계좌번호 부여
-        petAccount.createAccountNumber();
 
         return  accountRepository.save(petAccount);
     }

@@ -84,6 +84,7 @@ public class Account extends BaseTimeEntity {
         this.accountType = accountSaveRequest.getAccountType();
         this.businessType=accountSaveRequest.getBusinessType();
         this.linkedAccountId = accountSaveRequest.getLinkedAccountId();
+        this.accountNumber=createAccountNumber();
     }
 
     // 반려동물계좌 기본정보 입력
@@ -104,9 +105,10 @@ public class Account extends BaseTimeEntity {
         this.petWeight = petAccountSaveRequest.getPetWeight(); // 몸무게
         this.petPhoto = petAccountSaveRequest.getPetPhoto(); // 사진
         this.rfidCode= PasswordEncoder.hashPassword(petAccountSaveRequest.getRfidCode());
+        this.accountNumber=createAccountNumber();
     }
 
-    public void createAccountNumber(){
+    public String createAccountNumber(){
         int length = 13;
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
@@ -114,8 +116,9 @@ public class Account extends BaseTimeEntity {
             int digit = random.nextInt(10);
             sb.append(digit);
         }
-        accountNumber = sb.toString();
+        return sb.toString();
     }
+
     public void addHashedRfid(String rfidCode) {
         this.rfidCode = rfidCode;
     }
