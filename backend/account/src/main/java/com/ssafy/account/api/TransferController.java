@@ -58,7 +58,7 @@ public class TransferController {
         Long transferId= transferService.requestAccountTransfer(ownerId, request);
         Account transfereeAccount=accountService.findByAccountNumber(request.getAccountNumber());
         messageSenderService.sendTransferRequestMessage(new AccountTransferNotificationRequest(transfereeAccount.getMemberId(),name));
-        return Response.success(GENERAL_SUCCESS,transferId);
+        return Response.ok(GENERAL_SUCCESS,transferId);
     }
 
     // 알림 누르면 해당 페이지 출력
@@ -89,7 +89,7 @@ public class TransferController {
         resultMap.put("newOwnerInfo",newOwnerResponse);
         resultMap.put("petInfo",checkResponse);
         resultMap.put("transferId",transfer.getId());
-        return Response.success(GENERAL_SUCCESS, resultMap);
+        return Response.ok(GENERAL_SUCCESS, resultMap);
     }
     //  양도신청자 정보 확인
 
@@ -98,7 +98,7 @@ public class TransferController {
     public Response<?> getAccounts(@RequestHeader("id") Long transfereeId){
         List<Account> accountList= accountService.findActiveAccountByMemberId(transfereeId,"00");
 
-        return Response.success(GENERAL_SUCCESS,
+        return Response.ok(GENERAL_SUCCESS,
                 accountList.stream().map(TransferAccountResponse::new).collect(toList()));
     }
 
@@ -128,7 +128,7 @@ public class TransferController {
         transactionRepository.save(new Transaction(transfereeAccount, transferorAccount.getDepositorName(), TransactionType.TRANSFER
                 , amount, transfereeAccount.getBalance()+amount));
         transfer.completeTransfer();
-        return Response.success(GENERAL_SUCCESS, "ok");
+        return Response.ok(GENERAL_SUCCESS, "ok");
 
     }
 

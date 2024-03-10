@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface AccessRepository extends JpaRepository<Access, Long> {
-    List<Access> findAccessesByAccountNumberAndIsConfirmed(String accountNumber, int isConfirmed);
-    List<Access> findAccessesByRequestMemberIdAndIsConfirmed(Long requestMemberId, int isConfirmed);
+    List<Access> findByAccountNumberAndIsConfirmed(String accountNumber, int isConfirmed);
+    List<Access> findByRequestMemberIdAndIsConfirmed(Long requestMemberId, int isConfirmed);
 
     Access findAccessByRequestMemberIdAndAccountNumberAndIsConfirmed(Long requestMemberId, String accountNumber, int isConfirmed);
 
-    Access findAccessByRequestMemberIdAndAccountNumber(Long requestMemberId, String accountNumber);
+    Access findByRequestMemberIdAndAccountNumber(Long requestMemberId, String accountNumber);
 }

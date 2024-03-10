@@ -2,18 +2,23 @@ package com.ssafy.account.service;
 
 import com.ssafy.account.api.request.account.AccountSaveRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
+import com.ssafy.account.api.response.account.ChargingAccountResponse;
 import com.ssafy.account.common.domain.util.PasswordEncoder;
 import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.repository.AccountRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.ssafy.account.common.domain.util.PasswordEncoder.*;
 import static org.assertj.core.api.Assertions.*;
@@ -25,10 +30,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class AccountServiceTest {
     @Autowired
     AccountService accountService;
+    @Autowired
+    AccountRepository accountRepository;
+
     @Test
     public void 일반계좌_생성() throws Exception {
         //given
-        AccountSaveRequest request=new AccountSaveRequest("예금계좌","00",null,"1234",null);
+        AccountSaveRequest request=new AccountSaveRequest("적금계좌","00",null,"1234",null);
         //when
         Account account=accountService.registerGeneralAccount(1L,request);
         //then
@@ -51,14 +59,5 @@ class AccountServiceTest {
         assertThat(checkPass("1234",account.getAccountPassword())).isTrue();
     }
 
-    @Test
-    public void 계좌번호로_계좌_조회() throws Exception {
-        //given
-
-        //when
-
-        //then
-
-    }
 
 }

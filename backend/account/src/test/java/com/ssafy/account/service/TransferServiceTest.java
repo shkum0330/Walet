@@ -1,17 +1,14 @@
-package com.ssafy.account.service.impl;
+package com.ssafy.account.service;
 
 import com.ssafy.account.api.request.account.transfer.AccountTransferRequest;
 import com.ssafy.account.db.entity.transfer.Transfer;
-import com.ssafy.account.service.TransferService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
-class TransferServiceImplTest {
+class TransferServiceTest {
     @Autowired
     TransferService transferService;
 

@@ -3,18 +3,19 @@ package com.ssafy.account.service;
 import com.ssafy.account.api.request.access.AccessSaveRequest;
 import com.ssafy.account.api.request.access.AccountNumberForAccess;
 import com.ssafy.account.api.response.access.AccessResponse;
+import com.ssafy.account.db.entity.access.Access;
 
 import java.util.List;
 
 public interface AccessService {
 
     // 요청 생성
-    public Long createAccessRequest(Long requesterId, String requesterName, AccessSaveRequest request);
+    public Access createAccessRequest(Long requesterId, String requesterName, AccessSaveRequest request);
 
     // 요청 수락
     // Access 엔티티의 isConfirmed를 true로 바꾸고
     // 요청을 보낸 사람한테는 Firebase로 푸시알림을 보냄
-    public int acceptAccessRequest(Long accessId);
+    public Boolean acceptAccessRequest(Long accessId);
 
     // 요청 거절
     public Long rejectAccessRequest(Long accessId);

@@ -47,7 +47,7 @@ public class PaymentController {
         request.setSellerId(sellerId);
         Long paymentId=paymentService.requestPayment(request);
         log.info("paymentId: {}",paymentId);
-        return Response.success(GENERAL_SUCCESS, paymentId);
+        return Response.ok(GENERAL_SUCCESS, paymentId);
     }
     // rfid 결제
     @PostMapping("/payment/rfid/{paymentId}")
@@ -68,7 +68,7 @@ public class PaymentController {
                 .petAge(timeUtil.calculateAge(account.getPetBirth())+"살")
                 .petBirth(account.getPetBirth().getYear()+"년 "+account.getPetBirth().getMonth().getValue()+"월생")
                 .build();
-        return Response.success(GENERAL_SUCCESS, response);
+        return Response.ok(GENERAL_SUCCESS, response);
     }
 
     // RFID 인증을 하면 상대에게 푸쉬알림을 보낸다.
@@ -85,7 +85,7 @@ public class PaymentController {
         messageSenderService.sendPaymentMessage(new PaymentNotificationRequest(
                 buyerAccount.getMemberId(), payment.getPaymentAmount(), sellerAccount.getDepositorName()
         ));
-        return Response.success(GENERAL_SUCCESS, "알림 전송");
+        return Response.ok(GENERAL_SUCCESS, "알림 전송");
     }
 
     // 결제 정보를 출력한다.
@@ -99,7 +99,7 @@ public class PaymentController {
         PaymentInfoResponse response=new PaymentInfoResponse(sellerAccount.getDepositorName()
                 ,types[sellerAccount.getBusinessType()-1],
                 null,timeUtil.transferDateTimeConverter(LocalDateTime.now()), payment.getId(), payment.getPaymentAmount());
-        return Response.success(GENERAL_SUCCESS, response);
+        return Response.ok(GENERAL_SUCCESS, response);
     }
 
     @PostMapping("/payment/complete/{paymentId}")
@@ -119,7 +119,7 @@ public class PaymentController {
 
         resultMap.put("paymentId",paymentId);
         resultMap.put("transactionId",transactionId);
-        return Response.success(GENERAL_SUCCESS, resultMap);
+        return Response.ok(GENERAL_SUCCESS, resultMap);
 
     }
 }

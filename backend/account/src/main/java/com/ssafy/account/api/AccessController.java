@@ -21,33 +21,32 @@ public class AccessController {
     @PostMapping("/access/request")
     public Response createAccessRequest(@RequestHeader("id") Long requesterId, @RequestBody AccessSaveRequest request){
         String requesterName = oauthService.getUserName(requesterId);
-        Long accessRequest = accessService.createAccessRequest(requesterId, requesterName, request);
-        return Response.success(GENERAL_SUCCESS, accessRequest);
+        return Response.ok(GENERAL_SUCCESS,  accessService.createAccessRequest(requesterId, requesterName, request));
     }
 
     @PostMapping("/access/test")
     public Response test(Long requesterId) {
         String requesterName = oauthService.getUserName(requesterId);
-        return Response.success(GENERAL_SUCCESS, requesterName);
+        return Response.ok(GENERAL_SUCCESS, requesterName);
     }
 
     @PutMapping("/access/accept")
     public Response acceptAccessRequest(@RequestBody AccessStatusChangeRequest request) {
-        return Response.success(GENERAL_SUCCESS, accessService.acceptAccessRequest(request.getAccessId()));
+        return Response.ok(GENERAL_SUCCESS, accessService.acceptAccessRequest(request.getAccessId()));
     }
 
     @DeleteMapping("/access/reject")
     public Response rejectAccessRequest(@RequestBody AccessStatusChangeRequest request) {
-        return Response.success(GENERAL_SUCCESS, accessService.rejectAccessRequest(request.getAccessId()));
+        return Response.ok(GENERAL_SUCCESS, accessService.rejectAccessRequest(request.getAccessId()));
     }
 
     @GetMapping("/access/receive/list")
     public Response getUnacceptedAccessRequestsForAccountOwner(@ModelAttribute AccountNumberForAccess access) {
-        return Response.success(GENERAL_SUCCESS, accessService.getUnacceptedAccessRequestsForAccountOwner(access));
+        return Response.ok(GENERAL_SUCCESS, accessService.getUnacceptedAccessRequestsForAccountOwner(access));
     }
 
     @GetMapping("/access/send/list")
     public Response getUnacceptedAccessRequestsForRequester(@RequestHeader("id") Long memberId) {
-        return Response.success(GENERAL_SUCCESS, accessService.getUnacceptedAccessRequestsForRequester(memberId));
+        return Response.ok(GENERAL_SUCCESS, accessService.getUnacceptedAccessRequestsForRequester(memberId));
     }
 }

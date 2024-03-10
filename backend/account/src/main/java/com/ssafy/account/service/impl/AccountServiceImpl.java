@@ -27,7 +27,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.ssafy.account.common.api.status.FailCode.*;
-import static com.ssafy.account.common.domain.util.PasswordEncoder.hashPassword;
+import static java.util.stream.Collectors.*;
 
 @Slf4j
 @Service
@@ -75,7 +75,6 @@ public class AccountServiceImpl implements AccountService {
         // 입력된 비문 또는 RFID코드가 이미 등록돼있다면
         // 이미 등록된 계좌가 있으니 양도신청 알림을 보낼거냐는 팝업창을 띄워줌
         // 확인을 누르면 해당 계좌의 주인한테 알림 메시지를 보냄
-
         Account petAccount= Account.petAccountBuilder()
                                     .memberId(memberId)
                                     .memberName(oauthService.getUserName(memberId))
@@ -103,18 +102,15 @@ public class AccountServiceImpl implements AccountService {
     // 충전계좌로 등록할 수 있는 계좌 리스트 반환(일반계좌만 반환)
     @Override
     public List<ChargingAccountResponse> getChargingAccountList(Long memberId) {
-        // 해당 유저의 계좌 중에
-        // 일반 계좌만 리스트로 가져오자
+        // 해당 유저의 계좌 중 일반 계좌만 리스트로 가져옴
         List<Account> allAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "00");
-        List<ChargingAccountResponse> result = allAccounts.stream().map((account ->
-                new ChargingAccountResponse(account))).collect(Collectors.toList());
-        return result;
+        return allAccounts.stream().map((ChargingAccountResponse::new)).collect(toList());
     }
 
     // 사용자가 접근 허용된 펫계좌 리스트 반환
     @Override
     public List<AccessiblePetAccountResponse> getAccessibleAccountList(Long memberId) {
-        List<Access> myAccessList = accessRepository.findAccessesByRequestMemberIdAndIsConfirmed(memberId, 1);
+        List<Access> myAccessList = accessRepository.findByRequestMemberIdAndIsConfirmed(memberId, 1);
         // 접근이 허용된 펫계좌가 없다면 예외 발생
         if(myAccessList.isEmpty()) {
             throw new NotFoundException(NO_ACCESSIBLE_PET_ACCOUNT);
@@ -123,23 +119,18 @@ public class AccountServiceImpl implements AccountService {
         List<Account> myAccessiblePetAccount = new ArrayList<>();
         // 내가 접근 가능한 계좌 목록을 가져옴
         for (Access access : myAccessList) {
-            Account petAccount = accountRepository.findAccountByPetNameAndAccountNumber(access.getPetName(), access.getAccountNumber());
+            Account petAccount = accountRepository.findByPetNameAndAccountNumber(access.getPetName(), access.getAccountNumber());
             myAccessiblePetAccount.add(petAccount);
         }
 
-        return myAccessiblePetAccount.stream().map((account) ->
-                new AccessiblePetAccountResponse(account)).collect(Collectors.toList());
+        return myAccessiblePetAccount.stream().map(AccessiblePetAccountResponse::new).collect(toList());
     }
 
-    // 관리자페이지용 - 관리자 페이지용 메소드가 굳이 여기에 있어야할까?
     // 선택된 유저의 모든 계좌 목록을 반환
     @Override
     public List<AccountResponse> getAllAccountList(Long memberId) {
         List<Account> allAccounts = accountRepository.findAccountsByMemberId(memberId);
-        List<AccountResponse> result = allAccounts.stream().map(
-                account -> new AccountResponse(account)
-        ).collect(Collectors.toList());
-        return result;
+        return allAccounts.stream().map(AccountResponse::new).collect(toList());
     }
 
     // 충전계좌 선택
@@ -247,7 +238,7 @@ public class AccountServiceImpl implements AccountService {
                 .filter(transaction -> {
                     LocalDate transactionDate = transaction.getTransactionTime().toLocalDate();
                     return transactionDate.isAfter(startDayOfMonth.minusDays(1)) && transactionDate.isBefore(currentDate.plusDays(1));
-                }).collect(Collectors.toList());
+                }).collect(toList());
 
         // 이번 달의 총 지출액을 구해주자
         // 그리고 카테고리별 지출내역을 더해주자
@@ -307,7 +298,7 @@ public class AccountServiceImpl implements AccountService {
                 .filter(transaction -> {
                     LocalDate transactionDate = transaction.getTransactionTime().toLocalDate();
                     return transactionDate.isAfter(startDayOfLastMonth.minusDays(1)) && transactionDate.isBefore(endDayOfLastMonth.plusDays(1));
-                }).collect(Collectors.toList());
+                }).collect(toList());
         
         // 저번 달의 카테고리 별 지출액을 구해주자
         for (Transaction lastMonthTransaction : lastMonthTransactions) {
@@ -427,7 +418,7 @@ public class AccountServiceImpl implements AccountService {
     public List<AdminMemberAccountResponse> findMemberAccount(Long memberId) {
         List<Account> memberAccountList = accountRepository.findAccountsByMemberId(memberId);
         return memberAccountList.stream().map((account) ->
-                new AdminMemberAccountResponse(account)).collect(Collectors.toList());
+                new AdminMemberAccountResponse(account)).collect(toList());
     }
 
     @Override
