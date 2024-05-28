@@ -73,6 +73,31 @@ public class Account extends BaseTimeEntity {
     @Column(name="limit_types")
     private Integer limitTypes=0; // 사용가능 제한업종 목록(비트연산으로 추가)
 
+    @Builder
+    public Account(Long id, Long memberId, String accountName, String accountNumber, String depositorName, String accountPassword, Long balance, String accountState, String accountType, Integer businessType, Long linkedAccountId, String petName, String petType, String petGender, LocalDate petBirth, String petBreed, Boolean petNeutered, Float petWeight, String petPhoto, String rfidCode, Integer limitTypes) {
+        this.id = id;
+        this.memberId = memberId;
+        this.accountName = accountName;
+        this.accountNumber = accountNumber;
+        this.depositorName = depositorName;
+        this.accountPassword = accountPassword;
+        this.balance = balance;
+        this.accountState = accountState;
+        this.accountType = accountType;
+        this.businessType = businessType;
+        this.linkedAccountId = linkedAccountId;
+        this.petName = petName;
+        this.petType = petType;
+        this.petGender = petGender;
+        this.petBirth = petBirth;
+        this.petBreed = petBreed;
+        this.petNeutered = petNeutered;
+        this.petWeight = petWeight;
+        this.petPhoto = petPhoto;
+        this.rfidCode = rfidCode;
+        this.limitTypes = limitTypes;
+    }
+
     // 일반계좌 기본정보 입력
     @Builder(builderMethodName = "generalAccountBuilder", buildMethodName = "buildGeneralAccount")
     public Account(Long memberId, String depositorName, AccountSaveRequest accountSaveRequest) {
@@ -119,24 +144,11 @@ public class Account extends BaseTimeEntity {
         return sb.toString();
     }
 
-    public void addHashedRfid(String rfidCode) {
-        this.rfidCode = rfidCode;
-    }
-
     // 제한업종 추가
     public void addLimitType(int typeNum) {
         this.limitTypes |= typeNum;
     }
 
-    // 사업자계좌에는 사업유형도 입력
-    public void addBusinessType(int type) {
-        this.businessType = type;
-    }
-
-    // 계좌번호 부여
-    public void createAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
     
     // 충전계좌 추가
     public void addLinkedAccount(Long linkedAccountId) {
@@ -185,6 +197,7 @@ public class Account extends BaseTimeEntity {
         this.petWeight=account.getPetWeight();
         this.rfidCode=account.getRfidCode();
     }
+
     public void deletePetInfo(){
         this.accountType="00";
         this.limitTypes=null;

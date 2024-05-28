@@ -20,12 +20,5 @@ class TransferServiceTest {
         Assertions.assertThat(transfer.getId()).isEqualTo(20);
     }
 
-    @Test
-    public void requestAccountTransfer() throws Exception {
-        //given
-        AccountTransferRequest request=new AccountTransferRequest("관리자","301-1254-1895-31","ㅎㅇ");
-        //when
 
-        //then
-    }
 }
