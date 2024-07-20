@@ -9,7 +9,6 @@ import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,95 +38,86 @@ public class AccountController {
     
     // 1. 계좌 생성
     @PostMapping("/register/general-account")
-    public ResponseEntity<?> registerGeneralAccount(@RequestHeader("id") Long memberId, @RequestBody AccountSaveRequest accountSaveRequest){
-        Response<Account> response=new Response<Account>(200, GENERAL_SUCCESS.getMessage(),
-                accountService.registerGeneralAccount(memberId, accountSaveRequest));
-        return ResponseEntity.ok(response);
+    public Response<Account> registerNormalAccount(@RequestHeader("id") Long memberId, @RequestBody AccountSaveRequest accountSaveRequest){;
+        return Response.created(CREATE_ACCOUNT,accountService.registerGeneralAccount(memberId, accountSaveRequest));
     }
 
     @PostMapping("/register/pet-account")
-    public ResponseEntity<?> registerAnimalAccount(@RequestHeader("id") Long memberId, @RequestPart("petAccountRequest") PetAccountSaveRequest petAccountRequest,
+    public Response<Account> registerAnimalAccount(@RequestHeader("id") Long memberId, @RequestPart("petAccountRequest") PetAccountSaveRequest petAccountRequest,
                                                    @RequestPart("petImage") MultipartFile file) throws IOException {
-
         petAccountRequest.setPetPhoto(s3Service.getS3ImageUrl(s3Service.upload(file)));
-        Response response=new Response<Account>(200, GENERAL_SUCCESS.getMessage(),
-                accountService.registerPetAccount(memberId, petAccountRequest));
-        return ResponseEntity.ok(response);
+        return Response.created(CREATE_ACCOUNT,accountService.registerPetAccount(memberId, petAccountRequest));
     }
     
     // 2 메인페이지 계좌 정보
     // 2-1. 일반계좌 목록
     @GetMapping("/list/general-account")
-    public Response getGeneralAccountList(@RequestHeader("id") Long memberId) {
-        return Response.success(GENERAL_SUCCESS, homeAccountService.getHomeAccountDetail(memberId));
+    public Response<?> getGeneralAccountList(@RequestHeader("id") Long memberId) {
+        return Response.ok(GENERAL_SUCCESS, homeAccountService.getHomeAccountDetail(memberId));
     }
     // 2-2. 사업자계좌 목록
     @GetMapping("/list/business-account")
-    public Response getBusinessAccountList(@RequestHeader("id") Long memberId) {
-        return Response.success(GENERAL_SUCCESS, businessHomeAccountService.getBusinessAccountDetail(memberId));
+    public Response<?> getBusinessAccountList(@RequestHeader("id") Long memberId) {
+        return Response.ok(GENERAL_SUCCESS, businessHomeAccountService.getBusinessAccountDetail(memberId));
     }
     // 2-3. 펫계좌 목록
     @GetMapping("/list/pet-account")
-    public Response getPetAccountList(@RequestHeader("id") Long memberId) {
-        return Response.success(GENERAL_SUCCESS, petHomeAccountService.getAnimalAccountDetail(memberId));
+    public Response<?> getPetAccountList(@RequestHeader("id") Long memberId) {
+        return Response.ok(GENERAL_SUCCESS, petHomeAccountService.getAnimalAccountDetail(memberId));
     }
 
     // 3. 충전계좌 선택 페이지
     @GetMapping("/charging-account-list")
-    public ResponseEntity<?> getChargingAccountList(@RequestHeader("id") Long memberId){ // memberId를 그대로 보낼것인가?
-        Response response=new Response(200, GENERAL_SUCCESS.getMessage(),
-                accountService.getChargingAccountList(memberId));
-        return ResponseEntity.ok(response);
+    public Response<?> getChargingAccountList(@RequestHeader("id") Long memberId){
+        return Response.ok(GENERAL_SUCCESS,accountService.getChargingAccountList(memberId));
     }
 
     @PostMapping("/select-charging-account")
-    public ResponseEntity<?> selectChargingAccount(@RequestBody SelectChargingAccountRequest request){
-        Response response=new Response(200, GENERAL_SUCCESS.getMessage(),
-                accountService.selectChargingAccount(request));
-        return ResponseEntity.ok(response);
+    public Response<?> selectChargingAccount(@RequestBody SelectChargingAccountRequest request){
+        return Response.ok(GENERAL_SUCCESS,accountService.selectChargingAccount(request));
     }
     
     // 마이페이지 - 접근 가능한 타인의 동물계좌 목록 반환
     @GetMapping("/list/accessible-pet-account")
-    public Response getAccessibleAccountList(@RequestHeader("id") Long memberId) {
-        return Response.success(GENERAL_SUCCESS, accountService.getAccessibleAccountList(memberId));
+    public Response<?> getAccessibleAccountList(@RequestHeader("id") Long memberId) {
+        return Response.ok(GENERAL_SUCCESS, accountService.getAccessibleAccountList(memberId));
     }
 
     // 카테고리별 전체 소비현황
     @GetMapping("/all-consumption/{accountId}")
-    public Response getCategoryExpenditureDetail(@PathVariable Long accountId) {
-        return Response.success(GENERAL_SUCCESS, accountService.getCategoryExpenditureDetail(accountId));
+    public Response<?> getCategoryExpenditureDetail(@PathVariable Long accountId) {
+        return Response.ok(GENERAL_SUCCESS, accountService.getCategoryExpenditureDetail(accountId));
     }
 
     // 이번달 소비현황
     @GetMapping("/this-month-consumption/{accountId}")
-    public Response getMonthlyExpenditureDetail(@PathVariable Long accountId) {
-        return Response.success(GENERAL_SUCCESS, accountService.getMonthlyExpenditureDetail(accountId));
+    public Response<?> getMonthlyExpenditureDetail(@PathVariable Long accountId) {
+        return Response.ok(GENERAL_SUCCESS, accountService.getMonthlyExpenditureDetail(accountId));
     }
     
     // 로그인한 사용자의 모든 계좌 목록 반환
     @GetMapping("/list/all-account")
-    public Response findAllMemberAccount(@RequestHeader("id") Long memberId) {
-        return Response.success(GENERAL_SUCCESS, accountService.findMemberAccount(memberId));
+    public Response<?> findAllMemberAccount(@RequestHeader("id") Long memberId) {
+        return Response.ok(GENERAL_SUCCESS, accountService.findMemberAccount(memberId));
     }
 
     // 관리자 페이지
     // 1. 전체 사용자의 계좌 목록 반환
     @PostMapping("/admin/list/all-account")
-    public Response findMemberAccountForAdmin(@RequestBody AdminAllMemberIdsRequest request) {
-        return Response.success(GENERAL_SUCCESS, accountService.findAllMemberAccounts(request));
+    public Response<?> findMemberAccountForAdmin(@RequestBody AdminAllMemberIdsRequest request) {
+        return Response.ok(GENERAL_SUCCESS, accountService.findAllMemberAccounts(request));
     }
     
     // 2. 전체 일반계좌 및 동물계좌 수 반환
     @GetMapping("/admin/count/all-account")
-    public Response countAllAccountForAdmin() {
-        return Response.success(GENERAL_SUCCESS, accountService.countAllAccountForAdmin());
+    public Response<?> countAllAccountForAdmin() {
+        return Response.ok(GENERAL_SUCCESS, accountService.countAllAccountForAdmin());
     }
 
     // 3. 일주일 간 새로 생성된 계좌 개수 반환
     @GetMapping("/admin/count/new-account-in-a-week")
-    public Response countNewAccountInWeek() {
-        return Response.success(GENERAL_SUCCESS, accountService.countNewAccountInWeek());
+    public Response<?> countNewAccountInWeek() {
+        return Response.ok(GENERAL_SUCCESS, accountService.countNewAccountInWeek());
     }
 
 

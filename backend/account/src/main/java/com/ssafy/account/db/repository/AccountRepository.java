@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findAccountsByMemberIdAndAccountType(Long memberId, String accountType);
 
-    Account findAccountByPetNameAndAccountNumber(String petName, String accountNumber);
+    Account findByPetNameAndAccountNumber(String petName, String accountNumber);
 
     List<Account> findAccountsByMemberId(Long memberId);
 
@@ -26,15 +26,11 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Optional<Account> findByIdAndAccountState(Long id, String accountState);
 
-    Optional<Account> findByMemberIdAndAccountState(Long memberId, String accountState);
-
     Optional<Account> findByDepositorNameAndAccountType(String depositorName, String accountType);
 
     Optional<Account> findByDepositorNameAndAccountNumber(String depositorName, String accountNumber);
 
     List<Account> findAccountByMemberIdAndAccountTypeAndAccountState(Long memberId,String accountType, String accountState);
-
-    Optional<Account> findByDepositorNameAndAccountState(String depositorName, String accountState);
 
     Optional<Account> findByAccountNumber(String accountNumber);
 

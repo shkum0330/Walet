@@ -28,7 +28,7 @@ public class Access extends BaseTimeEntity { // 계좌 접근 신청 및 권한 
     @Column(name = "account_number", nullable = false)
     private String accountNumber; // 접근신청할 계좌번호
     @Column(name = "is_confirmed")
-    private int isConfirmed; // 수락여부 -> 수락이 됐으면 권한이 생성된 것(0: 아직 수락되지 않은 상태 / 1: 수락된 상태)
+    private Boolean isConfirmed;
 
     public Access(Long memberId, String memberName, AccessSaveRequest request) {
         this.petName = request.getPetName();
@@ -36,14 +36,14 @@ public class Access extends BaseTimeEntity { // 계좌 접근 신청 및 권한 
         this.requestMemberId = memberId;
         this.requestMemberName = memberName;
         this.accountNumber = request.getAccountNumber();
-        this.isConfirmed = 0;
+        this.isConfirmed = false;
     }
 
     // 수락
     // 수락이 됐으면 해당 계좌의 거래내역에 접근 가능
     // 수락이 되지 않았으면 요청을 받은 상대에게 요청리스트가 쌓임
     public void confirm() {
-        this.isConfirmed = 1;
+        this.isConfirmed = true;
     }
 
 }
