@@ -1,8 +1,10 @@
 package com.ssafy.account.api.request.transaction;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class RemittanceRequest {
     private Long myAccountId; // 내 계좌의 PK
     private Long receiverAccountId; // 수령인 계좌의 PK

@@ -10,9 +10,9 @@ public enum AccountFixture {
 
     NORMAL(1L,1L,"일반계좌","2987993781759","김민지","1234",10000000L,"00","00",null,null,null
             ,null,null,null,null,null,null,null,null,null),
-    BUSINESS(2L,1L,"사업자계좌","5467807340455","김민지","1234",10000000L,"00","01",1,null,null
+    BUSINESS(2L,2L,"사업자계좌","5467807340455","김민지","1234",0L,"00","01",1,null,null
             ,null,null,null,null,null,null,null,null,null),
-    PET(2L,1L,"펫계좌","0035791444046","김민지","1234",10000000L,"00","02",null,null,
+    PET(3L,1L,"펫계좌","0035791444046","김민지","1234",10000000L,"00","02",null,null,
             "꼬맹이","강아지","남아",LocalDate.of(2012,1,11),"말티즈",true,4.06f,null,"RFID1234",17);
     private Long id;
     private Long memberId;

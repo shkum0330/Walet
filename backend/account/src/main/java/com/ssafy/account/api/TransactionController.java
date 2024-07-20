@@ -44,8 +44,8 @@ public class TransactionController {
 
     @PostMapping("/transaction/remittance/create")
     public Response<?> addRemittanceTransaction(@RequestBody RemittanceRequest request) {
-        Long trasactionId = transactionService.addRemittanceTransaction(request);
-        return Response.ok(GENERAL_SUCCESS, trasactionId);
+        Long transactionId = transactionService.addRemittanceTransaction(request);
+        return Response.ok(GENERAL_SUCCESS, transactionId);
     }
 
     // 거래내역 목록 상단에 계좌정보 띄워주기
@@ -60,7 +60,7 @@ public class TransactionController {
     }
 
     @GetMapping("/transaction/in-specific-period/{accountId}")
-    public Response getTransactionsByDateRange(@RequestHeader("id") Long memberId, @PathVariable Long accountId,
+    public Response<?> getTransactionsByDateRange(@RequestHeader("id") Long memberId, @PathVariable Long accountId,
                                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
@@ -69,13 +69,13 @@ public class TransactionController {
     }
 
     @GetMapping("/transaction/detail/{transactionId}")
-    public Response getTransactionDetail(@PathVariable Long transactionId) {
+    public Response<?> getTransactionDetail(@PathVariable Long transactionId) {
         return Response.ok(GENERAL_SUCCESS, transactionService.getTransactionDetail(transactionId));
     }
     
     // 관리자 페이지에 특정 계좌의 거래목록 반환
     @GetMapping("/admin/transaction/{accountId}")
-    public Response getTransactionsForAdmin(@PathVariable Long accountId) {
+    public Response<?> getTransactionsForAdmin(@PathVariable Long accountId) {
         return Response.ok(GENERAL_SUCCESS, transactionService.getTransactionsForAdmin(accountId));
     }
 }
