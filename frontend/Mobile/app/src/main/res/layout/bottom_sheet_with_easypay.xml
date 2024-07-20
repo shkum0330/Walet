@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/box_keypad"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="320dp"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        />
+    <!--        간편 금액 입력-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:background="@color/lime10"
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="+1만"
+            android:textColor="@color/main_selected" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:background="@color/lime10"
+
+            android:fontFamily="@font/pretendard_medium"
+
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="+5만"
+            android:textColor="@color/main_selected" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:background="@color/lime10"
+
+            android:fontFamily="@font/pretendard_medium"
+
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="+10만"
+            android:textColor="@color/main_selected" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
+
+
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:background="@color/lime10"
+
+            android:fontFamily="@font/pretendard_medium"
+
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="+전액"
+            android:textColor="@color/main_selected" />
+
+
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        />
+    <!--        키패드-->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:columnCount="3"
+        android:orientation="horizontal"
+>
+
+        <TextView
+            android:clickable="true"
+            android:onClick="one"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/grey90"
+            android:textSize="28sp" />
+
+        <TextView
+            android:clickable="true"
+            android:onClick="two"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/grey90"
+            android:textSize="28sp" />
+
+        <TextView
+            android:clickable="true"
+            android:onClick="three"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@color/grey90"
+
+            android:textSize="28sp" />
+
+        <TextView
+            android:clickable="true"
+            android:onClick="four"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@color/grey90"
+
+            android:textSize="28sp" />
+
+        <TextView
+            android:clickable="true"
+            android:onClick="five"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/grey90"
+
+            android:textSize="28sp" />
+
+        <TextView
+            android:clickable="true"
+            android:onClick="six"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="6"
+            android:textColor="@color/grey90"
+
+            android:textSize="28sp" />
+
+        <TextView
+            android:clickable="true"
+            android:onClick="seven"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="7"
+            android:textColor="@color/grey90"
+
+            android:textSize="28sp" />
+
+        <TextView
+            android:clickable="true"
+            android:onClick="eight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="8"
+            android:textColor="@color/grey90"
+            android:textSize="28sp" />
+
+        <TextView
+            android:clickable="true"
+            android:onClick="nine"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="9"
+            android:textColor="@color/grey90"
+            android:textSize="28sp" />
+
+
+        <ImageButton
+            android:clickable="true"
+            android:onClick="del"
+            android:id="@+id/payment_disabled"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+            android:background="@color/white"
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+
+            android:src="@drawable/icon_previous"
+            android:contentDescription="delete latest number button"
+
+            android:textSize="28sp" />
+
+        <TextView
+            android:clickable="true"
+            android:onClick="zero"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/grey90"
+            android:textSize="28sp" />
+
+        <TextView
+            android:clickable="true"
+            android:onClick="finish"
+            android:id="@+id/finish"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+
+
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="완료"
+            android:textColor="@color/grey90"
+            android:textSize="26sp" />
+
+
+    </GridLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        />
+
+</LinearLayout>

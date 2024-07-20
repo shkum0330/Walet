@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".TransferTargetActivity">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <ImageButton
+        android:id="@+id/previous"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:contentDescription="previous page button"
+
+        android:src="@drawable/baseline_arrow_back_ios_new_24" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="70dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="22dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="누구에게 보낼까요?"
+            android:textColor="@color/black"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/account_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="계좌번호를 입력하세요"
+            android:textColor="@color/grey80"
+            android:textSize="20sp"
+
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3px"
+            android:background="@color/grey60" />
+
+    </LinearLayout>
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@drawable/box_keypad"-->
+    <!--        android:orientation="vertical"-->
+    <!--        android:paddingBottom="10dp"-->
+    <!--        android:paddingHorizontal="22dp"-->
+    <!--        android:paddingTop="20dp">-->
+
+
+    <!--        <Space-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="30dp" />-->
+
+    <!--        &lt;!&ndash;        키패드&ndash;&gt;-->
+    <!--        <GridLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="300dp"-->
+    <!--            android:columnCount="3"-->
+    <!--            android:orientation="horizontal">-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="1"-->
+    <!--                android:textColor="@color/black"-->
+    <!--                android:textSize="28sp" />-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="2"-->
+    <!--                android:textColor="@color/black"-->
+    <!--                android:textSize="28sp" />-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="3"-->
+    <!--                android:textColor="@color/black"-->
+
+    <!--                android:textSize="28sp" />-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="4"-->
+    <!--                android:textColor="@color/black"-->
+
+    <!--                android:textSize="28sp" />-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="5"-->
+    <!--                android:textColor="@color/black"-->
+
+    <!--                android:textSize="28sp" />-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="6"-->
+    <!--                android:textColor="@color/black"-->
+
+    <!--                android:textSize="28sp" />-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="7"-->
+    <!--                android:textColor="@color/black"-->
+
+    <!--                android:textSize="28sp" />-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="8"-->
+    <!--                android:textColor="@color/black"-->
+    <!--                android:textSize="28sp" />-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="9"-->
+    <!--                android:textColor="@color/black"-->
+    <!--                android:textSize="28sp" />-->
+
+
+    <!--            <ImageButton-->
+    <!--                android:id="@+id/payment_disabled"-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+    <!--                android:background="@color/white"-->
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:src="@drawable/icon_previous"-->
+    <!--                android:contentDescription="delete latest number button"-->
+
+    <!--                android:textSize="28sp" />-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="0"-->
+    <!--                android:textColor="@color/black"-->
+    <!--                android:textSize="28sp" />-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/finish"-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_columnWeight="1"-->
+
+
+    <!--                android:fontFamily="@font/pretendard_medium"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="완료"-->
+    <!--                android:textColor="@color/black"-->
+    <!--                android:textSize="26sp" />-->
+
+
+    <!--        </GridLayout>-->
+
+
+    <!--    </LinearLayout>-->
+
+
+</LinearLayout>

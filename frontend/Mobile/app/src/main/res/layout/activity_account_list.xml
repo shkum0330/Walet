@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".AccountListActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="22dp"
+        android:orientation="vertical">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            />
+        <ImageButton
+            android:id="@+id/previous"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/baseline_arrow_back_ios_new_24"
+            android:background="@color/white"
+            android:paddingRight="22dp"
+            android:contentDescription="이전버튼"
+            />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="연결할 계좌 선택"
+            android:textColor="@color/grey90"
+            android:textSize="24sp"
+            android:fontFamily="@font/pretendard_semi_bold"
+            />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/account_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"/>
+
+<!--&lt;!&ndash;                임시 , 지울예정&ndash;&gt;-->
+<!--                <LinearLayout-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="200dp"-->
+<!--                    android:padding="20dp"-->
+<!--                    android:background="@drawable/box_account_gradation"-->
+<!--                    android:orientation="vertical">-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="48dp"-->
+<!--                            android:layout_height="48dp"-->
+<!--                            android:src="@drawable/bank_nonghyup"-->
+<!--                            />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_marginLeft="12dp"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="vertical">-->
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:orientation="horizontal">-->
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="입출금"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:textSize="16sp"-->
+<!--                                    android:fontFamily="@font/pretendard_semi_bold"-->
+<!--                                    />-->
+<!--                                <Space-->
+<!--                                    android:layout_width="12dp"-->
+<!--                                    android:layout_height="10dp"-->
+<!--                                    />-->
+<!--                                <TextView-->
+<!--                                    android:id="@+id/account_name"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="농민건강최고예금"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:textSize="16sp"-->
+<!--                                    android:fontFamily="@font/pretendard_regular"-->
+<!--                                    />-->
+
+<!--                            </LinearLayout>-->
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:orientation="horizontal">-->
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="농협"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:textSize="16sp"-->
+<!--                                    android:fontFamily="@font/pretendard_semi_bold"-->
+<!--                                    />-->
+<!--                                <Space-->
+<!--                                    android:layout_width="12dp"-->
+<!--                                    android:layout_height="10dp"-->
+<!--                                    />-->
+<!--                                <TextView-->
+<!--                                    android:id="@+id/account_number"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="110-222-333333"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:textSize="16sp"-->
+<!--                                    android:fontFamily="@font/pretendard_regular"-->
+<!--                                    />-->
+
+<!--                            </LinearLayout>-->
+<!--                        </LinearLayout>-->
+
+
+
+<!--                    </LinearLayout>-->
+
+<!--                    <Space-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="20dp"-->
+<!--                        />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/account_balance"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="10,040,000 원"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="32sp"-->
+<!--                        android:fontFamily="@font/pretendard_semi_bold"-->
+<!--                        />-->
+<!--                    <Space-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="20dp"-->
+<!--                        />-->
+
+
+
+
+
+
+<!--                </LinearLayout>-->
+
+
+
+
+
+
+               <Space
+                   android:layout_width="match_parent"
+                   android:layout_height="80dp"
+                   />
+
+            </LinearLayout>
+        </ScrollView>
+
+
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

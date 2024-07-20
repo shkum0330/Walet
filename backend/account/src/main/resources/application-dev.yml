@@ -1,0 +1,41 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/walet
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+
+# 임시 값들
+proxy:
+  host: "localhost"
+  port: 8089
+
+feign:
+  url: "localhost:8083"
+
+cors:
+  origins: "localhost:3000"
+
+jasypt:
+  password: "1234" # 안쓸거임
