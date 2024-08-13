@@ -3,13 +3,13 @@ package com.ssafy.member.controller;
 import com.ssafy.auth.util.JwtProvider;
 import com.ssafy.global.common.redis.RedisService;
 import com.ssafy.global.common.response.EnvelopeResponse;
-import com.ssafy.global.config.ClientConfig;
 import com.ssafy.member.api.MemberDto;
 import com.ssafy.member.api.VerificationDto;
-import com.ssafy.member.db.MemberEntity;
+import com.ssafy.member.db.Member;
 import com.ssafy.member.service.MemberService;
 import com.ssafy.member.util.SmsUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,37 +20,33 @@ import java.util.concurrent.TimeUnit;
 
 import static com.ssafy.global.common.status.SuccessCode.*;
 
+@Slf4j
 @RestController
+@RequiredArgsConstructor
 public class MemberController {
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private JwtProvider jwtProvider;
-    @Autowired
-    private SmsUtil smsUtil;
-    @Autowired
-    private RedisService redisService;
 
+    private final MemberService memberService;
+    private final JwtProvider jwtProvider;
+    private final SmsUtil smsUtil;
+    private final RedisService redisService;
 
     @PostMapping("/signup")
-    public ResponseEntity<EnvelopeResponse<MemberEntity>> signup(@RequestBody MemberDto.MemberRequest request) {
-        MemberEntity member = memberService.signup(request.getName(), request.getEmail(),
-                request.getPassword(), request.getPhoneNumber(),
-                request.getBirth(), request.getPinNumber(), request.getFingerPrint());
+    public ResponseEntity<EnvelopeResponse<Member>> signup(@RequestBody MemberDto.MemberRequest memberRequest) {
+        Member member = memberService.signUp(memberRequest);
         return new ResponseEntity<>(new EnvelopeResponse<>(CREATE_SUCCESS, member), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/signout")
     public ResponseEntity<EnvelopeResponse<String>> signOut(@RequestHeader("Authorization") String accessToken) {
         Long id = jwtProvider.AccessTokenDecoder(accessToken);
-        memberService.Signout(id);
+        memberService.SignOut(id);
         return new ResponseEntity<>(new EnvelopeResponse<>(DELETE_SUCCESS, ""), HttpStatus.NO_CONTENT);
     }
 
     @GetMapping ("/user")
     public ResponseEntity<EnvelopeResponse<MemberDto.UserResponse>> getUserInfo(@RequestHeader("Authorization") String accessToken) {
         Long id = jwtProvider.AccessTokenDecoder(accessToken);
-        MemberDto.UserResponse user = memberService.find(id);
+        MemberDto.UserResponse user = memberService.findById(id);
 
         return new ResponseEntity<>(new EnvelopeResponse<>(GENERAL_SUCCESS, user), HttpStatus.OK);
     }

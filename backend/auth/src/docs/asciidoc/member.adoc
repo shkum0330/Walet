@@ -1,0 +1,18 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== 회원가입 API
+
+=== HTTP REQUEST BODY
+
+include::{snippets}/member-signup/http-request.adoc[]
+
+=== HTTP RESPONSE BODY
+
+include::{snippets}/member-signup/http-response.adoc[]
+
+== 로그인 API
+
+
+== 로그아웃 API

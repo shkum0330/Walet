@@ -10,32 +10,26 @@ import com.ssafy.account.api.response.payment.CheckResponse;
 import com.ssafy.account.common.api.Response;
 import com.ssafy.account.common.api.exception.InvalidTransferException;
 import com.ssafy.account.common.api.exception.NotCorrectException;
-import com.ssafy.account.common.api.status.FailCode;
-import com.ssafy.account.common.domain.util.EncryptUtil;
+import com.ssafy.account.common.domain.util.PasswordEncoder;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.transaction.Transaction;
 import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.entity.transfer.Transfer;
 import com.ssafy.account.db.repository.TransactionRepository;
-import com.ssafy.account.db.repository.TransferRepository;
 import com.ssafy.account.service.AccountService;
 import com.ssafy.account.service.MessageSenderService;
 import com.ssafy.account.service.TransactionService;
 import com.ssafy.account.service.TransferService;
-import com.ssafy.account.service.impl.AccountServiceImpl;
 import com.ssafy.external.service.NHFintechService;
 import com.ssafy.external.service.OauthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import static com.ssafy.account.common.api.status.FailCode.DIFFERENT_RFID;
 import static com.ssafy.account.common.api.status.FailCode.INVALID_TRANSFER;
@@ -55,7 +49,6 @@ public class TransferController {
     private final OauthService oauthService;
     private final NHFintechService nhFintechService;
     private final TimeUtil timeUtil;
-    private final EncryptUtil encryptUtil;
 
 
     // 양도 요청
@@ -65,7 +58,7 @@ public class TransferController {
         Long transferId= transferService.requestAccountTransfer(ownerId, request);
         Account transfereeAccount=accountService.findByAccountNumber(request.getAccountNumber());
         messageSenderService.sendTransferRequestMessage(new AccountTransferNotificationRequest(transfereeAccount.getMemberId(),name));
-        return Response.success(GENERAL_SUCCESS,transferId);
+        return Response.ok(GENERAL_SUCCESS,transferId);
     }
 
     // 알림 누르면 해당 페이지 출력
@@ -96,7 +89,7 @@ public class TransferController {
         resultMap.put("newOwnerInfo",newOwnerResponse);
         resultMap.put("petInfo",checkResponse);
         resultMap.put("transferId",transfer.getId());
-        return Response.success(GENERAL_SUCCESS, resultMap);
+        return Response.ok(GENERAL_SUCCESS, resultMap);
     }
     //  양도신청자 정보 확인
 
@@ -105,7 +98,7 @@ public class TransferController {
     public Response<?> getAccounts(@RequestHeader("id") Long transfereeId){
         List<Account> accountList= accountService.findActiveAccountByMemberId(transfereeId,"00");
 
-        return Response.success(GENERAL_SUCCESS,
+        return Response.ok(GENERAL_SUCCESS,
                 accountList.stream().map(TransferAccountResponse::new).collect(toList()));
     }
 
@@ -120,8 +113,8 @@ public class TransferController {
         Account transferorAccount=accountService.findPetAccountByAccountId(transfer.getTransferorId());
         // 양도받을 사람의 계좌
         Account transfereeAccount=accountService.findActiveAccountByMemberId(transfer.getTransfereeId(),"00").get(0);
-        if(!encryptUtil.hashPassword(request.getRfidCode()).equals(transferorAccount.getRfidCode())){
-            log.info("rfid: {} {}",request.getRfidCode(), encryptUtil.hashPassword(request.getRfidCode()));
+        if(!PasswordEncoder.hashPassword(request.getRfidCode()).equals(transferorAccount.getRfidCode())){
+            log.info("rfid: {} {}",request.getRfidCode(), PasswordEncoder.hashPassword(request.getRfidCode()));
             throw new NotCorrectException(DIFFERENT_RFID);
         }
         log.info("양도인 계좌 pk: {}, 양수인 계좌 pk: {}",transferorAccount.getId(),transfereeAccount.getId());
@@ -129,13 +122,13 @@ public class TransferController {
         Long amount = accountService.assignAccount(new AssignRequest(transferorAccount.getId(), transfereeAccount.getId()));
         log.info("양도금액: {}",amount);
         // 농협 api로 송금 진행
-        nhFintechService.remittance(transferorAccount,transfereeAccount,amount);
+//        nhFintechService.remittance(transferorAccount,transfereeAccount,amount);
         // 트랜잭션에 반영
         transactionRepository.save(new Transaction(transferorAccount, transfereeAccount.getDepositorName(), TransactionType.TRANSFER, amount, 0L));
         transactionRepository.save(new Transaction(transfereeAccount, transferorAccount.getDepositorName(), TransactionType.TRANSFER
                 , amount, transfereeAccount.getBalance()+amount));
         transfer.completeTransfer();
-        return Response.success(GENERAL_SUCCESS, "ok");
+        return Response.ok(GENERAL_SUCCESS, "ok");
 
     }
 

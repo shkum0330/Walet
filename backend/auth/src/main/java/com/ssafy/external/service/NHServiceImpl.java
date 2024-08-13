@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class NHServiceImpl implements NHService{
     private final RedisService redisService;
     private final NHClient nhClient;
-    @Value("${nh.client.id}")
+//    @Value("${nh.client.id}")
     private String id;
-    @Value("${nh.client.secret}")
+//    @Value("${nh.client.secret}")
     private String secret;
     private final String scope = "fintechapp";
     private final String grantType = "client_credentials";

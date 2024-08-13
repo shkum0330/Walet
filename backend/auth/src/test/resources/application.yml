@@ -1,0 +1,41 @@
+server:
+  port: 8083
+spring:
+  config:
+    import: env.yml
+  profiles:
+    active: test
+  main:
+    allow-bean-definition-overriding: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  access:
+    expiration: 3600
+    header: Authorization
+  refresh:
+    expiration: 2592000
+    header: Refresh-Token
+
+hash:
+  pepper: ${PEPPER}
+
+cors:
+  origins: "localhost:3000"
+
+proxy:
+  host: "localhost"
+  port: 8080
+
+feign:
+  url: "localhost:8080"
+
+coolsms:
+  api:
+    key: "API Key"
+    secret: "API Secret"

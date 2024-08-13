@@ -1,6 +1,6 @@
 package com.ssafy.member.api;
 
-import com.ssafy.member.db.MemberEntity;
+import com.ssafy.member.db.Member;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -13,7 +13,6 @@ public class MemberDto {
     @AllArgsConstructor
     @Getter @Setter
     public static class MemberRequest{
-        private Long id;
         private String name;
         private String email;
         private String password;
@@ -52,7 +51,7 @@ public class MemberDto {
         private Boolean isDeleted;
         private LocalDateTime createdDate;
         private List<accountResponse.AccountData> account;
-        public UsersResponse(MemberEntity member) {
+        public UsersResponse(Member member) {
             this.id = member.getId();
             this.name = member.getName();
             this.email = member.getEmail();

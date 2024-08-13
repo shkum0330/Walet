@@ -57,7 +57,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
 
 //          헤더에 id name 추가
             ServerHttpRequest.Builder builder = request.mutate();
-            builder.header("id",jwtUtil.getMemberId(request))
+            builder.header("id", jwtUtil.getMemberId(request))
                     .header("name" , jwtUtil.getMemberName(request)).build();
 
             return chain.filter(exchange.mutate().request(request).build());

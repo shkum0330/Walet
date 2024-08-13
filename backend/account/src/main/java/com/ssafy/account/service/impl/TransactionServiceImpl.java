@@ -8,7 +8,7 @@ import com.ssafy.account.common.api.exception.InsufficientBalanceException;
 import com.ssafy.account.common.api.exception.NotCorrectException;
 import com.ssafy.account.common.api.exception.NotFoundException;
 import com.ssafy.account.common.api.exception.RestrictedBusinessException;
-import com.ssafy.account.common.domain.util.EncryptUtil;
+import com.ssafy.account.common.domain.util.PasswordEncoder;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.access.Access;
 import com.ssafy.account.db.entity.account.Account;
@@ -30,7 +30,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.ssafy.account.common.api.status.FailCode.*;
 
@@ -45,7 +44,6 @@ public class TransactionServiceImpl implements TransactionService {
     private final AccessRepository accessRepository;
     private final NHFintechService nhFintechService;
     private final OauthService oauthService;
-    private final EncryptUtil encryptUtil;
     private final TimeUtil timeUtil;
 
     @Override
@@ -56,7 +54,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public PetInfoResponse getPetInfoByRfid(String rfidCode) {
-        Account petAccount = accountRepository.findByRfidCodeAndAccountState(encryptUtil.hashPassword(rfidCode), "00").orElseThrow(() -> new NotFoundException(NO_PET_ACCOUNT_WITH_AUTH_INFO));
+        Account petAccount = accountRepository.findByRfidCodeAndAccountState(PasswordEncoder.hashPassword(rfidCode), "00").orElseThrow(() -> new NotFoundException(NO_PET_ACCOUNT_WITH_AUTH_INFO));
 
         return PetInfoResponse.builder()
                 .accountId(petAccount.getId())
@@ -100,7 +98,7 @@ public class TransactionServiceImpl implements TransactionService {
         // 잔액이 결제금액보다 부족하면 예외 발생
         if(myPetAccount.getBalance() - pay < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_PAYMENT);
 
-        nhFintechService.remittance(myPetAccount,companyAccount,transactionRequest.getPaymentAmount());
+//        nhFintechService.remittance(myPetAccount,companyAccount,transactionRequest.getPaymentAmount());
         myPetAccount.minusBalance(pay);
         companyAccount.addBalance(pay);
 
@@ -130,7 +128,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         // 입력된 비밀번호가 맞는지 확인
         String password = remittanceRequest.getPassword();
-        if (!myAccount.getAccountPassword().equals(encryptUtil.hashPassword(password))) {
+        if (!myAccount.getAccountPassword().equals(PasswordEncoder.hashPassword(password))) {
             throw new NotCorrectException(DIFFERENT_PASSWORD);
         }
 

@@ -5,7 +5,6 @@ import com.ssafy.account.api.request.access.AccountNumberForAccess;
 import com.ssafy.account.api.response.access.AccessResponse;
 import com.ssafy.account.common.api.exception.DuplicatedException;
 import com.ssafy.account.common.api.exception.NotFoundException;
-import com.ssafy.account.common.api.status.FailCode;
 import com.ssafy.account.db.entity.access.Access;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.repository.AccessRepository;
@@ -29,29 +28,26 @@ public class AccessServiceImpl implements AccessService {
     private final AccountRepository accountRepository;
 
     @Override
-    public Long createAccessRequest(Long requesterId, String requesterName, AccessSaveRequest request) {
-
-
+    public Access createAccessRequest(Long requesterId, String requesterName, AccessSaveRequest request) {
         // 입력된 동물이름과 계좌번호로
         // 등록된 동물계좌가 없다면 예외발생
-        Account petAccount = accountRepository.findAccountByPetNameAndAccountNumber(request.getPetName(), request.getAccountNumber());
+        Account petAccount = accountRepository.findByPetNameAndAccountNumber(request.getPetName(), request.getAccountNumber());
         if(petAccount == null) {
             throw new NotFoundException(INCORRECT_PET_ACCOUNT_INFO);
         }
 
         // 이미 접근요청이 있다면 예외발생
-        Access previousAccessRequest = accessRepository.findAccessByRequestMemberIdAndAccountNumber(requesterId, request.getAccountNumber());
+        Access previousAccessRequest = accessRepository.findByRequestMemberIdAndAccountNumber(requesterId, request.getAccountNumber());
         if(previousAccessRequest != null) {
             throw new DuplicatedException(ALREADY_EXISTED_ACCESS);
         }
 
         Access access = new Access(requesterId, requesterName, request);
-        accessRepository.save(access);
-        return access.getId();
+        return accessRepository.save(access);
     }
 
     @Override
-    public int acceptAccessRequest(Long accessId) {
+    public Boolean acceptAccessRequest(Long accessId) {
         Access access = accessRepository.findById(accessId).orElseThrow(() -> new NotFoundException(NOT_EXIST_ACCESS_REQUEST));
         access.confirm();
         
@@ -74,15 +70,14 @@ public class AccessServiceImpl implements AccessService {
     public List<AccessResponse> getUnacceptedAccessRequestsForAccountOwner(AccountNumberForAccess access) {
         
         // 아직 확인이 안된 요청목록만 가져옴
-        List<Access> accesses = accessRepository.findAccessesByAccountNumberAndIsConfirmed(access.getAccountNumber(), 0);
+        List<Access> accesses = accessRepository.findByAccountNumberAndIsConfirmed(access.getAccountNumber(), 0);
         
         // 요청 내용이 없으면 예외 발생
         if(accesses.isEmpty()) {
             throw new NotFoundException(EMPTY_ACCESS_REQUEST);
         }
 
-       return accesses.stream().map(acs ->
-                        new AccessResponse(acs))
+       return accesses.stream().map(AccessResponse::new)
                 .collect(Collectors.toList());
     }
 
@@ -90,15 +85,14 @@ public class AccessServiceImpl implements AccessService {
     public List<AccessResponse> getUnacceptedAccessRequestsForRequester(Long memberId) {
 
         // 아직 확인이 안된 요청목록만 가져옴
-        List<Access> accesses = accessRepository.findAccessesByRequestMemberIdAndIsConfirmed(memberId, 0);
+        List<Access> accesses = accessRepository.findByRequestMemberIdAndIsConfirmed(memberId, 0);
         
         // 요청 내용이 없으면 예외 발생
         if(accesses.isEmpty()) {
             throw new NotFoundException(EMPTY_ACCESS_REQUEST);
         }
 
-        return accesses.stream().map(acs ->
-                        new AccessResponse(acs))
+        return accesses.stream().map(AccessResponse::new)
                 .collect(Collectors.toList());
     }
 

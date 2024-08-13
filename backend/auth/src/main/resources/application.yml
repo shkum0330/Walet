@@ -1,0 +1,20 @@
+server:
+  port: 8083
+spring:
+  config:
+    import: env.yml
+  application:
+    name: ${DOMAIN_NAME}
+  main:
+    allow-bean-definition-overriding: true
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+
+hash:
+  pepper: ${PEPPER}
+
+coolsms:
+  api:
+    key: "API Key"
+    secret: "API Secret"

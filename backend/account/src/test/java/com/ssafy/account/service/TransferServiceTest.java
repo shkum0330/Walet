@@ -1,17 +1,14 @@
-package com.ssafy.account.service.impl;
+package com.ssafy.account.service;
 
 import com.ssafy.account.api.request.account.transfer.AccountTransferRequest;
 import com.ssafy.account.db.entity.transfer.Transfer;
-import com.ssafy.account.service.TransferService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
-class TransferServiceImplTest {
+class TransferServiceTest {
     @Autowired
     TransferService transferService;
 
@@ -23,12 +20,5 @@ class TransferServiceImplTest {
         Assertions.assertThat(transfer.getId()).isEqualTo(20);
     }
 
-    @Test
-    public void requestAccountTransfer() throws Exception {
-        //given
-        AccountTransferRequest request=new AccountTransferRequest("관리자","301-1254-1895-31","ㅎㅇ");
-        //when
 
-        //then
-    }
 }

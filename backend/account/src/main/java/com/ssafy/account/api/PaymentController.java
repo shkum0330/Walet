@@ -9,7 +9,7 @@ import com.ssafy.account.api.response.payment.PaymentInfoResponse;
 import com.ssafy.account.common.api.Response;
 import com.ssafy.account.common.api.exception.InvalidPaymentException;
 import com.ssafy.account.common.api.status.FailCode;
-import com.ssafy.account.common.domain.util.EncryptUtil;
+import com.ssafy.account.common.domain.util.PasswordEncoder;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.payment.Payment;
@@ -23,9 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import static com.ssafy.account.common.api.status.ProcessStatus.*;
 import static com.ssafy.account.common.api.status.SuccessCode.GENERAL_SUCCESS;
@@ -41,7 +39,6 @@ public class PaymentController {
     private final MessageSenderService messageSenderService;
     private final NHFintechService fintechService;
     private final TimeUtil timeUtil;
-    private final EncryptUtil encryptUtil;
     private final String[] types = {"동물병원","반려동물용품","반려동물미용","애견카페","반려견놀이터"};
 
     // 판매자가 결제 요청을 보냄
@@ -50,7 +47,7 @@ public class PaymentController {
         request.setSellerId(sellerId);
         Long paymentId=paymentService.requestPayment(request);
         log.info("paymentId: {}",paymentId);
-        return Response.success(GENERAL_SUCCESS, paymentId);
+        return Response.ok(GENERAL_SUCCESS, paymentId);
     }
     // rfid 결제
     @PostMapping("/payment/rfid/{paymentId}")
@@ -59,7 +56,7 @@ public class PaymentController {
         if (payment.getStatus() != PENDING) {
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
-        Account account=accountService.findByRFID(encryptUtil.hashPassword(request.getRfidCode()));
+        Account account=accountService.findByRFID(PasswordEncoder.hashPassword(request.getRfidCode()));
         log.info("buyerId: {}",account.getMemberId());
         paymentService.setBuyer(payment,account.getMemberId());
         CheckResponse response= CheckResponse.builder()
@@ -71,7 +68,7 @@ public class PaymentController {
                 .petAge(timeUtil.calculateAge(account.getPetBirth())+"살")
                 .petBirth(account.getPetBirth().getYear()+"년 "+account.getPetBirth().getMonth().getValue()+"월생")
                 .build();
-        return Response.success(GENERAL_SUCCESS, response);
+        return Response.ok(GENERAL_SUCCESS, response);
     }
 
     // RFID 인증을 하면 상대에게 푸쉬알림을 보낸다.
@@ -81,14 +78,14 @@ public class PaymentController {
         if(payment.getStatus() != PENDING){
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
-        log.info("계좌번호: {}",encryptUtil.hashPassword(request.getRfidCode()));
+        log.info("계좌번호: {}", PasswordEncoder.hashPassword(request.getRfidCode()));
         Account sellerAccount=accountService.findBusinessAccountByMemberId(sellerId);
-        Account buyerAccount=accountService.findByRFID(encryptUtil.hashPassword(request.getRfidCode()));
+        Account buyerAccount=accountService.findByRFID(PasswordEncoder.hashPassword(request.getRfidCode()));
 
         messageSenderService.sendPaymentMessage(new PaymentNotificationRequest(
                 buyerAccount.getMemberId(), payment.getPaymentAmount(), sellerAccount.getDepositorName()
         ));
-        return Response.success(GENERAL_SUCCESS, "알림 전송");
+        return Response.ok(GENERAL_SUCCESS, "알림 전송");
     }
 
     // 결제 정보를 출력한다.
@@ -102,7 +99,7 @@ public class PaymentController {
         PaymentInfoResponse response=new PaymentInfoResponse(sellerAccount.getDepositorName()
                 ,types[sellerAccount.getBusinessType()-1],
                 null,timeUtil.transferDateTimeConverter(LocalDateTime.now()), payment.getId(), payment.getPaymentAmount());
-        return Response.success(GENERAL_SUCCESS, response);
+        return Response.ok(GENERAL_SUCCESS, response);
     }
 
     @PostMapping("/payment/complete/{paymentId}")
@@ -122,7 +119,7 @@ public class PaymentController {
 
         resultMap.put("paymentId",paymentId);
         resultMap.put("transactionId",transactionId);
-        return Response.success(GENERAL_SUCCESS, resultMap);
+        return Response.ok(GENERAL_SUCCESS, resultMap);
 
     }
 }
