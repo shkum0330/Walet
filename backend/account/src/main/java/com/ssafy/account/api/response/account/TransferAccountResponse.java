@@ -3,6 +3,8 @@ package com.ssafy.account.api.response.account;
 import com.ssafy.account.db.entity.account.Account;
 import lombok.Data;
 
+import static com.ssafy.account.db.entity.account.Account.*;
+
 @Data
 public class TransferAccountResponse {
     private Long accountId;
@@ -15,7 +17,7 @@ public class TransferAccountResponse {
         this.accountId = account.getId();
         this.accountName = account.getAccountName();
         this.accountNumber = account.getAccountNumber();
-        this.accountType = account.getAccountType();
+        this.accountType = account.getAccountType().getCode();
         this.balance=account.getBalance();
     }
 }

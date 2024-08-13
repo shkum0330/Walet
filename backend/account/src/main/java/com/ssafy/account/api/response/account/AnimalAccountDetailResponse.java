@@ -37,9 +37,9 @@ public class AnimalAccountDetailResponse {
         this.accountName = account.getAccountName();
         this.accountNumber = account.getAccountNumber();
         this.balance = account.getBalance();
-        this.accountState = account.getAccountState();
+        this.accountState = account.getAccountState().getCode();
         this.createdAt = account.getCreatedAt();
-        this.accountType = account.getAccountType();
+        this.accountType = account.getAccountType().getCode();
         this.linkedAccountId = account.getLinkedAccountId();
         this.linkedAccountNumber = linkedAccountNumber;
         this.petName = account.getPetName();

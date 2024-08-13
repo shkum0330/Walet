@@ -11,7 +11,8 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-import static com.ssafy.account.db.entity.account.AccountState.*;
+import static com.ssafy.account.db.entity.account.Account.AccountState.*;
+import static com.ssafy.account.db.entity.account.Account.AccountType.*;
 
 @Entity
 @Getter
@@ -27,6 +28,7 @@ public class Account extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long memberId;
 
+    // 농협 API 전용
     @Column(name = "pin_account",length = 40)
     private String pinAccount;
     @Column(name = "virtual_account", length = 20)
@@ -43,11 +45,65 @@ public class Account extends BaseTimeEntity {
     @Column(name="balance", nullable = false)
     private Long balance = 0L; // 잔액
 
+    @Enumerated(EnumType.STRING)
     @Column(name="account_state",length=10, nullable = false)
-    private String accountState; // 상태 => 정상(00), 잠금(01), 정지(10), 폐쇄(11)
+    private AccountState accountState; // 상태 => 정상(00), 잠금(01), 정지(10), 폐쇄(11)
 
+    public enum AccountState {
+        ACTIVE("00"),
+        LOCKED("01"),
+        STOPPED("10"),
+        CLOSED("11");
+
+        private final String code;
+
+        AccountState(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public static AccountState getState(String code) {
+            for (AccountState state : values()) {
+                if (state.getCode().equals(code)) {
+                    return state;
+                }
+            }
+            throw new IllegalArgumentException("Unknown account state code: " + code);
+        }
+    }
+
+    @Enumerated(EnumType.STRING)
     @Column(name="account_type", length = 10,nullable = false)
-    private String accountType; // 타입(일반계좌(00), 사업자계좌(01), 펫계좌(02))
+    private AccountType accountType; // 타입(일반계좌(00), 사업자계좌(01), 펫계좌(02))
+
+    @Getter
+    public enum AccountType {
+        NORMAL("00"),
+        BUSINESS("01"),
+        PET("02");
+
+        private final String code;
+
+        AccountType(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public static AccountType getType(String code) {
+            for (AccountType type : values()) {
+                if (type.getCode().equals(code)) {
+                    return type;
+                }
+            }
+            throw new IllegalArgumentException("잘못된 타입 코드: " + code);
+        }
+    }
     @Column(name="business_type")
     private Integer businessType; // 사업자계좌면 사업유형도 입력
     @Column(name="linked_account_id", length = 20)
@@ -77,7 +133,7 @@ public class Account extends BaseTimeEntity {
 
     // 일반계좌 기본정보 입력
     public Account(Long memberId, String memberName, AccountSaveRequest accountSaveRequest) {
-        this.accountState = "00";
+        this.accountState = ACTIVE;
         this.memberId = memberId;
         this.accountName= accountSaveRequest.getAccountName();
         this.depositorName = memberName;
@@ -87,11 +143,11 @@ public class Account extends BaseTimeEntity {
 
     // 반려동물계좌 기본정보 입력
     public Account(Long memberId, String memberName, PetAccountSaveRequest accountRequest) {
-        this.accountState = "00";
+        this.accountState = ACTIVE;
         this.memberId = memberId;
         this.accountName=accountRequest.getAccountName();
         this.depositorName = memberName;
-        this.accountType = "02";
+        this.accountType = PET;
         this.linkedAccountId = accountRequest.getLinkedAccountId();
         this.petName = accountRequest.getPetName();
         this.petGender = accountRequest.getPetGender(); // 펫성별
@@ -143,19 +199,19 @@ public class Account extends BaseTimeEntity {
     // 계좌 상태 변경
     // 1. ACTIVE
     public void updateStateToActive() {
-        this.accountState = "00";
+        this.accountState = ACTIVE;
     }
     // 2. LOCKED
     public void updateStateToLocked() {
-        this.accountState = "01";
+        this.accountState = LOCKED;
     }
     // 3. SUSPENDED
-    public void updateStateToSuspended() {
-        this.accountState = "10";
+    public void updateStateToStopped() {
+        this.accountState = STOPPED;
     }
     // 4. CLOSED
     public void updateStateToClosed() {
-        this.accountState = "11";
+        this.accountState = CLOSED;
     }
 
     // 양도시 정보 이전
@@ -173,7 +229,7 @@ public class Account extends BaseTimeEntity {
         this.rfidCode=account.getRfidCode();
     }
     public void deletePetInfo(){
-        this.accountType="00";
+        this.accountType=NORMAL;
         this.limitTypes=null;
         this.petBirth=null;
         this.petBreed=null;

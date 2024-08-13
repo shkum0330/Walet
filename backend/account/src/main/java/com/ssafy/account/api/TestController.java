@@ -22,8 +22,13 @@ public class TestController {
     private final OauthClient oauthClient;
     private final EncryptUtil encryptUtil;
 
+    @GetMapping("/test")
+    public String test(){
+        return "ok";
+    }
+
     @GetMapping("/test/{rfidCode}")
-    public Response test(@PathVariable String rfidCode) {
+    public Response rfid_test(@PathVariable String rfidCode) {
 //        InquireDepositorFinAccountDto.Request request = InquireDepositorFinAccountDto.Request.builder()
 //                .FinAcno("00820111419481425091415098899")
 //                .build();

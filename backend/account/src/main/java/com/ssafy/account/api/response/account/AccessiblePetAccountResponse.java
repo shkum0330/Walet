@@ -1,11 +1,8 @@
 package com.ssafy.account.api.response.account;
 
 import com.ssafy.account.db.entity.account.Account;
-import com.ssafy.account.db.entity.account.AccountState;
 import lombok.Data;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 public class AccessiblePetAccountResponse {

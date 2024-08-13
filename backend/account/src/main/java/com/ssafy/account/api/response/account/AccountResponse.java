@@ -14,6 +14,6 @@ public class AccountResponse {
         this.accountId = account.getId();
         this.accountName = account.getAccountName();
         this.accountNumber = account.getAccountNumber();
-        this.accountType = account.getAccountType();
+        this.accountType = account.getAccountType().getCode();
     }
 }

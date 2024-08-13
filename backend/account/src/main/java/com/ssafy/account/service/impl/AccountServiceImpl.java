@@ -267,7 +267,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public void updateStateToSuspended(Long accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        account.updateStateToSuspended();
+        account.updateStateToStopped();
     }
 
     // 4. 폐쇄

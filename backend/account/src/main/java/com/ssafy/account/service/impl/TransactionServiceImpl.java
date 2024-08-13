@@ -147,7 +147,7 @@ public class TransactionServiceImpl implements TransactionService {
         if(myAccount.getBalance() - remittanceAmount < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_REMITTANCE);
 
         // 농협api로 송금 진행
-        nhFintechService.remittance(myAccount,receiverAccount,remittanceAmount);
+//        nhFintechService.remittance(myAccount,receiverAccount,remittanceAmount);
 
         myAccount.minusBalance(remittanceAmount);
         receiverAccount.addBalance(remittanceAmount);
