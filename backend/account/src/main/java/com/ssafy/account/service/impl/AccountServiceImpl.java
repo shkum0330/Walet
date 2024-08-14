@@ -27,6 +27,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.ssafy.account.common.api.status.FailCode.*;
+import static com.ssafy.account.db.entity.account.Account.AccountType.*;
 import static java.util.stream.Collectors.*;
 
 @Slf4j
@@ -46,11 +47,11 @@ public class AccountServiceImpl implements AccountService {
     public Account registerGeneralAccount(Long memberId, AccountSaveRequest accountSaveRequest) {
 
         // 사업자 계좌인데 사업 유형이 없으면 에러
-        if(accountSaveRequest.getAccountType().equals("01") && accountSaveRequest.getBusinessType() == null) {
+        if(accountSaveRequest.getAccountType().equals(BUSINESS) && accountSaveRequest.getBusinessType() == null) {
             throw new GlobalRuntimeException(NO_BUSINESS_TYPE);
         }
         // 사업자 계좌가 아닌데 사업 유형이 있으면 에러
-        if(!accountSaveRequest.getAccountType().equals("01") && accountSaveRequest.getBusinessType() != null) {
+        if(!accountSaveRequest.getAccountType().equals(BUSINESS) && accountSaveRequest.getBusinessType() != null) {
             throw new GlobalRuntimeException(UNNECESSARY_BUSINESS_TYPE);
         }
 

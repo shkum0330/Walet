@@ -3,10 +3,8 @@ package com.ssafy.account.db.entity.account;
 import com.ssafy.account.api.request.account.AccountSaveRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.common.domain.util.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.ssafy.account.common.domain.util.PasswordEncoder;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -131,31 +129,39 @@ public class Account extends BaseTimeEntity {
     @Column(name="limit_types")
     private Integer limitTypes; // 사용가능 제한업종 목록(비트연산으로 추가)
 
-    // 일반계좌 기본정보 입력
-    public Account(Long memberId, String memberName, AccountSaveRequest accountSaveRequest) {
-        this.accountState = ACTIVE;
+    @Builder(builderMethodName = "generalAccountBuilder", buildMethodName = "buildGeneralAccount")
+    public Account(Long memberId, String depositorName, AccountSaveRequest accountSaveRequest) {
+        this.accountState = ACTIVE; // 활성 상태라는 의미이다.
         this.memberId = memberId;
+        this.depositorName = depositorName;
+        this.accountPassword= PasswordEncoder.hashPassword(accountSaveRequest.getAccountPassword());
         this.accountName= accountSaveRequest.getAccountName();
-        this.depositorName = memberName;
         this.accountType = accountSaveRequest.getAccountType();
+        this.businessType=accountSaveRequest.getBusinessType();
         this.linkedAccountId = accountSaveRequest.getLinkedAccountId();
+        this.accountNumber=accountSaveRequest.getAccountNumber();
     }
 
     // 반려동물계좌 기본정보 입력
-    public Account(Long memberId, String memberName, PetAccountSaveRequest accountRequest) {
+    @Builder(builderMethodName = "petAccountBuilder", buildMethodName = "buildPetAccount")
+    public Account(Long memberId, String memberName, PetAccountSaveRequest petAccountSaveRequest) {
         this.accountState = ACTIVE;
         this.memberId = memberId;
-        this.accountName=accountRequest.getAccountName();
+        this.accountName=petAccountSaveRequest.getAccountName();
         this.depositorName = memberName;
+        this.accountPassword= PasswordEncoder.hashPassword(petAccountSaveRequest.getAccountPassword());
         this.accountType = PET;
-        this.linkedAccountId = accountRequest.getLinkedAccountId();
-        this.petName = accountRequest.getPetName();
-        this.petGender = accountRequest.getPetGender(); // 펫성별
-        this.petBirth = accountRequest.getPetBirth(); // 펫생년월일
-        this.petBreed = accountRequest.getPetBreed(); // 품종
-        this.petNeutered = accountRequest.getPetNeutered(); // 중성화여부
-        this.petWeight = accountRequest.getPetWeight(); // 몸무게
-        this.petPhoto = accountRequest.getPetPhoto(); // 사진
+        this.linkedAccountId = petAccountSaveRequest.getLinkedAccountId();
+        this.petName = petAccountSaveRequest.getPetName();
+        this.petGender = petAccountSaveRequest.getPetGender(); // 펫성별
+        this.petBirth = petAccountSaveRequest.getPetBirth(); // 펫생년월일
+        this.petBreed = petAccountSaveRequest.getPetBreed(); // 품종
+        this.petNeutered = petAccountSaveRequest.getPetNeutered(); // 중성화여부
+        this.petWeight = petAccountSaveRequest.getPetWeight(); // 몸무게
+        this.petPhoto = petAccountSaveRequest.getPetPhoto(); // 사진
+        // 반려동물의 등록정보. RFID 칩을 인식칩 대용으로 활용하였다.
+        this.rfidCode= PasswordEncoder.hashPassword(petAccountSaveRequest.getRfidCode());
+        this.accountNumber=petAccountSaveRequest.getAccountNumber();
     }
 
     public void addHashPwd(String hashAccountPwd) {

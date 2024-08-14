@@ -1,9 +1,8 @@
 package com.ssafy.account.api;
 
 import com.ssafy.account.common.api.Response;
-import com.ssafy.account.common.domain.util.EncryptUtil;
+import com.ssafy.account.common.domain.util.PasswordEncoder;
 import com.ssafy.external.client.OauthClient;
-import com.ssafy.external.dto.InquireDepositorFinAccountDto;
 import com.ssafy.external.dto.OauthDto;
 import com.ssafy.external.service.NHFintechService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import static com.ssafy.account.common.api.status.SuccessCode.GENERAL_SUCCESS;
 public class TestController {
     private final NHFintechService nhFintechService;
     private final OauthClient oauthClient;
-    private final EncryptUtil encryptUtil;
 
     @GetMapping("/test")
     public String test(){
@@ -35,7 +33,7 @@ public class TestController {
 //        nhFintechService.InquireDepositorFinAccount(request);
 //        System.out.println(nhFintechService.OpenFinAccountARS();
 
-        return Response.success(GENERAL_SUCCESS, encryptUtil.hashPassword(rfidCode));
+        return Response.ok(GENERAL_SUCCESS, PasswordEncoder.hashPassword(rfidCode));
     }
 
     @GetMapping("/auth-test")

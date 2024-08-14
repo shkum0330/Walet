@@ -8,6 +8,8 @@ import static com.ssafy.account.db.entity.account.Account.*;
 @Data
 public class AccountSaveRequest {
     private String accountName; // 계좌명(ex. NH올원e예금)
+    private String accountNumber;
+    private String accountPassword;
     private AccountType accountType; // 타입(일반(00), 사업자(01), 펫(02))
     private Integer businessType; // 사업자계좌면 사업유형도 입력
     private String accountPwd; // 계좌 비밀번호

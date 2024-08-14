@@ -13,7 +13,7 @@ public class PetAccountSaveRequest {
     private String accountName; // 계좌명
     private String accountPassword; // 계좌 비밀번호
     private Long linkedAccountId; // 충전계좌의 id
-
+    private String AccountNumber;
     private String petName; // 펫이름
     private String petGender; // 펫성별
     private LocalDate petBirth; // 펫생년월일
