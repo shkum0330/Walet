@@ -127,7 +127,7 @@ public class Account extends BaseTimeEntity {
     @Column(name="rfid_code", length = 64)
     private String rfidCode; // 강아지 RFID 코드
     @Column(name="limit_types")
-    private Integer limitTypes; // 사용가능 제한업종 목록(비트연산으로 추가)
+    private Integer limitTypes=0; // 사용가능 제한업종 목록(비트연산으로 추가)
 
     @Builder(builderMethodName = "generalAccountBuilder", buildMethodName = "buildGeneralAccount")
     public Account(Long memberId, String depositorName, AccountSaveRequest accountSaveRequest) {

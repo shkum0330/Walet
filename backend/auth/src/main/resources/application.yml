@@ -4,7 +4,7 @@ spring:
   config:
     import: env.yml
   application:
-    name: ${DOMAIN_NAME}
+    name: auth
   main:
     allow-bean-definition-overriding: true
 

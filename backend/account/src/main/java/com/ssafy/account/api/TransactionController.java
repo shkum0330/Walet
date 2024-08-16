@@ -42,6 +42,7 @@ public class TransactionController {
         return Response.ok(GENERAL_SUCCESS, transactionId);
     }
 
+    // 일반계좌 간 송금
     @PostMapping("/transaction/remittance/create")
     public Response<?> addRemittanceTransaction(@RequestBody RemittanceRequest request) {
         Long transactionId = transactionService.addRemittanceTransaction(request);

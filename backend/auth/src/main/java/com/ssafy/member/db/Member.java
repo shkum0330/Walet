@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Getter @Setter
 public class Member extends BaseTimeEntity {
 
-
     @Id @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

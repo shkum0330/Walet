@@ -33,7 +33,7 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     @Column(name="transaction_type",length = 10,nullable = false)
     private TransactionType transactionType; // 거래 타입
-    @Column(name="paymentAmount", nullable = false)
+    @Column(name="payment_amount", nullable = false)
     private Long paymentAmount; // 거래 금액
     @Column(name="balance", nullable = false)
     private Long balance; // 거래 후 잔액
