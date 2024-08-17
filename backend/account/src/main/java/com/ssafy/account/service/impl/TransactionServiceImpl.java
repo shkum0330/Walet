@@ -23,6 +23,9 @@ import com.ssafy.external.service.OauthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -160,32 +163,32 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    @Cacheable(value = "txHistory", key = "#memberId")
-    public List<TransactionResponse> getTransactionHistory(Long memberId, Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+//    @Cacheable(value = "txHistory", key = "#memberId")
+    public Page<TransactionResponse> getTransactionHistory(Long memberId, Long accountId,int page) {
+
         
         // 접근하려는 사람의 id(requestMemberId)와 계좌번호(accountNumber)를 활용하여
         // 접근 권한이 있는 유저인지 확인
         // 본인이면 당연히 접근가능
-        Access access = accessRepository.findAccessByRequestMemberIdAndAccountNumberAndIsConfirmed(memberId, account.getAccountNumber(), 1);
-        if(!account.getMemberId().equals(memberId) && access == null) {
-            throw new NotFoundException(NO_PERMISSION_TO_TRANSACTION);
-        }
-        
-        List<Transaction> transactions = transactionRepository.findByAccount(account);
-        List<TransactionResponse> result = new ArrayList<>();
+//        Access access = accessRepository.findAccessByRequestMemberIdAndAccountNumberAndIsConfirmed(memberId, account.getAccountNumber(), 1);
+//        if(!account.getMemberId().equals(memberId) && access == null) {
+//            throw new NotFoundException(NO_PERMISSION_TO_TRANSACTION);
+//        }
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Transaction> transactions = transactionRepository.findByAccountId(accountId,pageable);
+        Page<TransactionResponse> result = transactions.map(m->new TransactionResponse(m));
 
-        for (Transaction transaction : transactions) {
-            TransactionType transactionType = transaction.getTransactionType();
-
-            if(transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
-                result.add(new TransactionResponse(transaction.getAccount().getDepositorName(), transaction));
-            }
-            else if (transactionType == TransactionType.WITHDRAWAL) {
-                result.add(new TransactionResponse(transaction.getRecipient(), transaction));
-            }
-
-        }
+//        for (Transaction transaction : transactions) {
+//            TransactionType transactionType = transaction.getTransactionType();
+//
+//            if(transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
+//                result.add(new TransactionResponse(transaction.getAccount().getDepositorName(), transaction));
+//            }
+//            else if (transactionType == TransactionType.WITHDRAWAL) {
+//                result.add(new TransactionResponse(transaction.getRecipient(), transaction));
+//            }
+//
+//        }
         return result;
     }
 
@@ -208,15 +211,15 @@ public class TransactionServiceImpl implements TransactionService {
                 .findByTransactionTimeBetweenOrderByTransactionTimeDesc(startDate,endDate);
 
         List<TransactionResponse> result = new ArrayList<>();
-        for (Transaction transaction : transactions) {
-            TransactionType transactionType = transaction.getTransactionType();
-            if (transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
-                result.add(new TransactionResponse(transaction.getAccount().getDepositorName(), transaction));
-            }
-            else if (transactionType == TransactionType.WITHDRAWAL) {
-                result.add(new TransactionResponse(transaction.getRecipient(), transaction));
-            }
-        }
+//        for (Transaction transaction : transactions) {
+//            TransactionType transactionType = transaction.getTransactionType();
+//            if (transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
+//                result.add(new TransactionResponse(transaction.getAccount().getDepositorName(), transaction));
+//            }
+//            else if (transactionType == TransactionType.WITHDRAWAL) {
+//                result.add(new TransactionResponse(transaction.getRecipient(), transaction));
+//            }
+//        }
         return result;
     }
 
@@ -262,7 +265,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<AdminMemberAccountTransactionResponse> getTransactionsForAdmin(Long accountId) {
-        List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Transaction> transactions = transactionRepository.findByAccountId(accountId,pageable);
 
         List<AdminMemberAccountTransactionResponse> result = new ArrayList<>();
         for (Transaction transaction : transactions) {

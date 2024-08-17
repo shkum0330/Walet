@@ -2,6 +2,7 @@ package com.ssafy.account.common.api;
 
 import com.ssafy.account.common.api.status.FailCode;
 import com.ssafy.account.common.api.status.SuccessCode;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
  * @author Sehyun Kum
  * @version 1.0
  */
+@Getter
 public class Response<T> {
     private int code;
     private final String message;

@@ -7,12 +7,14 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ssafy.account.db.entity.transaction.Transaction;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class TransactionResponse {
 
     private Long id;
@@ -25,9 +27,8 @@ public class TransactionResponse {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime transactionDate; // 거래일자
 
-    public TransactionResponse(String counterPart, Transaction transaction) {
+    public TransactionResponse(Transaction transaction) {
         this.id = transaction.getId();
-        this.counterPart = counterPart;
         this.transactionType = transaction.getTransactionType().getName();
         this.paymentAmount = transaction.getPaymentAmount();
         this.balance = transaction.getBalance();
