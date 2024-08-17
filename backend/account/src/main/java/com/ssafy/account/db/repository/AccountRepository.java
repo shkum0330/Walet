@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ssafy.account.db.entity.account.Account.*;
+
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findAccountsByMemberIdAndAccountType(Long memberId, String accountType);
@@ -24,7 +26,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Optional<Account> findByAccountNumberAndAccountState(String accountNumber, String accountState);
 
-    Optional<Account> findByIdAndAccountState(Long id, String accountState);
+    Optional<Account> findByIdAndAccountState(Long id, AccountState accountState);
 
     Optional<Account> findByDepositorNameAndAccountType(String depositorName, String accountType);
 

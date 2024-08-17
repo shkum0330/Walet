@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ssafy.account.common.domain.util.PasswordEncoder.*;
+import static com.ssafy.account.db.entity.account.Account.AccountState.*;
+import static com.ssafy.account.db.entity.account.Account.AccountType.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,7 +38,7 @@ class AccountServiceTest {
     @Test
     public void 일반계좌_생성() throws Exception {
         //given
-        AccountSaveRequest request=new AccountSaveRequest("적금계좌","00",null,"1234",null);
+        AccountSaveRequest request=new AccountSaveRequest("적금계좌","12345667","1234", NORMAL,null,null);
         //when
         Account account=accountService.registerGeneralAccount(1L,request);
         //then

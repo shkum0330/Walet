@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ssafy.account.common.api.status.FailCode.*;
+import static com.ssafy.account.db.entity.account.Account.AccountState.*;
 
 @Slf4j
 @Service
@@ -123,14 +124,14 @@ public class TransactionServiceImpl implements TransactionService {
         Long myAccountId = remittanceRequest.getMyAccountId();
         Long receiverAccountId = remittanceRequest.getReceiverAccountId();
 
-        Account myAccount = accountRepository.findByIdAndAccountState(myAccountId, "00").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        Account receiverAccount = accountRepository.findByIdAndAccountState(receiverAccountId, "00").orElseThrow(() -> new NotFoundException(NO_RECEIVER_ACCOUNT));
+        Account myAccount = accountRepository.findByIdAndAccountState(myAccountId, ACTIVE).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account receiverAccount = accountRepository.findByIdAndAccountState(receiverAccountId, ACTIVE).orElseThrow(() -> new NotFoundException(NO_RECEIVER_ACCOUNT));
 
         // 입력된 비밀번호가 맞는지 확인
         String password = remittanceRequest.getPassword();
-        if (!myAccount.getAccountPassword().equals(PasswordEncoder.hashPassword(password))) {
-            throw new NotCorrectException(DIFFERENT_PASSWORD);
-        }
+//        if (PasswordEncoder.checkPass(password,myAccount.getAccountPassword())) {
+//            throw new NotCorrectException(DIFFERENT_PASSWORD);
+//        }
 
         // 사용 가능 계좌인지 확인
 //        if(myAccount.getAccountState().equals("01") || myAccount.getAccountState().equals("10") || myAccount.getAccountState().equals("11")) {

@@ -17,7 +17,6 @@ import static com.ssafy.account.common.api.status.ProcessStatus.PENDING;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true) // 반드시확인반드시확인반드시확인반드시확인반드시확인반드시확인반드시확인반드시확인반드시확인
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
@@ -32,6 +31,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Payment findPayment(Long paymentId) {
         return paymentRepository.findById(paymentId).orElseThrow(() -> new NotFoundException(NO_PAYMENT));
     }
@@ -48,6 +48,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Payment findByBuyerId(Long buyerId) {
         return paymentRepository.findByBuyerId(buyerId).get(0);
     }

@@ -64,7 +64,7 @@ public enum AccountFixture {
     }
 
     public Account getAccount(){
-        return Account.builder()
+        return Account.generalAccountBuilder()
                 .id(id)
                 .memberId(memberId)
                 .accountName(accountName)
@@ -86,6 +86,6 @@ public enum AccountFixture {
                 .petPhoto(petPhoto)
                 .rfidCode(rfidCode)
                 .limitTypes(limitTypes)
-                .build();
+                .buildGeneralAccount();
     }
 }
