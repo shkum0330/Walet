@@ -6,13 +6,9 @@ import com.ssafy.account.api.request.transaction.TransactionPeriodRequest;
 import com.ssafy.account.api.request.transaction.TransactionRequest;
 import com.ssafy.account.api.response.transaction.PetInfoResponse;
 import com.ssafy.account.api.response.transaction.ReceiverInfoResponse;
-import com.ssafy.account.api.response.transaction.TransactionResponse;
 import com.ssafy.account.common.api.Response;
-import com.ssafy.account.db.entity.account.Account;
-import com.ssafy.account.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 

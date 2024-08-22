@@ -1,9 +1,8 @@
 package com.ssafy.account.api;
 
 import com.ssafy.account.api.request.account.AccountSaveRequest;
-import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import com.ssafy.account.docs.RestApiTest;
-import com.ssafy.account.service.AccountService;
 import com.ssafy.fixture.AccountFixture;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static com.ssafy.account.docs.ApiDocumentUtils.getDocumentRequest;
 import static com.ssafy.account.docs.ApiDocumentUtils.getDocumentResponse;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -27,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @WebMvcTest(AccountController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-class AccountControllerTest extends RestApiTest {
+class PetAccountControllerTest extends RestApiTest {
     @MockBean
     AccountService accountService;
 
@@ -36,10 +34,10 @@ class AccountControllerTest extends RestApiTest {
         //given
         AccountSaveRequest accountSaveRequest=new AccountSaveRequest("예금계좌","00"
                 ,null,"1234",null);
-        Account expectedNormalAccount = AccountFixture.NORMAL.getAccount();
+        PetAccount expectedNormalPetAccount = AccountFixture.NORMAL.getAccount();
 
         //when
-        given(accountService.registerGeneralAccount(any(Long.class),any(AccountSaveRequest.class))).willReturn(expectedNormalAccount);
+        given(accountService.registerGeneralAccount(any(Long.class),any(AccountSaveRequest.class))).willReturn(expectedNormalPetAccount);
 
         // then
         ResultActions perform=mockMvc.perform(

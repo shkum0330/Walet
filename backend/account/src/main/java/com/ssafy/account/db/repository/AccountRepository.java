@@ -1,6 +1,7 @@
 package com.ssafy.account.db.repository;
 
 import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.AccountState;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,12 +9,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.ssafy.account.db.entity.account.Account.*;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findAccountsByMemberIdAndAccountType(Long memberId, String accountType);
-
+    List<Account> findByMemberId(Long memberId);
     Account findByPetNameAndAccountNumber(String petName, String accountNumber);
 
     List<Account> findAccountsByMemberId(Long memberId);
@@ -32,7 +32,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Optional<Account> findByDepositorNameAndAccountNumber(String depositorName, String accountNumber);
 
-    List<Account> findAccountByMemberIdAndAccountTypeAndAccountState(Long memberId,String accountType, String accountState);
+    List<Account> findAccountByMemberIdAndAccountTypeAndAccountState(Long memberId, String accountType, String accountState);
 
     Optional<Account> findByAccountNumber(String accountNumber);
 

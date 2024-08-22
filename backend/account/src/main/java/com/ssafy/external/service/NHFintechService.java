@@ -1,9 +1,6 @@
 package com.ssafy.external.service;
 
-import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.external.dto.*;
-
-import java.util.List;
 
 public interface NHFintechService {
     OpenFinAccountARSDto.Response OpenFinAccountARS(OpenFinAccountARSDto.Request request); //핀어카운트 ARS 발급

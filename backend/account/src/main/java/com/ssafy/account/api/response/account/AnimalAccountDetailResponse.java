@@ -1,10 +1,9 @@
 package com.ssafy.account.api.response.account;
 
 import com.ssafy.account.api.response.transaction.HomeTransactionResponse;
-import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,23 +31,23 @@ public class AnimalAccountDetailResponse {
     private String petPhoto; // 사진
     private List<HomeTransactionResponse> transactions;
 
-    public AnimalAccountDetailResponse(Account account, List<HomeTransactionResponse> transactions, String petAge, String linkedAccountNumber) {
-        this.id = account.getId();
-        this.accountName = account.getAccountName();
-        this.accountNumber = account.getAccountNumber();
-        this.balance = account.getBalance();
-        this.accountState = account.getAccountState().getCode();
-        this.createdAt = account.getCreatedAt();
-        this.accountType = account.getAccountType().getCode();
-        this.linkedAccountId = account.getLinkedAccountId();
+    public AnimalAccountDetailResponse(PetAccount petAccount, List<HomeTransactionResponse> transactions, String petAge, String linkedAccountNumber) {
+        this.id = petAccount.getId();
+        this.accountName = petAccount.getAccountName();
+        this.accountNumber = petAccount.getAccountNumber();
+        this.balance = petAccount.getBalance();
+        this.accountState = petAccount.getAccountState().getCode();
+        this.createdAt = petAccount.getCreatedAt();
+        this.accountType = petAccount.getAccountType().getCode();
+        this.linkedAccountId = petAccount.getLinkedAccountId();
         this.linkedAccountNumber = linkedAccountNumber;
-        this.petName = account.getPetName();
-        this.petGender = account.getPetGender();
+        this.petName = petAccount.getPetName();
+        this.petGender = petAccount.getPetGender();
         this.petAge = petAge;
-        this.petBreed = account.getPetBreed();
-        this.petNeutered = account.getPetNeutered();
-        this.petWeight = account.getPetWeight();
-        this.petPhoto = account.getPetPhoto();
+        this.petBreed = petAccount.getPetBreed();
+        this.petNeutered = petAccount.getPetNeutered();
+        this.petWeight = petAccount.getPetWeight();
+        this.petPhoto = petAccount.getPetPhoto();
         this.transactions = new ArrayList<>(transactions);
     }
 }

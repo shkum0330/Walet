@@ -1,6 +1,6 @@
 package com.ssafy.fixture;
 
-import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -63,8 +63,8 @@ public enum AccountFixture {
         this.limitTypes = limitTypes;
     }
 
-    public Account getAccount(){
-        return Account.generalAccountBuilder()
+    public PetAccount getAccount(){
+        return PetAccount.generalAccountBuilder()
                 .id(id)
                 .memberId(memberId)
                 .accountName(accountName)

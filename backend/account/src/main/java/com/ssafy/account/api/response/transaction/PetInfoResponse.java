@@ -1,11 +1,8 @@
 package com.ssafy.account.api.response.transaction;
 
-import com.ssafy.account.db.entity.account.Account;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor

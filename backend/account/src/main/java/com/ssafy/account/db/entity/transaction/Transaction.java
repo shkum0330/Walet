@@ -1,14 +1,10 @@
 package com.ssafy.account.db.entity.transaction;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -41,8 +37,8 @@ public class Transaction {
     private LocalDateTime transactionTime;
 
     // 반려동물 관련 업체와의 거래
-    public Transaction(Account account, String recipient, Integer businessCategory, TransactionType transactionType, Long paymentAmount, Long balance) {
-        this.account = account;
+    public Transaction(PetAccount petAccount, String recipient, Integer businessCategory, TransactionType transactionType, Long paymentAmount, Long balance) {
+        this.account = petAccount;
         this.recipient = recipient;
         this.businessCategory = businessCategory;
         this.transactionType = transactionType;

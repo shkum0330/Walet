@@ -5,44 +5,41 @@ import com.ssafy.account.api.response.transaction.HomeTransactionResponse;
 import com.ssafy.account.common.api.exception.NotFoundException;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import com.ssafy.account.db.entity.transaction.Transaction;
 import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.db.repository.TransactionRepository;
-import com.ssafy.account.service.PetHomeAccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.ssafy.account.common.api.status.FailCode.NO_ACCOUNT;
 import static com.ssafy.account.common.api.status.FailCode.NO_PET_ACCOUNT;
 
 @Service
 @Transactional
 @AllArgsConstructor
-public class PetHomeAccountServiceImpl implements PetHomeAccountService {
+public class PetHomeAccountService {
 
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
     private final TimeUtil timeUtil;
 
-    @Override
     public List<AnimalAccountDetailResponse> getAnimalAccountDetail(Long memberId) {
         // 해당 사용자의 펫계좌 목록을 가져옴
-        List<Account> petAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "02");
+        List<Account> petPetAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "02");
 
-        if(petAccounts.isEmpty()) {
+        if(petPetAccounts.isEmpty()) {
             throw new NotFoundException(NO_PET_ACCOUNT);
         }
 
         List<HomeTransactionResponse> top5Transactions = new ArrayList<>();
         List<AnimalAccountDetailResponse> result = new ArrayList<>();
 
-        for (Account petAccount : petAccounts) {
+        for (Account petAccount : petPetAccounts) {
 
             // 각 계좌의 거래내역을 가져옴
             List<Transaction> transactions = transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(petAccount);
@@ -57,8 +54,8 @@ public class PetHomeAccountServiceImpl implements PetHomeAccountService {
                 }
             }
 
-            Account linkedAccount = accountRepository.findAccountById(petAccount.getLinkedAccountId());
-            result.add(new AnimalAccountDetailResponse(petAccount, top5Transactions, timeUtil.calculateAge(petAccount.getPetBirth()), linkedAccount.getAccountNumber()));
+            Account linkedPetAccount = accountRepository.findAccountById(petAccount.getLinkedAccountId());
+            result.add(new AnimalAccountDetailResponse(petAccount, top5Transactions, timeUtil.calculateAge(petAccount.getPetBirth()), linkedPetAccount.getAccountNumber()));
         }
 
         return result;

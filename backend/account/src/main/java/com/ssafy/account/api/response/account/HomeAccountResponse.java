@@ -1,7 +1,7 @@
 package com.ssafy.account.api.response.account;
 
 import com.ssafy.account.api.response.transaction.HomeTransactionResponse;
-import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -15,11 +15,11 @@ public class HomeAccountResponse { // 홈 화면의 계좌 정보를 나타내�
     private Long balance;
     private List<HomeTransactionResponse> transactions; // 최근 5개 거래목록
 
-    public HomeAccountResponse(Account account, List<HomeTransactionResponse> transactions) {
-        this.accountId = account.getId();
-        this.accountName = account.getAccountName();
-        this.accountNumber = account.getAccountNumber();
-        this.balance = account.getBalance();
+    public HomeAccountResponse(PetAccount petAccount, List<HomeTransactionResponse> transactions) {
+        this.accountId = petAccount.getId();
+        this.accountName = petAccount.getAccountName();
+        this.accountNumber = petAccount.getAccountNumber();
+        this.balance = petAccount.getBalance();
         this.transactions = new ArrayList<>(transactions);
     }
 }

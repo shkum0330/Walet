@@ -4,25 +4,25 @@ import com.ssafy.account.api.request.account.AccountSaveRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.common.domain.util.BaseTimeEntity;
 import com.ssafy.account.common.domain.util.PasswordEncoder;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
-import static com.ssafy.account.db.entity.account.Account.AccountState.*;
-import static com.ssafy.account.db.entity.account.Account.AccountType.*;
+import static com.ssafy.account.db.entity.account.AccountState.*;
 
 @Entity
 @Getter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-public class Account extends BaseTimeEntity {
-
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DTYPE")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public abstract class Account extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
     private Long id;
+
     @Column(name = "member_id")
     private Long memberId;
 
@@ -47,146 +47,30 @@ public class Account extends BaseTimeEntity {
     @Column(name="account_state",length=10, nullable = false)
     private AccountState accountState; // 상태 => 정상(00), 잠금(01), 정지(10), 폐쇄(11)
 
-    public enum AccountState {
-        ACTIVE("00"),
-        LOCKED("01"),
-        STOPPED("10"),
-        CLOSED("11");
-
-        private final String code;
-
-        AccountState(String code) {
-            this.code = code;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public static AccountState getState(String code) {
-            for (AccountState state : values()) {
-                if (state.getCode().equals(code)) {
-                    return state;
-                }
-            }
-            throw new IllegalArgumentException("Unknown account state code: " + code);
-        }
-    }
-
-    @Enumerated(EnumType.STRING)
-    @Column(name="account_type", length = 10,nullable = false)
-    private AccountType accountType; // 타입(일반계좌(00), 사업자계좌(01), 펫계좌(02))
-
-    @Getter
-    public enum AccountType {
-        NORMAL("00"),
-        BUSINESS("01"),
-        PET("02");
-
-        private final String code;
-
-        AccountType(String code) {
-            this.code = code;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public static AccountType getType(String code) {
-            for (AccountType type : values()) {
-                if (type.getCode().equals(code)) {
-                    return type;
-                }
-            }
-            throw new IllegalArgumentException("잘못된 타입 코드: " + code);
-        }
-    }
-    @Column(name="business_type")
-    private Integer businessType; // 사업자계좌면 사업유형도 입력
     @Column(name="linked_account_id", length = 20)
     private Long linkedAccountId; // 연결될 충전계좌 아이디(선택사항)
 
-    // 펫 정보(일반 계좌에서는 이 값들이 null값으로 들어감)
-    @Column(name="pet_name", length = 10)
-    private String petName; // 펫이름
-    @Column(name = "pet_type",length = 5)
-    private String petType; // 강아지, 고양이
-    @Column(name="pet_gender", length = 3)
-    private String petGender; // 펫성별
-    @Column(name="pet_birth")
-    private LocalDate petBirth; // 펫생년월일
-    @Column(name="pet_breed", length = 30)
-    private String petBreed; // 품종
-    @Column(name="pet_neutered")
-    private Boolean petNeutered; // 중성화여부
-    @Column(name="pet_weight")
-    private Float petWeight; // 몸무게
-    @Column(name="pet_photo",length = 100)
-    private String petPhoto; // 사진
-    @Column(name="rfid_code", length = 64)
-    private String rfidCode; // 강아지 RFID 코드
-    @Column(name="limit_types")
-    private Integer limitTypes=0; // 사용가능 제한업종 목록(비트연산으로 추가)
-
-    @Builder(builderMethodName = "generalAccountBuilder", buildMethodName = "buildGeneralAccount")
-    public Account(Long memberId, String depositorName, AccountSaveRequest accountSaveRequest) {
+    public Account(Long memberId,String depositorName,AccountSaveRequest accountSaveRequest){
         this.accountState = ACTIVE; // 활성 상태라는 의미이다.
         this.memberId = memberId;
         this.depositorName = depositorName;
         this.accountPassword= PasswordEncoder.hashPassword(accountSaveRequest.getAccountPassword());
         this.accountName= accountSaveRequest.getAccountName();
-        this.accountType = accountSaveRequest.getAccountType();
-        this.businessType=accountSaveRequest.getBusinessType();
         this.linkedAccountId = accountSaveRequest.getLinkedAccountId();
         this.accountNumber=accountSaveRequest.getAccountNumber();
     }
 
-    // 반려동물계좌 기본정보 입력
-    @Builder(builderMethodName = "petAccountBuilder", buildMethodName = "buildPetAccount")
-    public Account(Long memberId, String memberName, PetAccountSaveRequest petAccountSaveRequest) {
-        this.accountState = ACTIVE;
+    public Account(Long memberId, String depositorName, PetAccountSaveRequest accountSaveRequest){
+        this.accountState = ACTIVE; // 활성 상태라는 의미이다.
         this.memberId = memberId;
-        this.accountName=petAccountSaveRequest.getAccountName();
-        this.depositorName = memberName;
-        this.accountPassword= PasswordEncoder.hashPassword(petAccountSaveRequest.getAccountPassword());
-        this.accountType = PET;
-        this.linkedAccountId = petAccountSaveRequest.getLinkedAccountId();
-        this.petName = petAccountSaveRequest.getPetName();
-        this.petGender = petAccountSaveRequest.getPetGender(); // 펫성별
-        this.petBirth = petAccountSaveRequest.getPetBirth(); // 펫생년월일
-        this.petBreed = petAccountSaveRequest.getPetBreed(); // 품종
-        this.petNeutered = petAccountSaveRequest.getPetNeutered(); // 중성화여부
-        this.petWeight = petAccountSaveRequest.getPetWeight(); // 몸무게
-        this.petPhoto = petAccountSaveRequest.getPetPhoto(); // 사진
-        // 반려동물의 등록정보. RFID 칩을 인식칩 대용으로 활용하였다.
-        this.rfidCode= PasswordEncoder.hashPassword(petAccountSaveRequest.getRfidCode());
-        this.accountNumber=petAccountSaveRequest.getAccountNumber();
+        this.depositorName = depositorName;
+        this.accountPassword= PasswordEncoder.hashPassword(accountSaveRequest.getAccountPassword());
+        this.accountName= accountSaveRequest.getAccountName();
+        this.linkedAccountId = accountSaveRequest.getLinkedAccountId();
+        this.accountNumber=accountSaveRequest.getAccountNumber();
     }
 
-    public void addHashPwd(String hashAccountPwd) {
-        this.accountPassword = hashAccountPwd;
-    }
 
-    public void addHashedRfid(String rfidCode) {
-        this.rfidCode = rfidCode;
-    }
-
-    // 제한업종 추가
-    public void addLimitType(int typeNum) {
-        this.limitTypes |= typeNum;
-    }
-
-    // 사업자계좌에는 사업유형도 입력
-    public void addBusinessType(int type) {
-        this.businessType = type;
-    }
-
-    // 계좌번호 부여
-    public void createAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-    
     // 충전계좌 추가
     public void addLinkedAccount(Long linkedAccountId) {
         this.linkedAccountId = linkedAccountId;
@@ -218,33 +102,5 @@ public class Account extends BaseTimeEntity {
     // 4. CLOSED
     public void updateStateToClosed() {
         this.accountState = CLOSED;
-    }
-
-    // 양도시 정보 이전
-    public void transferPetInfo(Account account){
-        this.accountType=account.getAccountType();
-        this.limitTypes=account.getLimitTypes();
-        this.petBirth=account.getPetBirth();
-        this.petBreed=account.getPetBreed();
-        this.petGender=account.getPetGender();
-        this.petName=account.getPetName();
-        this.petNeutered=account.getPetNeutered();
-        this.petPhoto=account.getPetPhoto();
-        this.petType=account.getPetType();
-        this.petWeight=account.getPetWeight();
-        this.rfidCode=account.getRfidCode();
-    }
-    public void deletePetInfo(){
-        this.accountType=NORMAL;
-        this.limitTypes=null;
-        this.petBirth=null;
-        this.petBreed=null;
-        this.petGender=null;
-        this.petName=null;
-        this.petNeutered=null;
-        this.petPhoto=null;
-        this.petType=null;
-        this.petWeight=null;
-        this.rfidCode=null;
     }
 }

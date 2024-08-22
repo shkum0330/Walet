@@ -6,7 +6,12 @@ import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.api.request.account.SelectChargingAccountRequest;
 import com.ssafy.account.common.api.Response;
 import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import com.ssafy.account.service.*;
+import com.ssafy.account.service.impl.AccountService;
+import com.ssafy.account.service.impl.BusinessHomeAccountService;
+import com.ssafy.account.service.impl.HomeAccountService;
+import com.ssafy.account.service.impl.PetHomeAccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -38,13 +43,13 @@ public class AccountController {
     
     // 1. 계좌 생성
     @PostMapping("/register/general-account")
-    public Response<Account> registerNormalAccount(@RequestHeader("id") Long memberId, @RequestBody AccountSaveRequest accountSaveRequest){;
+    public Response<PetAccount> registerNormalAccount(@RequestHeader("id") Long memberId, @RequestBody AccountSaveRequest accountSaveRequest){;
         return Response.created(CREATE_ACCOUNT,accountService.registerGeneralAccount(memberId, accountSaveRequest));
     }
 
     @PostMapping("/register/pet-account")
-    public Response<Account> registerAnimalAccount(@RequestHeader("id") Long memberId, @RequestPart("petAccountRequest") PetAccountSaveRequest petAccountRequest,
-                                                   @RequestPart("petImage") MultipartFile file) throws IOException {
+    public Response<PetAccount> registerAnimalAccount(@RequestHeader("id") Long memberId, @RequestPart("petAccountRequest") PetAccountSaveRequest petAccountRequest,
+                                                      @RequestPart("petImage") MultipartFile file) throws IOException {
         petAccountRequest.setPetPhoto(s3Service.getS3ImageUrl(s3Service.upload(file)));
         return Response.created(CREATE_ACCOUNT,accountService.registerPetAccount(memberId, petAccountRequest));
     }

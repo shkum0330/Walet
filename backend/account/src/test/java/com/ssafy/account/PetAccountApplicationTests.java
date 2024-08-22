@@ -1,7 +1,6 @@
 package com.ssafy.account;
 
 import com.ssafy.account.api.response.account.AdminAccountCountResponse;
-import com.ssafy.account.service.AccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-class AccountApplicationTests {
+class PetAccountApplicationTests {
 
 	@Autowired
 	AccountService accountService;

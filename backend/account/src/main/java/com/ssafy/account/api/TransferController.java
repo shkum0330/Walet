@@ -12,15 +12,14 @@ import com.ssafy.account.common.api.exception.InvalidTransferException;
 import com.ssafy.account.common.api.exception.NotCorrectException;
 import com.ssafy.account.common.domain.util.PasswordEncoder;
 import com.ssafy.account.common.domain.util.TimeUtil;
-import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import com.ssafy.account.db.entity.transaction.Transaction;
 import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.entity.transfer.Transfer;
 import com.ssafy.account.db.repository.TransactionRepository;
-import com.ssafy.account.service.AccountService;
 import com.ssafy.account.service.MessageSenderService;
-import com.ssafy.account.service.TransactionService;
-import com.ssafy.account.service.TransferService;
+import com.ssafy.account.service.impl.TransactionService;
+import com.ssafy.account.service.impl.TransferService;
 import com.ssafy.external.service.NHFintechService;
 import com.ssafy.external.service.OauthService;
 import lombok.RequiredArgsConstructor;
@@ -56,8 +55,8 @@ public class TransferController {
     public Response<?> requestAccountTransfer(@RequestHeader("id") Long ownerId, @RequestHeader("name") String name
             , @RequestBody AccountTransferRequest request){
         Long transferId= transferService.requestAccountTransfer(ownerId, request);
-        Account transfereeAccount=accountService.findByAccountNumber(request.getAccountNumber());
-        messageSenderService.sendTransferRequestMessage(new AccountTransferNotificationRequest(transfereeAccount.getMemberId(),name));
+        PetAccount transfereePetAccount =accountService.findByAccountNumber(request.getAccountNumber());
+        messageSenderService.sendTransferRequestMessage(new AccountTransferNotificationRequest(transfereePetAccount.getMemberId(),name));
         return Response.ok(GENERAL_SUCCESS,transferId);
     }
 
@@ -70,16 +69,16 @@ public class TransferController {
             throw new InvalidTransferException(INVALID_TRANSFER);
         }
         log.info("양도자 id: {}",transfer.getTransferorId());
-        Account transferorAccount=accountService.findPetAccountByMemberId(transfer.getTransferorId());
+        PetAccount transferorPetAccount =accountService.findPetAccountByMemberId(transfer.getTransferorId());
         // response dto 반환
         CheckResponse checkResponse= CheckResponse.builder()
-                .petImage(transferorAccount.getPetPhoto())
-                .petName(transferorAccount.getPetName())
-                .petBreed(transferorAccount.getPetBreed())
-                .petGender(transferorAccount.getPetGender())
-                .petNeutered(transferorAccount.getPetNeutered() ? "중성화 했어요":"중성화 안했어요")
-                .petAge(timeUtil.calculateAge(transferorAccount.getPetBirth())+"살")
-                .petBirth(transferorAccount.getPetBirth().getYear()+"년 "+transferorAccount.getPetBirth().getMonth().getValue()+"월생")
+                .petImage(transferorPetAccount.getPetPhoto())
+                .petName(transferorPetAccount.getPetName())
+                .petBreed(transferorPetAccount.getPetBreed())
+                .petGender(transferorPetAccount.getPetGender())
+                .petNeutered(transferorPetAccount.getPetNeutered() ? "중성화 했어요":"중성화 안했어요")
+                .petAge(timeUtil.calculateAge(transferorPetAccount.getPetBirth())+"살")
+                .petBirth(transferorPetAccount.getPetBirth().getYear()+"년 "+ transferorPetAccount.getPetBirth().getMonth().getValue()+"월생")
                 .build();
         NewOwnerResponse newOwnerResponse= NewOwnerResponse.builder()
                 .name(oauthService.getUserName(transfereeId))
@@ -96,10 +95,10 @@ public class TransferController {
     // 연결할 ACTIVE 상태 계좌 선택
     @GetMapping("/transfer/get-account-info")
     public Response<?> getAccounts(@RequestHeader("id") Long transfereeId){
-        List<Account> accountList= accountService.findActiveAccountByMemberId(transfereeId,"00");
+        List<PetAccount> petAccountList = accountService.findActiveAccountByMemberId(transfereeId,"00");
 
         return Response.ok(GENERAL_SUCCESS,
-                accountList.stream().map(TransferAccountResponse::new).collect(toList()));
+                petAccountList.stream().map(TransferAccountResponse::new).collect(toList()));
     }
 
     // rfid 인증 후 양도
@@ -110,23 +109,23 @@ public class TransferController {
             throw new InvalidTransferException(INVALID_TRANSFER);
         }
         // 본 주인의 계좌
-        Account transferorAccount=accountService.findPetAccountByAccountId(transfer.getTransferorId());
+        PetAccount transferorPetAccount =accountService.findPetAccountByAccountId(transfer.getTransferorId());
         // 양도받을 사람의 계좌
-        Account transfereeAccount=accountService.findActiveAccountByMemberId(transfer.getTransfereeId(),"00").get(0);
-        if(!PasswordEncoder.hashPassword(request.getRfidCode()).equals(transferorAccount.getRfidCode())){
+        PetAccount transfereePetAccount =accountService.findActiveAccountByMemberId(transfer.getTransfereeId(),"00").get(0);
+        if(!PasswordEncoder.hashPassword(request.getRfidCode()).equals(transferorPetAccount.getRfidCode())){
             log.info("rfid: {} {}",request.getRfidCode(), PasswordEncoder.hashPassword(request.getRfidCode()));
             throw new NotCorrectException(DIFFERENT_RFID);
         }
-        log.info("양도인 계좌 pk: {}, 양수인 계좌 pk: {}",transferorAccount.getId(),transfereeAccount.getId());
+        log.info("양도인 계좌 pk: {}, 양수인 계좌 pk: {}", transferorPetAccount.getId(), transfereePetAccount.getId());
         // 양도 진행. 양도된 금액 반환
-        Long amount = accountService.assignAccount(new AssignRequest(transferorAccount.getId(), transfereeAccount.getId()));
+        Long amount = accountService.assignAccount(new AssignRequest(transferorPetAccount.getId(), transfereePetAccount.getId()));
         log.info("양도금액: {}",amount);
         // 농협 api로 송금 진행
 //        nhFintechService.remittance(transferorAccount,transfereeAccount,amount);
         // 트랜잭션에 반영
-        transactionRepository.save(new Transaction(transferorAccount, transfereeAccount.getDepositorName(), TransactionType.TRANSFER, amount, 0L));
-        transactionRepository.save(new Transaction(transfereeAccount, transferorAccount.getDepositorName(), TransactionType.TRANSFER
-                , amount, transfereeAccount.getBalance()+amount));
+        transactionRepository.save(new Transaction(transferorPetAccount, transfereePetAccount.getDepositorName(), TransactionType.TRANSFER, amount, 0L));
+        transactionRepository.save(new Transaction(transfereePetAccount, transferorPetAccount.getDepositorName(), TransactionType.TRANSFER
+                , amount, transfereePetAccount.getBalance()+amount));
         transfer.completeTransfer();
         return Response.ok(GENERAL_SUCCESS, "ok");
 

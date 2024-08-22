@@ -2,34 +2,25 @@ package com.ssafy.account.service;
 
 import com.ssafy.account.api.request.account.AccountSaveRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
-import com.ssafy.account.api.response.account.ChargingAccountResponse;
-import com.ssafy.account.common.domain.util.PasswordEncoder;
-import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import com.ssafy.account.db.repository.AccountRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.ssafy.account.common.domain.util.PasswordEncoder.*;
-import static com.ssafy.account.db.entity.account.Account.AccountState.*;
-import static com.ssafy.account.db.entity.account.Account.AccountType.*;
+import static com.ssafy.account.db.entity.account.PetAccount.AccountType.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles(profiles = "dev")
 @Transactional
-class AccountServiceTest {
+class PetAccountServiceTest {
     @Autowired
     AccountService accountService;
     @Autowired
@@ -40,10 +31,10 @@ class AccountServiceTest {
         //given
         AccountSaveRequest request=new AccountSaveRequest("적금계좌","12345667","1234", NORMAL,null,null);
         //when
-        Account account=accountService.registerGeneralAccount(1L,request);
+        PetAccount petAccount =accountService.registerGeneralAccount(1L,request);
         //then
-        assertThat(account.getDepositorName()).isEqualTo("김민지");
-        assertThat(checkPass("1234",account.getAccountPassword())).isTrue();
+        assertThat(petAccount.getDepositorName()).isEqualTo("김민지");
+        assertThat(checkPass("1234", petAccount.getAccountPassword())).isTrue();
     }
 
     @Test
@@ -54,11 +45,11 @@ class AccountServiceTest {
                 "남아", LocalDate.of(2012,2,10),"말티즈",
                 true,5.03f,null,"rfid1234",new ArrayList<>());
         //when
-        Account account=accountService.registerPetAccount(1L,request);
+        PetAccount petAccount =accountService.registerPetAccount(1L,request);
         //then
-        assertThat(account.getDepositorName()).isEqualTo("김민지");
-        assertThat(account.getPetName()).isEqualTo("꼬맹이");
-        assertThat(checkPass("1234",account.getAccountPassword())).isTrue();
+        assertThat(petAccount.getDepositorName()).isEqualTo("김민지");
+        assertThat(petAccount.getPetName()).isEqualTo("꼬맹이");
+        assertThat(checkPass("1234", petAccount.getAccountPassword())).isTrue();
     }
 
 

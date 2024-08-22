@@ -1,7 +1,5 @@
 package com.ssafy.external.service;
 
-import com.ssafy.account.common.api.exception.NotFoundException;
-import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.external.client.NHFintechClient;
 import com.ssafy.external.dto.*;
@@ -9,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.ssafy.account.common.api.status.FailCode.NO_ACCOUNT;
 
 @Slf4j
 @Service

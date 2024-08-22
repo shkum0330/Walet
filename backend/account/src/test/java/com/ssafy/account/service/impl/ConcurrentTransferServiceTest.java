@@ -1,12 +1,10 @@
 package com.ssafy.account.service.impl;
 
 import com.ssafy.account.api.request.transaction.RemittanceRequest;
-import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import com.ssafy.account.db.repository.AccountRepository;
-import com.ssafy.account.service.TransactionService;
 import com.ssafy.fixture.AccountFixture;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,12 +22,12 @@ class ConcurrentTransferServiceTest {
     TransactionService transactionService;
     @Autowired
     private AccountRepository accountRepository;
-    Account senderAccount,receiverAccount;
+    PetAccount senderPetAccount, receiverPetAccount;
 
     @BeforeEach
     public void setup() {
-        senderAccount = AccountFixture.PET.getAccount();
-        receiverAccount=AccountFixture.BUSINESS.getAccount();
+        senderPetAccount = AccountFixture.PET.getAccount();
+        receiverPetAccount =AccountFixture.BUSINESS.getAccount();
     }
 
     @Test
@@ -44,7 +42,7 @@ class ConcurrentTransferServiceTest {
             executor.execute(() -> {
                 try {
                     // 각 쓰레드에 송금 요청을 보낸다.
-                    RemittanceRequest request = new RemittanceRequest(senderAccount.getId(),receiverAccount.getId(),"1234",1000L);
+                    RemittanceRequest request = new RemittanceRequest(senderPetAccount.getId(), receiverPetAccount.getId(),"1234",1000L);
                     transactionService.addRemittanceTransaction(request);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -57,8 +55,8 @@ class ConcurrentTransferServiceTest {
         // Wait for all threads to finish
         latch.await();
 
-        Account sender = accountRepository.findById(senderAccount.getId()).orElse(null);
-        Account receiver = accountRepository.findById(receiverAccount.getId()).orElse(null);
+        PetAccount sender = accountRepository.findById(senderPetAccount.getId()).orElse(null);
+        PetAccount receiver = accountRepository.findById(receiverPetAccount.getId()).orElse(null);
 
         assert sender != null;
         assertEquals(0L, sender.getBalance());

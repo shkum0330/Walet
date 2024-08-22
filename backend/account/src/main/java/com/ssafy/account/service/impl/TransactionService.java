@@ -5,24 +5,21 @@ import com.ssafy.account.api.request.transaction.TransactionPeriodRequest;
 import com.ssafy.account.api.request.transaction.TransactionRequest;
 import com.ssafy.account.api.response.transaction.*;
 import com.ssafy.account.common.api.exception.InsufficientBalanceException;
-import com.ssafy.account.common.api.exception.NotCorrectException;
 import com.ssafy.account.common.api.exception.NotFoundException;
 import com.ssafy.account.common.api.exception.RestrictedBusinessException;
 import com.ssafy.account.common.domain.util.PasswordEncoder;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.access.Access;
-import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import com.ssafy.account.db.entity.transaction.Transaction;
 import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.repository.AccessRepository;
 import com.ssafy.account.db.repository.AccountRepository;
 import com.ssafy.account.db.repository.TransactionRepository;
-import com.ssafy.account.service.TransactionService;
 import com.ssafy.external.service.NHFintechService;
 import com.ssafy.external.service.OauthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,13 +32,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ssafy.account.common.api.status.FailCode.*;
-import static com.ssafy.account.db.entity.account.Account.AccountState.*;
+
 
 @Slf4j
 @Service
 @Transactional(readOnly = true)
 @AllArgsConstructor
-public class TransactionServiceImpl implements TransactionService {
+public class TransactionService {
 
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
@@ -50,15 +47,13 @@ public class TransactionServiceImpl implements TransactionService {
     private final OauthService oauthService;
     private final TimeUtil timeUtil;
 
-    @Override
     public TransactionAccountResponse getTransactionAccountDetail(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        return new TransactionAccountResponse(account);
+        PetAccount petAccount = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        return new TransactionAccountResponse(petAccount);
     }
 
-    @Override
     public PetInfoResponse getPetInfoByRfid(String rfidCode) {
-        Account petAccount = accountRepository.findByRfidCodeAndAccountState(PasswordEncoder.hashPassword(rfidCode), "00").orElseThrow(() -> new NotFoundException(NO_PET_ACCOUNT_WITH_AUTH_INFO));
+        PetAccount petAccount = accountRepository.findByRfidCodeAndAccountState(PasswordEncoder.hashPassword(rfidCode), "00").orElseThrow(() -> new NotFoundException(NO_PET_ACCOUNT_WITH_AUTH_INFO));
 
         return PetInfoResponse.builder()
                 .accountId(petAccount.getId())
@@ -72,25 +67,23 @@ public class TransactionServiceImpl implements TransactionService {
                 .build();
     }
 
-    @Override
     public ReceiverInfoResponse getReceiverInfoByAccountNumber(String accountNumber, Long paymentAmount) {
-        Account receiverAccount = accountRepository.findByAccountNumberAndAccountState(accountNumber, "00").orElseThrow(() -> new NotFoundException(NOT_USABLE_RECEIVER_ACCOUNT));
-        return new ReceiverInfoResponse(receiverAccount, paymentAmount);
+        PetAccount receiverPetAccount = accountRepository.findByAccountNumberAndAccountState(accountNumber, "00").orElseThrow(() -> new NotFoundException(NOT_USABLE_RECEIVER_ACCOUNT));
+        return new ReceiverInfoResponse(receiverPetAccount, paymentAmount);
     }
 
     // 반려동물 용품 구입 관련 결제 및 거래내역 추가
-    @Override
     @Transactional
     public Long addPetRelatedTransaction(TransactionRequest transactionRequest) {
 
         Long myAccountId = transactionRequest.getMyAccountId();
         Long companyAccountId = transactionRequest.getCompanyAccountId();
 
-        Account myPetAccount = accountRepository.findByMemberIdAndAccountTypeAndAccountState(myAccountId,"02", "00").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        Account companyAccount = accountRepository.findByMemberIdAndAccountTypeAndAccountState(companyAccountId,"01", "00").orElseThrow(() -> new NotFoundException(NO_COMPANY_ACCOUNT));
+        PetAccount myPetPetAccount = accountRepository.findByMemberIdAndAccountTypeAndAccountState(myAccountId,"02", "00").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        PetAccount companyPetAccount = accountRepository.findByMemberIdAndAccountTypeAndAccountState(companyAccountId,"01", "00").orElseThrow(() -> new NotFoundException(NO_COMPANY_ACCOUNT));
 
-        int limitTypes= myPetAccount.getLimitTypes();
-        int businessType=(int)Math.pow(2,companyAccount.getBusinessType()-1);
+        int limitTypes= myPetPetAccount.getLimitTypes();
+        int businessType=(int)Math.pow(2, companyPetAccount.getBusinessType()-1);
         log.info("{} {}",limitTypes,businessType);
 
         // 비트 연산으로 제한업종에 걸리는지 확인
@@ -100,14 +93,14 @@ public class TransactionServiceImpl implements TransactionService {
 
         Long pay = transactionRequest.getPaymentAmount();
         // 잔액이 결제금액보다 부족하면 예외 발생
-        if(myPetAccount.getBalance() - pay < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_PAYMENT);
+        if(myPetPetAccount.getBalance() - pay < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_PAYMENT);
 
 //        nhFintechService.remittance(myPetAccount,companyAccount,transactionRequest.getPaymentAmount());
-        myPetAccount.minusBalance(pay);
-        companyAccount.addBalance(pay);
+        myPetPetAccount.minusBalance(pay);
+        companyPetAccount.addBalance(pay);
 
-        Transaction myTransaction = new Transaction(myPetAccount, companyAccount.getDepositorName(), companyAccount.getBusinessType(), TransactionType.WITHDRAWAL, pay, myPetAccount.getBalance());
-        Transaction companyTransaction = new Transaction(companyAccount, myPetAccount.getDepositorName(), companyAccount.getBusinessType(), TransactionType.DEPOSIT, pay, companyAccount.getBalance());
+        Transaction myTransaction = new Transaction(myPetPetAccount, companyPetAccount.getDepositorName(), companyPetAccount.getBusinessType(), TransactionType.WITHDRAWAL, pay, myPetPetAccount.getBalance());
+        Transaction companyTransaction = new Transaction(companyPetAccount, myPetPetAccount.getDepositorName(), companyPetAccount.getBusinessType(), TransactionType.DEPOSIT, pay, companyPetAccount.getBalance());
         log.info("{}",myTransaction);
         log.info("{}",companyTransaction);
         transactionRepository.save(myTransaction);
@@ -120,15 +113,14 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     // 송금 후 거래내역 기록까지
-    @Override
     @Transactional
     public Long addRemittanceTransaction(RemittanceRequest remittanceRequest) {
 
         Long myAccountId = remittanceRequest.getMyAccountId();
         Long receiverAccountId = remittanceRequest.getReceiverAccountId();
 
-        Account myAccount = accountRepository.findByIdAndAccountState(myAccountId, ACTIVE).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        Account receiverAccount = accountRepository.findByIdAndAccountState(receiverAccountId, ACTIVE).orElseThrow(() -> new NotFoundException(NO_RECEIVER_ACCOUNT));
+        PetAccount myPetAccount = accountRepository.findByIdAndAccountState(myAccountId, ACTIVE).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        PetAccount receiverPetAccount = accountRepository.findByIdAndAccountState(receiverAccountId, ACTIVE).orElseThrow(() -> new NotFoundException(NO_RECEIVER_ACCOUNT));
 
         // 입력된 비밀번호가 맞는지 확인
         String password = remittanceRequest.getPassword();
@@ -146,23 +138,23 @@ public class TransactionServiceImpl implements TransactionService {
 
         Long remittanceAmount = remittanceRequest.getRemittanceAmount();
         // 잔액이 송금금액보다 부족하면 예외 발생
-        if(myAccount.getBalance() - remittanceAmount < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_REMITTANCE);
+        if(myPetAccount.getBalance() - remittanceAmount < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_REMITTANCE);
 
         // 농협api로 송금 진행
 //        nhFintechService.remittance(myAccount,receiverAccount,remittanceAmount);
 
-        myAccount.minusBalance(remittanceAmount);
-        receiverAccount.addBalance(remittanceAmount);
+        myPetAccount.minusBalance(remittanceAmount);
+        receiverPetAccount.addBalance(remittanceAmount);
 
-        Transaction myTransaction = new Transaction(myAccount, receiverAccount.getDepositorName(), TransactionType.WITHDRAWAL, remittanceAmount, myAccount.getBalance());
-        Transaction receiverTransaction = new Transaction(receiverAccount, myAccount.getDepositorName(), TransactionType.DEPOSIT, remittanceAmount, receiverAccount.getBalance());
+        Transaction myTransaction = new Transaction(myPetAccount, receiverPetAccount.getDepositorName(), TransactionType.WITHDRAWAL, remittanceAmount, myPetAccount.getBalance());
+        Transaction receiverTransaction = new Transaction(receiverPetAccount, myPetAccount.getDepositorName(), TransactionType.DEPOSIT, remittanceAmount, receiverPetAccount.getBalance());
 
         transactionRepository.save(myTransaction);
         transactionRepository.save(receiverTransaction);
         return myTransaction.getId();
     }
 
-    @Override
+
 //    @Cacheable(value = "txHistory", key = "#memberId")
     public Page<TransactionResponse> getTransactionHistory(Long memberId, Long accountId,int page) {
 
@@ -192,15 +184,14 @@ public class TransactionServiceImpl implements TransactionService {
         return result;
     }
 
-    @Override
     public List<TransactionResponse> getSpecificPeriodTransaction(Long memberId, TransactionPeriodRequest request) {
-        Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        PetAccount petAccount = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
 
         // 접근하려는 사람의 id(requestMemberId)와 계좌번호(accountNumber)를 활용하여
         // 접근 권한이 있는 유저인지 확인
         // 본인이면 당연히 접근가능
-        Access access = accessRepository.findAccessByRequestMemberIdAndAccountNumberAndIsConfirmed(memberId, account.getAccountNumber(), 1);
-        if(!account.getMemberId().equals(memberId) && access == null) {
+        Access access = accessRepository.findAccessByRequestMemberIdAndAccountNumberAndIsConfirmed(memberId, petAccount.getAccountNumber(), 1);
+        if(!petAccount.getMemberId().equals(memberId) && access == null) {
             throw new NotFoundException(NO_PERMISSION_TO_TRANSACTION);
         }
 
@@ -223,7 +214,6 @@ public class TransactionServiceImpl implements TransactionService {
         return result;
     }
 
-    @Override
     public TransactionDetailResponse getTransactionDetail(Long transactionId) {
         Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() -> new NotFoundException(NO_TRANSACTION_DATA));
 
@@ -263,7 +253,6 @@ public class TransactionServiceImpl implements TransactionService {
         return new TransactionDetailResponse(transaction, businessCategory, userPhoneNumber);
     }
 
-    @Override
     public List<AdminMemberAccountTransactionResponse> getTransactionsForAdmin(Long accountId) {
         Pageable pageable = PageRequest.of(0, 10);
         Page<Transaction> transactions = transactionRepository.findByAccountId(accountId,pageable);
@@ -272,7 +261,7 @@ public class TransactionServiceImpl implements TransactionService {
         for (Transaction transaction : transactions) {
             TransactionType transactionType = transaction.getTransactionType();
             if (transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
-                result.add(new AdminMemberAccountTransactionResponse(transaction, transaction.getAccount().getDepositorName(), TransactionType.DEPOSIT.getName()));
+                result.add(new AdminMemberAccountTransactionResponse(transaction, transaction.getPetAccount().getDepositorName(), TransactionType.DEPOSIT.getName()));
             }
             else if(transactionType == TransactionType.WITHDRAWAL) {
                 result.add(new AdminMemberAccountTransactionResponse(transaction, transaction.getRecipient(), TransactionType.WITHDRAWAL.getName()));
