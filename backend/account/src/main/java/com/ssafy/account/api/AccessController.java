@@ -4,6 +4,7 @@ import com.ssafy.account.api.request.AccessStatusChangeRequest;
 import com.ssafy.account.api.request.access.AccessSaveRequest;
 import com.ssafy.account.api.request.access.AccountNumberForAccess;
 import com.ssafy.account.common.api.Response;
+import com.ssafy.account.service.impl.AccessService;
 import com.ssafy.external.service.OauthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
