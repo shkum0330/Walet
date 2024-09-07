@@ -1,7 +1,6 @@
 package com.ssafy.account.db.entity.transaction;
 
 import com.ssafy.account.db.entity.account.Account;
-import com.ssafy.account.db.entity.account.PetAccount;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,8 +36,8 @@ public class Transaction {
     private LocalDateTime transactionTime;
 
     // 반려동물 관련 업체와의 거래
-    public Transaction(PetAccount petAccount, String recipient, Integer businessCategory, TransactionType transactionType, Long paymentAmount, Long balance) {
-        this.account = petAccount;
+    public Transaction(Account account, String recipient, Integer businessCategory, TransactionType transactionType, Long paymentAmount, Long balance) {
+        this.account = account;
         this.recipient = recipient;
         this.businessCategory = businessCategory;
         this.transactionType = transactionType;

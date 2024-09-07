@@ -1,6 +1,6 @@
 package com.ssafy.account.db.repository;
 
-import com.ssafy.account.db.entity.account.PetAccount;
+import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.transaction.Transaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +12,8 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    List<Transaction> findByAccount(PetAccount petAccount);
-    List<Transaction> findTop5ByAccountOrderByTransactionTimeDesc(PetAccount petAccount);
+    List<Transaction> findByAccount(Account account);
+    List<Transaction> findTop5ByAccountOrderByTransactionTimeDesc(Account account);
 
     List<Transaction> findByTransactionTimeBetweenOrderByTransactionTimeDesc(LocalDateTime startDate, LocalDateTime endDate);;
 

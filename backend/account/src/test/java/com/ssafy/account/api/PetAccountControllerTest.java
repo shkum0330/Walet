@@ -1,7 +1,7 @@
 package com.ssafy.account.api;
 
 import com.ssafy.account.api.request.account.AccountSaveRequest;
-import com.ssafy.account.db.entity.account.PetAccount;
+import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.docs.RestApiTest;
 import com.ssafy.fixture.AccountFixture;
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +32,12 @@ class PetAccountControllerTest extends RestApiTest {
     @Test
     public void 일반계좌_생성() throws Exception {
         //given
-        AccountSaveRequest accountSaveRequest=new AccountSaveRequest("예금계좌","00"
-                ,null,"1234",null);
-        PetAccount expectedNormalPetAccount = AccountFixture.NORMAL.getAccount();
+        AccountSaveRequest accountSaveRequest=new AccountSaveRequest("예금계좌","1234567890000"
+                ,"1234","1234",null,null);
+        Account expectedNormalAccount = AccountFixture.NORMAL.getAccount();
 
         //when
-        given(accountService.registerGeneralAccount(any(Long.class),any(AccountSaveRequest.class))).willReturn(expectedNormalPetAccount);
+        given(accountService.registerGeneralAccount(any(Long.class),any(AccountSaveRequest.class))).willReturn(expectedNormalAccount);
 
         // then
         ResultActions perform=mockMvc.perform(

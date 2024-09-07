@@ -2,7 +2,7 @@ package com.ssafy.account.service;
 
 import com.ssafy.account.api.request.access.AccessSaveRequest;
 import com.ssafy.account.db.entity.access.Access;
-import com.ssafy.account.db.entity.account.PetAccount;
+import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.repository.AccountRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class AccessServiceTest {
     @Test
     public void 접근권한_생성() throws Exception {
         //given
-        PetAccount petAccount =accountRepository.findByMemberIdAndAccountType(1L,"02").get();
+        Account account =accountRepository.findByMemberIdAndAccountType(1L,"02").get();
         AccessSaveRequest request=new AccessSaveRequest("꼬맹이","0035791444046","안녕하세요");
         //when
         Access access=accessService.createAccessRequest(2L,"강해린",request);

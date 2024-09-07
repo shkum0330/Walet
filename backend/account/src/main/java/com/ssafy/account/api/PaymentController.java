@@ -11,12 +11,12 @@ import com.ssafy.account.common.api.exception.InvalidPaymentException;
 import com.ssafy.account.common.api.status.FailCode;
 import com.ssafy.account.common.domain.util.PasswordEncoder;
 import com.ssafy.account.common.domain.util.TimeUtil;
-import com.ssafy.account.db.entity.account.PetAccount;
+import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.payment.Payment;
+import com.ssafy.account.service.AccountService;
 import com.ssafy.account.service.MessageSenderService;
-import com.ssafy.account.service.impl.AccountService;
-import com.ssafy.account.service.impl.PaymentService;
-import com.ssafy.account.service.impl.TransactionService;
+import com.ssafy.account.service.PaymentService;
+import com.ssafy.account.service.TransactionService;
 import com.ssafy.external.service.NHFintechService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,17 +56,17 @@ public class PaymentController {
         if (payment.getStatus() != PENDING) {
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
-        PetAccount petAccount =accountService.findByRFID(PasswordEncoder.hashPassword(request.getRfidCode()));
-        log.info("buyerId: {}", petAccount.getMemberId());
-        paymentService.setBuyer(payment, petAccount.getMemberId());
+        Account account =accountService.findByRFID(PasswordEncoder.hashPassword(request.getRfidCode()));
+        log.info("buyerId: {}", account.getMemberId());
+        paymentService.setBuyer(payment, account.getMemberId());
         CheckResponse response= CheckResponse.builder()
-                .petImage(petAccount.getPetPhoto())
-                .petName(petAccount.getPetName())
-                .petBreed(petAccount.getPetBreed())
-                .petGender(petAccount.getPetGender())
-                .petNeutered(petAccount.getPetNeutered() ? "중성화 했어요":"중성화 안했어요")
-                .petAge(timeUtil.calculateAge(petAccount.getPetBirth())+"살")
-                .petBirth(petAccount.getPetBirth().getYear()+"년 "+ petAccount.getPetBirth().getMonth().getValue()+"월생")
+                .petImage(account.getPetPhoto())
+                .petName(account.getPetName())
+                .petBreed(account.getPetBreed())
+                .petGender(account.getPetGender())
+                .petNeutered(account.getPetNeutered() ? "중성화 했어요":"중성화 안했어요")
+                .petAge(timeUtil.calculateAge(account.getPetBirth())+"살")
+                .petBirth(account.getPetBirth().getYear()+"년 "+ account.getPetBirth().getMonth().getValue()+"월생")
                 .build();
         return Response.ok(GENERAL_SUCCESS, response);
     }
@@ -79,11 +79,11 @@ public class PaymentController {
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
         log.info("계좌번호: {}", PasswordEncoder.hashPassword(request.getRfidCode()));
-        PetAccount sellerPetAccount =accountService.findBusinessAccountByMemberId(sellerId);
-        PetAccount buyerPetAccount =accountService.findByRFID(PasswordEncoder.hashPassword(request.getRfidCode()));
+        Account sellerAccount =accountService.findBusinessAccountByMemberId(sellerId);
+        Account buyerAccount =accountService.findByRFID(PasswordEncoder.hashPassword(request.getRfidCode()));
 
         messageSenderService.sendPaymentMessage(new PaymentNotificationRequest(
-                buyerPetAccount.getMemberId(), payment.getPaymentAmount(), sellerPetAccount.getDepositorName()
+                buyerAccount.getMemberId(), payment.getPaymentAmount(), sellerAccount.getDepositorName()
         ));
         return Response.ok(GENERAL_SUCCESS, "알림 전송");
     }
@@ -95,9 +95,9 @@ public class PaymentController {
         if(payment.getStatus() != PENDING){
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
-        PetAccount sellerPetAccount =accountService.findBusinessAccountByMemberId(payment.getSellerId());
-        PaymentInfoResponse response=new PaymentInfoResponse(sellerPetAccount.getDepositorName()
-                ,types[sellerPetAccount.getBusinessType()-1],
+        Account sellerAccount =accountService.findBusinessAccountByMemberId(payment.getSellerId());
+        PaymentInfoResponse response=new PaymentInfoResponse(sellerAccount.getDepositorName()
+                ,types[sellerAccount.getBusinessType()-1],
                 null,timeUtil.transferDateTimeConverter(LocalDateTime.now()), payment.getId(), payment.getPaymentAmount());
         return Response.ok(GENERAL_SUCCESS, response);
     }
@@ -109,10 +109,10 @@ public class PaymentController {
         if(payment.getStatus() != PENDING){
             throw new InvalidPaymentException(FailCode.INVALID_PAYMENT);
         }
-        PetAccount buyerPetAccount =accountService.findPetAccountByMemberId(buyerId);
-        PetAccount sellerPetAccount =accountService.findBusinessAccountByMemberId(payment.getSellerId());
-        Long transactionId=transactionService.addPetRelatedTransaction(new TransactionRequest(buyerPetAccount.getMemberId()
-                , sellerPetAccount.getMemberId(),payment.getPaymentAmount()));
+        Account buyerAccount =accountService.findPetAccountByMemberId(buyerId);
+        Account sellerAccount =accountService.findBusinessAccountByMemberId(payment.getSellerId());
+        Long transactionId=transactionService.addPetRelatedTransaction(new TransactionRequest(buyerAccount.getMemberId()
+                , sellerAccount.getMemberId(),payment.getPaymentAmount()));
 
         // 결제 상태를 완료로 변경
         paymentService.completePayment(paymentService.findPayment(paymentId));

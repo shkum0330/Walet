@@ -1,4 +1,4 @@
-package com.ssafy.account.service.impl;
+package com.ssafy.account.service;
 
 import com.ssafy.account.api.request.account.*;
 import com.ssafy.account.api.response.account.*;
@@ -24,15 +24,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.ssafy.account.common.api.status.FailCode.*;
-import static com.ssafy.account.db.entity.account.PetAccount.AccountType.*;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true) // todo: 조회 이외 메서드는 @Transactional 붙여야함
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AccountService {
 
@@ -54,11 +56,11 @@ public class AccountService {
             throw new GlobalRuntimeException(UNNECESSARY_BUSINESS_TYPE);
         }
 
-        Account account = Account.builder()
+        GeneralAccount account = GeneralAccount.builder()
                 .memberId(memberId)
                 .depositorName(oauthService.getUserName(memberId)) // 회원 서버에서 이름 받아오기
                 .accountSaveRequest(accountSaveRequest)
-                .buildGeneralAccount();
+                .build();
 
         // 계좌 정보를 DB에 저장
         return accountRepository.save(account);
@@ -66,8 +68,7 @@ public class AccountService {
 
     // 펫계좌 발급
     // 펫계좌 생성 버튼 클릭 -> 모계좌를 연결할 사람은 기존에 있던 농협 계좌 중 선택(필수사항x) -> 내 반려동물 정보 입력 -> 동물계좌 완성
-    // cf) 계좌를 등록하려고 할 때 내가 등록할 비문 사진이 이미 있으면 양도 받는 것이 목적이냐고 물어보기
-    @Override
+    // cf) 계좌를 등록하려고 할 때 내가 등록할 비문 사진이 이미 있으면 양도 받는 것이 목적이냐고 물어보
     @Transactional
     public PetAccount registerPetAccount(Long memberId, PetAccountSaveRequest petAccountSaveRequest) {
 
@@ -75,11 +76,12 @@ public class AccountService {
         // 입력된 비문 또는 RFID코드가 이미 등록돼있다면
         // 이미 등록된 계좌가 있으니 양도신청 알림을 보낼거냐는 팝업창을 띄워줌
         // 확인을 누르면 해당 계좌의 주인한테 알림 메시지를 보냄
-        PetAccount petAccount= PetAccount.petAccountBuilder()
+        PetAccount petAccount= PetAccount.builder()
                                     .memberId(memberId)
                                     .memberName(oauthService.getUserName(memberId))
                                     .petAccountSaveRequest(petAccountSaveRequest)
-                                    .buildPetAccount();
+                                    .build();
+
 
         // 제한업종 추가
         List<Integer> limitTypeList = petAccountSaveRequest.getLimitTypeIdList();
@@ -100,15 +102,13 @@ public class AccountService {
     }
 
     // 충전계좌로 등록할 수 있는 계좌 리스트 반환(일반계좌만 반환)
-    @Override
     public List<ChargingAccountResponse> getChargingAccountList(Long memberId) {
         // 해당 유저의 계좌 중 일반 계좌만 리스트로 가져옴
-        List<PetAccount> allPetAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "00");
-        return allPetAccounts.stream().map((ChargingAccountResponse::new)).collect(toList());
+        List<Account> allAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "00");
+        return allAccounts.stream().map(ChargingAccountResponse::new).collect(toList());
     }
 
     // 사용자가 접근 허용된 펫계좌 리스트 반환
-    @Override
     public List<AccessiblePetAccountResponse> getAccessibleAccountList(Long memberId) {
         List<Access> myAccessList = accessRepository.findByRequestMemberIdAndIsConfirmed(memberId, 1);
         // 접근이 허용된 펫계좌가 없다면 예외 발생
@@ -116,10 +116,10 @@ public class AccountService {
             throw new NotFoundException(NO_ACCESSIBLE_PET_ACCOUNT);
         }
         
-        List<PetAccount> myAccessiblePetPetAccount = new ArrayList<>();
+        List<Account> myAccessiblePetPetAccount = new ArrayList<>();
         // 내가 접근 가능한 계좌 목록을 가져옴
         for (Access access : myAccessList) {
-            PetAccount petAccount = accountRepository.findByPetNameAndAccountNumber(access.getPetName(), access.getAccountNumber());
+            Account petAccount = accountRepository.findByPetNameAndAccountNumber(access.getPetName(), access.getAccountNumber());
             myAccessiblePetPetAccount.add(petAccount);
         }
 
@@ -127,27 +127,25 @@ public class AccountService {
     }
 
     // 선택된 유저의 모든 계좌 목록을 반환
-    @Override
     public List<AccountResponse> getAllAccountList(Long memberId) {
-        List<PetAccount> allPetAccounts = accountRepository.findAccountsByMemberId(memberId);
+        List<Account> allPetAccounts = accountRepository.findAccountsByMemberId(memberId);
         return allPetAccounts.stream().map(AccountResponse::new).collect(toList());
     }
 
     // 충전계좌 선택
-    @Override
     @Transactional
     public Long selectChargingAccount(SelectChargingAccountRequest request) {
-        PetAccount myPetAccount = accountRepository.findById(request.getMyAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account account = accountRepository.findById(request.getMyAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
 
         // 이미 등록돼있는 충전 계좌라면 예외발생
-        Long myLinkedAccountId = myPetAccount.getLinkedAccountId();
+        Long myLinkedAccountId = account.getLinkedAccountId();
         Long chargingAccountId = request.getChargingAccountId();
         if(myLinkedAccountId != null && myLinkedAccountId.equals(chargingAccountId)) {
             throw new DuplicatedException(DUPLICATED_LINKED_ACCOUNT);
         }
         
         // 아니라면 충전계좌로 연결해주자
-        myPetAccount.addLinkedAccount(chargingAccountId);
+        account.addLinkedAccount(chargingAccountId);
 
         return chargingAccountId;
     }
@@ -156,11 +154,10 @@ public class AccountService {
     // 상대방 반려동물 계좌 생성 -> 이전 주인의 반려동물 계좌에서 돈 전부 이체 -> 정보 이전 및 이전 주인의 반려동물 계좌 삭제(폐쇄 상태로 변경)
     // 잔액을 양도 받은 계좌의 잔액 반환
     // todo: TransferService로 이동
-    @Override
     @Transactional
     public Long assignAccount(AssignRequest assignRequest) {
-        PetAccount transferorPetAccount = accountRepository.findById(assignRequest.getTransferorAccountId()).orElseThrow(() -> new NotFoundException(NO_TRANSFER_ACCOUNT));
-        PetAccount transfereePetAccount = accountRepository.findById(assignRequest.getTransfereeAccountId()).orElseThrow(() -> new NotFoundException(NO_TRANSFEREE_ACCOUNT));
+        Account transferorPetAccount = accountRepository.findById(assignRequest.getTransferorAccountId()).orElseThrow(() -> new NotFoundException(NO_TRANSFER_ACCOUNT));
+        Account transfereePetAccount = accountRepository.findById(assignRequest.getTransfereeAccountId()).orElseThrow(() -> new NotFoundException(NO_TRANSFEREE_ACCOUNT));
         log.info("양도인 pk:{} 양수인 pk:{}",assignRequest.getTransferorAccountId(),assignRequest.getTransfereeAccountId());
         // 계좌 잔액을 이양
         Long balance = transferorPetAccount.getBalance();
@@ -170,44 +167,41 @@ public class AccountService {
         }
 
         // 정보 이전
-        transfereePetAccount.transferPetInfo(transferorPetAccount);
-        transferorPetAccount.deletePetInfo();
-        // 양도자의 계좌를 폐쇄상태로 변경
-        transferorPetAccount.updateStateToClosed();
+        if(transfereePetAccount instanceof PetAccount transferee && transferorPetAccount instanceof PetAccount transferor) {
+            transferee.transferPetInfo(transferor);
+            transferor.deletePetInfo();
+            transferor.updateStateToClosed();
+        }
         return balance;
     }
 
     // 계좌 상태 변경
     // 1. 정상
-    @Override
     @Transactional
     public void updateStateToActive(Long accountId) {
-        PetAccount petAccount = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        petAccount.updateStateToActive();
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        account.updateStateToActive();
     }
 
     // 2. 잠금
-    @Override
     @Transactional
     public void updateStateToLocked(Long accountId) {
-        PetAccount petAccount = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account petAccount = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
         petAccount.updateStateToLocked();
     }
 
     // 3. 정지
-    @Override
     @Transactional
     public void updateStateToSuspended(Long accountId) {
-        PetAccount petAccount = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        petAccount.updateStateToStopped();
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        account.updateStateToStopped();
     }
 
     // 4. 폐쇄
-    @Override
     @Transactional
     public void updateStateToClosed(Long accountId) {
-        PetAccount petAccount = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        petAccount.updateStateToClosed();
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        account.updateStateToClosed();
     }
 
     // 이번 달 동물계좌 지출내역 표시(5가지 카테고리 전부)
@@ -218,9 +212,8 @@ public class AccountService {
     //  3. 반려동물미용
     //  4. 애견카페
     //  5. 반려견놀이터
-    @Override
     public MonthlyExpenditureDetailResponse getMonthlyExpenditureDetail(Long accountId) {
-        PetAccount petAccount = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account petAccount = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
         List<Transaction> byMyAccountId = transactionRepository.findByAccount(petAccount);
 
         // 이번 달 반려동물 관련 업종 총 소비
@@ -351,9 +344,8 @@ public class AccountService {
     }
 
     // 전체 기간에서 각 카테고리 별 지출 비율
-    @Override
     public Map<String, String> getCategoryExpenditureDetail(Long accountId) {
-        PetAccount petAccount = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account petAccount = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
         List<Transaction> byMyAccountId = transactionRepository.findByAccount(petAccount);
 
         // 반려동물 관련 업종 총 소비
@@ -401,77 +393,78 @@ public class AccountService {
         return expenditureRatio;
     }
 
-    @Override
+
     public PetAccount findPetAccountByAccountId(Long memberId) {
-        return accountRepository.findByMemberIdAndAccountType(memberId,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account account=accountRepository.findByMemberIdAndAccountType(memberId,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        return (PetAccount) account;
     }
 
-    @Override
+
     public PetAccount findPetAccountByDepositorName(String depositorName) {
-        return accountRepository.findByDepositorNameAndAccountType(depositorName,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account account = accountRepository.findByDepositorNameAndAccountType(depositorName,"02").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        return (PetAccount) account;
     }
 
     public PetAccount findPetAccountByMemberId(Long memberId) {
-        return accountRepository.findAccountsByMemberIdAndAccountType(memberId,"02").get(0);
+        Account account = accountRepository.findAccountsByMemberIdAndAccountType(memberId,"02").get(0);
+        return (PetAccount) account;
     }
 
     public List<AdminMemberAccountResponse> findMemberAccount(Long memberId) {
-        List<PetAccount> memberPetAccountList = accountRepository.findAccountsByMemberId(memberId);
-        return memberPetAccountList.stream().map((account) ->
-                new AdminMemberAccountResponse(account)).collect(toList());
+        List<Account> memberPetAccountList = accountRepository.findAccountsByMemberId(memberId);
+        return memberPetAccountList.stream().map(AdminMemberAccountResponse::new).collect(toList());
     }
 
-    @Override
+
     public List<AdminMemberAccountResponse> findAllMemberAccounts(AdminAllMemberIdsRequest request) {
         List<Long> allMemberIds = request.getAllMemberIds();
         List<AdminMemberAccountResponse> result = new ArrayList<>();
 
         for (Long memberId : allMemberIds) {
-            List<PetAccount> accountsByMemberId = accountRepository.findAccountsByMemberId(memberId);
-            for (PetAccount petAccount : accountsByMemberId) {
-                result.add(new AdminMemberAccountResponse(petAccount));
+            List<Account> accountsByMemberId = accountRepository.findAccountsByMemberId(memberId);
+            for (Account account : accountsByMemberId) {
+                result.add(new AdminMemberAccountResponse(account));
             }
         }
 
         return result;
     }
 
-    @Override
+
     public AdminAccountCountResponse countAllAccountForAdmin() {
         long generalAccountCount = accountRepository.countByAccountType("00");
         long petAccountCount = accountRepository.countByAccountType("02");
         return new AdminAccountCountResponse(generalAccountCount, petAccountCount);
     }
 
-    @Override
-    public PetAccount findByAccountNumber(String accountNumber) {
+
+    public Account findByAccountNumber(String accountNumber) {
         return accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
     }
 
-    @Override
     public Long countNewAccountInWeek() {
         LocalDateTime startOfDay = LocalDateTime.now().minusWeeks(1).with(LocalTime.MIN);
         Long result = accountRepository.countByCreatedAtAfter(startOfDay);
         return result;
     }
 
-    @Override
-    public List<PetAccount> findActiveAccountByMemberId(Long memberId, String accountType) {
+
+    public List<Account> findActiveAccountByMemberId(Long memberId, String accountType) {
         return accountRepository.findAccountByMemberIdAndAccountTypeAndAccountState(memberId,accountType,"00");
     }
 
-    @Override
-    public PetAccount findAccountByAccountId(Long accountId) {
+
+    public Account findAccountByAccountId(Long accountId) {
         return accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
     }
 
-    @Override
-    public PetAccount findByRFID(String rfidCode) {
+
+    public Account findByRFID(String rfidCode) {
         return accountRepository.findByRfidCodeAndAccountState(rfidCode,"00").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
     }
 
-    @Override
-    public PetAccount findBusinessAccountByMemberId(Long memberID) {
+
+    public Account findBusinessAccountByMemberId(Long memberID) {
         return accountRepository.findByMemberIdAndAccountType(memberID,"01").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
     }
 }

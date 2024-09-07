@@ -10,7 +10,7 @@ import javax.persistence.DiscriminatorValue;
 
 @DiscriminatorValue("Business")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BusinessAccount extends Account{
+public class BusinessAccount extends Account {
 
     @Column(name="business_type")
     private Integer businessType; // 사업유형 입력

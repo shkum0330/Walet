@@ -1,4 +1,4 @@
-package com.ssafy.account.service.impl;
+package com.ssafy.account.service;
 
 import com.ssafy.account.api.request.payment.PaymentRequest;
 import com.ssafy.account.common.api.exception.NotFoundException;

@@ -5,13 +5,9 @@ import com.ssafy.account.api.request.account.AdminAllMemberIdsRequest;
 import com.ssafy.account.api.request.account.PetAccountSaveRequest;
 import com.ssafy.account.api.request.account.SelectChargingAccountRequest;
 import com.ssafy.account.common.api.Response;
+import com.ssafy.account.db.entity.account.GeneralAccount;
 import com.ssafy.account.db.entity.account.Account;
-import com.ssafy.account.db.entity.account.PetAccount;
 import com.ssafy.account.service.*;
-import com.ssafy.account.service.impl.AccountService;
-import com.ssafy.account.service.impl.BusinessHomeAccountService;
-import com.ssafy.account.service.impl.HomeAccountService;
-import com.ssafy.account.service.impl.PetHomeAccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +23,7 @@ import static com.ssafy.account.common.api.status.SuccessCode.*;
 public class AccountController {
     private final AccountService accountService;
     private final HomeAccountService homeAccountService;
-    private final BusinessHomeAccountService businessHomeAccountService;
+    private final BusinessAccountService businessAccountService;
     private final PetHomeAccountService petHomeAccountService;
     private final S3Service s3Service;
 
@@ -43,13 +39,13 @@ public class AccountController {
     
     // 1. 계좌 생성
     @PostMapping("/register/general-account")
-    public Response<PetAccount> registerNormalAccount(@RequestHeader("id") Long memberId, @RequestBody AccountSaveRequest accountSaveRequest){;
+    public Response<GeneralAccount> registerNormalAccount(@RequestHeader("id") Long memberId, @RequestBody AccountSaveRequest accountSaveRequest){;
         return Response.created(CREATE_ACCOUNT,accountService.registerGeneralAccount(memberId, accountSaveRequest));
     }
 
     @PostMapping("/register/pet-account")
-    public Response<PetAccount> registerAnimalAccount(@RequestHeader("id") Long memberId, @RequestPart("petAccountRequest") PetAccountSaveRequest petAccountRequest,
-                                                      @RequestPart("petImage") MultipartFile file) throws IOException {
+    public Response<Account> registerAnimalAccount(@RequestHeader("id") Long memberId, @RequestPart("petAccountRequest") PetAccountSaveRequest petAccountRequest,
+                                                   @RequestPart("petImage") MultipartFile file) throws IOException {
         petAccountRequest.setPetPhoto(s3Service.getS3ImageUrl(s3Service.upload(file)));
         return Response.created(CREATE_ACCOUNT,accountService.registerPetAccount(memberId, petAccountRequest));
     }
@@ -63,7 +59,7 @@ public class AccountController {
     // 2-2. 사업자계좌 목록
     @GetMapping("/list/business-account")
     public Response<?> getBusinessAccountList(@RequestHeader("id") Long memberId) {
-        return Response.ok(GENERAL_SUCCESS, businessHomeAccountService.getBusinessAccountDetail(memberId));
+        return Response.ok(GENERAL_SUCCESS, businessAccountService.getBusinessAccountDetail(memberId));
     }
     // 2-3. 펫계좌 목록
     @GetMapping("/list/pet-account")

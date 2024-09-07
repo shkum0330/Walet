@@ -1,9 +1,9 @@
-package com.ssafy.account.service.impl;
+package com.ssafy.account.service;
 
-import com.ssafy.account.api.response.account.BusinessAccountDetailResponse;
+import com.ssafy.account.api.response.account.HomeAccountResponse;
 import com.ssafy.account.api.response.transaction.HomeTransactionResponse;
 import com.ssafy.account.common.api.exception.NotFoundException;
-import com.ssafy.account.db.entity.account.PetAccount;
+import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.transaction.Transaction;
 import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.repository.AccountRepository;
@@ -15,34 +15,31 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ssafy.account.common.api.status.FailCode.*;
+import static com.ssafy.account.common.api.status.FailCode.NO_NORMAL_ACCOUNT;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BusinessHomeAccountService {
+public class HomeAccountService {
 
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
+    // 일반계좌 목록을 가져옴
     @Override
-    public List<BusinessAccountDetailResponse> getBusinessAccountDetail(Long memberId) {
+    public List<HomeAccountResponse> getHomeAccountDetail(Long memberId) {
+        List<Account> normalAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "00");
 
-        // 사업자 계좌 목록을 가져옴
-        List<PetAccount> businessPetAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "01");
-        
-        // 사업자 계좌가 없다면
-        // 예외발생
-        if(businessPetAccounts.isEmpty()) {
-            throw new NotFoundException(NO_BUSINESS_ACCOUNT);
+        if(normalAccounts.isEmpty()) {
+            throw new NotFoundException(NO_NORMAL_ACCOUNT);
         }
 
         List<HomeTransactionResponse> top5Transactions = new ArrayList<>();
-        List<BusinessAccountDetailResponse> result = new ArrayList<>();
+        List<HomeAccountResponse> result = new ArrayList<>();
 
-        for (PetAccount businessPetAccount : businessPetAccounts) {
+        for (Account normalAccount : normalAccounts) {
 
-            List<Transaction> transactions = transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(businessPetAccount);
+            List<Transaction> transactions = transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(normalAccount);
             for (Transaction transaction : transactions) {
 
                 TransactionType transactionType = transaction.getTransactionType();
@@ -56,7 +53,7 @@ public class BusinessHomeAccountService {
 
             }
 
-            result.add(new BusinessAccountDetailResponse(businessPetAccount, top5Transactions));
+            result.add(new HomeAccountResponse(normalAccount, top5Transactions));
         }
 
         return result;

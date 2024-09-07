@@ -1,11 +1,10 @@
-package com.ssafy.account.service.impl;
+package com.ssafy.account.service;
 
 import com.ssafy.account.api.response.account.AnimalAccountDetailResponse;
 import com.ssafy.account.api.response.transaction.HomeTransactionResponse;
 import com.ssafy.account.common.api.exception.NotFoundException;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.account.Account;
-import com.ssafy.account.db.entity.account.PetAccount;
 import com.ssafy.account.db.entity.transaction.Transaction;
 import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.repository.AccountRepository;
@@ -30,19 +29,19 @@ public class PetHomeAccountService {
 
     public List<AnimalAccountDetailResponse> getAnimalAccountDetail(Long memberId) {
         // 해당 사용자의 펫계좌 목록을 가져옴
-        List<Account> petPetAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "02");
+        List<Account> petAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "02");
 
-        if(petPetAccounts.isEmpty()) {
+        if(petAccounts.isEmpty()) {
             throw new NotFoundException(NO_PET_ACCOUNT);
         }
 
         List<HomeTransactionResponse> top5Transactions = new ArrayList<>();
         List<AnimalAccountDetailResponse> result = new ArrayList<>();
 
-        for (Account petAccount : petPetAccounts) {
+        for (Account account : petAccounts) {
 
             // 각 계좌의 거래내역을 가져옴
-            List<Transaction> transactions = transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(petAccount);
+            List<Transaction> transactions = transactionRepository.findTop5ByAccountOrderByTransactionTimeDesc(account);
             for (Transaction transaction : transactions) {
                 TransactionType transactionType = transaction.getTransactionType();
 
@@ -54,8 +53,8 @@ public class PetHomeAccountService {
                 }
             }
 
-            Account linkedPetAccount = accountRepository.findAccountById(petAccount.getLinkedAccountId());
-            result.add(new AnimalAccountDetailResponse(petAccount, top5Transactions, timeUtil.calculateAge(petAccount.getPetBirth()), linkedPetAccount.getAccountNumber()));
+            Account linkedAccount = accountRepository.findAccountById(account.getLinkedAccountId());
+            result.add(new AnimalAccountDetailResponse(account, top5Transactions, timeUtil.calculateAge(account.getPetBirth()), linkedAccount.getAccountNumber()));
         }
 
         return result;

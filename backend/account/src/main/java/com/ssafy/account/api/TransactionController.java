@@ -7,6 +7,7 @@ import com.ssafy.account.api.request.transaction.TransactionRequest;
 import com.ssafy.account.api.response.transaction.PetInfoResponse;
 import com.ssafy.account.api.response.transaction.ReceiverInfoResponse;
 import com.ssafy.account.common.api.Response;
+import com.ssafy.account.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;

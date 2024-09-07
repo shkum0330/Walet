@@ -1,6 +1,6 @@
 package com.ssafy.account.api.response.transaction;
 
-import com.ssafy.account.db.entity.account.PetAccount;
+import com.ssafy.account.db.entity.account.Account;
 import lombok.Data;
 
 @Data
@@ -10,10 +10,10 @@ public class TransactionAccountResponse {
     private String accountNumber;
     private Long balance;
 
-    public TransactionAccountResponse(PetAccount petAccount) {
-        this.accountId = petAccount.getId();
-        this.accountName = petAccount.getAccountName();
-        this.accountNumber = petAccount.getAccountNumber();
-        this.balance = petAccount.getBalance();
+    public TransactionAccountResponse(Account account) {
+        this.accountId = account.getId();
+        this.accountName = account.getAccountName();
+        this.accountNumber = account.getAccountNumber();
+        this.balance = account.getBalance();
     }
 }

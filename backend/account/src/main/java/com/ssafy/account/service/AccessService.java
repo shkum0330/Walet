@@ -1,4 +1,4 @@
-package com.ssafy.account.service.impl;
+package com.ssafy.account.service;
 
 import com.ssafy.account.api.request.access.AccessSaveRequest;
 import com.ssafy.account.api.request.access.AccountNumberForAccess;
@@ -6,7 +6,7 @@ import com.ssafy.account.api.response.access.AccessResponse;
 import com.ssafy.account.common.api.exception.DuplicatedException;
 import com.ssafy.account.common.api.exception.NotFoundException;
 import com.ssafy.account.db.entity.access.Access;
-import com.ssafy.account.db.entity.account.PetAccount;
+import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.repository.AccessRepository;
 import com.ssafy.account.db.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +26,11 @@ public class AccessService {
     private final AccessRepository accessRepository;
     private final AccountRepository accountRepository;
 
-    @Override
     public Access createAccessRequest(Long requesterId, String requesterName, AccessSaveRequest request) {
         // 입력된 동물이름과 계좌번호로
         // 등록된 동물계좌가 없다면 예외발생
-        PetAccount petAccount = accountRepository.findByPetNameAndAccountNumber(request.getPetName(), request.getAccountNumber());
-        if(petAccount == null) {
+        Account account = accountRepository.findByPetNameAndAccountNumber(request.getPetName(), request.getAccountNumber());
+        if(account == null) {
             throw new NotFoundException(INCORRECT_PET_ACCOUNT_INFO);
         }
 
@@ -45,7 +44,6 @@ public class AccessService {
         return accessRepository.save(access);
     }
 
-    @Override
     public Boolean acceptAccessRequest(Long accessId) {
         Access access = accessRepository.findById(accessId).orElseThrow(() -> new NotFoundException(NOT_EXIST_ACCESS_REQUEST));
         access.confirm();
@@ -58,14 +56,13 @@ public class AccessService {
         return access.getIsConfirmed();
     }
 
-    @Override
     public Long rejectAccessRequest(Long accessId) {
         Access access = accessRepository.findById(accessId).orElseThrow(() -> new NotFoundException(NOT_EXIST_ACCESS_REQUEST));
         accessRepository.delete(access);
         return accessId;
     }
 
-    @Override
+
     public List<AccessResponse> getUnacceptedAccessRequestsForAccountOwner(AccountNumberForAccess access) {
         
         // 아직 확인이 안된 요청목록만 가져옴
@@ -80,7 +77,6 @@ public class AccessService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<AccessResponse> getUnacceptedAccessRequestsForRequester(Long memberId) {
 
         // 아직 확인이 안된 요청목록만 가져옴

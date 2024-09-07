@@ -1,6 +1,6 @@
 package com.ssafy.account.api.response.account;
 
-import com.ssafy.account.db.entity.account.PetAccount;
+import com.ssafy.account.db.entity.account.Account;
 import lombok.Data;
 
 @Data
@@ -11,11 +11,11 @@ public class AdminMemberAccountResponse {
     private String accountNumber; // 계좌번호
     private Long balance; // 계좌 잔액
 
-    public AdminMemberAccountResponse(PetAccount petAccount) {
-        this.accountId = petAccount.getId();
-        this.memberId = petAccount.getMemberId();
-        this.accountName = petAccount.getAccountName();
-        this.accountNumber = petAccount.getAccountNumber();
-        this.balance = petAccount.getBalance();
+    public AdminMemberAccountResponse(Account account) {
+        this.accountId = account.getId();
+        this.memberId = account.getMemberId();
+        this.accountName = account.getAccountName();
+        this.accountNumber = account.getAccountNumber();
+        this.balance = account.getBalance();
     }
 }

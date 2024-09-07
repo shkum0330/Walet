@@ -1,4 +1,4 @@
-package com.ssafy.account.service.impl;
+package com.ssafy.account.service;
 
 import com.ssafy.account.api.request.transaction.RemittanceRequest;
 import com.ssafy.account.api.request.transaction.TransactionPeriodRequest;
@@ -10,7 +10,7 @@ import com.ssafy.account.common.api.exception.RestrictedBusinessException;
 import com.ssafy.account.common.domain.util.PasswordEncoder;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.access.Access;
-import com.ssafy.account.db.entity.account.PetAccount;
+import com.ssafy.account.db.entity.account.Account;
 import com.ssafy.account.db.entity.transaction.Transaction;
 import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.repository.AccessRepository;
@@ -48,28 +48,28 @@ public class TransactionService {
     private final TimeUtil timeUtil;
 
     public TransactionAccountResponse getTransactionAccountDetail(Long accountId) {
-        PetAccount petAccount = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        return new TransactionAccountResponse(petAccount);
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        return new TransactionAccountResponse(account);
     }
 
     public PetInfoResponse getPetInfoByRfid(String rfidCode) {
-        PetAccount petAccount = accountRepository.findByRfidCodeAndAccountState(PasswordEncoder.hashPassword(rfidCode), "00").orElseThrow(() -> new NotFoundException(NO_PET_ACCOUNT_WITH_AUTH_INFO));
+        Account account = accountRepository.findByRfidCodeAndAccountState(PasswordEncoder.hashPassword(rfidCode), "00").orElseThrow(() -> new NotFoundException(NO_PET_ACCOUNT_WITH_AUTH_INFO));
 
         return PetInfoResponse.builder()
-                .accountId(petAccount.getId())
-                .petName(petAccount.getPetName())
-                .petGender(petAccount.getPetGender())
-                .petBirth(petAccount.getPetBirth().getYear()+"년 "+petAccount.getPetBirth().getMonth().getValue()+"월생")
-                .petBreed(petAccount.getPetBreed())
-                .petNeutered(petAccount.getPetNeutered() ? "중성화 했어요":"중성화 안했어요")
-                .petAge(timeUtil.calculateAge(petAccount.getPetBirth())+"살")
-                .petPhoto(petAccount.getPetPhoto())
+                .accountId(account.getId())
+                .petName(account.getPetName())
+                .petGender(account.getPetGender())
+                .petBirth(account.getPetBirth().getYear()+"년 "+ account.getPetBirth().getMonth().getValue()+"월생")
+                .petBreed(account.getPetBreed())
+                .petNeutered(account.getPetNeutered() ? "중성화 했어요":"중성화 안했어요")
+                .petAge(timeUtil.calculateAge(account.getPetBirth())+"살")
+                .petPhoto(account.getPetPhoto())
                 .build();
     }
 
     public ReceiverInfoResponse getReceiverInfoByAccountNumber(String accountNumber, Long paymentAmount) {
-        PetAccount receiverPetAccount = accountRepository.findByAccountNumberAndAccountState(accountNumber, "00").orElseThrow(() -> new NotFoundException(NOT_USABLE_RECEIVER_ACCOUNT));
-        return new ReceiverInfoResponse(receiverPetAccount, paymentAmount);
+        Account receiverAccount = accountRepository.findByAccountNumberAndAccountState(accountNumber, "00").orElseThrow(() -> new NotFoundException(NOT_USABLE_RECEIVER_ACCOUNT));
+        return new ReceiverInfoResponse(receiverAccount, paymentAmount);
     }
 
     // 반려동물 용품 구입 관련 결제 및 거래내역 추가
@@ -79,11 +79,11 @@ public class TransactionService {
         Long myAccountId = transactionRequest.getMyAccountId();
         Long companyAccountId = transactionRequest.getCompanyAccountId();
 
-        PetAccount myPetPetAccount = accountRepository.findByMemberIdAndAccountTypeAndAccountState(myAccountId,"02", "00").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        PetAccount companyPetAccount = accountRepository.findByMemberIdAndAccountTypeAndAccountState(companyAccountId,"01", "00").orElseThrow(() -> new NotFoundException(NO_COMPANY_ACCOUNT));
+        Account myPetAccount = accountRepository.findByMemberIdAndAccountTypeAndAccountState(myAccountId,"02", "00").orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account companyAccount = accountRepository.findByMemberIdAndAccountTypeAndAccountState(companyAccountId,"01", "00").orElseThrow(() -> new NotFoundException(NO_COMPANY_ACCOUNT));
 
-        int limitTypes= myPetPetAccount.getLimitTypes();
-        int businessType=(int)Math.pow(2, companyPetAccount.getBusinessType()-1);
+        int limitTypes= myPetAccount.getLimitTypes();
+        int businessType=(int)Math.pow(2, companyAccount.getBusinessType()-1);
         log.info("{} {}",limitTypes,businessType);
 
         // 비트 연산으로 제한업종에 걸리는지 확인
@@ -93,14 +93,14 @@ public class TransactionService {
 
         Long pay = transactionRequest.getPaymentAmount();
         // 잔액이 결제금액보다 부족하면 예외 발생
-        if(myPetPetAccount.getBalance() - pay < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_PAYMENT);
+        if(myPetAccount.getBalance() - pay < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_PAYMENT);
 
 //        nhFintechService.remittance(myPetAccount,companyAccount,transactionRequest.getPaymentAmount());
-        myPetPetAccount.minusBalance(pay);
-        companyPetAccount.addBalance(pay);
+        myPetAccount.minusBalance(pay);
+        companyAccount.addBalance(pay);
 
-        Transaction myTransaction = new Transaction(myPetPetAccount, companyPetAccount.getDepositorName(), companyPetAccount.getBusinessType(), TransactionType.WITHDRAWAL, pay, myPetPetAccount.getBalance());
-        Transaction companyTransaction = new Transaction(companyPetAccount, myPetPetAccount.getDepositorName(), companyPetAccount.getBusinessType(), TransactionType.DEPOSIT, pay, companyPetAccount.getBalance());
+        Transaction myTransaction = new Transaction(myPetAccount, companyAccount.getDepositorName(), companyAccount.getBusinessType(), TransactionType.WITHDRAWAL, pay, myPetAccount.getBalance());
+        Transaction companyTransaction = new Transaction(companyAccount, myPetAccount.getDepositorName(), companyAccount.getBusinessType(), TransactionType.DEPOSIT, pay, companyAccount.getBalance());
         log.info("{}",myTransaction);
         log.info("{}",companyTransaction);
         transactionRepository.save(myTransaction);
@@ -119,8 +119,8 @@ public class TransactionService {
         Long myAccountId = remittanceRequest.getMyAccountId();
         Long receiverAccountId = remittanceRequest.getReceiverAccountId();
 
-        PetAccount myPetAccount = accountRepository.findByIdAndAccountState(myAccountId, ACTIVE).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
-        PetAccount receiverPetAccount = accountRepository.findByIdAndAccountState(receiverAccountId, ACTIVE).orElseThrow(() -> new NotFoundException(NO_RECEIVER_ACCOUNT));
+        Account myAccount = accountRepository.findByIdAndAccountState(myAccountId, ACTIVE).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account receiverAccount = accountRepository.findByIdAndAccountState(receiverAccountId, ACTIVE).orElseThrow(() -> new NotFoundException(NO_RECEIVER_ACCOUNT));
 
         // 입력된 비밀번호가 맞는지 확인
         String password = remittanceRequest.getPassword();
@@ -138,16 +138,16 @@ public class TransactionService {
 
         Long remittanceAmount = remittanceRequest.getRemittanceAmount();
         // 잔액이 송금금액보다 부족하면 예외 발생
-        if(myPetAccount.getBalance() - remittanceAmount < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_REMITTANCE);
+        if(myAccount.getBalance() - remittanceAmount < 0) throw new InsufficientBalanceException(REJECT_ACCOUNT_REMITTANCE);
 
         // 농협api로 송금 진행
 //        nhFintechService.remittance(myAccount,receiverAccount,remittanceAmount);
 
-        myPetAccount.minusBalance(remittanceAmount);
-        receiverPetAccount.addBalance(remittanceAmount);
+        myAccount.minusBalance(remittanceAmount);
+        receiverAccount.addBalance(remittanceAmount);
 
-        Transaction myTransaction = new Transaction(myPetAccount, receiverPetAccount.getDepositorName(), TransactionType.WITHDRAWAL, remittanceAmount, myPetAccount.getBalance());
-        Transaction receiverTransaction = new Transaction(receiverPetAccount, myPetAccount.getDepositorName(), TransactionType.DEPOSIT, remittanceAmount, receiverPetAccount.getBalance());
+        Transaction myTransaction = new Transaction(myAccount, receiverAccount.getDepositorName(), TransactionType.WITHDRAWAL, remittanceAmount, myAccount.getBalance());
+        Transaction receiverTransaction = new Transaction(receiverAccount, myAccount.getDepositorName(), TransactionType.DEPOSIT, remittanceAmount, receiverAccount.getBalance());
 
         transactionRepository.save(myTransaction);
         transactionRepository.save(receiverTransaction);
@@ -185,13 +185,13 @@ public class TransactionService {
     }
 
     public List<TransactionResponse> getSpecificPeriodTransaction(Long memberId, TransactionPeriodRequest request) {
-        PetAccount petAccount = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
+        Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new NotFoundException(NO_ACCOUNT));
 
         // 접근하려는 사람의 id(requestMemberId)와 계좌번호(accountNumber)를 활용하여
         // 접근 권한이 있는 유저인지 확인
         // 본인이면 당연히 접근가능
-        Access access = accessRepository.findAccessByRequestMemberIdAndAccountNumberAndIsConfirmed(memberId, petAccount.getAccountNumber(), 1);
-        if(!petAccount.getMemberId().equals(memberId) && access == null) {
+        Access access = accessRepository.findAccessByRequestMemberIdAndAccountNumberAndIsConfirmed(memberId, account.getAccountNumber(), 1);
+        if(!account.getMemberId().equals(memberId) && access == null) {
             throw new NotFoundException(NO_PERMISSION_TO_TRANSACTION);
         }
 
@@ -221,33 +221,16 @@ public class TransactionService {
         // memberId를 써서 해당 회원의 전화번호를 갖고오자
 
         int category = transaction.getBusinessCategory();
-        String businessCategory = null;
 
-//        반려동물 관련 업종 카테고리
-//        1. 동물병원
-//        2. 반려동물용품
-//        3. 반려동물미용
-//        4. 애견카페
-//        5. 반려견놀이터
-
-        // businessCategory를 String으로 변환
-        switch(category) {
-            case 1:
-                businessCategory = "동물병원";
-                break;
-            case 2:
-                businessCategory = "반려동물용품";
-                break;
-            case 3:
-                businessCategory = "반려동물미용";
-                break;
-            case 4:
-                businessCategory = "애견카페";
-                break;
-            case 5:
-                businessCategory = "반려견놀이터";
-                break;
-        }
+        //반려동물 관련 업종 카테고리
+        String businessCategory = switch (category) {
+            case 1 -> "동물병원";
+            case 2 -> "반려동물용품";
+            case 3 -> "반려동물미용";
+            case 4 -> "애견카페";
+            case 5 -> "반려견놀이터";
+            default -> null;
+        };
 
         String userPhoneNumber = oauthService.getUserPhoneNumber(memberId);
         return new TransactionDetailResponse(transaction, businessCategory, userPhoneNumber);

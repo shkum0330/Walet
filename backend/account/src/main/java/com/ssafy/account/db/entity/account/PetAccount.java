@@ -40,7 +40,7 @@ public class PetAccount extends Account {
     private Integer limitTypes=0; // 사용가능 제한업종 목록(비트연산으로 추가)
 
     // 반려동물계좌 기본정보 입력
-    @Builder(builderMethodName = "petAccountBuilder", buildMethodName = "buildPetAccount")
+    @Builder
     public PetAccount(Long memberId, String memberName, PetAccountSaveRequest petAccountSaveRequest) {
         super(memberId, memberName, petAccountSaveRequest);
         this.petName = petAccountSaveRequest.getPetName();
@@ -59,17 +59,17 @@ public class PetAccount extends Account {
     }
 
     // 양도시 정보 이전
-    public void transferPetInfo(PetAccount petAccount){
-        this.limitTypes= petAccount.getLimitTypes();
-        this.petBirth= petAccount.getPetBirth();
-        this.petBreed= petAccount.getPetBreed();
-        this.petGender= petAccount.getPetGender();
-        this.petName= petAccount.getPetName();
-        this.petNeutered= petAccount.getPetNeutered();
-        this.petPhoto= petAccount.getPetPhoto();
-        this.petType= petAccount.getPetType();
-        this.petWeight= petAccount.getPetWeight();
-        this.rfidCode= petAccount.getRfidCode();
+    public void transferPetInfo(PetAccount account){
+        this.limitTypes= account.getLimitTypes();
+        this.petBirth= account.getPetBirth();
+        this.petBreed= account.getPetBreed();
+        this.petGender= account.getPetGender();
+        this.petName= account.getPetName();
+        this.petNeutered= account.getPetNeutered();
+        this.petPhoto= account.getPetPhoto();
+        this.petType= account.getPetType();
+        this.petWeight= account.getPetWeight();
+        this.rfidCode= account.getRfidCode();
     }
 
     public void deletePetInfo(){
