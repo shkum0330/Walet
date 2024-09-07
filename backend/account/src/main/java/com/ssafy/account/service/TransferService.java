@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.ssafy.account.common.api.status.FailCode.NO_ACCOUNT;
 import static com.ssafy.account.common.api.status.FailCode.NO_TRANSFER;
 import static com.ssafy.account.common.api.status.ProcessStatus.PENDING;
 

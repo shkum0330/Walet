@@ -26,7 +26,6 @@ public class HomeAccountService {
     private final TransactionRepository transactionRepository;
 
     // 일반계좌 목록을 가져옴
-    @Override
     public List<HomeAccountResponse> getHomeAccountDetail(Long memberId) {
         List<Account> normalAccounts = accountRepository.findAccountsByMemberIdAndAccountType(memberId, "00");
 
@@ -45,7 +44,7 @@ public class HomeAccountService {
                 TransactionType transactionType = transaction.getTransactionType();
 
                 if(transactionType == TransactionType.DEPOSIT || transactionType == TransactionType.TRANSFER) {
-                    top5Transactions.add(new HomeTransactionResponse(transaction, transaction.getPetAccount().getDepositorName()));
+                    top5Transactions.add(new HomeTransactionResponse(transaction, transaction.getAccount().getDepositorName()));
                 }
                 else if (transactionType == TransactionType.WITHDRAWAL) {
                     top5Transactions.add(new HomeTransactionResponse(transaction, transaction.getRecipient()));

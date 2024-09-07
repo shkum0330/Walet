@@ -11,6 +11,7 @@ import com.ssafy.account.common.domain.util.PasswordEncoder;
 import com.ssafy.account.common.domain.util.TimeUtil;
 import com.ssafy.account.db.entity.access.Access;
 import com.ssafy.account.db.entity.account.Account;
+import com.ssafy.account.db.entity.account.PetAccount;
 import com.ssafy.account.db.entity.transaction.Transaction;
 import com.ssafy.account.db.entity.transaction.TransactionType;
 import com.ssafy.account.db.repository.AccessRepository;
@@ -55,16 +56,19 @@ public class TransactionService {
     public PetInfoResponse getPetInfoByRfid(String rfidCode) {
         Account account = accountRepository.findByRfidCodeAndAccountState(PasswordEncoder.hashPassword(rfidCode), "00").orElseThrow(() -> new NotFoundException(NO_PET_ACCOUNT_WITH_AUTH_INFO));
 
-        return PetInfoResponse.builder()
-                .accountId(account.getId())
-                .petName(account.getPetName())
-                .petGender(account.getPetGender())
-                .petBirth(account.getPetBirth().getYear()+"년 "+ account.getPetBirth().getMonth().getValue()+"월생")
-                .petBreed(account.getPetBreed())
-                .petNeutered(account.getPetNeutered() ? "중성화 했어요":"중성화 안했어요")
-                .petAge(timeUtil.calculateAge(account.getPetBirth())+"살")
-                .petPhoto(account.getPetPhoto())
-                .build();
+        if(account instanceof PetAccount petAccount) {
+            return PetInfoResponse.builder()
+                    .accountId(petAccount.getId())
+                    .petName(petAccount.getPetName())
+                    .petGender(petAccount.getPetGender())
+                    .petBirth(petAccount.getPetBirth().getYear()+"년 "+ petAccount.getPetBirth().getMonth().getValue()+"월생")
+                    .petBreed(petAccount.getPetBreed())
+                    .petNeutered(petAccount.getPetNeutered() ? "중성화 했어요":"중성화 안했어요")
+                    .petAge(timeUtil.calculateAge(petAccount.getPetBirth())+"살")
+                    .petPhoto(petAccount.getPetPhoto())
+                    .build();
+        }
+        return null;
     }
 
     public ReceiverInfoResponse getReceiverInfoByAccountNumber(String accountNumber, Long paymentAmount) {

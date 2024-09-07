@@ -25,7 +25,6 @@ public class BusinessAccountService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
-    @Override
     public List<BusinessAccountDetailResponse> getBusinessAccountDetail(Long memberId) {
 
         // 사업자 계좌 목록을 가져옴

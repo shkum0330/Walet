@@ -10,6 +10,7 @@ public class HomeTransactionResponse {
     private Long paymentAmount; // 금액
     private String transactionType; // 거래 종류
 
+
     public HomeTransactionResponse(Transaction transaction, String counterPart){
         this.counterPart = counterPart;
         this.paymentAmount=transaction.getPaymentAmount();
