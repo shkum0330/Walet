@@ -15,7 +15,7 @@ public class AdminMemberAccountTransactionResponse {
     private String transactionTime;
 
     public AdminMemberAccountTransactionResponse(Transaction transaction, String counterpart, String transactionType) {
-        this.accountName = transaction.getPetAccount().getAccountName();
+        this.accountName = transaction.getAccount().getAccountName();
         this.counterpart = counterpart;
         this.paymentAmount = transaction.getPaymentAmount();
         this.transactionType = transactionType;
